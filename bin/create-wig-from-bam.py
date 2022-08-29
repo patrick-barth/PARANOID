@@ -53,14 +53,16 @@ cwd = os.getcwd()
 
 def main():
 	peaks = {}
-	# Get information out of bam file ['name of the chromosome', 'position of the read (beginning) on the chromosome', 'cigar string', 'mapping quality score']
-	my_bam = pybam.read(args.input, ['sam_rname','sam_flag','sam_pos1','sam_mapq','sam_cigar_string'])
-	#chromosomeLengths = my_bam.file_chromosome_lengths
 	# Both variables will be used to calculate how many reads are thrown out due to the quality filtering
 	countLowQualReads = 0
 	countTotalReads = 0
 	# go through every entry in the bam file
-	for chromosome, flag, position, mapq, cigar in my_bam:
+	for alignment in pybam.read(args.input):
+		chromosome = alignment.sam_rname
+		flag = alignment.sam_flag
+		position = alignment.sam_pos0 + 1
+		mapq = alignment.sam_mapq
+		cigar = alignment.sam_cigar_string
 		countTotalReads += 1
 		# only mappings with a quality score above or equal to the minimum quality will be taken.
 		# The rest is discarded
