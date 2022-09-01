@@ -1,16 +1,15 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from __future__ import division
 import argparse
 import os
 import re
-import pybam #needs python2
+import pybam 
 from wig_files_writer import *
 
 #############################################
 # Creates a wig-file out of a bam-file		#
 # Forward and reverse strand will be split	#
-# Python 2 is needed due to pybam			#
 #############################################
 
 parser = argparse.ArgumentParser()
