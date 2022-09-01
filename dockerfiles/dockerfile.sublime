@@ -1,0 +1,22 @@
+FROM alpine:latest
+
+LABEL tool="subread"
+LABEL tool.version="2.03"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+ARG FILE=subread-2.0.3-source.tar.gz
+ARG TMPDIR=/opt
+
+RUN apk add --no-cache bash \
+	gcc \
+	make \
+	musl-dev \
+	zlib-dev && \
+	wget https://sourceforge.net/projects/subread/files/subread-2.0.3/$FILE -O $TMPDIR/$FILE && \
+	tar -xf $TMPDIR/$FILE -C $TMPDIR && \
+	rm $TMPDIR/$FILE && \
+	cd $TMPDIR/subread-2.0.3-source/src && \
+	make -f Makefile.Linux
+
+ENV PATH $TMPDIR/subread-2.0.3-source/bin:$PATH

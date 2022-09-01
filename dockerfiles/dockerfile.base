@@ -1,0 +1,8 @@
+FROM alpine:latest
+
+LABEL tool="awk"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+RUN apk add --no-cache gawk
+

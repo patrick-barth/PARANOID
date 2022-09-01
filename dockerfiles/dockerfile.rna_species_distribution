@@ -1,0 +1,11 @@
+FROM alpine:latest
+
+LABEL tool="RNA_species_distribution"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+RUN apk add --no-cache python3
+
+ADD calc-RNA-species-distribution.py /usr/local/bin
+
+CMD ["calc-RNA-species-distribution.py"]

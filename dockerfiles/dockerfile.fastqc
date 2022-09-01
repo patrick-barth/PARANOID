@@ -1,0 +1,26 @@
+FROM ubuntu:18.04
+
+LABEL tool="FASTQC"
+LABEL tool.version="0.11.9"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+ARG FILE=fastqc_v0.11.9.zip
+ARG TMPDIR=/opt
+
+RUN apt-get update && apt-get install -y \
+	wget \
+	perl \
+	unzip \
+	openjdk-8-jre
+
+RUN	wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/$FILE -O $TMPDIR/$FILE && \
+	unzip $TMPDIR/$FILE -d $TMPDIR && \
+	rm $TMPDIR/$FILE && \
+	chmod 755 $TMPDIR/FastQC/fastqc
+
+ENV PATH ${TMPDIR}/FastQC:$PATH
+
+ENTRYPOINT ["fastqc"]
+#ENTRYPOINT [$PATH]
+CMD ["-h"]

@@ -1,0 +1,31 @@
+FROM alpine:latest
+
+LABEL tool="bamtools"
+LABEL tool.version="2.5.2"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+ARG FILE=v2.5.2.tar.gz
+ARG VERSION=2.5.2
+
+RUN apk add --no-cache g++ \
+	zlib-dev \
+	&& apk add --no-cache --virtual=install cmake make \
+	curl \
+	&& wget https://github.com/pezmaster31/bamtools/archive/${FILE} -O /tmp/${FILE} \
+	&& cd /tmp \
+	&& tar xzvf ${FILE} \
+	&& rm ${FILE} \
+	&& mv bamtools-${VERSION} bamtools \
+	&& cd bamtools \
+	&& mkdir build \
+	&& cd build \
+	&& cmake .. \
+	&& make \
+	&& PATH=/tmp/bamtools/build/src/toolkit:$PATH \
+	&& cd /tmp/bamtools \
+	&& rm -rf CMakeLists.txt docs/ LICENSE README  src/ \
+	&& apk del install
+
+
+CMD ["bamtools"]

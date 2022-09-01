@@ -1,0 +1,29 @@
+FROM alpine:latest
+
+LABEL tool="samtools"
+LABEL tool.version="1.16"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+ARG FILE=samtools-1.16.tar.bz2
+ARG TMPDIR=/opt
+
+RUN apk add --no-cache bash \
+	bzip2 bzip2-dev \
+	curl curl-dev libcurl\
+	g++ \
+	gcc \
+	make \
+	musl-dev \
+	ncurses ncurses-dev \
+    xz xz-dev \ 
+    zlib-dev && \
+	wget https://sourceforge.net/projects/samtools/files/samtools/1.16/$FILE -O $TMPDIR/$FILE && \
+    tar -xf $TMPDIR/$FILE -C $TMPDIR && \
+    rm $TMPDIR/$FILE && \
+    cd $TMPDIR/samtools-1.16 && \
+    make
+
+ENV PATH $TMPDIR/samtools-1.16:$PATH
+
+CMD ["samtools"]

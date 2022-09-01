@@ -1,0 +1,39 @@
+FROM alpine:latest
+
+LABEL tool="bowtie2"
+LABEL tool.version="2.4.5"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+ARG FILE=bowtie2-2.4.5-source.zip
+ARG FILE2=samtools-1.16.tar.bz2
+ARG TMPDIR=/opt
+
+RUN apk update && apk add perl \
+	python3\
+	g++ \
+	zlib-dev \
+	make \
+	bash && \
+	#apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing libtbb libtbb-dev && \
+	wget https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.4.5/$FILE -O $TMPDIR/$FILE && \
+	unzip $TMPDIR/$FILE -d $TMPDIR && \
+	rm $TMPDIR/$FILE && \
+	cd $TMPDIR/bowtie2-2.4.5 && \
+	make 
+
+ENV PATH $TMPDIR/bowtie2-2.4.5:$PATH
+
+RUN	apk add ncurses ncurses-dev \
+	bzip2 bzip2-dev \
+	xz xz-dev \
+	curl curl-dev libcurl && \
+	wget https://sourceforge.net/projects/samtools/files/samtools/1.16/$FILE2 -O $TMPDIR/$FILE2 && \
+	tar -xf $TMPDIR/$FILE2 -C $TMPDIR && \
+	rm $TMPDIR/$FILE2 && \
+	cd $TMPDIR/samtools-1.16 && \
+	make
+
+ENV PATH $TMPDIR/samtools-1.16:$PATH
+
+CMD ["bowtie2", "--help"]
