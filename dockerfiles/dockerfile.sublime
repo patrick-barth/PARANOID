@@ -1,7 +1,7 @@
 FROM alpine:latest
 
 LABEL tool="subread"
-LABEL tool.version="2.03"
+LABEL tool.version="2.0.3"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
@@ -13,10 +13,10 @@ RUN apk add --no-cache bash \
 	make \
 	musl-dev \
 	zlib-dev && \
-	wget https://sourceforge.net/projects/subread/files/subread-2.0.3/$FILE -O $TMPDIR/$FILE && \
+	wget -q https://sourceforge.net/projects/subread/files/subread-2.0.3/$FILE -O $TMPDIR/$FILE && \
 	tar -xf $TMPDIR/$FILE -C $TMPDIR && \
-	rm $TMPDIR/$FILE && \
 	cd $TMPDIR/subread-2.0.3-source/src && \
-	make -f Makefile.Linux
+	make -f Makefile.Linux featureCounts && \
+        cp featureCounts /usr/bin && \
+        rm -rf $TMPDIR/$FILE $TMPDIR/subread-2.0.3-source/
 
-ENV PATH $TMPDIR/subread-2.0.3-source/bin:$PATH
