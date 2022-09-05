@@ -1,14 +1,14 @@
-FROM ubuntu:18.04
+FROM alpine:latest
 
 LABEL tool="multiqc"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apt-get update -y && apt-get install -y python3 \
-	python3-pip \
-	git && \
-	python3 -m pip install --upgrade pip setuptools && \
-	python3 -m pip install git+https://github.com/ewels/MultiQC.git 
+RUN apk add --no-cache python3 \
+        py3-matplotlib \
+        py3-pip py3-numpy py3-kiwisolver \
+        bash && \
+        python3 -m pip install multiqc==1.12
 
 ENV	LC_ALL C.UTF-8
 ENV	LANG C.UTF-8
