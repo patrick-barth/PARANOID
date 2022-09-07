@@ -473,7 +473,6 @@ bam_merge_to_calculate_crosslinks.set{collected_bam_files}
 process calculate_crosslink_sites{
 	tag {query.simpleName}
 	publishDir "${params.output}/raw-wig-files", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
-	conda "${projectDir}/../conda-envs/iCLIP-preprocessing-wig-to-bam.yml"
 
 	input:
 	file query from collected_bam_files
