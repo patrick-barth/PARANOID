@@ -281,7 +281,7 @@ if ( params.domane == 'pro' || params.map_to_transcripts == true){
 		file("${query.baseName}.Log.*") into collect_statistics_mapping
 
 		"""
-		STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}.  --outSAMtype BAM SortedByCoordinate
+		STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}. --alignEndsType Extend5pOfRead1 --outSAMtype BAM SortedByCoordinate
 		"""
 	}
 }
