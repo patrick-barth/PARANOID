@@ -312,31 +312,43 @@ if( params.map_to_transcripts == false && params.speed ) {
 		file(query) from bam_filter_empty_to_split
 
 		output:
-		file("*.bam") into bam_split_to_deduplicate
+		file("*.bam") into bam_split_to_sort
 
 		"""
 		bamtools split -in ${query} -reference
 		"""
 	}
 } else {
-	bam_filter_empty_to_split.set{ bam_split_to_deduplicate }
+	bam_filter_empty_to_split.set{ bam_split_to_sort }
+}
+
+process sort_bam{
+	tag {query.simpleName}
+
+	input:
+	file query from bam_split_to_sort.flatten()
+
+	output:
+	set file("${query.baseName}.sorted.bam"), file("${query.baseName}.sorted.bam.bai")  into bam_sort_to_deduplicate
+
+	"""
+	samtools sort ${query} -o ${query.baseName}.sorted.bam
+	samtools index ${query.baseName}.sorted.bam
+	"""
 }
 
 process deduplicate{
 	tag {query.simpleName}
 
-
 	input:
-	file query from bam_split_to_deduplicate.flatten()
+	set file(query), file(index) from bam_sort_to_deduplicate
 
 	output:
 	file "${query.baseName}.deduplicated.bam" into (bam_depuplicate_to_sort,bam_deduplicate_to_index)
 	file "${query.baseName}.deduplicated.log*" into log_deduplicate_to_collect_statistics
 
 	"""
-	samtools sort ${query} -o ${query.baseName}.sorted.bam
-	samtools index ${query.baseName}.sorted.bam
-	umi_tools dedup -I ${query.baseName}.sorted.bam --output-stats ${query.baseName}.deduplicated.log -S ${query.baseName}.deduplicated.bam
+	umi_tools dedup -I ${query} --output-stats ${query.baseName}.deduplicated.log -S ${query.baseName}.deduplicated.bam
 	"""
 }
 
