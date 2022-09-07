@@ -4,8 +4,6 @@ LABEL tool="merge-wig"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk update && apk add python2 
-
-ADD merge-wig.py /usr/local/bin
+ADD bin/merge-wig.py /usr/local/bin
 
 CMD ["merge-wig.py"]

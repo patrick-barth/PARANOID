@@ -16,7 +16,7 @@ RUN apk update && apk add perl \
 	make \
 	bash && \
 	#apk add --no-cache --repository http://nl.alpinelinux.org/alpine/edge/testing libtbb libtbb-dev && \
-	wget https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.4.5/$FILE -O $TMPDIR/$FILE && \
+	wget -q https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.4.5/$FILE -O $TMPDIR/$FILE && \
 	unzip $TMPDIR/$FILE -d $TMPDIR && \
 	rm $TMPDIR/$FILE && \
 	cd $TMPDIR/bowtie2-2.4.5 && \

@@ -4,7 +4,7 @@ LABEL tool="RNA_species_barchart_generation"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache R=4.0.3-r0 R-dev=4.0.3-r0 \
+RUN apk add --no-cache R R-dev \
 	make \
 	musl-dev \
 	g++ \
@@ -15,6 +15,6 @@ RUN Rscript -e 'install.packages("BiocManager",repos = "http://cran.us.r-project
 	Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")' && \
 	Rscript -e 'install.packages("ggplot2",repos = "http://cran.us.r-project.org")'
 
-ADD plot_experimental_barcode_distribution.R /usr/local/bin
+ADD bin/plot_experimental_barcode_distribution.R /usr/local/bin
 
 CMD ["plot_experimental_barcode_distribution.R"]

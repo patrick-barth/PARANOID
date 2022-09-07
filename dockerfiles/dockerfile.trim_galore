@@ -14,7 +14,7 @@ RUN apk add --no-cache python3 \
 	unzip \
 	perl \
 	bash && \
-	python3 -m pip install cutadapt==2.8
+	python3 -m pip install cutadapt==4.0
 
 #install trim_galore	
 ARG FILE=0.6.7.zip
