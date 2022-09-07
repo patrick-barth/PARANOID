@@ -5,6 +5,7 @@ LABEL tool="RNA_species_barchart_generation"
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
 RUN apk add --no-cache R \
+	bash \
 	make
 
 RUN Rscript -e 'install.packages("BiocManager",repos = "http://cran.us.r-project.org")' && \

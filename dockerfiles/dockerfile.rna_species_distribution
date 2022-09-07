@@ -4,7 +4,8 @@ LABEL tool="RNA_species_distribution"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache python3
+RUN apk add --no-cache python3 \
+	bash
 
 ADD bin/calc-RNA-species-distribution.py /usr/local/bin
 
