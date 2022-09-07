@@ -14,7 +14,7 @@ RUN apk update && apk add --no-cache python3 \
 	#pip install --upgrade pip setuptools && \
 	#pip install git+https://github.com/JohnLonginotto/pybam
 
-ADD create-wig-from-bam.py /usr/local/bin
-ADD wig_files_writer.py /usr/local/bin
+ADD bin/create-wig-from-bam.py /usr/local/bin
+ADD bin/wig_files_writer.py /usr/local/bin
 
 CMD ["create-wig-from-bam.py"]
