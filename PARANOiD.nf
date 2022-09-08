@@ -619,6 +619,28 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 }
 
 /*
+//TODO do input separated by experiments -> if merging: use merged files; if not use all files
+//TODO add choice to do forward and reverse together or apart from each other
+//TODO: add param for length
+//TODO: add param and sepcial execution for fasta format (simply add --outfmt_fasta)
+process sequence_extraction {
+
+	publishDir "${params.output}", mode: 'move', pattern: "*.extarcted-sequences.*"
+
+	input:
+	file query from wig2_merge_to_sequen.flatten().toList()
+
+	output:
+	file "*.extarcted-sequences.*" into tsv_peak_distance_into_output
+
+	"""
+	wig2-towig.py --input ${query} --output ${query.baseName}
+	extract-sequences-around-cross-link-sites.py --input ${query} --output ${query.baseName}.extracted-sequences.txt --length {} --percentile ${params.percentile} 
+	"""
+}
+*/
+
+/*
 process calculate_peak_distance {
 
 	publishDir "${params.output}", mode: 'move', pattern: "peak-distance.*"

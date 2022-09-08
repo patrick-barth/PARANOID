@@ -1,0 +1,20 @@
+FROM alpine:latest
+
+LABEL tool="sequence_extraction"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+RUN apk add --no-cache python3 python3-dev py3-pip \
+	bash \
+	gcc \
+	g++ \
+	zlib-dev \
+	&& python3 -m ensurepip  \
+	&& python3 -m pip install biopython \
+	&& python3 -m pip install numpy
+
+ADD bin/wig_files_writer.py /usr/local/bin
+ADD bin/extract-sequences-around-cross-link-sites.py /usr/local/bin
+ADD bin/wig2-to-wig.py /usr/local/bin
+
+CMD ["extract-sequences-around-cross-link-sites.py"]
