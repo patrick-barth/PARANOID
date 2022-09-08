@@ -465,6 +465,9 @@ if (params.map_to_transcripts == true){
 
 	bam_merge_to_calculate_crosslinks.mix(bam_extract_alignments_to_calc_crosslink)
 	.set{collected_bam_files}
+} else {
+	bam_merge_to_calculate_crosslinks
+	.set{collected_bam_files}
 }
 
 bam_merge_to_calculate_crosslinks.set{collected_bam_files}
