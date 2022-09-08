@@ -13,8 +13,8 @@ RUN apk add --no-cache bash \
 	zlib-dev \
 	&& apk add --no-cache --virtual=install cmake make \
 	curl \
-	&& wget https://github.com/pezmaster31/bamtools/archive/${FILE} -O /tmp/${FILE} \
-	&& cd /tmp \
+	&& wget https://github.com/pezmaster31/bamtools/archive/${FILE} -O /opt/${FILE} \
+	&& cd /opt \
 	&& tar xzvf ${FILE} \
 	&& rm ${FILE} \
 	&& mv bamtools-${VERSION} bamtools \
@@ -23,11 +23,10 @@ RUN apk add --no-cache bash \
 	&& cd build \
 	&& cmake .. \
 	&& make \
-	&& cd /tmp/bamtools \
+	&& cd /opt/bamtools \
 	&& rm -rf CMakeLists.txt docs/ LICENSE README  src/ \
 	&& apk del install
 
-ENV PATH "/tmp/bamtools/build/src:$PATH"
-
+ENV PATH /opt/bamtools/build/src:$PATH
 
 CMD ["bamtools"]
