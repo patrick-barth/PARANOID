@@ -23,10 +23,11 @@ RUN apk add --no-cache bash \
 	&& cd build \
 	&& cmake .. \
 	&& make \
-	&& PATH=/tmp/bamtools/build/src/toolkit:$PATH \
 	&& cd /tmp/bamtools \
 	&& rm -rf CMakeLists.txt docs/ LICENSE README  src/ \
 	&& apk del install
+
+ENV PATH "/tmp/bamtools/build/src:$PATH"
 
 
 CMD ["bamtools"]
