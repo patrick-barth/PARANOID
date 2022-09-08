@@ -470,9 +470,6 @@ if (params.map_to_transcripts == true){
 	.set{collected_bam_files}
 }
 
-bam_merge_to_calculate_crosslinks.set{collected_bam_files}
-
-
 process calculate_crosslink_sites{
 	tag {query.simpleName}
 	publishDir "${params.output}/raw-wig-files", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
