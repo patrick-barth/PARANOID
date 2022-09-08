@@ -45,7 +45,7 @@ if(params.annotation != 'NO_FILE'){
 
 
 //parameters for peak distance
-params.percentile = 50									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
+params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
 params.distance = 50 									//INT maximum distance to check for distances between cl-sites
 
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
