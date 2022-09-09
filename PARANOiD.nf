@@ -487,12 +487,10 @@ process calculate_crosslink_sites{
 	"""
 }
 
-
-
 //From here on only further analyses
 
 wig_calculate_crosslink_to_group_samples
-	.map{file -> tuple(file.name - ~/_*\d*.wig2$/,file)}
+	.map{file -> tuple(file.name - ~/_rep_\d*.wig2$/,file)}
 	.groupTuple()
 	.set{grouped_samples}
 
