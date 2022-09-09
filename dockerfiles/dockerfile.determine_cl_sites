@@ -16,5 +16,6 @@ RUN apk update && apk add --no-cache python3 \
 
 ADD bin/create-wig-from-bam.py /usr/local/bin
 ADD bin/wig_files_writer.py /usr/local/bin
+ADD bin/wig2-to-wig.py /usr/local/bin
 
 CMD ["create-wig-from-bam.py"]

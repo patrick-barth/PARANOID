@@ -8,5 +8,6 @@ RUN apk add --no-cache python3 \
 	bash 
 
 ADD bin/merge-wig.py /usr/local/bin
+ADD bin/wig_files_writer.py /usr/local/bin
 
 CMD ["merge-wig.py"]
