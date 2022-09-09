@@ -31,6 +31,8 @@ params.imgDir = "$PWD/work/images"						//PATH directory to store singularity im
 params.map_to_transcripts = false 						//BOOLEAN decides if top X sequences from the reference are presented in the output
 params.number_top_transcripts = 10 						//INT number of top transcripts presented when params.map_to_transcripts = true
 
+params.merge_replicates = false
+
 params.peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
 
 // RNA species or regions
@@ -489,26 +491,37 @@ process calculate_crosslink_sites{
 
 //From here on only further analyses
 
-wig_calculate_crosslink_to_group_samples
+if( params.merge_replicates == true ){
+
+	//groups files according to their experiment
+	wig_calculate_crosslink_to_group_samples
 	.map{file -> tuple(file.name - ~/_rep_\d*.wig2$/,file)}
 	.groupTuple()
 	.set{grouped_samples}
 
-process merge_wigs{
-	tag {name}
+	process merge_wigs{
+		tag {name}
 
-	publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}.wig2"
+		publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}.wig2"
 
-	input:
-	set name, file(query) from grouped_samples
+		input:
+		set name, file(query) from grouped_samples
 
-	output:
-	file "${name}.wig2" into (wig2_merge_to_peak_distance,wig2_merge_to_RNA_species_distribution)
+		output:
+		file "${name}.wig2" into (collected_wig_files)
 
+		"""
+		merge-wig.py --wig ${query} --output ${name}.wig2
 	"""
-	merge-wig.py --wig ${query} --output ${name}.wig2
-	"""
-} 
+	}
+} else {
+	wig_calculate_crosslink_to_group_samples
+		.set{collected_wig_files}
+}
+
+// Generate one channel per postprocessing analysis
+collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution }
+
 
 if (params.peak_calling == true){
 	process index_for_peak_calling {
@@ -551,7 +564,7 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 		tag{query.simpleName}
 
 		input:
-		file(query) from wig2_merge_to_RNA_species_distribution
+		file(query) from collected_wig_2_to_RNA_species_distribution
 
 		output:
 		file("${query.baseName}.bam") into bam_convert_to_feature_counts
