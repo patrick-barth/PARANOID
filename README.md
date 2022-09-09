@@ -25,15 +25,14 @@ The experiment name should be named as follows:
 	\<experiment_name\>\_rep_\<replicate-number\>
 
 example:
-'''
-experiment1_rep_1	GCATTG
-experiment1_rep_2	CAGTAA
-experiment1_rep_3	GGCCTA
-experiment2_rep_1	AATCCG
-experiment2_rep_2	CCGTTA
-experiment2_rep_3	GTCATT
-
-'''
+```
+experiment1_rep_1	GCATTG  
+experiment1_rep_2	CAGTAA  
+experiment1_rep_3	GGCCTA  
+experiment2_rep_1	AATCCG  
+experiment2_rep_2	CCGTTA  
+experiment2_rep_3	GTCATT  
+```
 
 
 
