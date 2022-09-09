@@ -4,14 +4,8 @@ LABEL tool="sequence_extraction"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache python3 python3-dev py3-pip \
-	bash \
-	gcc \
-	g++ \
-	zlib-dev \
-	&& python3 -m ensurepip  \
-	&& python3 -m pip install biopython \
-	&& python3 -m pip install numpy
+RUN apk add --no-cache python3 py3-numpy bash && \
+    apk add py3-biopython --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
 
 ADD bin/wig_files_writer.py /usr/local/bin
 ADD bin/extract-sequences-around-cross-link-sites.py /usr/local/bin
