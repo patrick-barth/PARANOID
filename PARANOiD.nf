@@ -50,6 +50,8 @@ if(params.annotation != 'NO_FILE'){
 params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
 params.distance = 50 									//INT maximum distance to check for distances between cl-sites
 
+params.seq_len = 10											//INT length to both sides of cl-sites from which nucleotides are recovered 
+
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
 if (params.speed) {
@@ -646,7 +648,7 @@ process sequence_extraction {
 
 	"""
 	wig2-to-wig.py --input ${query} --output ${query.baseName}
-	extract-sequences-around-cross-link-sites.py --input ${query} --output ${query.baseName}.extracted-sequences.txt --length {} --percentile ${params.percentile} 
+	extract-sequences-around-cross-link-sites.py --input ${query} --output ${query.baseName}.extracted-sequences.txt --length {params.seq_len} --percentile ${params.percentile} 
 	"""
 }
 */
