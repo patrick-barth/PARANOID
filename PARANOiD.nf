@@ -634,7 +634,7 @@ process sequence_extraction {
 	file "*.extarcted-sequences.*" into tsv_peak_distance_into_output
 
 	"""
-	wig2-towig.py --input ${query} --output ${query.baseName}
+	wig2-to-wig.py --input ${query} --output ${query.baseName}
 	extract-sequences-around-cross-link-sites.py --input ${query} --output ${query.baseName}.extracted-sequences.txt --length {} --percentile ${params.percentile} 
 	"""
 }
@@ -652,6 +652,7 @@ process calculate_peak_distance {
 	file "peak-distance.png" into tsv_peak_distance_into_output
 
 	"""
+	wig2-to-wig.py --input ${query} --output ${query.baseName}
 	peak-distance.py --input ${query} --output peak-distances.tsv --percentile ${params.percentile} --distance ${params.distance}
 	plot-distances.R --input peak-distances.tsv --output peak-distance.png
 	"""
