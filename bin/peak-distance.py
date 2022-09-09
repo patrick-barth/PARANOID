@@ -50,7 +50,7 @@ outFile = args.output
 def main():
 	wigFiles = []
 	for file in args.input:
-		wigFiles.append( parse_wig2( file ) )
+		wigFiles.append( parse_wig( file ) )
 
 
 
@@ -65,11 +65,8 @@ def main():
 	for file in list(wigFiles):
 		for chrom in dict(file):
 			for position in dict(file[chrom]):
-				for strand, value in dict(file[chrom][position]).items():
 			# a copy of the dictionary has to be created as the size changes during the loop
-					if abs(value) < cutoff:
-						del file[chrom][position][strand]
-				if not file[chrom][position]:
+				if abs(file[chrom][position]) < cutoff:
 					del file[chrom][position]
 			if not file[chrom]:
 				del file[chrom]
@@ -77,9 +74,7 @@ def main():
 
 	distances = [0] * maxDistance
 
-	splitFiles = splitForwardReverse(wigFiles)
-
-	for file in splitFiles:
+	for file in wigFiles:
 		for chrom in file:
 			allPositions = sorted( [ int(i) for i in file[chrom].keys() ] )
 			for position in allPositions:
@@ -113,9 +108,8 @@ def bundle_counts(wigFiles):
 	for file in wigFiles:
 		for chromosome in file:
 			for pos in file[chromosome]:
-				for strand in file[chromosome][pos]:
-					if not file[chromosome][pos][strand] == 0:
-						floatCounts = numpy.append(floatCounts, abs(file[chromosome][pos][strand]))
+				if not file[chromosome][pos] == 0:
+					floatCounts = numpy.append(floatCounts, file[chromosome][pos])
 	return floatCounts
 
 def write_output(distances, fileName):
