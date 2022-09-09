@@ -663,7 +663,7 @@ process generate_barcode_barplot {
 	publishDir "${params.output}", mode: 'copy'
 
 	input:
-	file(query) from log_split_experimental_barcode
+	file(query) from log_split_experimental_barcode.first()
 
 	output:
 	file("${query.baseName}.png") into output_experimental_barcode_distribution_png
