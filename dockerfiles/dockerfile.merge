@@ -4,7 +4,7 @@ LABEL tool="merge-wig"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache python3 \
+RUN apk update && apk add --no-cache python3 \
 	bash 
 
 ADD bin/merge-wig.py /usr/local/bin

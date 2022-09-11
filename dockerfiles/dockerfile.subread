@@ -8,7 +8,7 @@ MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 ARG FILE=subread-2.0.3-source.tar.gz
 ARG TMPDIR=/opt
 
-RUN apk add --no-cache bash \
+RUN apk update && apk add --no-cache bash \
 	gcc \
 	make \
 	musl-dev \
@@ -18,5 +18,6 @@ RUN apk add --no-cache bash \
 	cd $TMPDIR/subread-2.0.3-source/src && \
 	make -f Makefile.Linux featureCounts && \
         cp featureCounts /usr/bin && \
-        rm -rf $TMPDIR/$FILE $TMPDIR/subread-2.0.3-source/
+        rm -rf $TMPDIR/$FILE $TMPDIR/subread-2.0.3-source/ && \
+   apk del gcc make musl-dev zlib-dev
 
