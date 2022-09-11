@@ -16,7 +16,7 @@ reference.into { reference_to_mapping; reference_to_extract_sequences; reference
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
 
-params.domane = "pro" 									//STRING decides if bowtie2 or STAR is used -> pro = bowtie2; eu = STAR
+params.domain = "pro" 									//STRING decides if bowtie2 or STAR is used -> pro = bowtie2; eu = STAR
 params.annotation = 'NO_FILE'							//GFF/GTF file containing the annotation belonging to the reference
 
 params.output = "./output/"								//PATH leading to directory in which output is supposed to be stored
@@ -219,7 +219,7 @@ process merge_preprocessed_reads {
 	"""
 }
 
-if ( params.domane == 'pro' || params.map_to_transcripts == true){
+if ( params.domain == 'pro' || params.map_to_transcripts == true){
 	//bowtie2 version 2.3.5.1
 	process build_index_bowtie {
 
@@ -249,7 +249,7 @@ if ( params.domane == 'pro' || params.map_to_transcripts == true){
 		bowtie2 --no-unal -q -p ${task.cpus} -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
 		"""
 	}
-} else if ( params.domane == 'eu' ) {
+} else if ( params.domain == 'eu' ) {
 	//Version 2.7.3a
 	process build_index_STAR {
 
