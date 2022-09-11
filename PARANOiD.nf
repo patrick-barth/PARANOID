@@ -114,7 +114,7 @@ process quality_control_2 {
 	file query from fastq_quality_filter_to_quality_control_2.flatten().toList()
 
 	output:
-	file "${query.baseName}*" into qc_2_out, collect_statistics_qc2
+	file "quality-control-2*" into qc_2_out, collect_statistics_qc2
 
 	"""
 	cat ${query} > quality-control-2.fastq
