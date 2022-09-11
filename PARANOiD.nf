@@ -87,7 +87,7 @@ process adapter_removal {
 	file "${query}_trimming_report.txt" into collect_statistics_adapter
 
 	"""
-	trim_galore	--cores ${task.cpus} --basename ${query} -o . --length ${params.min_length} ${query} --quality 0
+	trim_galore --cores ${task.cpus} --basename ${query} -o . --length ${params.min_length} ${query} --quality 0
 	"""
 }
 
