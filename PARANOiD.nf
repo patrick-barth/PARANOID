@@ -246,7 +246,7 @@ if ( params.domane == 'pro' || params.map_to_transcripts == true){
 		file "${query.simpleName}.statistics.txt" into collect_statistics_mapping
 
 		"""
-		bowtie2 --no-unal -q -p 4 -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
+		bowtie2 --no-unal -q -p ${task.cpus} -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
 		"""
 	}
 } else if ( params.domane == 'eu' ) {
