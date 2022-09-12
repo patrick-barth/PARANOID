@@ -63,14 +63,12 @@ sjdbGTFfile = file(params.annotation)
  
 //FastQC v0.11.9
 process quality_control {
-
-	publishDir "${params.output}/quality-control", mode: 'copy'
 	
 	input:
 	file query from input_reads_QC
 
 	output:
-	file "*" into out1, collect_statistics_qc1
+	file "*" into collect_statistics_qc1
 
 	"""
 	fastqc ${query} -o .
@@ -114,7 +112,7 @@ process quality_control_2 {
 	file query from fastq_quality_filter_to_quality_control_2.flatten().toList()
 
 	output:
-	file "*" into qc_2_out, collect_statistics_qc2
+	file "*" into collect_statistics_qc2
 
 	"""
 	cat ${query} > quality-control-2.fastq
@@ -236,6 +234,7 @@ if ( params.domane == 'pro' || params.map_to_transcripts == true){
 
 	process mapping_bowtie{
 		tag {query.simpleName}
+		publishDir "${params.output}/alignments", mode: 'symlink'
 
 		input:
 		set file(ref), file(index) from bowtie_index_build_to_mapping.first()
@@ -364,7 +363,7 @@ bam_depuplicate_to_sort
 process merge_deduplicated_bam {
 	tag {name}
 
-	publishDir "${params.output}/merged-bam-files", mode: 'copy'
+	publishDir "${params.output}/alignments/deduplicated", mode: 'copy'
 
 	input:
 	set val(name), file(query) from bam_dedup_sort_to_merge
@@ -380,7 +379,7 @@ if (params.map_to_transcripts == true){
 	process count_hits {
 		tag {bam.simpleName}
 
-		publishDir "${params.output}/overview-hits", mode: 'copy'
+		publishDir "${params.output}/transcripts/overview-hits", mode: 'copy'
 
 		input:
 		file bam from bam_merge_to_extract_transcripts
@@ -395,7 +394,7 @@ if (params.map_to_transcripts == true){
 
 	process get_top_hits {
 
-		publishDir "${params.output}/overview-hits", mode: 'copy'
+		publishDir "${params.output}/transcripts/overview-hits", mode: 'copy'
 
 		input:
 		file tsv from tsv_count_to_get_hits.flatten().toList()
@@ -453,7 +452,7 @@ if (params.map_to_transcripts == true){
 	process extract_top_transcript_sequences {
 		tag {txt_sequences.simpleName}
 
-		publishDir "${params.output}", mode: 'copy'
+		publishDir "${params.output}/transcripts", mode: 'copy'
 
 		input:
 		set file(txt_sequences), file(ref) from txt_get_hits_to_extract_sequences.combine(fasta_rm_newline_to_extract_sequences)
@@ -600,7 +599,7 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 	process get_RNA_species_distribution {
 		echo true
 
-		publishDir "${params.output}", mode: 'copy'
+		publishDir "${params.output}/RNA_subtypes", mode: 'copy'
 
 		input:
 		val(species) from rna_species_to_distribution.collect()
@@ -617,7 +616,7 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 	}
 
 	process generate_RNA_species_barplot {
-		publishDir "${params.output}", mode: 'copy'
+		publishDir "${params.output}/RNA_subtypes", mode: 'copy'
 
 		input:
 		file(query) from tsv_rna_species_distribution_to_barplot
@@ -673,7 +672,7 @@ process calculate_peak_distance {
 */
 
 process generate_barcode_barplot {
-	publishDir "${params.output}", mode: 'copy'
+	publishDir "${params.output}/statistics", mode: 'copy'
 
 	input:
 	file(query) from log_split_experimental_barcode.first()
@@ -687,19 +686,19 @@ process generate_barcode_barplot {
 }
 
 
-/*
+
 process multiqc{
-	publishDir "${params.output}/run-statistics", mode: 'move'
+	publishDir "${params.output}/statistics", mode: 'move'
 
 	input:
 	file adapter from collect_statistics_adapter.flatten().toList()
-	//file qual from collect_statistics_quality_filter.flatten().toList()
+	file qual from collect_statistics_quality_filter.flatten().toList()
 	file qc1 from collect_statistics_qc1.flatten().toList()
 	file qc2 from collect_statistics_qc2.flatten().toList()
 	file split from collect_statistics_split.flatten().toList()
 	file mapping from collect_statistics_mapping.flatten().toList()
 	file deduplication from log_deduplicate_to_collect_statistics.flatten().toList()
-	file(params) from params_peak_calling_to_collect_statistics.flatten().toList()
+	//file(params) from params_peak_calling_to_collect_statistics.flatten().toList().first
 
 
 	output:
@@ -710,4 +709,3 @@ process multiqc{
 	multiqc .
 	"""
 }
-*/
