@@ -4,12 +4,12 @@ LABEL tool="RNA_species_barchart_generation"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache R \
+RUN apk update && apk add --no-cache R \
 	bash \
-	make
-
-RUN Rscript -e 'install.packages("BiocManager",repos = "http://cran.us.r-project.org")' && \
-	Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")'
+	make && \
+    Rscript -e 'install.packages("BiocManager",repos = "http://cran.us.r-project.org")' && \
+    Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")' && \
+    apk del make
 	
 
 ADD bin/RNA_species_barcharts.R /usr/local/bin

@@ -4,4 +4,4 @@ LABEL tool="awk"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache gawk bash
+RUN apk update && apk add --no-cache gawk bash

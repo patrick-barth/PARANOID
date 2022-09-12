@@ -4,7 +4,7 @@ LABEL tool="peak_distance"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache python3 py3-numpy bash
+RUN apk update && apk add --no-cache python3 py3-numpy bash
 
 ADD bin/wig_files_writer.py /usr/local/bin
 ADD bin/peak-distance.py /usr/local/bin

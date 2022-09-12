@@ -4,7 +4,7 @@ LABEL tool="multiqc"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk add --no-cache python3 \
+RUN apk update && apk add --no-cache python3 \
         py3-matplotlib \
         py3-pip py3-numpy py3-kiwisolver \
         bash && \
