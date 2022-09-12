@@ -647,7 +647,7 @@ process sequence_extraction {
 
 	"""
 	wig2-to-wig.py --input ${query} --output ${query.baseName}
-	extract-sequences-around-cross-link-sites.py --input ${query} --output ${query.baseName}.extracted-sequences.txt --length {params.seq_len} --percentile ${params.percentile} 
+	extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --output ${query.baseName}.extracted-sequences.txt --length {params.seq_len} --percentile ${params.percentile} 
 	"""
 }
 */
