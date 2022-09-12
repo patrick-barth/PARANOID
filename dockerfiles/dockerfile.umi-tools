@@ -1,26 +1,13 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 
 LABEL tool="umi_tools"
 LABEL tool.version="1.1.2"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-ARG FILE=samtools-1.10.tar.bz2
-ARG TMPDIR=/opt
-
-#install umi-tools
 RUN apt-get update -y && \
-	apt-get install -y gcc && \
-	pip install umi-tools==1.1.2
+    apt-get install -y gcc procps && \
+    pip install umi-tools==1.1.2 && \
+    apt-get purge -y gcc && \
+    apt-get -y autoremove
 
-#install samtools
-RUN apt-get install -y libbz2-dev \
-	libcurl4-openssl-dev \
-	liblzma-dev \
-	lbzip2 \
-	libncurses5-dev \
-	make \
-	wget \
-	zlib1g-dev
-
-ENV PATH $TMPDIR/samtools-1.10:$PATH

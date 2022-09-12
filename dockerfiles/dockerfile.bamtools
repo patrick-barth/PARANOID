@@ -8,10 +8,8 @@ MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 ARG FILE=v2.5.2.tar.gz
 ARG VERSION=2.5.2
 
-RUN apk add --no-cache bash \
-	g++ \
-	zlib-dev \
-	&& apk add --no-cache --virtual=install cmake make \
+RUN apk update && apk add --no-cache bash \
+	&& apk add --no-cache --virtual=install cmake make zlib-dev g++ gcc musl-dev \ 
 	curl \
 	&& wget https://github.com/pezmaster31/bamtools/archive/${FILE} -O /opt/${FILE} \
 	&& cd /opt \

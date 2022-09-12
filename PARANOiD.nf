@@ -16,7 +16,7 @@ reference.into { reference_to_mapping; reference_to_extract_sequences; reference
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
 
-params.domane = "pro" 									//STRING decides if bowtie2 or STAR is used -> pro = bowtie2; eu = STAR
+params.domain = "pro" 									//STRING decides if bowtie2 or STAR is used -> pro = bowtie2; eu = STAR
 params.annotation = 'NO_FILE'							//GFF/GTF file containing the annotation belonging to the reference
 
 params.output = "./output/"								//PATH leading to directory in which output is supposed to be stored
@@ -68,7 +68,7 @@ process quality_control {
 	file query from input_reads_QC
 
 	output:
-	file "*" into collect_statistics_qc1
+	file "${query.baseName}*" into out1, collect_statistics_qc1
 
 	"""
 	fastqc ${query} -o .
@@ -85,7 +85,7 @@ process adapter_removal {
 	file "${query}_trimming_report.txt" into collect_statistics_adapter
 
 	"""
-	trim_galore	--cores ${task.cpus} --basename ${query} -o . --length ${params.min_length} ${query} --quality 0
+	trim_galore --cores ${task.cpus} --basename ${query} -o . --length ${params.min_length} ${query} --quality 0
 	"""
 }
 
@@ -112,7 +112,7 @@ process quality_control_2 {
 	file query from fastq_quality_filter_to_quality_control_2.flatten().toList()
 
 	output:
-	file "*" into collect_statistics_qc2
+	file "quality-control-2*" into qc_2_out, collect_statistics_qc2
 
 	"""
 	cat ${query} > quality-control-2.fastq
@@ -217,7 +217,7 @@ process merge_preprocessed_reads {
 	"""
 }
 
-if ( params.domane == 'pro' || params.map_to_transcripts == true){
+if ( params.domain == 'pro' || params.map_to_transcripts == true){
 	//bowtie2 version 2.3.5.1
 	process build_index_bowtie {
 
@@ -245,10 +245,10 @@ if ( params.domane == 'pro' || params.map_to_transcripts == true){
 		file "${query.simpleName}.statistics.txt" into collect_statistics_mapping
 
 		"""
-		bowtie2 --no-unal -q -p 4 -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
+		bowtie2 --no-unal -q -p ${task.cpus} -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
 		"""
 	}
-} else if ( params.domane == 'eu' ) {
+} else if ( params.domain == 'eu' ) {
 	//Version 2.7.3a
 	process build_index_STAR {
 

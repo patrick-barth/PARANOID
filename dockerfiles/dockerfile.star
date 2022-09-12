@@ -1,5 +1,4 @@
-#FROM alpine:latest
-FROM ubuntu:18.04
+FROM alpine:latest
 
 LABEL tool="STAR"
 LABEL tool.version="2.7.10a"
@@ -9,18 +8,17 @@ MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 ARG TMPDIR=/opt
 ARG FILE=2.7.10a.tar.gz
 
-#RUN apk update && apk add g++ \
-RUN apt-get update -y && apt-get install -y g++ \
-	wget \
-	make \
-	zlib1g-dev && \
+RUN apk update && apk add g++ wget make zlib-dev musl-dev libc-dev patch && \
 	wget -q https://github.com/alexdobin/STAR/archive/$FILE -O $TMPDIR/$FILE && \
-	tar -xf $TMPDIR/$FILE -C $TMPDIR && \
+	tar xf $TMPDIR/$FILE -C $TMPDIR && \
 	rm $TMPDIR/$FILE && \
 	cd $TMPDIR/STAR-2.7.10a/source && \
-	make STAR
+        wget -O - https://patch-diff.githubusercontent.com/raw/alexdobin/STAR/pull/1651.diff | patch -p 2 && \
+	make STAR && \
+    cp STAR /usr/local/bin/ && \
+    cd ../.. && rm -rf STAR-2.7.10a && \
+    apk del gcc g++ wget make zlib-dev musl-dev libc-dev patch
 
-ENV PATH=$TMPDIR/STAR-2.7.10a/source:$PATH
 
 ENTRYPOINT ["STAR"]
 

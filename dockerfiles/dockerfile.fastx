@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM alpine:latest
 
 LABEL tool="fastx_toolkit"
 LABEL tool.version="0.0.14"
@@ -9,18 +9,21 @@ ARG TMPDIR=/opt
 #ARG FILE=libgtextutils-0.7.tar.gz
 ARG FILE=fastx_toolkit-0.0.14.tar.bz2
 
-RUN apt-get update && apt-get install -y fastx-toolkit
+RUN apk update && apk add --no-cache bash perl file gcc g++ make musl-dev pkgconf wget patch && \
+    wget -q https://github.com/agordon/libgtextutils/releases/download/0.7/libgtextutils-0.7.tar.gz && \
+    tar xzf libgtextutils-0.7.tar.gz && \
+    cd libgtextutils-0.7 && \
+    wget -q -O - https://github.com/agordon/libgtextutils/commit/d8bb66d26288293ebde7f8d88979c13c208ffce5.diff | patch -p1 && \
+    ./configure --prefix=/usr/local && \
+    make install && \
+    cd .. && rm -rf libgtextutils-0.7 && \
+    wget -q https://github.com/agordon/fastx_toolkit/releases/download/0.0.14/fastx_toolkit-0.0.14.tar.bz2 && \
+    tar -xjvf fastx_toolkit-0.0.14.tar.bz2 && \
+    cd fastx_toolkit-0.0.14 && \
+    wget -q -O - https://github.com/agordon/fastx_toolkit/commit/b8bce0158e86f2f663feff65724e1593ee416d64.diff | patch -p1 && \
+    ./configure --prefix=/usr/local && \
+    make install && \
+    cd .. && rm -rf fastx_toolkit-0.0.14 && \
+    apk del gcc g++ make musl-dev pkgconf wget patch
 
-#RUN apk update && apk add g++ \
-#	make && \
-#	wget https://github.com/agordon/libgtextutils/releases/download/0.7/$FILE -O $TMPDIR/$FILE && \
-#	tar -xf $TMPDIR/$FILE -C $TMPDIR && \
-#	rm $TMPDIR/$FILE 
 
-
-
-
-#RUN	apk add sed && \
-#	wget --no-check-certificate https://github.com/agordon/fastx_toolkit/releases/download/0.0.14/$FILE2 -O $TMPDIR/$FILE2 && \
-#	tar -xf $TMPDIR/$FILE2 -C $TMPDIR && \
-#	rm $TMPDIR/$FILE2
