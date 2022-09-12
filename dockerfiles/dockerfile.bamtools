@@ -8,23 +8,20 @@ MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 ARG FILE=v2.5.2.tar.gz
 ARG VERSION=2.5.2
 
-RUN apk update && apk add --no-cache bash \
+RUN apk update && apk add --no-cache bash libgcc libstdc++ \
 	&& apk add --no-cache --virtual=install cmake make zlib-dev g++ gcc musl-dev \ 
 	curl \
-	&& wget https://github.com/pezmaster31/bamtools/archive/${FILE} -O /opt/${FILE} \
-	&& cd /opt \
+	&& wget https://github.com/pezmaster31/bamtools/archive/${FILE} \
 	&& tar xzvf ${FILE} \
 	&& rm ${FILE} \
-	&& mv bamtools-${VERSION} bamtools \
-	&& cd bamtools \
+	&& cd bamtools-${VERSION} \
 	&& mkdir build \
 	&& cd build \
 	&& cmake .. \
 	&& make \
-	&& cd /opt/bamtools \
-	&& rm -rf CMakeLists.txt docs/ LICENSE README  src/ \
+	&& cp src/bamtools /usr/local/bin/ \
+        && cd ../.. \
+	&& rm -rf  bamtools-${VERSION}\
 	&& apk del install
-
-ENV PATH /opt/bamtools/build/src:$PATH
 
 CMD ["bamtools"]
