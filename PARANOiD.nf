@@ -513,7 +513,7 @@ if( params.merge_replicates == true ){
 
 		"""
 		merge-wig.py --wig ${query} --output ${name}.wig2
-	"""
+		"""
 	}
 } else {
 	wig_calculate_crosslink_to_group_samples
