@@ -51,6 +51,7 @@ params.percentile = 90									//INT percentile that decides which cl-sites are 
 params.distance = 50 									//INT maximum distance to check for distances between cl-sites
 
 params.seq_len = 10											//INT length to both sides of cl-sites from which nucleotides are recovered 
+params.sequence_format_fasta = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
 
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
@@ -513,7 +514,7 @@ if( params.merge_replicates == true ){
 
 		"""
 		merge-wig.py --wig ${query} --output ${name}.wig2
-	"""
+		"""
 	}
 } else {
 	wig_calculate_crosslink_to_group_samples
@@ -637,18 +638,26 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 //TODO: add param and sepcial execution for fasta format (simply add --outfmt_fasta)
 process sequence_extraction {
 
-	publishDir "${params.output}", mode: 'move', pattern: "*.extarcted-sequences.*"
+	publishDir "${params.output}", mode: 'move', pattern: "*.extracted-sequences.*"
 
 	input:
 	file query from wig2_merge_to_sequen.flatten().toList()
 
 	output:
-	file "*.extarcted-sequences.*" into tsv_peak_distance_into_output
+	file "*.extarcted-sequences.*" into extracted_sequences_to_output
+	
+	script:
+	if(params.sequence_format_fasta == true)
+		"""
+		wig2-to-wig.py --input ${query} --output ${query.baseName}
+		extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --output ${query.baseName}.extracted-sequences.fasta --length {params.seq_len} --percentile ${params.percentile} --outfmt_fasta
+		"""
+	else
+		"""
+		wig2-to-wig.py --input ${query} --output ${query.baseName}
+		extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --output ${query.baseName}.extracted-sequences.txt --length {params.seq_len} --percentile ${params.percentile} 
+		"""
 
-	"""
-	wig2-to-wig.py --input ${query} --output ${query.baseName}
-	extract-sequences-around-cross-link-sites.py --input ${query} --output ${query.baseName}.extracted-sequences.txt --length {params.seq_len} --percentile ${params.percentile} 
-	"""
 }
 */
 
