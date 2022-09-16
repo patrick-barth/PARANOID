@@ -504,16 +504,18 @@ if( params.merge_replicates == true ){
 	process merge_wigs{
 		tag {name}
 
-		publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}.wig2"
+		publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}.wig"
 
 		input:
 		set name, file(query) from grouped_samples
 
 		output:
-		file "${name}.wig2" into (collected_wig_files)
+		file "${name}.wig2" into collected_wig_files
+		file "${name}_{forward,reverse}.wig" into output
 
 		"""
 		merge-wig.py --wig ${query} --output ${name}.wig2
+		wig2-to-wig.py --input ${name}.wig2 --output ${name}
 		"""
 	}
 } else {
