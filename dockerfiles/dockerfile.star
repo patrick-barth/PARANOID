@@ -8,7 +8,7 @@ MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 ARG TMPDIR=/opt
 ARG FILE=2.7.10a.tar.gz
 
-RUN apk update && apk add g++ wget make zlib-dev musl-dev libc-dev patch && \
+RUN apk update && apk add libgcc libstdc++ libgomp g++ wget make zlib-dev musl-dev libc-dev patch && \
 	wget -q https://github.com/alexdobin/STAR/archive/$FILE -O $TMPDIR/$FILE && \
 	tar xf $TMPDIR/$FILE -C $TMPDIR && \
 	rm $TMPDIR/$FILE && \
