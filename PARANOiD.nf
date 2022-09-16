@@ -497,7 +497,7 @@ if( params.merge_replicates == true ){
 
 	//groups files according to their experiment
 	wig_calculate_crosslink_to_group_samples
-	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} //TODO: try to include _filtered_top\d* to regex as optional part after rep_\d to apply correct merging of transcript replicates
+	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} 
 	.groupTuple()
 	.set{grouped_samples}
 
