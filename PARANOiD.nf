@@ -404,7 +404,7 @@ if (params.map_to_transcripts == true){
 		file("transcript-targets-top${params.number_top_transcripts}.txt") into (txt_get_hits_to_extract_alignments,txt_get_hits_to_extract_sequences)
 
 		"""
-		head -${params.number_top_transcripts} *.tsv --silent | rev | cut -f1 -d' ' | rev | sort | uniq > transcript-targets-top${params.number_top_transcripts}.txt
+		head -${params.number_top_transcripts} -q *.tsv  | rev | cut -f1 -d' ' | rev | sort | uniq > transcript-targets-top${params.number_top_transcripts}.txt
 		"""
 	}
 
@@ -497,7 +497,7 @@ if( params.merge_replicates == true ){
 
 	//groups files according to their experiment
 	wig_calculate_crosslink_to_group_samples
-	.map{file -> tuple(file.name - ~/_rep_\d*.wig2$/,file)}
+	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} //TODO: try to include _filtered_top\d* to regex as optional part after rep_\d to apply correct merging of transcript replicates
 	.groupTuple()
 	.set{grouped_samples}
 
@@ -700,13 +700,13 @@ process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
 
 	input:
-	file adapter from collect_statistics_adapter.flatten().toList()
-	file qual from collect_statistics_quality_filter.flatten().toList()
-	file qc1 from collect_statistics_qc1.flatten().toList()
-	file qc2 from collect_statistics_qc2.flatten().toList()
-	file split from collect_statistics_split.flatten().toList()
-	file mapping from collect_statistics_mapping.flatten().toList()
-	file deduplication from log_deduplicate_to_collect_statistics.flatten().toList()
+	file adapter from collect_statistics_adapter.first().flatten().toList()
+	file qual from collect_statistics_quality_filter.first().flatten().toList()
+	file qc1 from collect_statistics_qc1.first().flatten().toList()
+	file qc2 from collect_statistics_qc2.first().flatten().toList()
+	file split from collect_statistics_split.first().flatten().toList()
+	file mapping from collect_statistics_mapping.first().flatten().toList()
+	file deduplication from log_deduplicate_to_collect_statistics.first().flatten().toList()
 	//file(params) from params_peak_calling_to_collect_statistics.flatten().toList().first
 
 
