@@ -235,7 +235,7 @@ if ( params.domain == 'pro' || params.map_to_transcripts == true){
 
 	process mapping_bowtie{
 		tag {query.simpleName}
-		publishDir "${params.output}/alignments", mode: 'symlink'
+		publishDir "${params.output}/alignments", mode: 'copy'
 
 		input:
 		set file(ref), file(index) from bowtie_index_build_to_mapping.first()
@@ -275,7 +275,7 @@ if ( params.domain == 'pro' || params.map_to_transcripts == true){
 
 	process mapping_STAR{
 		tag {query.simpleName}
-		publishDir "${params.output}/alignments", mode: 'symlink'
+		publishDir "${params.output}/alignments", mode: 'copy'
 
 		input:
 		set file(query), file(indexDir) from fastq_merge_preprocessed_to_alignment.combine(star_index_build_to_mapping)
