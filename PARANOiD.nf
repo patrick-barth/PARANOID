@@ -504,7 +504,7 @@ if( params.merge_replicates == true ){
 	process merge_wigs{
 		tag {name}
 
-		publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}.wig"
+		publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
 
 		input:
 		set name, file(query) from grouped_samples
@@ -524,7 +524,7 @@ if( params.merge_replicates == true ){
 }
 
 // Generate one channel per postprocessing analysis
-collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution }
+collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution, collected_wig_2_to_sequence_extraction }
 
 
 if (params.peak_calling == true){
@@ -633,17 +633,16 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 	}
 }
 
-/*
-//TODO do input separated by experiments -> if merging: use merged files; if not use all files
+
 //TODO add choice to do forward and reverse together or apart from each other
 //TODO: add param for length
 //TODO: add param and sepcial execution for fasta format (simply add --outfmt_fasta)
 process sequence_extraction {
 
-	publishDir "${params.output}", mode: 'move', pattern: "*.extracted-sequences.*"
+	publishDir "${params.output}", mode: 'copy', pattern: "*.extracted-sequences.*"
 
 	input:
-	file query from wig2_merge_to_sequen.flatten().toList()
+	file query from collected_wig_2_to_sequence_extraction
 
 	output:
 	file "*.extarcted-sequences.*" into extracted_sequences_to_output
