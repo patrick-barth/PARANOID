@@ -663,18 +663,32 @@ if (params.sequence_extraction == true) {
 if (params.peak_distance == true) {
 	process calculate_peak_distance {
 
-		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.{tsv,png}"
+		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.tsv"
 
 		input:
 		file query from collected_wig_2_to_peak_distance
 
 		output:
-		file "${query.baseName}.peak-distance.{tsv,png}" into tsv_peak_distance_into_output
+		file "${query.baseName}.peak-distance.tsv" into tsv_peak_distance_calculation_to_plot,tsv_peak_distance_into_output
 
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		peak-distance.py --input ${query.baseName}_{forward,reverse}.wig --output ${query.baseName}.peak-distances.tsv --percentile ${params.percentile} --distance ${params.distance}
-		plot-distances.R --input ${query.baseName}.peak-distances.tsv --output ${query.baseName}.peak-distance.png
+		peak-distance.py --input ${query.baseName}_{forward,reverse}.wig --output ${query.baseName}.peak-distance.tsv --percentile ${params.percentile} --distance ${params.distance}
+		"""
+	}
+
+	process plot_peak_distance {
+
+		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.simpleName}.peak-distance.png"
+
+		input:
+		file query from tsv_peak_distance_calculation_to_plot
+
+		output:
+		file "${query.simpleName}.peak-distance.png" into png_peak_distance_into_output
+
+		"""
+		plot-distances.R --input ${query} --output ${query.simpleName}.peak-distance.png
 		"""
 	}
 }
