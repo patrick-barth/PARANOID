@@ -14,6 +14,18 @@ nextflow PARANOiD.nf --reads \<reads.fastq\> --reference \<reference_sequence.fa
 
 ## Parameters
 
+### --barcode_pattern
+
+A string that allows to adapt to other barcode patterns (default is iCLIP2). N represent the random barcodes and X represent the experimental barcode
+Example for iCLIP:
+```
+--barcode_pattern NNXXXXNNN
+```
+Default:
+```
+--barcode_pattern NNNNNXXXXXXNNNN
+```
+
 ## Inputs
 
 ### Barcodes
