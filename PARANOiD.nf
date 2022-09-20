@@ -11,7 +11,7 @@ input_reads = Channel.fromPath( params.reads )			//FASTQ file(s) containing read
 reference = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
 barcode_file = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
 
-reference.into { reference_to_mapping; reference_to_extract_sequences; reference_to_pureCLIP } 
+reference.into { reference_to_mapping; reference_to_extract_sequences; reference_to_extract_sequences2; reference_to_pureCLIP } 
 
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
@@ -50,8 +50,10 @@ if(params.annotation != 'NO_FILE'){
 params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
 params.distance = 50 									//INT maximum distance to check for distances between cl-sites
 
+//params for sequence extraction
+params.sequence_extraction
 params.seq_len = 10											//INT length to both sides of cl-sites from which nucleotides are recovered 
-params.sequence_format_fasta = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
+params.sequence_format_txt = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
 
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
@@ -524,7 +526,7 @@ if( params.merge_replicates == true ){
 }
 
 // Generate one channel per postprocessing analysis
-collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution, collected_wig_2_to_sequence_extraction }
+collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution; collected_wig_2_to_sequence_extraction }
 
 
 if (params.peak_calling == true){
@@ -632,35 +634,30 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 		"""
 	}
 }
+if (params.sequence_extraction == true) {
+	process sequence_extraction {
 
+		publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
 
-//TODO add choice to do forward and reverse together or apart from each other
-//TODO: add param for length
-//TODO: add param and sepcial execution for fasta format (simply add --outfmt_fasta)
-process sequence_extraction {
+		input:
+		set file(query),file(reference) from collected_wig_2_to_sequence_extraction.combine(reference_to_extract_sequences2)
 
-	publishDir "${params.output}", mode: 'copy', pattern: "*.extracted-sequences.*"
-
-	input:
-	file query from collected_wig_2_to_sequence_extraction
-
-	output:
-	file "*.extarcted-sequences.*" into extracted_sequences_to_output
-	
-	script:
-	if(params.sequence_format_fasta == true)
-		"""
-		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --output ${query.baseName}.extracted-sequences.fasta --length {params.seq_len} --percentile ${params.percentile} --outfmt_fasta
-		"""
-	else
-		"""
-		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --output ${query.baseName}.extracted-sequences.txt --length {params.seq_len} --percentile ${params.percentile} 
-		"""
-
+		output:
+		file "*.extracted-sequences.*" into extracted_sequences_to_output
+		
+		script:
+		if(params.sequence_format_txt == true)
+			"""
+			wig2-to-wig.py --input ${query} --output ${query.baseName}
+			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
+			"""
+		else
+			"""
+			wig2-to-wig.py --input ${query} --output ${query.baseName}
+			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
+			"""
+	}
 }
-*/
 
 /*
 process calculate_peak_distance {
@@ -696,7 +693,7 @@ process generate_barcode_barplot {
 }
 
 
-
+/*
 process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
 
@@ -719,3 +716,4 @@ process multiqc{
 	multiqc .
 	"""
 }
+*/
