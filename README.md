@@ -7,6 +7,7 @@ Pipeline for Automated Read ANalysis Of iCLIP Data
 [Basic usage](#Basic-usage)  
 [Inputs](#Inputs)  
 [Parameters](#Parameters)  
+[Optional analyses](#Optional-analyses)  
 [Outputs](#Outputs)  
 
 ## Basic-usage
@@ -137,7 +138,7 @@ Default:
 --split_fastq_by 1000000
 ```
 
-## Optional analyses
+## Optional-analyses
 
 ### Transcript analysis
 
