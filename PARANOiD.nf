@@ -47,11 +47,12 @@ if(params.annotation != 'NO_FILE'){
 
 
 //parameters for peak distance
+params.peak_distance = false
 params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
 params.distance = 50 									//INT maximum distance to check for distances between cl-sites
 
 //params for sequence extraction
-params.sequence_extraction
+params.sequence_extraction = false
 params.seq_len = 10											//INT length to both sides of cl-sites from which nucleotides are recovered 
 params.sequence_format_txt = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
 
@@ -526,7 +527,7 @@ if( params.merge_replicates == true ){
 }
 
 // Generate one channel per postprocessing analysis
-collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution; collected_wig_2_to_sequence_extraction }
+collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
 
 
 if (params.peak_calling == true){
@@ -659,24 +660,24 @@ if (params.sequence_extraction == true) {
 	}
 }
 
-/*
-process calculate_peak_distance {
+if (params.peak_distance == true) {
+	process calculate_peak_distance {
 
-	publishDir "${params.output}", mode: 'move', pattern: "peak-distance.*"
+		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.{tsv,png}"
 
-	input:
-	file query from wig2_merge_to_peak_distance.flatten().toList()
+		input:
+		file query from collected_wig_2_to_peak_distance
 
-	output:
-	file "peak-distance.png" into tsv_peak_distance_into_output
+		output:
+		file "${query.baseName}.peak-distance.{tsv,png}" into tsv_peak_distance_into_output
 
-	"""
-	wig2-to-wig.py --input ${query} --output ${query.baseName}
-	peak-distance.py --input ${query} --output peak-distances.tsv --percentile ${params.percentile} --distance ${params.distance}
-	plot-distances.R --input peak-distances.tsv --output peak-distance.png
-	"""
+		"""
+		wig2-to-wig.py --input ${query} --output ${query.baseName}
+		peak-distance.py --input ${query.baseName}_{forward,reverse}.wig --output ${query.baseName}.peak-distances.tsv --percentile ${params.percentile} --distance ${params.distance}
+		plot-distances.R --input ${query.baseName}.peak-distances.tsv --output ${query.baseName}.peak-distance.png
+		"""
+	}
 }
-*/
 
 process generate_barcode_barplot {
 	publishDir "${params.output}/statistics", mode: 'copy'
