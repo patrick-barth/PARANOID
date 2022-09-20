@@ -11,7 +11,7 @@ input_reads = Channel.fromPath( params.reads )			//FASTQ file(s) containing read
 reference = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
 barcode_file = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
 
-reference.into { reference_to_mapping; reference_to_extract_sequences; reference_to_extract_sequences2; reference_to_pureCLIP } 
+reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP } 
 
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
@@ -442,7 +442,7 @@ if (params.map_to_transcripts == true){
 	process remove_newlines {
 
 		input:
-		file ref from reference_to_extract_sequences
+		file ref from reference_to_extract_transcripts
 
 		output:
 		file("${ref.baseName}.removed_newlines.fna") into fasta_rm_newline_to_extract_sequences
@@ -640,7 +640,7 @@ if (params.sequence_extraction == true) {
 		publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
 
 		input:
-		set file(query),file(reference) from collected_wig_2_to_sequence_extraction.combine(reference_to_extract_sequences2)
+		set file(query),file(reference) from collected_wig_2_to_sequence_extraction.combine(reference_to_extract_sequences)
 
 		output:
 		file "*.extracted-sequences.*" into extracted_sequences_to_output
