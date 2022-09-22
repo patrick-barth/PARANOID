@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="STAR"
 LABEL tool.version="2.7.10a"
@@ -14,6 +14,6 @@ RUN apk update && apk add bash wget && \
 	rm -rf $FILE STAR-2.7.10a && \
         apk del wget
 
-ENTRYPOINT ["STAR"]
+CMD ["STAR"]
 
 
