@@ -247,7 +247,7 @@ Shared with sequence extraction
 
 ##### Usage
 ```
---seq_len 10
+--seq_len 20
 ```
 
 #### --sequence_format_txt
