@@ -53,8 +53,11 @@ params.distance = 50 									//INT maximum distance to check for distances betw
 
 //params for sequence extraction
 params.sequence_extraction = false
-params.seq_len = 10											//INT length to both sides of cl-sites from which nucleotides are recovered 
+params.seq_len = 20											//INT length to both sides of cl-sites from which nucleotides are recovered 
 params.sequence_format_txt = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
+params.max_motif_num = 50						// INT max number of motifs to search for 
+params.min_motif_width = 8						// INT minimum motif width to report, >=3
+params.max_motif_width = 15						// INT maximum motif width to report, <= 30
 
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
@@ -644,7 +647,7 @@ if (params.sequence_extraction == true) {
 		set file(query),file(reference) from collected_wig_2_to_sequence_extraction.combine(reference_to_extract_sequences)
 
 		output:
-		file "*.extracted-sequences.*" into extracted_sequences_to_output
+		file "*.extracted-sequences.*" into extracted_sequences
 		
 		script:
 		if(params.sequence_format_txt == true)
@@ -659,6 +662,25 @@ if (params.sequence_extraction == true) {
 			"""
 	}
 }
+
+// if sequence_extraction is performed in FASTA format, we can compute motifs
+if (params.sequence_extraction == true && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
+        process motif_search {
+
+                publishDir "${params.output}/motif_search/", mode: 'copy'
+
+                input:
+                file fasta from extracted_sequences
+
+		output:
+                file "${fasta.baseName}_motif" into nothing
+
+                """
+                streme --oc ${fasta.baseName}_motif --p ${fasta} --dna --seed 0 --nmotifs ${params.max_motif_num} --minw ${params.min_motif_width} --maxw ${params.max_motif_width}
+                """
+        }
+}
+
 
 if (params.peak_distance == true) {
 	process calculate_peak_distance {
@@ -707,7 +729,6 @@ process generate_barcode_barplot {
 	"""
 }
 
-
 /*
 process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
@@ -732,3 +753,4 @@ process multiqc{
 	"""
 }
 */
+
