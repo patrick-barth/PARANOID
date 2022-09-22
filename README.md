@@ -257,4 +257,10 @@ Shared with sequence extraction
 --sequence_format_txt
 ```
 
+TODO: document streme parameters
+params.max_motif_num = 50                                               // INT max number of motifs to search for 
+params.min_motif_width = 8                                              // INT minimum motif width to report, >=3
+params.max_motif_width = 15                                             // INT maximum motif width to report, <= 30
+
+
 ## Outputs
