@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="STAR"
 LABEL tool.version="2.7.10a"

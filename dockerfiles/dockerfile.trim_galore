@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="trim_galore"
 LABEL tool.version="0.6.7"

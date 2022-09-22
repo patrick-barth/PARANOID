@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="bowtie2"
 LABEL tool.version="2.4.5"

@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="samtools"
 LABEL tool.version="1.16.1"
