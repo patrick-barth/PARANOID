@@ -358,7 +358,7 @@ process deduplicate{
 	file "${query.baseName}.deduplicated.log*" into log_deduplicate_to_collect_statistics
 
 	"""
-	umi_tools dedup -I ${query} --output-stats ${query.baseName}.deduplicated.log -S ${query.baseName}.deduplicated.bam
+	umi_tools dedup --random-seed=42 -I ${query} --output-stats ${query.baseName}.deduplicated.log -S ${query.baseName}.deduplicated.bam
 	"""
 }
 
