@@ -343,8 +343,7 @@ class read():
         p_from = p_to; p_to += 4
         length_of_header = unpack('<i',header_cache[p_from:p_to])[0]
         p_from = p_to; p_to += length_of_header
-        #while len(header_cache) < p_to: header_cache += str(next(self._generator))
-        while len(header_cache) < p_to: header_cache += next(self._generator) # changed remove typing of bytestring to string
+        while len(header_cache) < p_to: header_cache += next(self._generator)
         self.file_header = header_cache[p_from:p_to]
         p_from = p_to; p_to += 4
         while len(header_cache) < p_to: header_cache += str(next(self._generator))
