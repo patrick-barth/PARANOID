@@ -212,7 +212,7 @@ Default:
 ```
 
 #### --percentile
-Shared with sequence exatrction
+Shared with sequence extraction
 
 ##### Usage
 ```
@@ -228,7 +228,7 @@ Shared with sequence exatrction
 
 ### Sequence extraction
 
-#### --sequence_extarction
+#### --sequence_extraction
 
 ##### Usage
 ```
@@ -236,7 +236,7 @@ Shared with sequence exatrction
 ```
 
 #### --percentile
-Shared with sequence exatrction
+Shared with sequence extraction
 
 ##### Usage
 ```
