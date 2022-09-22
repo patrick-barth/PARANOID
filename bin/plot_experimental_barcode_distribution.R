@@ -1,17 +1,8 @@
 #!/usr/bin/env Rscript
-#### Package management ##
-if( !require("BiocManager", character.only=TRUE )){install.packages("BiocManager");library("BiocManager")}
-CRAN_packages <- c("optparse", "ggplot2")
-bioconductor_packages <- c()
 
-for(p in CRAN_packages){
-  if( !require( p, character.only=TRUE )){ install.packages(p,repos='http://cran.us.r-project.org') }
-  library( p, character.only=TRUE )
-}
-for(p in bioconductor_packages){
-  if( !require( p, character.only=TRUE )){ BiocManager::install(p) }
-  library( p, character.only=TRUE )
-}
+library(optparse)
+library(ggplot2)
+
 #### Get arguments ##
 option_list = list(
   make_option(c("-l","--logs"), type="character",default=NULL,
