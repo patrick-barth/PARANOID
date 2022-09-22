@@ -22,6 +22,4 @@ RUN	wget -q http://www.bioinformatics.babraham.ac.uk/projects/fastqc/$FILE -O $T
 
 ENV PATH ${TMPDIR}/FastQC:$PATH
 
-ENTRYPOINT ["fastqc"]
-#ENTRYPOINT [$PATH]
-CMD ["-h"]
+CMD ["fastqc"]
