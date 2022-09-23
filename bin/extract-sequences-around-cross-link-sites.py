@@ -24,6 +24,7 @@ parser.add_argument('--length', '-l', help='Number of nucleotides to each side o
 parser.add_argument('--percentile', '-p', help='Percentile used to calculate the cutoff')
 parser.add_argument('--output', '-o', help='Output file for extracted sequences')
 parser.add_argument('--outfmt_fasta', '-f', default=False, action='store_true' ,help='If true, sequences will be put out in fasta format')
+parser.add_argument('--omit_cl', '-u', default=False, action='store_true', help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
 parser.add_argument('what_shall_i_write_here', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
@@ -82,7 +83,10 @@ def main():
 					if int(entry) - extractionLength - 1 >= 0 and int(entry) + extractionLength <= len(referenceSequences[chromosome]) : 
 						extractionStart = int(entry) - extractionLength - 1
 						extractionEnd = int(entry) + extractionLength # no '-1' since the last number is exclusive when getting a substring
-						extractedSequence = referenceSequences[chromosome][extractionStart:extractionEnd]
+						if(args.omit_cl):
+							extractedSequence = referenceSequences[chromosome][extractionStart:int(entry)-1] + 'n' + referenceSequences[chromosome][int(entry):extractionEnd]
+						else:
+							extractedSequence = referenceSequences[chromosome][extractionStart:extractionEnd]
 						write_sequence(extractedSequence, args.output)
 					else:
 						countOutOfBounds += 1

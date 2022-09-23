@@ -55,6 +55,7 @@ params.distance = 50 									//INT maximum distance to check for distances betw
 params.sequence_extraction = false
 params.seq_len = 20											//INT length to both sides of cl-sites from which nucleotides are recovered 
 params.sequence_format_txt = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
+params.omit_cl_nucleotide = false
 params.max_motif_num = 50						// INT max number of motifs to search for 
 params.min_motif_width = 8						// INT minimum motif width to report, >=3
 params.max_motif_width = 15						// INT maximum motif width to report, <= 30
@@ -651,15 +652,27 @@ if (params.sequence_extraction == true) {
 		
 		script:
 		if(params.sequence_format_txt == true)
-			"""
-			wig2-to-wig.py --input ${query} --output ${query.baseName}
-			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
-			"""
+			if(params.omit_cl_nucleotide == true)
+				"""
+				wig2-to-wig.py --input ${query} --output ${query.baseName}
+				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
+				"""
+			else
+				"""
+				wig2-to-wig.py --input ${query} --output ${query.baseName}
+				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
+				"""
 		else
-			"""
-			wig2-to-wig.py --input ${query} --output ${query.baseName}
-			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
-			"""
+			if(params.omit_cl_nucleotide == true)
+				"""
+				wig2-to-wig.py --input ${query} --output ${query.baseName}
+				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl --outfmt_fasta
+				"""
+			else
+				"""
+				wig2-to-wig.py --input ${query} --output ${query.baseName}
+				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
+				"""
 	}
 }
 
