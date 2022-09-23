@@ -35,14 +35,14 @@ params.merge_replicates = false
 
 params.peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
 
-// RNA species or regions
+// RNA subtypes
 params.gene_id = "ID"									//STRING name of gene_id used within the annotation file
 params.color_barplot = "#69b3a2"						//STRING color used for barplots
-//params.rna_species = 'lnc_RNA,miRNA,mRNA,ncRNA,rRNA,snoRNA,snRNA,tRNA'
-params.rna_species = '3_prime_UTR,transcript,5_prime_UTR'	//STRING RNA-{species,regions} used for the distribution of CL-sites
-Channel.from(params.rna_species.split(',')).into{ rna_species_to_feature_counts; rna_species_to_distribution }
+//params.rna_subtypes = 'lnc_RNA,miRNA,mRNA,ncRNA,rRNA,snoRNA,snRNA,tRNA'
+params.rna_subtypes = '3_prime_UTR,transcript,5_prime_UTR'	//STRING RNA-subtypes used for the distribution of CL-sites
+Channel.from(params.rna_subtypes.split(',')).into{ rna_subtypes_to_feature_counts; rna_subtypes_to_distribution }
 if(params.annotation != 'NO_FILE'){
-	annotation_to_RNA_species_distribution = Channel.fromPath( params.annotation )
+	annotation_to_RNA_subtypes_distribution = Channel.fromPath( params.annotation )
 }
 
 
@@ -527,7 +527,7 @@ if( params.merge_replicates == true ){
 }
 
 // Generate one channel per postprocessing analysis
-collected_wig_files.into{ collected_wig_2_to_RNA_species_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
+collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
 
 
 if (params.peak_calling == true){
@@ -566,12 +566,12 @@ if (params.peak_calling == true){
 	}
 }
 
-if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
+if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 	process wig_to_bam {
 		tag{query.simpleName}
 
 		input:
-		file(query) from collected_wig_2_to_RNA_species_distribution
+		file(query) from collected_wig_2_to_RNA_subtypes_distribution
 
 		output:
 		file("${query.baseName}.bam") into bam_convert_to_feature_counts
@@ -585,15 +585,15 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 	process feature_counts {
 
 		input:
-		set file(query), val(rna_species), file(annotation) from bam_convert_to_feature_counts.combine(rna_species_to_feature_counts).combine(annotation_to_RNA_species_distribution)
+		set file(query), val(rna_subtypes), file(annotation) from bam_convert_to_feature_counts.combine(rna_subtypes_to_feature_counts).combine(annotation_to_RNA_subtypes_distribution)
 
 		output:
-		file("${query.simpleName}.${rna_species}.tsv") into tsv_feature_counts_to_sort
+		file("${query.simpleName}.${rna_subtypes}.tsv") into tsv_feature_counts_to_sort
 
 
 		"""
-		featureCounts -T ${task.cpus} -t ${rna_species} -g ${params.gene_id} -a ${annotation} -R CORE -M -o ${query.simpleName} ${query}
-		mv ${query}.featureCounts ${query.simpleName}.${rna_species}.tsv
+		featureCounts -T ${task.cpus} -t ${rna_subtypes} -g ${params.gene_id} -a ${annotation} -R CORE -M -o ${query.simpleName} ${query}
+		mv ${query}.featureCounts ${query.simpleName}.${rna_subtypes}.tsv
 		"""
 	}
 
@@ -602,36 +602,36 @@ if (/*params.rna_species == true &&*/ params.annotation != 'NO_FILE'){
 		.groupTuple()
 		.set{tsv_sort_to_calculate_distribution}
 
-	process get_RNA_species_distribution {
+	process get_RNA_subtypes_distribution {
 		echo true
 
 		publishDir "${params.output}/RNA_subtypes", mode: 'copy'
 
 		input:
-		val(species) from rna_species_to_distribution.collect()
+		val(subtypes) from rna_subtypes_to_distribution.collect()
 		set val(name), file(query) from tsv_sort_to_calculate_distribution
 
 		output:
-		file("${name}.species_distribution.tsv") into (output_rna_species_tsv,tsv_rna_species_distribution_to_barplot)
+		file("${name}.subtypes_distribution.tsv") into (output_rna_subtypes_tsv,tsv_rna_subtypes_distribution_to_barplot)
 
 		script:
-		species_as_string = species.join(' ')
+		subtypes_as_string = subtypes.join(' ')
 		"""
-		calc-RNA-species-distribution.py --input ${query} --rna_species ${species_as_string} --output ${name}.species_distribution.tsv
+		calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name}.subtypes_distribution.tsv
 		"""
 	}
 
-	process generate_RNA_species_barplot {
+	process generate_RNA_subtypes_barplot {
 		publishDir "${params.output}/RNA_subtypes", mode: 'copy'
 
 		input:
-		file(query) from tsv_rna_species_distribution_to_barplot
+		file(query) from tsv_rna_subtypes_distribution_to_barplot
 
 		output:
-		file("${query.baseName}.png") into output_rna_species_png
+		file("${query.baseName}.png") into output_rna_subtypes_png
 
 		"""
-		RNA_species_barcharts.R --input ${query} --output ${query.baseName}.png --color "${params.color_barplot}"
+		RNA_subtypes_barcharts.R --input ${query} --output ${query.baseName}.png --color "${params.color_barplot}"
 		"""
 	}
 }
@@ -708,7 +708,7 @@ process generate_barcode_barplot {
 }
 
 
-/*
+
 process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
 
@@ -731,4 +731,3 @@ process multiqc{
 	multiqc .
 	"""
 }
-*/
