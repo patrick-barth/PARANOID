@@ -7,6 +7,6 @@ MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 RUN apk update && apk add --no-cache python3 \
 	bash
 
-ADD bin/calc-RNA-species-distribution.py /usr/local/bin
+ADD bin/calc-RNA-subtypes-distribution.py /usr/local/bin
 
-CMD ["calc-RNA-species-distribution.py"]
+CMD ["calc-RNA-subtypes-distribution.py"]
