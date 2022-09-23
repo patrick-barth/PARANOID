@@ -1,10 +1,6 @@
 #!/usr/bin/env Rscript
-list.of.packages <- c("optparse")
-installed_packages <- list.of.packages %in% rownames(installed.packages())
-if(any(installed_packages == FALSE)) {
-  install.packages(list.of.packages[!installed_packages], repos = 'http://cran.us.r-project.org')
-}
-invisible(lapply(list.of.packages, library, character.only = TRUE))
+
+library(optparse)
 
 option_list <- list(
   make_option(c("-i", "--input"), type = "character", default = NULL,

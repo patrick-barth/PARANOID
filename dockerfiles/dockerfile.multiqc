@@ -1,17 +1,17 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="multiqc"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk update && apk add --no-cache python3 \
-        py3-matplotlib \
-        py3-pip py3-numpy py3-kiwisolver \
+RUN apk update && apk add --no-cache python3 py3-click py3-requests \
+        py3-matplotlib py3-pygments py3-simplejson py3-networkx \
+        py3-pip py3-numpy py3-kiwisolver py3-jinja2 py3-future py3-coloredlogs \
         bash && \
-        python3 -m pip install multiqc==1.12
+        python3 -m pip install multiqc==1.13
 
 ENV	LC_ALL C.UTF-8
 ENV	LANG C.UTF-8
 
 
-ENTRYPOINT ["multiqc"]
+CMD ["multiqc"]

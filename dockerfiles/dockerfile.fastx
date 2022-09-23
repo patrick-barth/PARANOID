@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="fastx_toolkit"
 LABEL tool.version="0.0.14"

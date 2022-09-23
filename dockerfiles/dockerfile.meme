@@ -1,0 +1,21 @@
+FROM alpine:3.16
+
+LABEL tool="meme"
+LABEL tool.version="5.4.1"
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+RUN apk update && apk add --no-cache bash \
+	perl-xml-parser perl-xml-simple tcsh ghostscript python3 perl gcc make musl-dev zlib-dev && \
+	wget -q https://meme-suite.org/meme/meme-software/5.4.1/meme-5.4.1.tar.gz && \
+        tar xzf meme-5.4.1.tar.gz && \
+        cd meme-5.4.1 && \
+        ./configure --prefix=/usr/local --enable-build-libxml2 --enable-build-libxslt && \
+        make -j 20 install && \
+        cd .. && \
+        rm -rf meme-5.4.1.tar.gz meme-5.4.1 /usr/local/share/meme-5.4.1/doc/ && \
+    apk del g++ gcc make musl-dev zlib-dev 
+
+ENV PATH $PATH:/usr/local/libexec/meme-5.4.1
+
+CMD ["streme"]

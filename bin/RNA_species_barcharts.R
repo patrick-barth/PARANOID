@@ -1,16 +1,6 @@
 #!/usr/bin/env Rscript
-if( !require("BiocManager", character.only=TRUE )){install.packages("BiocManager")}
-CRAN_packages <- c("optparse")
-bioconductor_packages <- c()
 
-for(p in CRAN_packages){
-  if( !require( p, character.only=TRUE )){ install.packages(p,repos='http://cran.us.r-project.org') }
-  library( p, character.only=TRUE )
-}
-for(p in bioconductor_packages){
-  if( !require( p, character.only=TRUE )){ BiocManager::install(p) }
-  library( p, character.only=TRUE )
-}
+library(optparse)
 
 option_list = list(
   make_option(c("-i", "--input"), type="character", default=NULL, 

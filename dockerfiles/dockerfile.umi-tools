@@ -6,8 +6,16 @@ LABEL tool.version="1.1.2"
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
 RUN apt-get update -y && \
-    apt-get install -y gcc procps && \
-    pip install umi-tools==1.1.2 && \
-    apt-get purge -y gcc && \
+    apt-get install -y gcc procps patch wget && \
+    wget -q https://github.com/CGATOxford/UMI-tools/archive/refs/tags/1.1.2.tar.gz && \
+    tar xzf 1.1.2.tar.gz && \
+    cd UMI-tools-1.1.2 && \
+    wget -q -O - https://patch-diff.githubusercontent.com/raw/CGATOxford/UMI-tools/pull/550.diff | patch -p1 && \
+    python setup.py install && \
+    cd .. && \
+    rm -rf UMI-tools-1.1.2 1.1.2.tar.gz && \
+    apt-get purge -y gcc patch wget && \
     apt-get -y autoremove
+
+CMD ["umi_tools"]
 

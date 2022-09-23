@@ -1,13 +1,12 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="RNA_species_barchart_generation"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk update && apk add --no-cache R \
+RUN apk update && apk add --no-cache R font-noto \
 	bash \
 	make && \
-    Rscript -e 'install.packages("BiocManager",repos = "http://cran.us.r-project.org")' && \
     Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")' && \
     apk del make
 	

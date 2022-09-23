@@ -1,19 +1,12 @@
-FROM alpine:latest
+FROM alpine:3.16
 
 LABEL tool="bam2wig"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk update && apk add --no-cache python3 \
-	git \
-	bash && \
-	git clone https://github.com/luidale/pybam.git && \
-	cp pybam/pybam.py /usr/local/bin && \
-	rm -r pybam
-	#python -m ensurepip && \
-	#pip install --upgrade pip setuptools && \
-	#pip install git+https://github.com/JohnLonginotto/pybam
+RUN apk update && apk add --no-cache python3 bash
 
+ADD bin/pybam.py /usr/local/bin
 ADD bin/create-wig-from-bam.py /usr/local/bin
 ADD bin/wig_files_writer.py /usr/local/bin
 ADD bin/wig2-to-wig.py /usr/local/bin
