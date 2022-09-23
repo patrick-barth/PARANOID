@@ -11,6 +11,6 @@ RUN apk update && apk add --no-cache R font-noto \
     apk del make
 	
 
-ADD bin/RNA_species_barcharts.R /usr/local/bin
+ADD bin/RNA_subtypes_barcharts.R /usr/local/bin
 
-CMD ["RNA_species_barcharts.R"]
+CMD ["RNA_subtypes_barcharts.R"]
