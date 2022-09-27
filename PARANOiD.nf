@@ -635,7 +635,7 @@ if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 		file("${query.baseName}.png") into output_rna_subtypes_png
 
 		"""
-		RNA_subtypes_barcharts.R --input ${query} --output ${query.baseName}.png --color "${params.color_barplot}"
+		RNA_subtypes_barcharts.R --input ${query} --output ${query.baseName} --type png --color "${params.color_barplot}"
 		"""
 	}
 }
