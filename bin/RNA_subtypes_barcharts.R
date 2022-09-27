@@ -25,6 +25,7 @@ input_data <- read.table( file = input_file,
                           header = TRUE)
 
 input_data <- input_data[!(input_data$RNA_subtypes=="total"),]
+input_data$RNA_subtypes <- factor(input_data$RNA_subtypes, levels = input_data$RNA_subtypes)
 
 plot <- ggplot(input_data,
       aes(x=RNA_subtypes, y=percentage)) +
