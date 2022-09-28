@@ -49,7 +49,7 @@ if(params.annotation != 'NO_FILE'){
 //parameters for peak distance
 params.peak_distance = false
 params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
-params.distance = 50 									//INT maximum distance to check for distances between cl-sites
+params.distance = 30 									//INT maximum distance to check for distances between cl-sites
 
 //params for sequence extraction
 params.sequence_extraction = false
