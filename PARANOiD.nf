@@ -723,7 +723,7 @@ if (params.peak_distance == true) {
 		file "${query.simpleName}.peak-distance.png" into png_peak_distance_into_output
 
 		"""
-		plot-distances.R --input ${query} --output ${query.simpleName}.peak-distance.png
+		plot-distances.R --input ${query} --output ${query.simpleName}.peak-distance --type png
 		"""
 	}
 }
