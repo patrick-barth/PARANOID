@@ -350,6 +350,7 @@ process sort_bam{
 
 process deduplicate{
 	tag {query.simpleName}
+	memory { 5.GB + 1.B * query.size() }
 
 	input:
 	set file(query), file(index) from bam_sort_to_deduplicate
