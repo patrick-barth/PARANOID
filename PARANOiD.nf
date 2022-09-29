@@ -299,17 +299,17 @@ if ( params.domain == 'pro' || params.map_to_transcripts == true){
 
 process filter_empty_bams{
 	tag {query.simpleName}
-	echo true
 
 	input:
 	file query from bam_mapping_to_filter_empty
 
 	output:
 	file "${query.baseName}.filtered.bam" optional true into bam_filter_empty_to_split
+	file "${query.simpleName}.no_alignments.txt" optional true into log_experiments_without_alignments
 
 	"""
 	if [[ \$(samtools view ${query} | wc -l) == 0 ]]; then
-		echo "File ${query.simpleName} contains no alignable reads"
+		echo "${query.simpleName} contains no alignable reads" > ${query.simpleName}.no_alignments.txt
 	else
 		mv ${query} ${query.baseName}.filtered.bam
 	fi
@@ -470,7 +470,7 @@ if (params.map_to_transcripts == true){
 
 
 		"""
-		egrep -A1 -f ${txt_sequences} ${ref} > ${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna
+		egrep -A1 --no-group-separator -f ${txt_sequences} ${ref} > ${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna
 		"""
 	}
 
@@ -739,6 +739,22 @@ process generate_barcode_barplot {
 
 	"""
 	plot_experimental_barcode_distribution.R --logs ${query} --output ${query.baseName} --type png --color "${params.color_barplot}"
+	"""
+}
+
+process collect_experiments_without_alignments {
+	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'experiments-without-alignments.txt'
+
+	input:
+	file(query) from log_experiments_without_alignments.flatten().toList()
+
+	output:
+	file("experiments-without-alignments.txt") optional true into output_log_exp_without_alignment
+
+	"""
+	if [[ ! \$(cat ${query} | wc -l) == 0 ]]; then
+		cat ${query} > experiments-without-alignments.txt
+	fi
 	"""
 }
 
