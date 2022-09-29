@@ -607,7 +607,6 @@ if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 		.set{tsv_sort_to_calculate_distribution}
 
 	process get_RNA_subtypes_distribution {
-		echo true
 
 		publishDir "${params.output}/RNA_subtypes", mode: 'copy'
 
@@ -617,11 +616,12 @@ if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 
 		output:
 		file("${name}.subtypes_distribution.tsv") into (output_rna_subtypes_tsv,tsv_rna_subtypes_distribution_to_barplot)
+		file("${name}.subtype.log") optional true into log_subtype_warnings
 
 		script:
 		subtypes_as_string = subtypes.join(' ')
 		"""
-		calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name}.subtypes_distribution.tsv
+		calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name}.subtypes_distribution.tsv > ${name}.subtype.log
 		"""
 	}
 
@@ -755,6 +755,25 @@ process collect_experiments_without_alignments {
 	if [[ ! \$(cat ${query} | wc -l) == 0 ]]; then
 		cat ${query} > experiments-without-alignments.txt
 	fi
+	"""
+}
+process collect_subtype_analysis_errors {
+	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'subtype-analysis-warnings.txt'
+
+	input:
+	file(query) from log_subtype_warnings.flatten().toList()
+
+	output:
+	file("subtype-analysis-warnings.txt") optional true into output_log_subtype_analysis_warnings
+
+	"""
+	for i in ${query}
+	do
+		if [[ ! \$(cat \$i | wc -l) == 0 ]]; then
+			echo "File: \$i" >> subtype-analysis-warnings.txt
+			cat \$i >> subtype-analysis-warnings.txt
+		fi
+	done
 	"""
 }
 
