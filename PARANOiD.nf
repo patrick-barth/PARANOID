@@ -639,6 +639,26 @@ if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 		RNA_subtypes_barcharts.R --input ${query} --output ${query.baseName} --type png --color "${params.color_barplot}"
 		"""
 	}
+		
+	process collect_subtype_analysis_errors {
+		publishDir "${params.output}/statistics", mode: 'copy', pattern: 'subtype-analysis-warnings.txt'
+
+		input:
+		file(query) from log_subtype_warnings.flatten().toList()
+
+		output:
+		file("subtype-analysis-warnings.txt") optional true into output_log_subtype_analysis_warnings
+
+		"""
+		for i in ${query}
+		do
+			if [[ ! \$(cat \$i | wc -l) == 0 ]]; then
+				echo "File: \$i" >> subtype-analysis-warnings.txt
+				cat \$i >> subtype-analysis-warnings.txt
+			fi
+		done
+		"""
+	}
 }
 if (params.sequence_extraction == true) {
 	process sequence_extraction {
@@ -758,25 +778,7 @@ process collect_experiments_without_alignments {
 	fi
 	"""
 }
-process collect_subtype_analysis_errors {
-	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'subtype-analysis-warnings.txt'
 
-	input:
-	file(query) from log_subtype_warnings.flatten().toList()
-
-	output:
-	file("subtype-analysis-warnings.txt") optional true into output_log_subtype_analysis_warnings
-
-	"""
-	for i in ${query}
-	do
-		if [[ ! \$(cat \$i | wc -l) == 0 ]]; then
-			echo "File: \$i" >> subtype-analysis-warnings.txt
-			cat \$i >> subtype-analysis-warnings.txt
-		fi
-	done
-	"""
-}
 
 process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
