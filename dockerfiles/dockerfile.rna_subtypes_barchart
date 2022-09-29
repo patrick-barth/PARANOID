@@ -4,11 +4,12 @@ LABEL tool="RNA_species_barchart_generation"
 
 MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
 
-RUN apk update && apk add --no-cache R font-noto \
+RUN apk update && apk add --no-cache R R-dev font-noto \
 	bash \
-	make && \
+	make gcc g++ && \
     Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")' && \
-    apk del make
+    Rscript -e 'install.packages("ggplot2",repos = "http://cran.us.r-project.org")' && \
+    apk del make R-dev gcc g++
 	
 
 ADD bin/RNA_subtypes_barcharts.R /usr/local/bin
