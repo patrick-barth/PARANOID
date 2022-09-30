@@ -535,7 +535,7 @@ if( params.merge_replicates == true ){
 collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
 
 
-if (params.peak_calling == true){
+if (params.peak_calling == false){
 	process index_for_peak_calling {
 		tag{query.simpleName}
 
@@ -571,7 +571,7 @@ if (params.peak_calling == true){
 	}
 }
 
-if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
+if ( params.annotation != 'NO_FILE'){
 	process wig_to_bam {
 		tag{query.simpleName}
 
@@ -639,7 +639,7 @@ if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 		RNA_subtypes_barcharts.R --input ${query} --output ${query.baseName} --type png --color "${params.color_barplot}"
 		"""
 	}
-		
+
 	process collect_subtype_analysis_errors {
 		publishDir "${params.output}/statistics", mode: 'copy', pattern: 'subtype-analysis-warnings.txt'
 
@@ -660,7 +660,7 @@ if (/*params.rna_subtypes == true &&*/ params.annotation != 'NO_FILE'){
 		"""
 	}
 }
-if (params.sequence_extraction == true) {
+if (params.sequence_extraction == false) {
 	process sequence_extraction {
 
 		publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
@@ -698,7 +698,7 @@ if (params.sequence_extraction == true) {
 }
 
 // if sequence_extraction is performed in FASTA format, we can compute motifs
-if (params.sequence_extraction == true && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
+if (params.sequence_extraction == false && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
         process motif_search {
 
                 publishDir "${params.output}/motif_search/", mode: 'copy'
@@ -716,7 +716,7 @@ if (params.sequence_extraction == true && params.sequence_format_txt == false &&
 }
 
 
-if (params.peak_distance == true) {
+if (params.peak_distance == false) {
 	process calculate_peak_distance {
 
 		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.tsv"
