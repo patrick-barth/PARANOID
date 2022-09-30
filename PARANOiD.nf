@@ -11,7 +11,7 @@ input_reads = Channel.fromPath( params.reads )			//FASTQ file(s) containing read
 reference = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
 barcode_file = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
 
-reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP } 
+reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP; reference_to_strand_preference } 
 
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
@@ -476,10 +476,57 @@ if (params.map_to_transcripts == true){
 	}
 
 	bam_merge_to_calculate_crosslinks.mix(bam_extract_alignments_to_calc_crosslink)
-	.set{collected_bam_files}
+	.into{collected_bam_files; collected_bam_files_to_sort}
 } else {
 	bam_merge_to_calculate_crosslinks
-	.set{collected_bam_files}
+	.into{collected_bam_files; collected_bam_files_to_sort}
+}
+
+process sort_bam_before_strand_pref {
+	cache false
+
+	input:
+	file(query) from collected_bam_files_to_sort
+
+	output:
+	file("${query.baseName}.sorted.bam") into bam_sort_to_group
+
+	"""
+	samtools sort ${query} > ${query.baseName}.sorted.bam
+	"""
+}
+
+if(params.merge_replicates == true){
+	bam_sort_to_group
+	.map{file -> tuple(file.name - ~/_rep_\d*(.sorted)?.bam$/,file)} 
+	.groupTuple()
+	.set{grouped_bam_to_strand_preference}
+} else {
+	bam_sort_to_group.set{grouped_bam_to_strand_preference}
+}
+
+process determine_strand_preference {
+	tag {name}
+	publishDir "${params.output}/strand-distribution", mode: 'copy', pattern: "${name}.strand_proportion.txt"
+
+	input:
+	set val(name),file(query),file(reference) from grouped_bam_to_strand_preference.combine(reference_to_strand_preference)
+
+	output:
+	file("${name}.strand_proportion.txt")
+
+	"""
+	egrep '^>' ${reference} | cut -f1 -d' ' | cut -c2- > references.txt
+	for i in ${query}
+	do
+		samtools index \$i
+	done
+	touch ${name}.strand_proportion.txt
+	while read r; do
+  		echo "\$r (${name})" >> ${name}.strand_proportion.txt
+  		echo forward: \$(for i in *.sorted.bam; do samtools view -F 20 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)"\t"reverse: \$(for i in *.sorted.bam; do samtools view -f 16 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)>> ${name}.strand_proportion.txt;
+	done <references.txt
+	"""
 }
 
 process calculate_crosslink_sites{
