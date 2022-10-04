@@ -71,6 +71,7 @@ sjdbGTFfile = file(params.annotation)
  
 //FastQC v0.11.9
 process quality_control {
+	tag {query.baseName}
 	
 	input:
 	file query from input_reads_QC
@@ -84,6 +85,7 @@ process quality_control {
 }
 
 process adapter_removal {
+	tag {query.baseName}
 
 	input:
 	file query from input_reads_processing
@@ -99,6 +101,7 @@ process adapter_removal {
 
 //FASTX Toolkit 0.0.14
 process quality_filter {
+	tag {query.baseName}
 
 	input:
 	file query from reads_qualityFilter
@@ -115,6 +118,7 @@ process quality_filter {
 
 //FastQC v0.11.9
 process quality_control_2 {
+	tag {query.baseName}
 	
 	input:
 	file query from fastq_quality_filter_to_quality_control_2.flatten().toList()
@@ -129,6 +133,7 @@ process quality_control_2 {
 }
 
 process extract_rnd_barcode {
+	tag {query.baseName}
 
 	input:
 	file query from fastq_quality_filter_to_barcode_extraction
@@ -242,14 +247,13 @@ if ( params.domain == 'pro' || params.map_to_transcripts == true){
 
 	process mapping_bowtie{
 		tag {query.simpleName}
-		publishDir "${params.output}/alignments", mode: 'copy'
 
 		input:
 		set file(ref), file(index) from bowtie_index_build_to_mapping.first()
 		file query from fastq_merge_preprocessed_to_alignment
 
 		output:
-		file "${query.baseName}.bam" into (bam_mapping_to_filter_empty, bam_mapping_to_output)
+		file "${query.baseName}.bam" into (bam_mapping_to_filter_empty, bam_mapping_to_sort)
 		file "${query.simpleName}.statistics.txt" into collect_statistics_mapping
 
 		"""
@@ -282,13 +286,12 @@ if ( params.domain == 'pro' || params.map_to_transcripts == true){
 
 	process mapping_STAR{
 		tag {query.simpleName}
-		publishDir "${params.output}/alignments", mode: 'copy'
 
 		input:
 		set file(query), file(indexDir) from fastq_merge_preprocessed_to_alignment.combine(star_index_build_to_mapping)
 
 		output:
-		file("${query.baseName}.Aligned.sortedByCoord.out.bam") into (bam_mapping_to_filter_empty, bam_mapping_to_output)
+		file("${query.baseName}.Aligned.sortedByCoord.out.bam") into bam_mapping_to_filter_empty
 		file("${query.baseName}.Log.*") into collect_statistics_mapping
 
 		"""
@@ -306,6 +309,7 @@ process filter_empty_bams{
 	output:
 	file "${query.baseName}.filtered.bam" optional true into bam_filter_empty_to_split
 	file "${query.simpleName}.no_alignments.txt" optional true into log_experiments_without_alignments
+	set val("alignments"), file("${query.baseName}.filtered.bam") optional true into bam_alignment_to_sort
 
 	"""
 	if [[ \$(samtools view ${query} | wc -l) == 0 ]]; then
@@ -373,18 +377,37 @@ bam_depuplicate_to_sort
 process merge_deduplicated_bam {
 	tag {name}
 
-	publishDir "${params.output}/alignments/deduplicated", mode: 'copy'
+	//publishDir "${params.output}/alignments/deduplicated", mode: 'copy'
 
 	input:
 	set val(name), file(query) from bam_dedup_sort_to_merge
 
 	output:
 	file("${name}.bam") into (bam_merge_to_calculate_crosslinks, bam_merge_to_extract_transcripts, bam_merge_to_pureCLIP)
+	set val("alignments/deduplicated"), file("${name}.bam") into bam_alignment_to_sort_2
 
 	"""
 	samtools merge -c -p ${name}.bam ${query}
 	"""
 }
+
+process sort_and_index_alignment{
+	tag {query.simpleName}
+	publishDir "${params.output}/${out_dir}", mode: 'copy', pattern: "${query.simpleName}.sorted.bam*"
+
+	input:
+	set val(out_dir), file(query) from bam_alignment_to_sort.mix(bam_alignment_to_sort_2)
+
+	output:
+	file("${query.simpleName}.sorted.bam*")
+
+
+	"""
+	samtools sort ${query} > ${query.simpleName}.sorted.bam
+	samtools index ${query.simpleName}.sorted.bam
+	"""
+}
+
 if (params.map_to_transcripts == true){
 	process count_hits {
 		tag {bam.simpleName}
@@ -484,7 +507,7 @@ if (params.map_to_transcripts == true){
 }
 
 process sort_bam_before_strand_pref {
-	cache false
+	tag {query.baseName}
 
 	input:
 	file(query) from collected_bam_files_to_sort
@@ -638,6 +661,7 @@ if ( params.annotation != 'NO_FILE'){
 	}
 
 	process feature_counts {
+		tag {query.baseName}
 
 		input:
 		set file(query), val(rna_subtypes), file(annotation) from bam_convert_to_feature_counts.combine(rna_subtypes_to_feature_counts).combine(annotation_to_RNA_subtypes_distribution)
@@ -658,6 +682,7 @@ if ( params.annotation != 'NO_FILE'){
 		.set{tsv_sort_to_calculate_distribution}
 
 	process get_RNA_subtypes_distribution {
+		tag {name}
 
 		publishDir "${params.output}/RNA_subtypes", mode: 'copy'
 
@@ -712,6 +737,7 @@ if ( params.annotation != 'NO_FILE'){
 }
 if (params.sequence_extraction == false) {
 	process sequence_extraction {
+		tag {query.baseName}
 
 		publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
 
@@ -749,25 +775,27 @@ if (params.sequence_extraction == false) {
 
 // if sequence_extraction is performed in FASTA format, we can compute motifs
 if (params.sequence_extraction == false && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
-        process motif_search {
+    process motif_search {
+    	tag {fasta.baseName}
 
-                publishDir "${params.output}/motif_search/", mode: 'copy'
+	    publishDir "${params.output}/motif_search/", mode: 'copy'
 
-                input:
-                file fasta from extracted_sequences
+	    input:
+	    file fasta from extracted_sequences
 
 		output:
-                file "${fasta.baseName}_motif" into nothing
+	    file "${fasta.baseName}_motif" into nothing
 
-                """
-                streme --oc ${fasta.baseName}_motif --p ${fasta} --dna --seed 0 --nmotifs ${params.max_motif_num} --minw ${params.min_motif_width} --maxw ${params.max_motif_width}
-                """
-        }
+	    """
+	    streme --oc ${fasta.baseName}_motif --p ${fasta} --dna --seed 0 --nmotifs ${params.max_motif_num} --minw ${params.min_motif_width} --maxw ${params.max_motif_width}
+	    """
+    }
 }
 
 
 if (params.peak_distance == false) {
 	process calculate_peak_distance {
+		tag {query.baseName}
 
 		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.tsv"
 
@@ -814,6 +842,7 @@ process generate_barcode_barplot {
 }
 
 process collect_experiments_without_alignments {
+	tag {query.baseName}
 	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'experiments-without-alignments.txt'
 
 	input:
