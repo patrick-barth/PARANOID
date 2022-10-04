@@ -502,7 +502,9 @@ if(params.merge_replicates == true){
 	.groupTuple()
 	.set{grouped_bam_to_strand_preference}
 } else {
-	bam_sort_to_group.set{grouped_bam_to_strand_preference}
+	bam_sort_to_group
+	.map{file -> tuple(file.name - ~/(.sorted)?.bam$/,file)}
+	.set{grouped_bam_to_strand_preference}
 }
 
 process determine_strand_preference {
