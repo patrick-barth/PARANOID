@@ -349,6 +349,7 @@ process sort_bam{
 }
 
 process deduplicate{
+	publishDir "${params.output}/statistics/PCR-deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
 	tag {query.simpleName}
 	memory { 5.GB + 1.B * query.size() }
 
@@ -357,7 +358,7 @@ process deduplicate{
 
 	output:
 	file "${query.baseName}.deduplicated.bam" into (bam_depuplicate_to_sort,bam_deduplicate_to_index)
-	file "${query.baseName}.deduplicated.log*" into log_deduplicate_to_collect_statistics
+	file "${query.baseName}.deduplicated.log*" into (log_deduplicate_to_collect_statistics,log_deduplicate_to_output)
 
 	"""
 	umi_tools dedup --random-seed=42 -I ${query} --output-stats ${query.baseName}.deduplicated.log -S ${query.baseName}.deduplicated.bam
