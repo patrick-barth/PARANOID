@@ -25,6 +25,7 @@ parser.add_argument('--percentile', '-p', help='Percentile used to calculate the
 parser.add_argument('--output', '-o', help='Output file for extracted sequences')
 parser.add_argument('--outfmt_fasta', '-f', default=False, action='store_true' ,help='If true, sequences will be put out in fasta format')
 parser.add_argument('--omit_cl', '-u', default=False, action='store_true', help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
+parser.add_argument('--generate_bed', '-b', help='If used a BED file is generated')
 parser.add_argument('what_shall_i_write_here', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
@@ -69,6 +70,10 @@ def main():
 	cutoff = numpy.percentile(allCounts, percentile)
 	print("The value cutoff is set to " + str(cutoff) )
 
+	if( args.generate_bed ):
+		bed_file = open(args.generate_bed, 'w', encoding="utf-8")
+
+
 	for file in args.input:
 		parsedFile = parse_wig(file)
 		for chromosome in parsedFile:
@@ -83,6 +88,11 @@ def main():
 					if int(entry) - extractionLength - 1 >= 0 and int(entry) + extractionLength <= len(referenceSequences[chromosome]) : 
 						extractionStart = int(entry) - extractionLength - 1
 						extractionEnd = int(entry) + extractionLength # no '-1' since the last number is exclusive when getting a substring
+
+						if(args.generate_bed):
+							strand = "+" if parsedFile[chromosome][entry] > 0 else "-"
+							bed_file.write(chromosome + "\t" + str(extractionStart) + "\t" + str(extractionEnd) + "\tname\t0\t" + strand + "\n")
+
 						if(args.omit_cl):
 							extractedSequence = referenceSequences[chromosome][extractionStart:int(entry)-1] + 'n' + referenceSequences[chromosome][int(entry):extractionEnd]
 						else:
@@ -90,6 +100,10 @@ def main():
 						write_sequence(extractedSequence, args.output)
 					else:
 						countOutOfBounds += 1
+	
+	if( args.generate_bed ):
+		bed_file.close()
+
 	print(str(countOutOfBounds) + " peaks were too close to one of the chromosome ends and were thus ignored")
 
 

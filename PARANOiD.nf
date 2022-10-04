@@ -60,6 +60,9 @@ params.max_motif_num = 50						// INT max number of motifs to search for
 params.min_motif_width = 8						// INT minimum motif width to report, >=3
 params.max_motif_width = 15						// INT maximum motif width to report, <= 30
 
+//params for testing
+params.bed_for_sequence_extraction = false
+
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
 if (params.speed) {
@@ -745,7 +748,8 @@ if (params.sequence_extraction == false) {
 		set file(query),file(reference) from collected_wig_2_to_sequence_extraction.combine(reference_to_extract_sequences)
 
 		output:
-		file "*.extracted-sequences.*" into extracted_sequences
+		file "*.extracted-sequences.fasta" optional true into extracted_sequences
+		file "*.extracted-sequences.*" optional true into extracted_sequences_output
 		
 		script:
 		if(params.sequence_format_txt == true)
@@ -755,10 +759,16 @@ if (params.sequence_extraction == false) {
 				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
 				"""
 			else
-				"""
-				wig2-to-wig.py --input ${query} --output ${query.baseName}
-				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
-				"""
+				if(params.bed_for_sequence_extraction == true) //just for testing
+					"""
+					wig2-to-wig.py --input ${query} --output ${query.baseName}
+					extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --generate_bed ${query.baseName}.extracted-sequences.bed
+					"""
+				else //end testing
+					"""
+					wig2-to-wig.py --input ${query} --output ${query.baseName}
+					extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
+					"""
 		else
 			if(params.omit_cl_nucleotide == true)
 				"""
@@ -766,10 +776,16 @@ if (params.sequence_extraction == false) {
 				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl --outfmt_fasta
 				"""
 			else
-				"""
-				wig2-to-wig.py --input ${query} --output ${query.baseName}
-				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
-				"""
+				if(params.bed_for_sequence_extraction == true) //just for testing
+					"""
+					wig2-to-wig.py --input ${query} --output ${query.baseName}
+					extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta --generate_bed ${query.baseName}.extracted-sequences.bed
+					"""
+				else //end testing
+					"""
+					wig2-to-wig.py --input ${query} --output ${query.baseName}
+					extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
+					"""
 	}
 }
 
