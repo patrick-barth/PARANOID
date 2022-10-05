@@ -33,7 +33,7 @@ params.number_top_transcripts = 10 						//INT number of top transcripts present
 
 params.merge_replicates = false
 
-params.peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
+params.omit_peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
 
 // RNA subtypes
 params.gene_id = "ID"									//STRING name of gene_id used within the annotation file
@@ -47,12 +47,12 @@ if(params.annotation != 'NO_FILE'){
 
 
 //parameters for peak distance
-params.peak_distance = false
+params.omit_peak_distance = false
 params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
 params.distance = 30 									//INT maximum distance to check for distances between cl-sites
 
 //params for sequence extraction
-params.sequence_extraction = false
+params.omit_sequence_extraction = false
 params.seq_len = 20											//INT length to both sides of cl-sites from which nucleotides are recovered 
 params.sequence_format_txt = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
 params.omit_cl_nucleotide = false
@@ -611,7 +611,7 @@ if( params.merge_replicates == true ){
 collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
 
 
-if (params.peak_calling == false){
+if (params.omit_peak_calling == false){
 	process index_for_peak_calling {
 		tag{query.simpleName}
 
@@ -738,7 +738,7 @@ if ( params.annotation != 'NO_FILE'){
 		"""
 	}
 }
-if (params.sequence_extraction == false) {
+if (params.omit_sequence_extraction == false) {
 	process sequence_extraction {
 		tag {query.baseName}
 
@@ -790,7 +790,7 @@ if (params.sequence_extraction == false) {
 }
 
 // if sequence_extraction is performed in FASTA format, we can compute motifs
-if (params.sequence_extraction == false && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
+if (params.omit_sequence_extraction == false && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
     process motif_search {
     	tag {fasta.baseName}
 
@@ -809,7 +809,7 @@ if (params.sequence_extraction == false && params.sequence_format_txt == false &
 }
 
 
-if (params.peak_distance == false) {
+if (params.omit_peak_distance == false) {
 	process calculate_peak_distance {
 		tag {query.baseName}
 
