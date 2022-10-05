@@ -124,7 +124,7 @@ process quality_control_2 {
 	tag {query.baseName}
 	
 	input:
-	file query from fastq_quality_filter_to_quality_control_2.flatten().toList()
+	file query from fastq_quality_filter_to_quality_control_2.first()
 
 	output:
 	file "quality-control-2*" into qc_2_out, collect_statistics_qc2
