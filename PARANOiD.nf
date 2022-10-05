@@ -829,13 +829,13 @@ if (params.omit_peak_distance == false) {
 
 	process plot_peak_distance {
 
-		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.simpleName}.peak-distance.png"
+		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.simpleName}.peak-distance{_full,}.png"
 
 		input:
 		file query from tsv_peak_distance_calculation_to_plot
 
 		output:
-		file "${query.simpleName}.peak-distance.png" into png_peak_distance_into_output
+		file "${query.simpleName}.peak-distance{_full,}.png" into png_peak_distance_into_output
 
 		"""
 		plot-distances.R --input ${query} --output ${query.simpleName}.peak-distance --type png
