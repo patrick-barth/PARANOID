@@ -124,21 +124,6 @@ def main():
 #######################
 #######################
 
-"""def parse_wig( wigFile ):
-	chromosomes = {}
-	currentChromosome = "" 	
-	with open ( wigFile, 'r' ) as wigFile:
-		for line in wigFile:
-			# a file might contain several chromosomes. New chromosomes start with a line like "variableStep chrom=DQ380154.1 span=1". Due to that they are divided by this line.
-			# Also the chromosome name is parsed from that line
-			if line.startswith('variableStep'):
-				currentChromosome = line.split(" ")[1].split("=")[1]
-				chromosomes[currentChromosome] = {}
-			else:
-				position, count = line.split(" ")
-				chromosomes[currentChromosome][position] = float(count)
-	return chromosomes
-"""
 def parse_fasta( fastaFile ):
 	sequences = {}
 	with open (fastaFile, "r") as fastaFile:
