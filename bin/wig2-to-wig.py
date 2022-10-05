@@ -3,6 +3,7 @@
 from __future__ import division
 import argparse
 import os
+from wig_files_writer import *
 
 
 
@@ -67,54 +68,6 @@ def main():
 ###    functions    ###
 #######################
 #######################
-
-#####################################
-# parses a wig file. 				#
-# Returns a dictionary containing	#
-#	a dictionary:					#
-# 	key -> chromsome				#
-#	value -> 						#
-#		key -> position 			#
-#		value -> count 				#
-#####################################
-
-def parse_wig2( wigFile ):
-	chromosomes = {}
-	currentChromosome = ""
-	with open ( wigFile, 'r' ) as wigFile:
-		for line in wigFile:
-			line = line.rstrip()
-			# a file might contain several chromosomes. New chromosomes start with a line like "variableStep chrom=DQ380154.1 span=1". Due to that they are divided by this line. 
-			# Also the chromosome name is parsed from that line
-			if line.startswith("variableStep"):
-				currentChromosome = line.split(" ")[1].split("=")[1]
-				chromosomes[currentChromosome] = {}
-			else:
-				position, forward, reverse = line.split("\t")
-				chromosomes[currentChromosome][position] = {"forward": forward, "reverse": reverse}
-	return chromosomes
-
-
-#################################
-# Writes wig file to target 	#
-#  directory with given name	#
-#################################
-
-def write_wig(wig, fileName):
-	print("Writing file:\t" + fileName)
-
-	outFile = open(os.path.realpath( fileName ), 'w')
-
-	for chromosome in wig:
-		# write header for file
-		outFile. write( "%s\n" % (
-			"variableStep chrom=" + chromosome + " span=1"
-		) )
-		for key, value in sorted(wig[chromosome].items(), key=lambda x: int(x[0])):
-			outFile.write( "%s %s\n" % (
-				str(key),
-				str(value)
-				) )
 
 
 
