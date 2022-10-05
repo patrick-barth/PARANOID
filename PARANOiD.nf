@@ -773,7 +773,7 @@ if (params.sequence_extraction == false) {
 			if(params.omit_cl_nucleotide == true)
 				"""
 				wig2-to-wig.py --input ${query} --output ${query.baseName}
-				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl --outfmt_fasta
+				extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl --outfmt_fasta
 				"""
 			else
 				if(params.bed_for_sequence_extraction == true) //just for testing
@@ -784,7 +784,7 @@ if (params.sequence_extraction == false) {
 				else //end testing
 					"""
 					wig2-to-wig.py --input ${query} --output ${query.baseName}
-					extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
+					extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
 					"""
 	}
 }

@@ -109,7 +109,7 @@ def bundle_counts(wigFiles):
 		for chromosome in file:
 			for pos in file[chromosome]:
 				if not file[chromosome][pos] == 0:
-					floatCounts = numpy.append(floatCounts, file[chromosome][pos])
+					floatCounts = numpy.append(floatCounts, abs(file[chromosome][pos]))
 	return floatCounts
 
 def write_output(distances, fileName):

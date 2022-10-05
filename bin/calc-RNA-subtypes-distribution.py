@@ -137,7 +137,6 @@ def test_read_amounts( assignments, total_count ):
 	else:
 		return False
 
-#TODO: finish method
 def get_percentage_amount(div,total):
 	return (div * 100)/total
 
