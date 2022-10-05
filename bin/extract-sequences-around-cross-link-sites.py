@@ -100,7 +100,7 @@ def main():
 							extractedSequence = referenceSequences[chromosome][extractionStart:extractionEnd]
 
 						if(strand == "-"):
-							extractedSequence = extractedSequence.complement()
+							extractedSequence = extractedSequence.reverse_complement()
 
 						write_sequence(extractedSequence, args.output)
 					else:
