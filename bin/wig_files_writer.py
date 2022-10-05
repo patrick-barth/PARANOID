@@ -22,7 +22,7 @@ def write_wig(wig, fileName):
 
 	outFile = open(os.path.realpath( fileName ), 'w')
 
-	for chromosome in wig:
+	for chromosome in sorted(wig):
 		# write header for file
 		outFile. write( "%s\n" % (
 			"variableStep chrom=" + chromosome + " span=1"
@@ -54,7 +54,7 @@ def write_wig2(wig, fileName):
 
 	outFile = open(os.path.realpath( fileName ), 'w')
 
-	for chromosome in wig:
+	for chromosome in sorted(wig):
 		# write header for file
 		outFile. write( "%s\n" % (
 			"variableStep chrom=" + chromosome + " span=1"
