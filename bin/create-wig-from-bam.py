@@ -92,8 +92,7 @@ def main():
 				# This whole block is only for the reverse strand.
 				# It basically functions like the above block with the difference that the values are negative (due to the strand being reverse) and that the positions are taken -1
 				position = position + 1 # The peak for reverse reads the nucleotide behind the alignment not the last nucleotide of the alignment
-				#//TODO: read in chromosome lengths and check if the allocated position is behind the end of the chromosome
-				reversePosition = calculateStart(position, cigar) # - 1 ; need in case a cl-site is detected off the chromosome 
+				reversePosition = calculateStart(position, cigar) - 1 
 				if chromosome in peaks:
 					if reversePosition in peaks[chromosome]:
 						if "reverse" in peaks[chromosome][reversePosition].keys():
