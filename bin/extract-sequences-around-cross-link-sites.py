@@ -76,7 +76,7 @@ def main():
 
 	for file in args.input:
 		parsedFile = parse_wig(file)
-		for chromosome in parsedFile:
+		for chromosome in sorted(parsedFile):
 			# check if the current chromosome of the wig file is found in the reference. If not it is skipped and a warning is printed
 			if chromosome not in referenceSequences.keys():
 				print("Warning: " + chromosome + " from file " + file + " not found in Reference file")
