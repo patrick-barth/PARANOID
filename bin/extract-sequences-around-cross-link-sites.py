@@ -89,14 +89,19 @@ def main():
 						extractionStart = int(entry) - extractionLength - 1
 						extractionEnd = int(entry) + extractionLength # no '-1' since the last number is exclusive when getting a substring
 
+						strand = "+" if parsedFile[chromosome][entry] > 0 else "-"
+
 						if(args.generate_bed):
-							strand = "+" if parsedFile[chromosome][entry] > 0 else "-"
 							bed_file.write(chromosome + "\t" + str(extractionStart) + "\t" + str(extractionEnd) + "\tname\t0\t" + strand + "\n")
 
 						if(args.omit_cl):
 							extractedSequence = referenceSequences[chromosome][extractionStart:int(entry)-1] + 'n' + referenceSequences[chromosome][int(entry):extractionEnd]
 						else:
 							extractedSequence = referenceSequences[chromosome][extractionStart:extractionEnd]
+
+						if(strand == "-"):
+							extractedSequence = extractedSequence.reverse_complement()
+
 						write_sequence(extractedSequence, args.output)
 					else:
 						countOutOfBounds += 1
@@ -148,7 +153,7 @@ def bundle_counts(wigFiles):
 		for chromosome in file:
 			for pos in file[chromosome]:
 				if not file[chromosome][pos] == 0:
-					floatCounts = numpy.append(floatCounts, file[chromosome][pos])
+					floatCounts = numpy.append(floatCounts, abs(file[chromosome][pos]))
 	return floatCounts
 
 def write_sequence(sequence, outputFile):
