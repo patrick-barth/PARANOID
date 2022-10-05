@@ -83,10 +83,17 @@ def main():
 					if int(entry) - extractionLength - 1 >= 0 and int(entry) + extractionLength <= len(referenceSequences[chromosome]) : 
 						extractionStart = int(entry) - extractionLength - 1
 						extractionEnd = int(entry) + extractionLength # no '-1' since the last number is exclusive when getting a substring
+
+						strand = "+" if parsedFile[chromosome][entry] > 0 else "-"
+
 						if(args.omit_cl):
 							extractedSequence = referenceSequences[chromosome][extractionStart:int(entry)-1] + 'n' + referenceSequences[chromosome][int(entry):extractionEnd]
 						else:
 							extractedSequence = referenceSequences[chromosome][extractionStart:extractionEnd]
+
+						if(strand == "-"):
+							extractedSequence = extractedSequence.reverse_complement()
+
 						write_sequence(extractedSequence, args.output)
 					else:
 						countOutOfBounds += 1
