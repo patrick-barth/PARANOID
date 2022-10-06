@@ -16,6 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--input', '-i', help='Bam file used as input')
 parser.add_argument('--mapq', '-q', help='Minimum mapping quality')
 parser.add_argument('--output', '-o', help='prefix of the output files')
+parser.add_argument('--chrom_sizes', '-c', help='File containing chromosome size information')
 parser.add_argument('what_shall_i_write_here', nargs=argparse.REMAINDER)
 args = parser.parse_args()
 
@@ -55,6 +56,10 @@ def main():
 	# Both variables will be used to calculate how many reads are thrown out due to the quality filtering
 	countLowQualReads = 0
 	countTotalReads = 0
+
+	if args.chrom_sizes:
+		chromosome_sizes = parseChromosomeSizes(args.chrom_sizes)
+
 	# go through every entry in the bam file
 	for alignment in pybam.read(args.input):
 		chromosome = alignment.sam_rname
@@ -74,6 +79,8 @@ def main():
 				# There is no position 0 in wig files. Needs to be removed or else it will trigger an error
 				if position <= 0:
 					continue
+				if args.chrom_sizes and position > chromosome_sizes[chromosome]:
+					continue
 				# This whole block is only for the forward strand
 				# Check if the chromosome was already initialized. If not it will now be initialized
 				if chromosome in peaks:
@@ -92,7 +99,10 @@ def main():
 				# This whole block is only for the reverse strand.
 				# It basically functions like the above block with the difference that the values are negative (due to the strand being reverse) and that the positions are taken -1
 				position = position + 1 # The peak for reverse reads the nucleotide behind the alignment not the last nucleotide of the alignment
-				reversePosition = calculateStart(position, cigar) - 1 
+				reversePosition = calculateStart(position, cigar) - 1
+				# Check if reverse position is out of bound
+				if args.chrom_sizes and reversePosition > chromosome_sizes[chromosome]:
+					continue
 				if chromosome in peaks:
 					if reversePosition in peaks[chromosome]:
 						if "reverse" in peaks[chromosome][reversePosition].keys():
@@ -148,7 +158,6 @@ def calculateStart( endPos, cigar ):
 #################################
 
 def fill_entries(wig):
-
 	for chromosome in wig:
 		for position in wig[chromosome]:
 			if not "forward" in wig[chromosome][position].keys():
@@ -158,6 +167,14 @@ def fill_entries(wig):
 
 	return wig
 
+def parseChromosomeSizes(file):
+	chromosomes = {}
+	with open ( file, 'r', encoding='utf-8' ) as file:
+		for line in file:
+			(tmp_chromosome,tmp_size) = line.split("\t")
+			chromosomes[tmp_chromosome] = int(tmp_size)
+
+	return chromosomes
 
 ##########################
 ### starts main script ###
