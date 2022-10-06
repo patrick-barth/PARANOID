@@ -380,8 +380,6 @@ bam_depuplicate_to_sort
 process merge_deduplicated_bam {
 	tag {name}
 
-	//publishDir "${params.output}/alignments/deduplicated", mode: 'copy'
-
 	input:
 	set val(name), file(query) from bam_dedup_sort_to_merge
 
