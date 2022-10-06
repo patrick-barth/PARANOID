@@ -582,7 +582,7 @@ process calculate_crosslink_sites{
 	file "${query.simpleName}_{forward,reverse}.wig" into wig_to_output
 
 	"""
-	create-wig-from-bam.py --input ${query} --mapq ${params.mapq} --output ${query.simpleName}.wig2
+	create-wig-from-bam.py --input ${query} --mapq ${params.mapq} --chrom_sizes ${chrom_sizes} --output ${query.simpleName}.wig2
 	wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
 	"""
 }
