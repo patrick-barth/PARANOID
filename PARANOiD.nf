@@ -159,6 +159,7 @@ process check_barcode_file {
 	file "checkedBarcodes" into checked_barcodes
 
 	"""
+        check_barcode_file.py barcodes > checkedBarcodes
 	awk '{gsub(/\\W/,"_",\$1); print}' barcodes > checkedBarcodes
 	"""
 }
