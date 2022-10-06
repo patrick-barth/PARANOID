@@ -364,7 +364,7 @@ process deduplicate{
 	set file(query), file(index) from bam_sort_to_deduplicate
 
 	output:
-	file "${query.baseName}.deduplicated.bam" into (bam_depuplicate_to_sort,bam_deduplicate_to_index)
+	file "${query.baseName}.deduplicated.bam" into (bam_deduplicate_to_sort,bam_deduplicate_to_index)
 	file "${query.baseName}.deduplicated.log*" into (log_deduplicate_to_collect_statistics,log_deduplicate_to_output)
 
 	"""
@@ -372,7 +372,7 @@ process deduplicate{
 	"""
 }
 
-bam_depuplicate_to_sort
+bam_deduplicate_to_sort
 	.map{file -> tuple(file.name - ~/\.[\w.]+.bam$/,file)}
 	.groupTuple()
 	.set{ bam_dedup_sort_to_merge }
