@@ -558,7 +558,7 @@ process determine_strand_preference {
 
 process calculate_crosslink_sites{
 	tag {query.simpleName}
-	publishDir "${params.output}/raw-wig-files", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
+	publishDir "${params.output}/cross-link-sites/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
 
 	input:
 	file query from collected_bam_files
@@ -586,7 +586,7 @@ if( params.merge_replicates == true ){
 	process merge_wigs{
 		tag {name}
 
-		publishDir "${params.output}/merged-wig-files", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
+		publishDir "${params.output}/cross-link-sites-merged/wig", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
 
 		input:
 		set name, file(query) from grouped_samples
