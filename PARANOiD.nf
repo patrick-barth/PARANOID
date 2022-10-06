@@ -556,12 +556,25 @@ process determine_strand_preference {
 	"""
 }
 
+process get_chromosome_sizes{
+	input:
+	file(ref) from reference_to_chrom_sizes
+
+	output:
+	file("${ref.simpleName}.chromosome_sizes.txt") into (chrom_sizes_to_cross_link_calculation,chrom_sizes_to_bigWig)
+
+	"""
+	samtools faidx ${ref}
+	cut -f1,2 ${ref}.fai > ${ref.simpleName}.chromosome_sizes.txt
+	"""
+}
+
 process calculate_crosslink_sites{
 	tag {query.simpleName}
 	publishDir "${params.output}/cross-link-sites/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
 
 	input:
-	file query from collected_bam_files
+	set file(query), file(chrom_sizes) from collected_bam_files.combine(chrom_sizes_to_cross_link_calculation)
 
 	output:
 	file "${query.simpleName}.wig2" into wig_calculate_crosslink_to_group_samples
@@ -616,29 +629,19 @@ if( params.merge_replicates == true ) {
 	.into{wig_cross_link_sites_to_bigWig}
 }
 
-process get_chromosome_sizes{
-	input:
-	file(ref) from reference_to_chrom_sizes
-
-	output:
-	file(chromosome_sizes.txt) into chrom_sizes_to_bigWig
-
-	"""
-	samtools faidx ${ref}
-	cut -f1,2 ${ref}.fai > chromosome_sizes.txt
-	"""
-}
-
 process wig_to_bigWig{
+	tag {forward.simpleName}
+	publishDir "${params.output}/${out_dir}/bigWig", mode: 'copy', pattern: "*.bw"
 
 	input:
 	set val(out_dir), file(forward), file(reverse), file(chrom_sizes) from wig_cross_link_sites_to_bigWig.combine(chrom_sizes_to_bigWig)
 
 	output:
-	file("*.bw") into output
+	file("*.bw")
 
 	"""
-
+	wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
+	wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
 	"""
 
 }
