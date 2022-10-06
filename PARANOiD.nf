@@ -565,6 +565,7 @@ process calculate_crosslink_sites{
 
 	output:
 	file "${query.simpleName}.wig2" into wig_calculate_crosslink_to_group_samples
+	set val("cross-link-sites"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") into wig_cross_link_sites_to_transform
 	file "${query.simpleName}_{forward,reverse}.wig" into wig_to_output
 
 	"""
@@ -593,6 +594,7 @@ if( params.merge_replicates == true ){
 
 		output:
 		file "${name}.wig2" into collected_wig_files
+		set val("cross-link-sites-merged"), file("${name}_forward.wig"), file("${name}_reverse.wig") into wig_merged_cross_link_sites_to_transform
 		file "${name}_{forward,reverse}.wig" into output
 
 		"""
@@ -603,6 +605,29 @@ if( params.merge_replicates == true ){
 } else {
 	wig_calculate_crosslink_to_group_samples
 		.set{collected_wig_files}
+}
+
+// Transformation of cross-link sites to different formats
+if( params.merge_replicates == true ) {
+	wig_cross_link_sites_to_transform.mix(wig_merged_cross_link_sites_to_transform)
+	.into{wig_cross_link_sites_to_bigWig}
+} else {
+	wig_cross_link_sites_to_transform
+	.into{wig_cross_link_sites_to_bigWig}
+}
+
+process wig_to_bigWig{
+
+	input:
+	set val(out_dir), file(forward), file(reverse) from wig_cross_link_sites_to_bigWig
+
+	output:
+	file("*.bw") into output
+
+	"""
+
+	"""
+
 }
 
 // Generate one channel per postprocessing analysis
