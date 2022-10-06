@@ -11,7 +11,7 @@ input_reads = Channel.fromPath( params.reads )			//FASTQ file(s) containing read
 reference = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
 barcode_file = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
 
-reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP; reference_to_strand_preference } 
+reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP; reference_to_strand_preference; reference_to_chrom_sizes } 
 
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
@@ -616,10 +616,23 @@ if( params.merge_replicates == true ) {
 	.into{wig_cross_link_sites_to_bigWig}
 }
 
+process get_chromosome_sizes{
+	input:
+	file(ref) from reference_to_chrom_sizes
+
+	output:
+	file(chromosome_sizes.txt) into chrom_sizes_to_bigWig
+
+	"""
+	samtools faidx ${ref}
+	cut -f1,2 ${ref}.fai > chromosome_sizes.txt
+	"""
+}
+
 process wig_to_bigWig{
 
 	input:
-	set val(out_dir), file(forward), file(reverse) from wig_cross_link_sites_to_bigWig
+	set val(out_dir), file(forward), file(reverse), file(chrom_sizes) from wig_cross_link_sites_to_bigWig.combine(chrom_sizes_to_bigWig)
 
 	output:
 	file("*.bw") into output
