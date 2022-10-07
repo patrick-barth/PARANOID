@@ -74,7 +74,7 @@ sjdbGTFfile = file(params.annotation)
  
 //FastQC v0.11.9
 process quality_control {
-	tag {query.baseName}
+	tag {query.simpleName}
 	
 	input:
 	file query from input_reads_QC
@@ -88,7 +88,7 @@ process quality_control {
 }
 
 process adapter_removal {
-	tag {query.baseName}
+	tag {query.simpleName}
 
 	input:
 	file query from input_reads_processing
@@ -104,7 +104,7 @@ process adapter_removal {
 
 //FASTX Toolkit 0.0.14
 process quality_filter {
-	tag {query.baseName}
+	tag {query.simpleName}
 
 	input:
 	file query from reads_qualityFilter
@@ -121,7 +121,7 @@ process quality_filter {
 
 //FastQC v0.11.9
 process quality_control_2 {
-	tag {query.baseName}
+	tag {query.simpleName}
 	
 	input:
 	file query from fastq_quality_filter_to_quality_control_2.first()
@@ -136,7 +136,7 @@ process quality_control_2 {
 }
 
 process extract_rnd_barcode {
-	tag {query.baseName}
+	tag {query.simpleName}
 
 	input:
 	file query from fastq_quality_filter_to_barcode_extraction
@@ -165,6 +165,7 @@ process check_barcode_file {
 
 //FASTX Toolkit 0.0.14
 process split_exp_barcode {
+	tag {query.simpleName}
 
 	input:
 	set file(query), file(barcodes) from fastq_barcode_extraction_to_split_exp_barcode.combine(checked_barcodes)
@@ -719,7 +720,7 @@ if ( params.annotation != 'NO_FILE'){
 	}
 
 	process feature_counts {
-		tag {query.baseName}
+		tag {query.simpleName}
 
 		input:
 		set file(query), val(rna_subtypes), file(annotation) from bam_convert_to_feature_counts.combine(rna_subtypes_to_feature_counts).combine(annotation_to_RNA_subtypes_distribution)
@@ -795,7 +796,7 @@ if ( params.annotation != 'NO_FILE'){
 }
 if (params.omit_sequence_extraction == false) {
 	process sequence_extraction {
-		tag {query.baseName}
+		tag {query.simpleName}
 
 		publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
 
@@ -847,7 +848,7 @@ if (params.omit_sequence_extraction == false) {
 // if sequence_extraction is performed in FASTA format, we can compute motifs
 if (params.omit_sequence_extraction == false && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
     process motif_search {
-    	tag {fasta.baseName}
+    	tag {fasta.simpleName}
 
 	    publishDir "${params.output}/motif_search/", mode: 'copy'
 
@@ -866,7 +867,7 @@ if (params.omit_sequence_extraction == false && params.sequence_format_txt == fa
 
 if (params.omit_peak_distance == false) {
 	process calculate_peak_distance {
-		tag {query.baseName}
+		tag {query.simpleName}
 
 		publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.tsv"
 
@@ -913,7 +914,7 @@ process generate_barcode_barplot {
 }
 
 process collect_experiments_without_alignments {
-	tag {query.baseName}
+	tag {query.simpleName}
 	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'experiments-without-alignments.txt'
 
 	input:
