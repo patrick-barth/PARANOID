@@ -658,8 +658,8 @@ process bigWig_to_bedgraph{
 	file("*.bedgraph")
 
 	"""
-	bigWigToBedgraph ${forward} ${forward.baseName}.bedgraph
-	bigWigToBedgraph ${reverse} ${reverse.baseName}.bedgraph
+	bigWigToBedGraph ${forward} ${forward.baseName}.bedgraph
+	bigWigToBedGraph ${reverse} ${reverse.baseName}.bedgraph
 	"""
 }
 
