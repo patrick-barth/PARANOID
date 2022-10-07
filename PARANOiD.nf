@@ -623,10 +623,10 @@ if( params.merge_replicates == true ){
 // Transformation of cross-link sites to different formats
 if( params.merge_replicates == true ) {
 	wig_cross_link_sites_to_transform.mix(wig_merged_cross_link_sites_to_transform)
-	.into{wig_cross_link_sites_to_bigWig}
+	.set{wig_cross_link_sites_to_bigWig}
 } else {
 	wig_cross_link_sites_to_transform
-	.into{wig_cross_link_sites_to_bigWig}
+	.set{wig_cross_link_sites_to_bigWig}
 }
 
 process wig_to_bigWig{
