@@ -1,0 +1,20 @@
+FROM alpine:3.16
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+RUN apk update && apk add bash wget \
+        gcc g++ make musl-dev openssl openssl-dev libpng libpng-dev \
+        libuuid util-linux-dev libstdc++ && \
+        wget -q http://hgdownload.cse.ucsc.edu/admin/exe/userApps.archive/userApps.v437.src.tgz && \
+        tar xzf userApps.v437.src.tgz && \
+        cd userApps/kent/src/lib && make && \
+        cd ../htslib && make && \
+        cd ../utils/wigToBigWig/ && \
+        make wigToBigWig.o && \
+        cc -O -g -o /usr/local/bin/wigToBigWig wigToBigWig.o ../../lib/x86_64/jkweb.a -lstdc++ -lrt -lpthread -lssl -lcrypto ../../htslib/libhts.a -L/usr/lib -lpng16 -lm -lz && \
+        cd / && rm -rf userApps.v437.src.tgz userApps/ && \
+        apk del wget gcc g++ make libc-dev musl-dev openssl-dev libpng libpng-dev util-linux-dev
+
+CMD ["wigToBigWig"]
+
+
