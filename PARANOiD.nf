@@ -638,12 +638,28 @@ process wig_to_bigWig{
 
 	output:
 	file("*.bw")
+	set val(out_dir), file("${forward.baseName}.bw"), file("${reverse.baseName}.bw") into big_wig_to_convert_to_bedgraph
 
 	"""
 	wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
 	wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
 	"""
+}
 
+process bigWig_to_bedgraph{
+	tag {forward.simpleName}
+	publishDir "${params.output}/${out_dir}/bedgraph", mode: 'copy', pattern: "*.bedgraph"
+
+	input:
+	set val(out_dir), file(forward), file(reverse) from big_wig_to_convert_to_bedgraph
+
+	output:
+	file("*.bedgraph")
+
+	"""
+	bigWigToBedgraph ${forward} ${forward.baseName}.bedgraph
+	bigWigToBedgraph ${reverse} ${reverse.baseName}.bedgraph
+	"""
 }
 
 // Generate one channel per postprocessing analysis
