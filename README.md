@@ -163,7 +163,7 @@ Default:
 
 ### Peak calling
 
-#### --peak_calling
+#### --omit_peak_calling
 
 ##### Usage
 ```
@@ -204,7 +204,7 @@ Default:
 
 ### Peak distance analysis
 
-#### --peak_distance
+#### --omit_peak_distance
 
 ##### Usage
 ```
@@ -228,7 +228,7 @@ Shared with sequence extraction
 
 ### Sequence extraction
 
-#### --sequence_extraction
+#### --omit_sequence_extraction
 
 ##### Usage
 ```
