@@ -33,9 +33,11 @@ params.number_top_transcripts = 10 						//INT number of top transcripts present
 
 params.merge_replicates = false
 
+// parameters for peak calling
 params.omit_peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
+params.peak_calling_for_high_coverage = false 				//BOOLEAN adds arguments to PureCLIP which allow the tool to run with BAM files containing coverages all over the reference
 
-// RNA subtypes
+// parameters for RNA subtypes
 params.gene_id = "ID"									//STRING name of gene_id used within the annotation file
 params.color_barplot = "#69b3a2"						//STRING color used for barplots
 //params.rna_subtypes = 'lnc_RNA,miRNA,mRNA,ncRNA,rRNA,snoRNA,snRNA,tRNA'
@@ -697,9 +699,15 @@ if (params.omit_peak_calling == false){
 		file("${bam.simpleName}.pureCLIP_crosslink_sites.bed")
 		file("${bam.simpleName}.pureCLIP_crosslink_sites.params") into params_peak_calling_to_collect_statistics
 
-		"""
-		pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
-		"""
+		if(params.peak_calling_for_high_coverage == true)
+			"""
+			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
+			"""
+		else
+			"""
+			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
+			"""
+
 	}
 }
 
