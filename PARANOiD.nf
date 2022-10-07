@@ -699,6 +699,7 @@ if (params.omit_peak_calling == false){
 		file("${bam.simpleName}.pureCLIP_crosslink_sites.bed")
 		file("${bam.simpleName}.pureCLIP_crosslink_sites.params") into params_peak_calling_to_collect_statistics
 
+		script:
 		if(params.peak_calling_for_high_coverage == true)
 			"""
 			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
