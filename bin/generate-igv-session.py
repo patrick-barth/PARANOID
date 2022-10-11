@@ -48,8 +48,8 @@ def main(reference,input_path,tracks,output,panel_height,panel_width,font_size):
 	# Write Resources block
 	XML_string += '\t<Resources>\n'
 	for i in tracks:
-		file_name = os.path.basename(i)
-		extension = os.path.splitext(i)[1][1:]
+		file_name 	= os.path.basename(i)
+		extension 	= os.path.splitext(i)[1][1:]
 		XML_string += '\t\t<Resource path="./%s/%s" type="%s"/>\n' % (input_path,file_name,extension)
 	XML_string += '\t</Resources>\n'
 
@@ -63,18 +63,19 @@ def main(reference,input_path,tracks,output,panel_height,panel_width,font_size):
 		extension 					= os.path.splitext(i)[1][1:]
 		
 		if extension in ['wig']:
-			strand	= '+' if '_forward' in file_name else '-'
-			maximum = max(get_values_wig(i)) 	if strand == '+' else 0
-			minimum = 0 						if strand == '+' else min(get_values_wig(i))
+			strand		= '+' if '_forward' in file_name else '-'
+			maximum 	= max(get_values_wig(i)) 	if strand == '+' else 0
+			minimum 	= 0 						if strand == '+' else min(get_values_wig(i))
 			XML_string += '\t\t<Track attributeKey="%s" autoScale="true" clazz="org.broad.igv.track.DataSourceTrack" fontSize="%s" id="./%s/%s" name="%s" renderer="BAR_CHART" visible="true" windowFunction="mean">\n' % (file_name,font_size,input_path,file_name,file_name_without_extension)
-			XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="%s" minimum="%s" type="LINEAR"/>\n' % (maximum,minimum)
+			#XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="%s" minimum="%s" type="LINEAR"/>\n' % (maximum,minimum)
+			XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" type="LINEAR"/>\n'
 			XML_string += '\t\t</Track>\n'
 		else:
 			print("not supposed to happen")
 
 	XML_string += '\t</Panel>\n'
 
-	XML_string += '</session>'
+	XML_string += '</Session>'
 
 	out = open(output, 'w')
 	out.write(XML_string)
