@@ -11,7 +11,7 @@ input_reads = Channel.fromPath( params.reads )			//FASTQ file(s) containing read
 reference = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
 barcode_file = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
 
-reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP; reference_to_strand_preference; reference_to_chrom_sizes; reference_to_collect } 
+reference.into { reference_to_mapping; reference_to_extract_transcripts; reference_to_extract_sequences; reference_to_pureCLIP; reference_to_strand_preference; reference_to_chrom_sizes; reference_to_collect; reference_to_igv } 
 
 params.barcode_pattern = "NNNNNXXXXXXNNNN" 				//STRING containing barcode pattern -> N = random barcode; X = experimental barcode
 val_barcode_pattern = Channel.from( params.barcode_pattern )
@@ -641,6 +641,7 @@ process wig_to_bigWig{
 
 	output:
 	file("*.bw")
+	file("*.bw") into big_wig_to_igv_session
 	set val(out_dir), file("${forward.baseName}.bw"), file("${reverse.baseName}.bw") into big_wig_to_convert_to_bedgraph
 
 	"""
@@ -958,6 +959,29 @@ process output_reference {
 	"""
 }
 
+if (params.merge_replicates){
+	track_path_dir = Channel.value('./cross-link-sites-merged/bigWig')
+} else {
+	track_path_dir = Channel.value('/cross-link-sites/wig')
+}
+
+big_wig_to_igv_session.flatten().toList().combine(track_path_dir).set{collect_peaks}
+
+process generate_igv_session {
+	publishDir "${params.output}", mode: 'copy', pattern: 'igv-session.xml'
+
+	input:
+	set file(tracks), val(track_path), file(ref) from collect_peaks.combine(reference_to_igv)
+
+
+	output:
+	file('igv-session.xml')
+
+	"""
+	generate-igv-session.py --reference ${ref} --input_path ${track_path} --tracks ${tracks} --output igv-session.xml
+	"""
+}
+
 process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
 
@@ -980,4 +1004,3 @@ process multiqc{
 	multiqc .
 	"""
 }
-
