@@ -641,7 +641,7 @@ process wig_to_bigWig{
 
 	output:
 	file("*.bw")
-	file("*.bw") into big_wig_to_igv_session
+	set val(out_dir), file("*.bw") into big_wig_to_igv_session
 	set val(out_dir), file("${forward.baseName}.bw"), file("${reverse.baseName}.bw") into big_wig_to_convert_to_bedgraph
 
 	"""
@@ -959,20 +959,23 @@ process output_reference {
 	"""
 }
 
-if (params.merge_replicates){
-	track_path_dir = Channel.value('./cross-link-sites-merged/bigWig')
+if (params.merge_replicates == true){
+	track_path_dir = Channel.value('cross-link-sites-merged/bigWig')
+	big_wig_to_igv_session.filter{it[0] == 'cross-link-sites-merged'}.map{it[1]}.set{filtered_big_wig}
 } else {
-	track_path_dir = Channel.value('/cross-link-sites/wig')
+	track_path_dir = Channel.value('cross-link-sites/bigWig')
+	big_wig_to_igv_session.map{it[1]}.set{filtered_big_wig}
 }
 
-big_wig_to_igv_session.flatten().toList().combine(track_path_dir).set{collect_peaks}
+//big_wig_to_igv_session.flatten().toList().combine(track_path_dir).set{collect_peaks}
 
 process generate_igv_session {
 	publishDir "${params.output}", mode: 'copy', pattern: 'igv-session.xml'
 
 	input:
-	set file(tracks), val(track_path), file(ref) from collect_peaks.combine(reference_to_igv)
-
+	file(tracks) from filtered_big_wig.flatten().toList()
+	val(track_path) from track_path_dir
+	file(ref) from reference_to_igv
 
 	output:
 	file('igv-session.xml')

@@ -62,10 +62,10 @@ def main(reference,input_path,tracks,output,panel_height,panel_width,font_size):
 		file_name_without_extension = os.path.splitext(file_name)[0]
 		extension 					= os.path.splitext(i)[1][1:]
 		
-		if extension in ['wig']:
-			strand		= '+' if '_forward' in file_name else '-'
-			maximum 	= max(get_values_wig(i)) 	if strand == '+' else 0
-			minimum 	= 0 						if strand == '+' else min(get_values_wig(i))
+		if extension in ['wig','bigWig','bw']:
+			#strand		= '+' if '_forward' in file_name else '-'
+			#maximum 	= max(get_values_wig(i)) 	if strand == '+' else 0
+			#minimum 	= 0 						if strand == '+' else min(get_values_wig(i))
 			XML_string += '\t\t<Track attributeKey="%s" autoScale="true" clazz="org.broad.igv.track.DataSourceTrack" fontSize="%s" id="./%s/%s" name="%s" renderer="BAR_CHART" visible="true" windowFunction="mean">\n' % (file_name,font_size,input_path,file_name,file_name_without_extension)
 			#XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="%s" minimum="%s" type="LINEAR"/>\n' % (maximum,minimum)
 			XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" type="LINEAR"/>\n'
@@ -108,7 +108,7 @@ def get_values_wig(wig_file):
 ##########################
 main(reference=args.reference,
 	input_path=args.input_path,
-	tracks=args.tracks,
+	tracks=sorted(args.tracks),
 	output=args.output,
 	panel_height=args.panel_height,
 	panel_width=args.panel_width,
