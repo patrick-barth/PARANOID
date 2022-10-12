@@ -36,6 +36,8 @@ params.merge_replicates = false
 // parameters for peak calling
 params.omit_peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
 params.peak_calling_for_high_coverage = false 				//BOOLEAN adds arguments to PureCLIP which allow the tool to run with BAM files containing coverages all over the reference
+params.peak_calling_regions = false
+params.peak_calling_regions_width = 8
 
 // parameters for RNA subtypes
 params.gene_id = "ID"									//STRING name of gene_id used within the annotation file
@@ -686,29 +688,38 @@ if (params.omit_peak_calling == false){
 		"""
 	}
 
-	//TODO: think about what to do with mtc. It's only a temporary solution
 	process pureCLIP {
 		tag{bam.simpleName}
 		errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
 
-		publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_sites.bed"
+		publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
 
 		input:
 		set file(bam), file(bai), file(ref) from bambai_index_to_peak_calling.combine(reference_to_pureCLIP)
 
 		output:
-		file("${bam.simpleName}.pureCLIP_crosslink_sites.bed")
+		file("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed")
 		file("${bam.simpleName}.pureCLIP_crosslink_sites.params") into params_peak_calling_to_collect_statistics
 
 		script:
 		if(params.peak_calling_for_high_coverage == true)
-			"""
-			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
-			"""
+			if(params.peak_calling_regions == true)
+				"""
+				pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width} -mtc 5000 -mtc2 5000 -ld
+				"""
+			else
+				"""
+				pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
+				"""
 		else
-			"""
-			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
-			"""
+			if(params.peak_calling_regions == true)
+				"""
+				pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width}
+				"""
+			else
+				"""
+				pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
+				"""
 
 	}
 }
