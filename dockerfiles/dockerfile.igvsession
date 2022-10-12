@@ -1,0 +1,9 @@
+FROM python:3.10-slim
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+ADD bin/generate-igv-session.py /usr/local/bin
+
+ENV PATH $PATH:/usr/local/bin
+
+CMD ["generate-igv-session.py"]
