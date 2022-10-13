@@ -49,7 +49,6 @@ if(params.annotation != 'NO_FILE'){
 	annotation_to_RNA_subtypes_distribution = Channel.fromPath( params.annotation )
 }
 
-
 //parameters for peak distance
 params.omit_peak_distance = false
 params.percentile = 90									//INT percentile that decides which cl-sites are considered when calculating distances and extracting sequences
@@ -72,7 +71,6 @@ input_reads.into { input_reads_QC; input_reads_processing }
 if (params.speed) {
 	input_reads_processing.splitFastq( by: params.split_fastq_by, file:true ).set{input_reads_processing}
 } 
-
 
 sjdbGTFfile = file(params.annotation) 
  
@@ -163,7 +161,7 @@ process check_barcode_file {
 	file "checkedBarcodes" into checked_barcodes
 
 	"""
-        check_barcode_file.py barcodes > checkedBarcodes
+	check_barcode_file.py barcodes > checkedBarcodes
 	"""
 }
 
@@ -327,6 +325,7 @@ process filter_empty_bams{
 	fi
 	"""
 }
+
 if( params.map_to_transcripts == false && params.speed ) {
 	process split_bam_by_chromosome{
 		tag {query.simpleName}
@@ -406,7 +405,6 @@ process sort_and_index_alignment{
 
 	output:
 	file("${query.simpleName}.sorted.bam*")
-
 
 	"""
 	samtools sort ${query} > ${query.simpleName}.sorted.bam
@@ -671,7 +669,6 @@ process bigWig_to_bedgraph{
 // Generate one channel per postprocessing analysis
 collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
 
-
 if (params.omit_peak_calling == false){
 	process index_for_peak_calling {
 		tag{query.simpleName}
@@ -718,7 +715,6 @@ if (params.omit_peak_calling == false){
 			"""
 			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
 			"""
-
 	}
 }
 
@@ -735,7 +731,6 @@ if ( params.annotation != 'NO_FILE'){
 		"""
 		wig-to-bam.py --input ${query} --output ${query.baseName}.bam
 		"""
-
 	}
 
 	process feature_counts {
@@ -813,6 +808,7 @@ if ( params.annotation != 'NO_FILE'){
 		"""
 	}
 }
+
 if (params.omit_sequence_extraction == false) {
 	process sequence_extraction {
 		tag {query.simpleName}
@@ -992,7 +988,6 @@ process multiqc{
 	file mapping from collect_statistics_mapping.first().flatten().toList()
 	file deduplication from log_deduplicate_to_collect_statistics.first().flatten().toList()
 	//file(params) from params_peak_calling_to_collect_statistics.flatten().toList().first
-
 
 	output:
 	file "multiqc_*" into multiqc_to_output
