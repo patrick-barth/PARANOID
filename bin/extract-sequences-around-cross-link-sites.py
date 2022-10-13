@@ -18,15 +18,14 @@ from wig_files_writer import *
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input', '-i', nargs='+', help='Wig file(s) used as input')
-parser.add_argument('--reference', '-r', help='Reference in fasta format from which the nucleotides are read')
-parser.add_argument('--length', '-l', help='Number of nucleotides to each side of the cross-link')
-parser.add_argument('--percentile', '-p', help='Percentile used to calculate the cutoff')
-parser.add_argument('--output', '-o', help='Output file for extracted sequences')
-parser.add_argument('--outfmt_fasta', '-f', default=False, action='store_true' ,help='If true, sequences will be put out in fasta format')
-parser.add_argument('--omit_cl', '-u', default=False, action='store_true', help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
-parser.add_argument('--generate_bed', '-b', help='If used a BED file is generated')
-parser.add_argument('what_shall_i_write_here', nargs=argparse.REMAINDER)
+parser.add_argument('--input', 			'-i', type=str,	nargs='+', 					help='Input file(s). Supported formats: WIG, BED')
+parser.add_argument('--reference', 		'-r', type=str,								help='Reference in fasta format from which the nucleotides are read')
+parser.add_argument('--length', 		'-l', type=int,				default=10,		help='Number of nucleotides to each side of the cross-link')
+parser.add_argument('--percentile', 	'-p', type=float,			default=90,		help='Percentile used to calculate the cutoff')
+parser.add_argument('--output', 		'-o', type=str,								help='Output file for extracted sequences')
+parser.add_argument('--outfmt_fasta', 	'-f', action='store_true',	default=False,  help='If true, sequences will be put out in fasta format')
+parser.add_argument('--omit_cl', 		'-u', action='store_true',	default=False,  help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
+parser.add_argument('--generate_bed', 	'-b', 										help='If used a BED file is generated')
 args = parser.parse_args()
 
 #######################
@@ -35,17 +34,13 @@ args = parser.parse_args()
 #######################
 #######################
 
-percentile = float(args.percentile)
 countOutputs = 0 
 	
-
 ########################
 ########################
 ###    parameters    ###
 ########################
 ########################
-
-extractionLength = 10 if not args.length else int(args.length)
 
 ##########################################################################################################################################
 
@@ -55,13 +50,13 @@ extractionLength = 10 if not args.length else int(args.length)
 ###################
 ###################
 
-def main():
+def main(input,reference,length,percentile,output,outfmt_fasta,omit_cl):
 	countOutOfBounds = 0
-	referenceSequences = parse_fasta(args.reference)
+	referenceSequences = parse_fasta(reference)
 
 	# calculate percentile cutoff
 	wigFiles = []
-	for file in args.input:
+	for file in input:
 		wigFiles.append( parse_wig( file ) )
 
 	allCounts = bundle_counts( wigFiles ) 
@@ -70,11 +65,11 @@ def main():
 	cutoff = numpy.percentile(allCounts, percentile)
 	print("The value cutoff is set to " + str(cutoff) )
 
-	if( args.generate_bed ):
-		bed_file = open(args.generate_bed, 'w', encoding="utf-8")
+	if( generate_bed ):
+		bed_file = open(generate_bed, 'w', encoding="utf-8")
 
 
-	for file in args.input:
+	for file in input:
 		parsedFile = parse_wig(file)
 		for chromosome in sorted(parsedFile):
 			# check if the current chromosome of the wig file is found in the reference. If not it is skipped and a warning is printed
@@ -85,16 +80,15 @@ def main():
 			for entry in parsedFile[chromosome]:
 				if( abs(parsedFile[chromosome][entry]) >= cutoff ):
 					#check if cross-link is not too close to the end or the beginning of the reference
-					if int(entry) - extractionLength - 1 >= 0 and int(entry) + extractionLength <= len(referenceSequences[chromosome]) : 
-						extractionStart = int(entry) - extractionLength - 1
-						extractionEnd = int(entry) + extractionLength # no '-1' since the last number is exclusive when getting a substring
+					if int(entry) - length - 1 >= 0 and int(entry) + length <= len(referenceSequences[chromosome]) : 
+						extractionStart = int(entry) - length - 1
+						extractionEnd 	= int(entry) + length # no '-1' since the last number is exclusive when getting a substring
+						strand 			= "+" if parsedFile[chromosome][entry] > 0 else "-"
 
-						strand = "+" if parsedFile[chromosome][entry] > 0 else "-"
-
-						if(args.generate_bed):
+						if(generate_bed):
 							bed_file.write(chromosome + "\t" + str(extractionStart) + "\t" + str(extractionEnd) + "\tname\t0\t" + strand + "\n")
 
-						if(args.omit_cl):
+						if(omit_cl):
 							extractedSequence = referenceSequences[chromosome][extractionStart:int(entry)-1] + 'n' + referenceSequences[chromosome][int(entry):extractionEnd]
 						else:
 							extractedSequence = referenceSequences[chromosome][extractionStart:extractionEnd]
@@ -102,11 +96,11 @@ def main():
 						if(strand == "-"):
 							extractedSequence = extractedSequence.reverse_complement()
 
-						write_sequence(extractedSequence, args.output)
+						write_sequence(extractedSequence, output)
 					else:
 						countOutOfBounds += 1
 	
-	if( args.generate_bed ):
+	if( generate_bed ):
 		bed_file.close()
 
 	print(str(countOutOfBounds) + " peaks were too close to one of the chromosome ends and were thus ignored")
@@ -153,5 +147,11 @@ def write_sequence(sequence, outputFile):
 ##########################
 ### starts main script ###
 ##########################
-main()
+main(input=args.input,
+	reference=args.reference,
+	length=args.length,
+	percentile=args.percentile,
+	output=args.output,
+	outfmt_fasta=args.outfmt_fasta,
+	omit_cl=args.omit_cl)
 
