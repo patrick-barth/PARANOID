@@ -11,4 +11,4 @@ ADD bin/wig_files_writer.py /usr/local/bin
 ADD bin/extract-sequences-around-cross-link-sites.py /usr/local/bin
 ADD bin/wig2-to-wig.py /usr/local/bin
 
-CMD ["extract-sequences-around-cross-link-sites.py"]
+CMD ["sequence-extraction.py"]

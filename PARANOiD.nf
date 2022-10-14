@@ -826,22 +826,22 @@ if (params.omit_sequence_extraction == false) {
 		if(params.sequence_format_txt == true && params.omit_cl_nucleotide == true)
 			"""
 			wig2-to-wig.py --input ${query} --output ${query.baseName}
-			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
+			sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
 			"""
 		else if(params.sequence_format_txt == true && params.omit_cl_nucleotide == false)
 			"""
 			wig2-to-wig.py --input ${query} --output ${query.baseName}
-			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
+			sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.txt --length ${params.seq_len} --percentile ${params.percentile} 
 			"""
 		else if(params.sequence_format_txt == false && params.omit_cl_nucleotide == true)
 			"""
 			wig2-to-wig.py --input ${query} --output ${query.baseName}
-			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl --outfmt_fasta
+			sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl --outfmt_fasta
 			"""
 		else if(params.sequence_format_txt == false && params.omit_cl_nucleotide == false)
 			"""
 			wig2-to-wig.py --input ${query} --output ${query.baseName}
-			extract-sequences-around-cross-link-sites.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
+			sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --outfmt_fasta
 			"""
 	}
 }
