@@ -20,7 +20,7 @@ from wig_files_writer import *
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', 			'-i', type=str,	nargs='+', 					help='Input file(s). Supported formats: WIG, BED')
 parser.add_argument('--reference', 		'-r', type=str,								help='Reference in fasta format from which the nucleotides are read')
-parser.add_argument('--length', 		'-l', type=int,				default=10,		help='Number of nucleotides to each side of the cross-link')
+parser.add_argument('--length', 		'-l', type=int,				default=20,		help='Number of nucleotides to each side of the cross-link')
 parser.add_argument('--percentile', 	'-p', type=float,			default=90,		help='Percentile used to calculate the cutoff')
 parser.add_argument('--output', 		'-o', type=str,								help='Output file for extracted sequences')
 parser.add_argument('--omit_cl', 		'-u', action='store_true',	default=False,  help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
