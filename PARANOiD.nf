@@ -692,6 +692,7 @@ if (params.omit_peak_calling == false){
 
 		output:
 		file("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed")
+		file("${bam.simpleName}.pureCLIP_crosslink_sites.bed") into bed_peak_calling_to_sequence_extraction
 		file("${bam.simpleName}.pureCLIP_crosslink_sites.params") into params_peak_calling_to_collect_statistics
 
 		script:
@@ -806,34 +807,49 @@ if ( params.annotation != 'NO_FILE'){
 }
 
 if (params.omit_sequence_extraction == false) {
+
+	if(params.omit_peak_calling == false){
+		bed_peak_calling_to_sequence_extraction.set{peaks_for_sequence_extraction}
+	} else {
+		collected_wig_2_to_sequence_extraction.set{peaks_for_sequence_extraction}
+	}
+
 	process sequence_extraction {
 		tag {query.simpleName}
 
 		publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
 
 		input:
-		set file(query),file(reference) from collected_wig_2_to_sequence_extraction.combine(reference_to_extract_sequences)
+		set file(query),file(reference) from peaks_for_sequence_extraction.combine(reference_to_extract_sequences)
 
 		output:
 		file "*.extracted-sequences.fasta" optional true into extracted_sequences
 		file "*.extracted-sequences.*" optional true into extracted_sequences_output
 		
 		script:
-		if(params.omit_cl_nucleotide == true)
+		if(params.omit_cl_nucleotide == true && params.omit_peak_calling == true)
 			"""
 			wig2-to-wig.py --input ${query} --output ${query.baseName}
 			sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
 			"""
-		else if(params.omit_cl_nucleotide == false)
+		else if(params.omit_cl_nucleotide == true && params.omit_peak_calling == false)
+			"""
+			sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
+			"""
+		else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == true)
 			"""
 			wig2-to-wig.py --input ${query} --output ${query.baseName}
 			sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile}
+			"""
+		else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == false)
+			"""
+			sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile}
 			"""
 	}
 }
 
 // if sequence_extraction is performed in FASTA format, we can compute motifs
-if (params.omit_sequence_extraction == false && params.sequence_format_txt == false && (2*params.seq_len)+1 >= params.min_motif_width) {
+if (params.omit_sequence_extraction == false && (2*params.seq_len)+1 >= params.min_motif_width) {
     process motif_search {
     	tag {fasta.simpleName}
 
