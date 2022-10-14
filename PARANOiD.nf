@@ -56,15 +56,11 @@ params.distance = 30 									//INT maximum distance to check for distances betw
 
 //params for sequence extraction
 params.omit_sequence_extraction = false
-params.seq_len = 20											//INT length to both sides of cl-sites from which nucleotides are recovered 
-params.sequence_format_txt = false 					//BOOLEAN if false sequence are extracted in txt format; if true sequences are extracted in fasta format
+params.seq_len = 20											//INT length to both sides of cl-sites from which nucleotides are recovered
 params.omit_cl_nucleotide = false
 params.max_motif_num = 50						// INT max number of motifs to search for 
 params.min_motif_width = 8						// INT minimum motif width to report, >=3
 params.max_motif_width = 15						// INT maximum motif width to report, <= 30
-
-//params for testing
-params.bed_for_sequence_extraction = false
 
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
