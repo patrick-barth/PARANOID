@@ -25,7 +25,6 @@ parser.add_argument('--reference', 		'-r', type=str,								help='Reference in f
 parser.add_argument('--length', 		'-l', type=int,				default=10,		help='Number of nucleotides to each side of the cross-link')
 parser.add_argument('--percentile', 	'-p', type=float,			default=90,		help='Percentile used to calculate the cutoff')
 parser.add_argument('--output', 		'-o', type=str,								help='Output file for extracted sequences')
-parser.add_argument('--outfmt_fasta', 	'-f', action='store_true',	default=False,  help='If true, sequences will be put out in fasta format')
 parser.add_argument('--omit_cl', 		'-u', action='store_true',	default=False,  help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
 parser.add_argument('--generate_bed', 	'-b', 										help='If used a BED file is generated')
 args = parser.parse_args()
@@ -38,7 +37,7 @@ args = parser.parse_args()
 ###################
 ###################
 
-def main(input,reference,length,percentile,output,outfmt_fasta,omit_cl):
+def main(input,reference,length,percentile,output,omit_cl):
 	referenceSequences: Dict 	= parse_fasta(reference)
 	extension:			str 	= os.path.splitext(input[0])[1][1:]
 	# Check if all files have the same ending
@@ -70,7 +69,13 @@ def main(input,reference,length,percentile,output,outfmt_fasta,omit_cl):
 						chromosomes[chromosome].append((int(position),strand))
 
 	elif 	extension in ['bed']:
-		exit()
+		for file in input:
+			with open (file, 'r') as file:
+				for line in file:
+					(chromosome,pos1,pos2,_,_,strand,_) = line.split("\t")
+					if not chromosome in chromosomes:
+						errx('Chromosome %s not found in reference' % (chromosome))
+					chromosomes[chromosome].append((int(pos1),strand))
 
 	# Extract sequences around determined peaks
 	FASTA_output: 		str = ''
@@ -131,5 +136,4 @@ main(input=args.input,
 	length=args.length,
 	percentile=args.percentile,
 	output=args.output,
-	outfmt_fasta=args.outfmt_fasta,
 	omit_cl=args.omit_cl)
