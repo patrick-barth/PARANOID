@@ -548,9 +548,9 @@ process determine_strand_preference {
 		samtools index \$i
 	done
 	touch ${name}.strand_proportion.txt
+	echo -e "chromosome\tforward\treverse" >> ${name}.strand_proportion.txt
 	while read r; do
-  		echo "\$r (${name})" >> ${name}.strand_proportion.txt
-  		echo forward: \$(for i in *.sorted.bam; do samtools view -F 20 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)"\t"reverse: \$(for i in *.sorted.bam; do samtools view -f 16 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)>> ${name}.strand_proportion.txt;
+  		echo -e "\$r\t\$(for i in *.sorted.bam; do samtools view -F 20 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)\t\$(for i in *.sorted.bam; do samtools view -f 16 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)" >> ${name}.strand_proportion.txt;
 	done <references.txt
 	"""
 }
