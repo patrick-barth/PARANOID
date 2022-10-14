@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
-from dataclasses import dataclass
 import os
-import re
 import sys
 from typing import Dict, List
 import numpy
