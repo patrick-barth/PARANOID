@@ -46,7 +46,7 @@ def main():
             if (len(splitted) != 2):
                 errx("Wrong number of columns in line: " + line)
             
-            expname = splitted[0]
+            expname = splitted[0].replace('-','_')
             barcode = splitted[1]
 
             # check for duplicate experiment names
