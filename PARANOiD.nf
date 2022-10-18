@@ -999,3 +999,13 @@ process multiqc{
 	multiqc .
 	"""
 }
+
+workflow.onComplete{
+	println "Pipeline completed at: $workflow.complete"
+	println "Execution status: ${ workflow.success ? 'OK' : 'failed' }"
+}
+
+workflow.onError {
+	println "Something went wrong :("
+	println "Pipeline execution stopped with following error message: ${workflow.errorMessage}"
+}
