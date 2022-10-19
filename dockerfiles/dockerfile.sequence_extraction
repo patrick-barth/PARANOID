@@ -8,7 +8,7 @@ RUN apk update && apk add --no-cache python3 py3-numpy bash && \
     apk add py3-biopython --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
 
 ADD bin/wig_files_writer.py /usr/local/bin
-ADD bin/extract-sequences-around-cross-link-sites.py /usr/local/bin
+ADD bin/sequence-extraction.py /usr/local/bin
 ADD bin/wig2-to-wig.py /usr/local/bin
 
 CMD ["sequence-extraction.py"]
