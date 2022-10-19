@@ -11,7 +11,9 @@ Pipeline for Automated Read ANalysis Of iCLIP Data
 [Outputs](#Outputs)  
 
 ## Basic-usage
+```
 nextflow PARANOiD.nf --reads \<reads.fastq\> --reference \<reference_sequence.fasta\> --barcodes \<barcodes.tsv\>
+```
 
 ## Inputs
 
