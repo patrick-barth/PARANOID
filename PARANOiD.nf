@@ -46,7 +46,8 @@ params.color_barplot = "#69b3a2"						//STRING color used for barplots
 params.rna_subtypes = '3_prime_UTR,transcript,5_prime_UTR'	//STRING RNA-subtypes used for the distribution of CL-sites
 Channel.from(params.rna_subtypes.split(',')).into{ rna_subtypes_to_feature_counts; rna_subtypes_to_distribution }
 if(params.annotation != 'NO_FILE'){
-	annotation_to_RNA_subtypes_distribution = Channel.fromPath( params.annotation )
+	annotation_file = Channel.fromPath( params.annotation )
+	annotation_file.into{annotation_to_RNA_subtypes_distribution;annotation_to_prepare_for_igv}
 }
 
 //parameters for peak distance
@@ -961,6 +962,23 @@ if (params.merge_replicates == true){
 }
 
 //big_wig_to_igv_session.flatten().toList().combine(track_path_dir).set{collect_peaks}
+if (params.annotation != 'NO_FILE'){
+	process prepare_annotation_for_igv {
+		publishDir "${params.output}", mode: 'copy', pattern: "${annotation.baseName}.sorted.gff.gz*"
+
+		input:
+		file(annotation) from annotation_to_prepare_for_igv
+
+		output:
+		file("${annotation.baseName}.sorted.gff.gz*")
+
+		"""
+		~/software/gff3sort/gff3sort.pl ${annotation} > ${annotation.baseName}.sorted.gff
+		bgzip ${annotation.baseName}.sorted.gff
+		tabix ${annotation.baseName}.sorted.gff.gz
+		"""
+	}
+}
 
 process generate_igv_session {
 	publishDir "${params.output}", mode: 'copy', pattern: 'igv-session.xml'
