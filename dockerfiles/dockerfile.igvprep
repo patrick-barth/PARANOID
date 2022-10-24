@@ -1,0 +1,24 @@
+FROM alpine:3.16
+
+
+MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+
+RUN apk update && apk add --no-cache bash perl wget make gcc musl-dev zlib-dev xz xz-dev bzip2-dev \
+        curl curl-dev && \
+    wget -q https://github.com/billzt/gff3sort/archive/refs/tags/v1.0.0.tar.gz && \
+    tar xzf v1.0.0.tar.gz && \
+    mv gff3sort-1.0.0/Sort/ /usr/local/bin/Sort && \
+    mv gff3sort-1.0.0/gff3sort.pl /usr/local/bin && \
+    rm -rf v1.0.0.tar.gz gff3sort-1.0.0 && \
+    wget -q https://github.com/samtools/htslib/releases/download/1.16/htslib-1.16.tar.bz2 && \
+    tar xjf htslib-1.16.tar.bz2 && \
+    cd htslib-1.16 && \
+    make bgzip tabix && \
+    mv bgzip /usr/local/bin/ && \
+    mv tabix /usr/local/bin/ && \
+    cd .. && \
+    rm -rf htslib-1.16.tar.bz2 htslib-1.16 && \
+    apk del wget make gcc musl-dev zlib-dev xz-dev bzip2-dev curl-dev
+
+ENV PATH $PATH:/usr/local/bin
+
