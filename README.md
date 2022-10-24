@@ -1,7 +1,7 @@
 # PARANOID
 Pipeline for Automated Read ANalysis Of iCLIP Data
 
-//TODO: Blabla ueber Background
+PARANOiD is a versatile software for the fully automated analysis of iCLIP and iCLIP2 data. It contains all steps necessary for preprocessing, the determination of cross-link locations and several additional steps which can be used to detect specific characteristics, e.g. definite distances between cross-link events or binding motifs. The cross-link sites are presented as WIG files that can be easily visualized e.g. using IGV, for which a config file is offered. Additionally, results are offered as statistical plots for a quick overview and as standardized bioinformatics file formats or TSV files which can be used for further analysis steps. 
 
 ## Overview
 [Basic usage](#Basic-usage)  
