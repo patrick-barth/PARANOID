@@ -385,8 +385,7 @@ process merge_deduplicated_bam {
 	set val(name), file(query) from bam_dedup_sort_to_merge
 
 	output:
-	file("${name}.bam") into (bam_merge_to_calculate_crosslinks, bam_merge_to_extract_transcripts, bam_merge_to_pureCLIP)
-	val("${name}.bam") into val_deduplicated_bam_files_to_igv_session
+	file("${name}.bam") into (bam_merge_to_calculate_crosslinks, bam_merge_to_extract_transcripts, bam_merge_to_pureCLIP,bam_deduplicated_to_igv_session)
 	set val("alignments/deduplicated"), file("${name}.bam") into bam_alignment_to_sort_2
 
 	"""
@@ -993,7 +992,7 @@ process generate_igv_session {
 
 	input:
 	file(tracks) from filtered_big_wig.flatten().toList()
-	val(bam) from val_deduplicated_bam_files_to_igv_session.flatten().toList()
+	file(bam) from bam_deduplicated_to_igv_session.flatten().toList()
 	val(track_path) from track_path_dir
 	file(ref) from reference_to_igv
 	val(annotation) from annotation_name_to_igv_session
