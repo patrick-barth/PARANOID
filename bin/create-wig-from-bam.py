@@ -127,8 +127,12 @@ def main():
 	))
 
 	peaks = fill_entries(peaks)
-
-	write_wig2(peaks, output)
+	if not len(peaks) == 0:
+		write_wig2(peaks, output)
+	else:
+		print('No peaks meeting the criteria (minimum mapq score %s) detected. No file written' % (minQuality))
+		exit(0)
+	
 
 #######################
 #######################

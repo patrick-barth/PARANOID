@@ -578,13 +578,15 @@ process calculate_crosslink_sites{
 	set file(query), file(chrom_sizes) from collected_bam_files.combine(chrom_sizes_to_cross_link_calculation)
 
 	output:
-	file "${query.simpleName}.wig2" into wig_calculate_crosslink_to_group_samples
-	set val("cross-link-sites"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") into wig_cross_link_sites_to_transform
-	file "${query.simpleName}_{forward,reverse}.wig" into wig_to_output
+	file "${query.simpleName}.wig2" optional true into wig_calculate_crosslink_to_group_samples
+	set val("cross-link-sites"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") optional true into wig_cross_link_sites_to_transform
+	file "${query.simpleName}_{forward,reverse}.wig" optional true into wig_to_output
 
 	"""
 	create-wig-from-bam.py --input ${query} --mapq ${params.mapq} --chrom_sizes ${chrom_sizes} --output ${query.simpleName}.wig2
-	wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
+	if [[ -f "${query.simpleName}.wig2" ]]; then
+		wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
+	fi
 	"""
 }
 
@@ -638,29 +640,33 @@ process wig_to_bigWig{
 	set val(out_dir), file(forward), file(reverse), file(chrom_sizes) from wig_cross_link_sites_to_bigWig.combine(chrom_sizes_to_bigWig)
 
 	output:
-	file("*.bw")
-	set val(out_dir), file("*.bw") into big_wig_to_igv_session
-	set val(out_dir), file("${forward.baseName}.bw"), file("${reverse.baseName}.bw") into big_wig_to_convert_to_bedgraph
+	file("*.bw") optional true
+	set val(out_dir), file("*.bw") optional true into big_wig_to_igv_session
+	set val(out_dir), file("${reverse.baseName}.bw") optional true into big_wig_reverse_to_convert_to_bedgraph
+	set val(out_dir), file("${forward.baseName}.bw") optional true into big_wig_forward_to_convert_to_bedgraph
 
 	"""
-	wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
-	wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
+	if [[ \$(cat ${forward} | wc -l) > 1 ]]; then
+		wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
+	fi
+	if [[ \$(cat ${reverse} | wc -l) > 1 ]]; then
+		wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
+	fi
 	"""
 }
 
 process bigWig_to_bedgraph{
-	tag {forward.simpleName}
+	tag {bigWig.simpleName}
 	publishDir "${params.output}/${out_dir}/bedgraph", mode: 'copy', pattern: "*.bedgraph"
 
 	input:
-	set val(out_dir), file(forward), file(reverse) from big_wig_to_convert_to_bedgraph
+	set val(out_dir), file(bigWig) from big_wig_forward_to_convert_to_bedgraph.mix(big_wig_reverse_to_convert_to_bedgraph)
 
 	output:
 	file("*.bedgraph")
 
 	"""
-	bigWigToBedGraph ${forward} ${forward.baseName}.bedgraph
-	bigWigToBedGraph ${reverse} ${reverse.baseName}.bedgraph
+	bigWigToBedGraph ${bigWig} ${bigWig.baseName}.bedgraph
 	"""
 }
 
