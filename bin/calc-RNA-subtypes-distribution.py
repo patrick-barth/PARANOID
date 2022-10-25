@@ -90,7 +90,7 @@ def main(input,rna_subtypes,output):
 	if not test_read_amounts(rna_subtypes_counts, read_count):
 		print("Warning: assignments and total read counts do not match:")
 		print("Total count: " + str(read_count))
-		print("RNA-subtypes assigments: ")
+		print("RNA-subtypes assignments: ")
 		print(rna_subtypes_counts)
 
 
