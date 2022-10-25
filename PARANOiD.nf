@@ -386,6 +386,7 @@ process merge_deduplicated_bam {
 
 	output:
 	file("${name}.bam") into (bam_merge_to_calculate_crosslinks, bam_merge_to_extract_transcripts, bam_merge_to_pureCLIP)
+	val("${name}.bam") into val_deduplicated_bam_files_to_igv_session
 	set val("alignments/deduplicated"), file("${name}.bam") into bam_alignment_to_sort_2
 
 	"""
@@ -970,6 +971,7 @@ if (params.annotation != 'NO_FILE'){
 		file(annotation) from annotation_to_prepare_for_igv
 
 		output:
+		val("${annotation.baseName}.sorted.gff.gz") into annotation_name_to_igv_session
 		file("${annotation.baseName}.sorted.gff.gz*")
 
 		"""
@@ -985,15 +987,23 @@ process generate_igv_session {
 
 	input:
 	file(tracks) from filtered_big_wig.flatten().toList()
+	val(bam) from val_deduplicated_bam_files_to_igv_session.flatten().toList()
 	val(track_path) from track_path_dir
 	file(ref) from reference_to_igv
+	val(annotation) from annotation_name_to_igv_session
 
 	output:
 	file('igv-session.xml')
 
-	"""
-	generate-igv-session.py --reference ${ref} --input_path ${track_path} --tracks ${tracks} --output igv-session.xml
-	"""
+	script:
+	if(params.annotation == 'NO_FILE')
+		"""
+		generate-igv-session.py --reference ${ref} --input_path ${track_path} --tracks ${tracks} ${bam} --output igv-session.xml
+		"""
+	else
+		"""
+		generate-igv-session.py --reference ${ref} --annotation ${annotation} --input_path ${track_path} --tracks ${tracks} ${bam} --output igv-session.xml
+		"""
 }
 
 process multiqc{
