@@ -99,11 +99,11 @@ def main(input,rna_subtypes,output):
 	total_percentage = str("{:.2f}".format(get_percentage_amount(read_count,read_count)))
 
 	TSV_string = 'RNA_subtypes\tnumber_assignments\tpercentage'
-		for i in rna_subtypes_counts:
-			current_rna 			= i
-			current_rna_count 		= str(rna_subtypes_counts[i])
-			current_rna_percentage 	= str("{:.2f}".format(get_percentage_amount(rna_subtypes_counts[i], read_count)))
-			TSV_string += '\n%s\t%s\t%s' % (current_rna,current_rna_count,current_rna_percentage)
+	for i in rna_subtypes_counts:
+		current_rna 			= i
+		current_rna_count 		= str(rna_subtypes_counts[i])
+		current_rna_percentage 	= str("{:.2f}".format(get_percentage_amount(rna_subtypes_counts[i], read_count)))
+		TSV_string += '\n%s\t%s\t%s' % (current_rna,current_rna_count,current_rna_percentage)
 	TSV_string += '\ntotal\t%s\t%s' % (total_read_count,total_percentage)
 
 	out_file = open(os.path.realpath(output), 'w')
