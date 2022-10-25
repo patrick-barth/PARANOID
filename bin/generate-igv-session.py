@@ -6,7 +6,6 @@
 
 import argparse
 import os
-from time import sleep
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--reference', 			'-r', type=str, 				help='Reference file')
