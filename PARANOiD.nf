@@ -312,7 +312,6 @@ process filter_empty_bams{
 	output:
 	file "${query.baseName}.filtered.bam" optional true into bam_filter_empty_to_split
 	file "${query.simpleName}.no_alignments.txt" optional true into log_experiments_without_alignments
-	set val("alignments"), file("${query.baseName}.filtered.bam") optional true into bam_alignment_to_sort
 
 	"""
 	if [[ \$(samtools view ${query} | wc -l) == 0 ]]; then
@@ -385,8 +384,8 @@ process merge_deduplicated_bam {
 	set val(name), file(query) from bam_dedup_sort_to_merge
 
 	output:
-	file("${name}.bam") into (bam_merge_to_calculate_crosslinks, bam_merge_to_extract_transcripts, bam_merge_to_pureCLIP,bam_deduplicated_to_igv_session)
-	set val("alignments/deduplicated"), file("${name}.bam") into bam_alignment_to_sort_2
+	file("${name}.bam") into (bam_merge_to_calculate_crosslinks, bam_merge_to_extract_transcripts, bam_merge_to_pureCLIP)
+	file("${name}.bam") into bam_alignment_to_sort
 
 	"""
 	samtools merge -c -p ${name}.bam ${query}
@@ -395,12 +394,13 @@ process merge_deduplicated_bam {
 
 process sort_and_index_alignment{
 	tag {query.simpleName}
-	publishDir "${params.output}/${out_dir}", mode: 'copy', pattern: "${query.simpleName}.sorted.bam*"
+	publishDir "${params.output}/alignments", mode: 'copy', pattern: "${query.simpleName}.sorted.bam*"
 
 	input:
-	set val(out_dir), file(query) from bam_alignment_to_sort.mix(bam_alignment_to_sort_2)
+	file(query) from bam_alignment_to_sort
 
 	output:
+	file("${query.simpleName}.sorted.bam") into bam_sorted_to_igv_session
 	file("${query.simpleName}.sorted.bam*")
 
 	"""
@@ -992,7 +992,7 @@ process generate_igv_session {
 
 	input:
 	file(tracks) from filtered_big_wig.flatten().toList()
-	file(bam) from bam_deduplicated_to_igv_session.flatten().toList()
+	file(bam) from bam_sorted_to_igv_session.flatten().toList()
 	val(track_path) from track_path_dir
 	file(ref) from reference_to_igv
 	val(annotation) from annotation_name_to_igv_session
