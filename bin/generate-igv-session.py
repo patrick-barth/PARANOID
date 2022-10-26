@@ -63,7 +63,10 @@ def main(reference,annotation,input_path,tracks,output,panel_height,panel_width,
 	for i in tracks:
 		file_name 	= os.path.basename(i)
 		extension 	= os.path.splitext(i)[1][1:]
-		XML_string += '\t\t<Resource path="./%s/%s" type="%s"/>\n' % (input_path,file_name,extension)
+		if extension in ['wig','bigWig','bw']:
+			XML_string += '\t\t<Resource path="./%s/%s" type="%s"/>\n' % (input_path,file_name,extension)
+		elif extension in ['bam']:
+			XML_string += '\t\t<Resource path="./alignments/%s" type="%s"/>\n' % (file_name,extension)
 	XML_string += '\t</Resources>\n'
 
 	# Writes Panels block -> contains information about tracks
@@ -87,11 +90,11 @@ def main(reference,annotation,input_path,tracks,output,panel_height,panel_width,
 			XML_string += '\t\t</Track>\n'
 		elif extension in ['bam']:
 			#TODO: check if %s_junction and %_coverage need to exist as file
-			XML_string += '\t\t<Track attributeKey="%s Coverage" autoScale="true" clazz="org.broad.igv.sam.CoverageTrack" color="175,175,175" colorScale="ContinuousColorScale;0.0;10.0;255,255,255;175,175,175" fontSize="%s" id="./alignments/deduplicated/%s_coverage" name="%s Coverage" snpThreshold="0.2" visible="true">\n' % (file_name,font_size,file_name,file_name)
+			XML_string += '\t\t<Track attributeKey="%s Coverage" autoScale="true" clazz="org.broad.igv.sam.CoverageTrack" color="175,175,175" colorScale="ContinuousColorScale;0.0;10.0;255,255,255;175,175,175" fontSize="%s" id="./alignments/%s_coverage" name="%s Coverage" snpThreshold="0.2" visible="true">\n' % (file_name,font_size,file_name,file_name)
 			XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="10.0" minimum="0.0" type="LINEAR"/>\n'
 			XML_string += '\t\t</Track>\n'
-			XML_string += '\t\t<Track attributeKey="%s Junctions" clazz="org.broad.igv.sam.SpliceJunctionTrack" fontSize="%s" groupByStrand="false" height="60" id="./alignments/deduplicated/%s_junctions" name="%s Junctions" visible="true"/>\n' % (file_name,font_size,file_name,file_name)
-			XML_string += '\t\t<Track attributeKey="%s" clazz="org.broad.igv.sam.AlignmentTrack" displayMode="EXPANDED" fontSize="%s" id="./alignments/deduplicated/%s" name="%s" visible="true">\n' % (file_name,font_size,file_name,file_name)
+			XML_string += '\t\t<Track attributeKey="%s Junctions" clazz="org.broad.igv.sam.SpliceJunctionTrack" fontSize="%s" groupByStrand="false" height="60" id="./alignments/%s_junctions" name="%s Junctions" visible="true"/>\n' % (file_name,font_size,file_name,file_name)
+			XML_string += '\t\t<Track attributeKey="%s" clazz="org.broad.igv.sam.AlignmentTrack" displayMode="EXPANDED" fontSize="%s" id="./alignments/%s" name="%s" visible="true">\n' % (file_name,font_size,file_name,file_name)
 			XML_string += '\t\t\t<RenderOptions/>\n'
 			XML_string += '\t\t</Track>\n'
 		
