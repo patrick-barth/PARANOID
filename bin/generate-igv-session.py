@@ -89,7 +89,6 @@ def main(reference,annotation,input_path,tracks,output,panel_height,panel_width,
 			XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" type="LINEAR"/>\n'
 			XML_string += '\t\t</Track>\n'
 		elif extension in ['bam']:
-			#TODO: check if %s_junction and %_coverage need to exist as file
 			XML_string += '\t\t<Track attributeKey="%s Coverage" autoScale="true" clazz="org.broad.igv.sam.CoverageTrack" color="175,175,175" colorScale="ContinuousColorScale;0.0;10.0;255,255,255;175,175,175" fontSize="%s" id="./alignments/%s_coverage" name="%s Coverage" snpThreshold="0.2" visible="true">\n' % (file_name,font_size,file_name,file_name)
 			XML_string += '\t\t\t<DataRange baseline="0.0" drawBaseline="true" flipAxis="false" maximum="10.0" minimum="0.0" type="LINEAR"/>\n'
 			XML_string += '\t\t</Track>\n'
