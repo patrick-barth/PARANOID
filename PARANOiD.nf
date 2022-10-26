@@ -378,6 +378,7 @@ bam_deduplicate_to_sort
 	.set{ bam_dedup_sort_to_merge }
 
 process merge_deduplicated_bam {
+	cache false
 	tag {name}
 
 	input:
@@ -859,17 +860,20 @@ if (params.omit_sequence_extraction == false) {
 if (params.omit_sequence_extraction == false && (2*params.seq_len)+1 >= params.min_motif_width) {
     process motif_search {
     	tag {fasta.simpleName}
-
 	    publishDir "${params.output}/motif_search/", mode: 'copy'
 
 	    input:
 	    file fasta from extracted_sequences
 
 		output:
-	    file "${fasta.baseName}_motif" into nothing
+	    file "${fasta.baseName}_motif" optional true
 
+		script:
+		
 	    """
-	    streme --oc ${fasta.baseName}_motif --p ${fasta} --dna --seed 0 --nmotifs ${params.max_motif_num} --minw ${params.min_motif_width} --maxw ${params.max_motif_width}
+		if [[ \$(wc -l ${fasta} | cut -f1 -d' ') -ge 4 ]]; then
+			streme --oc ${fasta.baseName}_motif --p ${fasta} --dna --seed 0 --nmotifs ${params.max_motif_num} --minw ${params.min_motif_width} --maxw ${params.max_motif_width}
+		fi
 	    """
     }
 }
@@ -889,7 +893,7 @@ if (params.omit_peak_distance == false) {
 
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		peak-distance.py --input ${query.baseName}_{forward,reverse}.wig --output ${query.baseName}.peak-distance.tsv --percentile ${params.percentile} --distance ${params.distance}
+		peak-distance.py --input ${query.baseName}_*.wig --output ${query.baseName}.peak-distance.tsv --percentile ${params.percentile} --distance ${params.distance}
 		"""
 	}
 
