@@ -378,7 +378,6 @@ bam_deduplicate_to_sort
 	.set{ bam_dedup_sort_to_merge }
 
 process merge_deduplicated_bam {
-	cache false
 	tag {name}
 
 	input:
@@ -684,7 +683,7 @@ if (params.omit_peak_calling == false){
 		set file("${query.simpleName}.sorted.bam"), file("${query.simpleName}.sorted.bam.bai") into bambai_index_to_peak_calling
 
 		"""
-		samtools sort ${query} -o ${query.simpleName}.sorted.bam
+		samtools sort ${query} > ${query.simpleName}.sorted.bam
 		samtools index ${query.simpleName}.sorted.bam
 		"""
 	}
