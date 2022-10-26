@@ -540,7 +540,7 @@ process determine_strand_preference {
 	set val(name),file(query),file(reference) from grouped_bam_to_strand_preference.combine(reference_to_strand_preference)
 
 	output:
-	file("${name}.strand_proportion.txt")
+	file("${name}.strand_proportion.txt") into txt_determine_strand_to_visualize
 
 	"""
 	egrep '^>' ${reference} | cut -f1 -d' ' | cut -c2- > references.txt
@@ -553,6 +553,20 @@ process determine_strand_preference {
 	while read r; do
   		echo -e "\$r\t\$(for i in *.sorted.bam; do samtools view -F 20 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)\t\$(for i in *.sorted.bam; do samtools view -f 16 -q ${params.mapq} \$i \$r | wc -l; done | paste -s -d+ | bc)" >> ${name}.strand_proportion.txt;
 	done <references.txt
+	"""
+}
+
+process visualize_strand_preference {
+	publishDir "${params.output}/strand-distribution/visualization", mode: 'copy', pattern: "${strand.simpleName}.png"
+
+	input:
+	file(strand) from txt_determine_strand_to_visualize
+
+	output:
+	file("${strand.simpleName}.png")
+
+	"""
+	visualize_strand_distribution.R --input ${strand} --output ${strand.simpleName} --type png
 	"""
 }
 
