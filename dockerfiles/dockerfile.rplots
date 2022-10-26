@@ -14,5 +14,6 @@ RUN apk update && apk add --no-cache R R-dev font-noto \
 ADD bin/plot_experimental_barcode_distribution.R /usr/local/bin
 ADD bin/plot-distances.R /usr/local/bin
 ADD bin/RNA_subtypes_barcharts.R /usr/local/bin
+ADD bin/visualize_strand_distribution.R /usr/local/bin
 
 CMD ["/bin/bash"]
