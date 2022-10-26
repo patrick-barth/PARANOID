@@ -45,6 +45,9 @@ allowed_compression_formats = ['gz'] 	# allowed compression formats
 
 def main(reference,annotation,input_path,tracks,output,panel_height,panel_width,font_size,feature_visibility):
 
+	# reverse sort -> bam will be shown last
+	tracks.sort(key=lambda f: os.path.splitext(f)[1], reverse=True)
+
 	XML_string = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\n'
 	XML_string += '<Session genome="%s" hasGeneTrack="false" hasSequenceTrack="true" locus="All" version="8">\n' % (reference)
 
