@@ -15,11 +15,3 @@ Welcome to PARANOiD's documentation!
    Outputs <OUTPUT>
    FAQ <FAQ>
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
