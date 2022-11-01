@@ -10,10 +10,10 @@ Welcome to PARANOiD's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   Inputs
-   Parameters
-   Outputs
-   FAQ
+   Inputs <INPUT>
+   Parameters <PARAMETERS>
+   Outputs <OUTPUT>
+   FAQ <FAQ>
 
 
 
