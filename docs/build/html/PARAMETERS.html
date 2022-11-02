@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PARANOiD Inputs &mdash; PARANOiD  documentation</title>
+  <title>PARANOiD Parameters &mdash; PARANOiD  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,8 +20,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PARANOiD Parameters" href="PARAMETERS.html" />
-    <link rel="prev" title="Welcome to PARANOiD’s documentation!" href="index.html" /> 
+    <link rel="next" title="PARANOiD Inputs" href="OUTPUT.html" />
+    <link rel="prev" title="PARANOiD Inputs" href="INPUT.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -41,17 +41,8 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Inputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#reads">Reads</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#example">Example::</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#barcodes">Barcodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#annotation">Annotation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
 </ul>
@@ -70,9 +61,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>PARANOiD Inputs</li>
+      <li>PARANOiD Parameters</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/INPUT.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/PARAMETERS.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -80,50 +71,17 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="paranoid-inputs">
-<h1>PARANOiD Inputs<a class="headerlink" href="#paranoid-inputs" title="Permalink to this heading"></a></h1>
-<p>Detailed description of all input files</p>
-<section id="reads">
-<span id="read-file"></span><h2>Reads<a class="headerlink" href="#reads" title="Permalink to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file containing all reads. Each read is represented by 4 lines:</p>
-<ol class="arabic simple">
-<li><p><strong>Sequence identifier</strong> and optional description. Starts with a <code class="docutils literal notranslate"><span class="pre">&#64;</span></code></p></li>
-<li><p>Actual <strong>nucleotide sequence</strong> of the read</p></li>
-<li><p><strong>Delimiter line</strong>. Starts with a <code class="docutils literal notranslate"><span class="pre">+</span></code></p></li>
-<li><p><strong>Quality values</strong> of nucleotide sequence (line2). Must contain same number of symbols as line 2</p></li>
-</ol>
-<section id="example">
-<h3>Example::<a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
-<blockquote>
-<div><ol class="arabic simple">
-<li><p>&#64;SEQ_ID</p></li>
-<li><p>GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</p></li>
-<li><ul class="simple">
-<li></li>
-</ul>
-</li>
-<li><p>!’’<em>((((***+))%%%++)(%%%%).1**</em>-+*’’))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</p></li>
-</ol>
-</div></blockquote>
-</section>
-</section>
-<section id="barcodes">
-<span id="id1"></span><h2>Barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
-</section>
-<section id="reference">
-<span id="id2"></span><h2>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
-</section>
-<section id="annotation">
-<span id="id3"></span><h2>Annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
-</section>
+  <section id="paranoid-parameters">
+<h1>PARANOiD Parameters<a class="headerlink" href="#paranoid-parameters" title="Permalink to this heading"></a></h1>
+<p>Explanation of all PARANOiD parameters</p>
 </section>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to PARANOiD’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="PARAMETERS.html" class="btn btn-neutral float-right" title="PARANOiD Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="INPUT.html" class="btn btn-neutral float-left" title="PARANOiD Inputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="OUTPUT.html" class="btn btn-neutral float-right" title="PARANOiD Inputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
