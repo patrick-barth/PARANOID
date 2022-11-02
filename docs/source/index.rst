@@ -10,11 +10,8 @@ Welcome to PARANOiD's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   Inputs <INPUT>
+   Parameters <PARAMETERS>
+   Outputs <OUTPUT>
+   FAQ <FAQ>
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

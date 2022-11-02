@@ -70,7 +70,7 @@ if (params.speed) {
 } 
 
 sjdbGTFfile = file(params.annotation) 
- 
+
 //FastQC v0.11.9
 process quality_control {
 	tag {query.simpleName}
