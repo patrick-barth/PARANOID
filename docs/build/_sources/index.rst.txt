@@ -12,6 +12,7 @@ Welcome to PARANOiD's documentation!
 
    Inputs <INPUT>
    Parameters <PARAMETERS>
+   Analyses <ANALYSES>
    Outputs <OUTPUT>
    FAQ <FAQ>
 
