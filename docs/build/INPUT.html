@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PARANOiD Inputs &mdash; PARANOiD  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -42,7 +41,10 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Inputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#reads">Reads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reads">Reads</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#example">Example::</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#barcodes">Barcodes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#reference">Reference</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#annotation">Annotation</a></li>
@@ -66,8 +68,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>PARANOiD Inputs</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">PARANOiD Inputs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/INPUT.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -77,24 +79,43 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="paranoid-inputs">
+  <div class="section" id="paranoid-inputs">
 <h1>PARANOiD Inputs<a class="headerlink" href="#paranoid-inputs" title="Permalink to this heading"></a></h1>
 <p>Detailed description of all input files</p>
-<section id="reads">
+<div class="section" id="reads">
 <span id="read-file"></span><h2>Reads<a class="headerlink" href="#reads" title="Permalink to this heading"></a></h2>
-<p><code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file containing all reads</p>
-</section>
-<section id="barcodes">
+<p><code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file containing all reads. Each read is represented by 4 lines:</p>
+<ol class="arabic simple">
+<li><p><strong>Sequence identifier</strong> and optional description. Starts with a <code class="docutils literal notranslate"><span class="pre">&#64;</span></code></p></li>
+<li><p>Actual <strong>nucleotide sequence</strong> of the read</p></li>
+<li><p><strong>Delimiter line</strong>. Starts with a <code class="docutils literal notranslate"><span class="pre">+</span></code></p></li>
+<li><p><strong>Quality values</strong> of nucleotide sequence (line2). Must contain same number of symbols as line 2</p></li>
+</ol>
+<div class="section" id="example">
+<h3>Example::<a class="headerlink" href="#example" title="Permalink to this heading"></a></h3>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>&#64;SEQ_ID</p></li>
+<li><p>GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT</p></li>
+<li><ul class="simple">
+<li></li>
+</ul>
+</li>
+<li><p>!’’<em>((((***+))%%%++)(%%%%).1**</em>-+*’’))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</p></li>
+</ol>
+</div></blockquote>
+</div>
+</div>
+<div class="section" id="barcodes">
 <span id="id1"></span><h2>Barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
-<p>.._reference:</p>
-</section>
-<section id="reference">
-<h2>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
-</section>
-<section id="annotation">
-<span id="id2"></span><h2>Annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
-</section>
-</section>
+</div>
+<div class="section" id="reference">
+<span id="id2"></span><h2>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="annotation">
+<span id="id3"></span><h2>Annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
+</div>
+</div>
 
 
            </div>
