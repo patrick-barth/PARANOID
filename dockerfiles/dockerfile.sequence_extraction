@@ -2,7 +2,7 @@ FROM alpine:3.16
 
 LABEL tool="sequence_extraction"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add --no-cache python3 py3-numpy bash && \
     apk add py3-biopython --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted

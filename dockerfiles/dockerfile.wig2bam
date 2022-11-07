@@ -2,7 +2,7 @@ FROM alpine:3.16
 
 LABEL tool="bam2wig"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add --no-cache python3 python3-dev py3-pip py3-wheel \
 	bash \

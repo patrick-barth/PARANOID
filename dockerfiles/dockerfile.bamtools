@@ -3,7 +3,7 @@ FROM alpine:3.16
 LABEL tool="bamtools"
 LABEL tool.version="2.5.2"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 ARG FILE=v2.5.2.tar.gz
 ARG VERSION=2.5.2

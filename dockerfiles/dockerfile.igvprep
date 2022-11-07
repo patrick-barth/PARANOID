@@ -1,7 +1,7 @@
 FROM alpine:3.16
 
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add --no-cache bash perl wget make gcc musl-dev zlib-dev xz xz-dev bzip2-dev \
         curl curl-dev && \

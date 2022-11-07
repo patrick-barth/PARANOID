@@ -3,7 +3,7 @@ FROM alpine:3.16
 LABEL tool="FASTQC"
 LABEL tool.version="0.11.9"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 ARG FILE=fastqc_v0.11.9.zip
 ARG TMPDIR=/opt

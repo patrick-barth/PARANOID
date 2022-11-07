@@ -2,7 +2,7 @@ FROM alpine:3.16
 
 LABEL tool="RNA_species_distribution"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add --no-cache python3 \
 	bash
