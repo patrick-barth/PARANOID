@@ -1,6 +1,6 @@
 FROM alpine:3.16
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add --no-cache R R-dev font-noto \
 	bash \
@@ -9,6 +9,7 @@ RUN apk update && apk add --no-cache R R-dev font-noto \
 	gcc && \
     Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")' && \
     Rscript -e 'install.packages("ggplot2",repos = "http://cran.us.r-project.org")' && \
+	Rscript -e 'install.packages("wig",repos = "http://cran.us.r-project.org")' && \
     apk del R-dev make g++ gcc 
 
 ADD bin/plot_experimental_barcode_distribution.R /usr/local/bin

@@ -3,7 +3,7 @@ FROM alpine:3.16
 LABEL tool="meme"
 LABEL tool.version="5.4.1"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add --no-cache bash \
 	perl-xml-parser perl-xml-simple tcsh ghostscript python3 perl gcc make musl-dev zlib-dev && \
