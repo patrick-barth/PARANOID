@@ -684,7 +684,7 @@ process bigWig_to_bedgraph{
 }
 
 // Generate one channel per postprocessing analysis
-collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
+collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance; collect_wig_2_to_peak_height_histogram }
 
 if (params.omit_peak_calling == false){
 	process index_for_peak_calling {
@@ -734,6 +734,22 @@ if (params.omit_peak_calling == false){
 			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
 			"""
 	}
+}
+
+process generate_peak_height_histogram {
+	tag ${query}
+	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
+
+	input:
+	file(query) from collect_wig_2_to_peak_height_histogram
+
+	output:
+	file("${query.baseName}.png")
+
+	"""
+	wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
+	generate-peak-height-histogram.R --input . --output ${query.baseName} --type png --color "${params.color_barplot}" --percentile ${params.percentile}
+	"""
 }
 
 if ( params.annotation != 'NO_FILE'){
