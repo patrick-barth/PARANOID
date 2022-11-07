@@ -737,7 +737,7 @@ if (params.omit_peak_calling == false){
 }
 
 process generate_peak_height_histogram {
-	tag ${query}
+	tag {query.simpleName}
 	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
 
 	input:
@@ -746,15 +746,16 @@ process generate_peak_height_histogram {
 	output:
 	file("${query.baseName}.png")
 
+	script:
 	"""
 	wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
-	generate-peak-height-histogram.R --input . --output ${query.baseName} --type png --color "${params.color_barplot}" --percentile ${params.percentile}
+	generate-peak-height-histogram.R --input . --output ${query.baseName} --type png --color ${params.color_barplot} --percentile ${params.percentile}
 	"""
 }
 
 if ( params.annotation != 'NO_FILE'){
 	process wig_to_bam {
-		tag{query.simpleName}
+		tag {query.simpleName}
 
 		input:
 		file(query) from collected_wig_2_to_RNA_subtypes_distribution
