@@ -1019,6 +1019,8 @@ if (params.annotation != 'NO_FILE'){
 		tabix ${annotation.baseName}.sorted.gff.gz
 		"""
 	}
+} else {
+	annotation_name_to_igv_session = Channel.empty()
 }
 
 process generate_igv_session {
