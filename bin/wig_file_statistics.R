@@ -1,3 +1,9 @@
+#!/usr/bin/env Rscript
+
+library(optparse)
+library(ggplot2)
+library(wig)
+
 filelist_fw <- c(
   "RVFV_virions/raw-wig-files/A_rep_1_forward.wig",
   "RVFV_virions/raw-wig-files/A_rep_2_forward.wig",
@@ -9,6 +15,19 @@ filelist_rev <- c(
   "RVFV_virions/raw-wig-files/A_rep_2_reverse.wig",
   "RVFV_virions/raw-wig-files/A_rep_3_reverse.wig"
 )
+
+
+#### Get arguments ##
+option_list = list(
+  make_option(c("-l","--logs"), type="character",default=NULL,
+              help="Log file containing information about barcode splitting", metavar="character"),
+  make_option(c("-o","--output"), type="character",default="barcode_distribution",
+              help="Name of output plot", metavar="character"),
+  make_option(c("-t","--type"), type="character",default="png",
+              help="File type of output plot", metavar="character"),
+  make_option(c("-c", "--color"), type="character", default="#69b3a2", 
+              help="Color", metavar="character")
+);
 
 library(wig)
 
