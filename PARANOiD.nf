@@ -736,20 +736,32 @@ if (params.omit_peak_calling == false){
 	}
 }
 
-process generate_peak_height_histogram {
+process split_wig_2_for_peak_height_hist {
 	tag {query.simpleName}
-	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
 
 	input:
 	file(query) from collect_wig_2_to_peak_height_histogram
 
 	output:
-	file("${query.baseName}.png")
+	set val("${query.simpleName}"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") into split_wig2_to_generate_peak_height_histogram
 
-	script:
 	"""
 	wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
-	generate-peak-height-histogram.R --input . --output ${query.baseName} --type png --color ${params.color_barplot} --percentile ${params.percentile}
+	"""
+}
+
+process generate_peak_height_histogram {
+	tag {query}
+	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
+
+	input:
+	set val(query), file(forward), file(reverse) from split_wig2_to_generate_peak_height_histogram
+
+	output:
+	file("${query}.png")
+
+	"""
+	generate-peak-height-histogram.R --input . --output ${query} --type png --color "${params.color_barplot}" --percentile ${params.percentile}
 	"""
 }
 
