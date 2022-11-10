@@ -23,7 +23,7 @@ input_path  <- opt$input_path
 output      <- opt$output
 type        <- opt$type
 color       <- opt$color
-percentile  <- opt$percentile
+percentile  <- opt$percentile / 100
 
 # get all wig files form directory
 files <- list.files(path = input_path, pattern = "\\.wig$")
