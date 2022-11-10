@@ -492,7 +492,7 @@ if (params.map_to_transcripts == true){
 		set file(txt_sequences), file(ref) from txt_get_hits_to_extract_sequences.combine(fasta_rm_newline_to_extract_sequences)
 
 		output:
-		file("${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna") into top_transcripts_to_collect
+		file("${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna") into (top_transcripts_to_collect,top_transcripts_to_strand_preference)
 
 
 		"""
@@ -500,7 +500,7 @@ if (params.map_to_transcripts == true){
 		"""
 	}
 
-	bam_merge_to_calculate_crosslinks.mix(bam_extract_alignments_to_calc_crosslink)
+	bam_extract_alignments_to_calc_crosslink
 	.into{collected_bam_files; collected_bam_files_to_sort}
 } else {
 	bam_merge_to_calculate_crosslinks
@@ -532,12 +532,20 @@ if(params.merge_replicates == true){
 	.set{grouped_bam_to_strand_preference}
 }
 
+if (params.map_to_transcripts == true){
+	top_transcripts_to_strand_preference
+	.set{choose_correct_reference_file}
+} else {
+	reference_to_strand_preference
+	.set{choose_correct_reference_file}
+}
+
 process determine_strand_preference {
 	tag {name}
 	publishDir "${params.output}/strand-distribution", mode: 'copy', pattern: "${name}.strand_proportion.txt"
 
 	input:
-	set val(name),file(query),file(reference) from grouped_bam_to_strand_preference.combine(reference_to_strand_preference)
+	set val(name),file(query),file(reference) from grouped_bam_to_strand_preference.combine(choose_correct_reference_file)
 
 	output:
 	file("${name}.strand_proportion.txt") into txt_determine_strand_to_visualize
