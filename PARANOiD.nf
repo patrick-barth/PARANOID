@@ -523,12 +523,12 @@ process sort_bam_before_strand_pref {
 
 if(params.merge_replicates == true){
 	bam_sort_to_group
-	.map{file -> tuple(file.name - ~/_rep_\d*(.sorted)?.bam$/,file)} 
+	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*(.sorted)?.bam$/,file)} 
 	.groupTuple()
 	.set{grouped_bam_to_strand_preference}
 } else {
 	bam_sort_to_group
-	.map{file -> tuple(file.name - ~/(.sorted)?.bam$/,file)}
+	.map{file -> tuple(file.name - ~/(_filtered_top)?\d*(.sorted)?.bam$/,file)}
 	.set{grouped_bam_to_strand_preference}
 }
 
@@ -626,10 +626,17 @@ if( params.merge_replicates == true ){
 		set val("cross-link-sites-merged"), file("${name}_forward.wig"), file("${name}_reverse.wig") into wig_merged_cross_link_sites_to_transform
 		file "${name}_{forward,reverse}.wig" into output
 
-		"""
-		merge-wig.py --wig ${query} --output ${name}.wig2
-		wig2-to-wig.py --input ${name}.wig2 --output ${name}
-		"""
+		script:
+		if(name !=~ "unmatched*")
+			"""
+			merge-wig.py --wig ${query} --output ${name}.wig2
+			wig2-to-wig.py --input ${name}.wig2 --output ${name}
+			"""
+		else
+			"""
+			merge-wig.py --wig ${query} --output unmatched.wig2
+			wig2-to-wig.py --input unmatched.wig2 --output unmatched
+			"""
 	}
 } else {
 	wig_calculate_crosslink_to_group_samples
@@ -746,7 +753,7 @@ process split_wig_2_for_peak_height_hist {
 	set val("${query.simpleName}"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") into split_wig2_to_generate_peak_height_histogram
 
 	"""
-	wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
+	wig2-to-wig.py --input ${query} --output ${query.simpleName}
 	"""
 }
 
