@@ -601,7 +601,7 @@ process calculate_crosslink_sites{
 	output:
 	file "${query.simpleName}.wig2" optional true into wig_calculate_crosslink_to_group_samples
 	set val("cross-link-sites"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") optional true into wig_cross_link_sites_to_transform
-	file "${query.simpleName}_{forward,reverse}.wig" optional true into wig_to_output
+	file "${query.simpleName}_{forward,reverse}.wig" optional true into wig_calculate_cl_sites_to_split_strand
 
 	"""
 	create-wig-from-bam.py --input ${query} --mapq ${params.mapq} --chrom_sizes ${chrom_sizes} --output ${query.simpleName}.wig2
@@ -619,15 +619,14 @@ if( params.merge_replicates == true ){
 	wig_calculate_crosslink_to_group_samples
 	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} 
 	.groupTuple()
-	.set{grouped_samples}
+	.set{wig2_grouped_samples_to_merge}
 
 	process merge_wigs{
 		tag {name}
-
 		publishDir "${params.output}/cross-link-sites-merged/wig", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
 
 		input:
-		set name, file(query) from grouped_samples
+		set name, file(query) from wig2_grouped_samples_to_merge
 
 		output:
 		file "${name}.wig2" into collected_wig_files
@@ -1047,7 +1046,7 @@ if (params.annotation != 'NO_FILE'){
 		"""
 	}
 } else {
-	annotation_name_to_igv_session = Channel.empty()
+	annotation_name_to_igv_session = Channel.from('NO_FILE')
 }
 
 process generate_igv_session {
