@@ -599,7 +599,7 @@ process calculate_crosslink_sites{
 	set file(query), file(chrom_sizes) from collected_bam_files.combine(chrom_sizes_to_cross_link_calculation)
 
 	output:
-	file "${query.simpleName}.wig2" optional true into wig_calculate_crosslink_to_group_samples
+	file "${query.simpleName}.wig2" optional true into (wig_calculate_crosslink_to_group_samples,wig2_calc_cl_sites_to_split)
 	set val("cross-link-sites"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") optional true into wig_cross_link_sites_to_transform
 	file "${query.simpleName}_{forward,reverse}.wig" optional true into wig_calculate_cl_sites_to_split_strand
 
@@ -620,6 +620,45 @@ if( params.merge_replicates == true ){
 	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} 
 	.groupTuple()
 	.set{wig2_grouped_samples_to_merge}
+
+	process split_wig2_for_correlation{
+		tag {query.simpleName}
+
+		input:
+		file(query) from wig2_calc_cl_sites_to_split
+
+		output:
+		file("${query.simpleName}_forward.wig") into split_wig_forward_to_correlation
+		file("${query.simpleName}_reverse.wig") into split_wig_reverse_to_correlation
+
+		"""
+		wig2-to-wig.py --input ${query} --output ${query.simpleName}
+		"""
+	}
+
+	split_wig_forward_to_correlation
+	.map{file -> tuple(file.name - ~/_rep_\d*_forward.wig$/,file)} 
+	.groupTuple()
+	.set{group_forward}
+
+	process calc_wig_correlation{
+		tag {name}
+		echo true
+		cache false
+
+		input:
+		set val(name),file(query) from group_forward
+
+		output:
+		val("${name}")
+
+		when:
+		{query}.size() >= 2
+
+		"""
+		echo ${query}
+		"""
+	}
 
 	process merge_wigs{
 		tag {name}
