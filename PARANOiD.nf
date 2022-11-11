@@ -528,7 +528,7 @@ if(params.merge_replicates == true){
 	.set{grouped_bam_to_strand_preference}
 } else {
 	bam_sort_to_group
-	.map{file -> tuple(file.name - ~/(_filtered_top)?\d*(.sorted)?.bam$/,file)}
+	.map{file -> tuple(file.name - ~/(_filtered_top\d*)?(.sorted)?.bam$/,file)}
 	.set{grouped_bam_to_strand_preference}
 }
 
