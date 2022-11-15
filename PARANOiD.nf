@@ -628,8 +628,8 @@ if( params.merge_replicates == true ){
 		file(query) from wig2_calc_cl_sites_to_split
 
 		output:
-		file("${query.simpleName}_forward.wig") into split_wig_forward_to_correlation
-		file("${query.simpleName}_reverse.wig") into split_wig_reverse_to_correlation
+		file("${query.simpleName}_forward.wig") optional true into split_wig_forward_to_correlation
+		file("${query.simpleName}_reverse.wig") optional true into split_wig_reverse_to_correlation
 
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.simpleName}
