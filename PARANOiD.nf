@@ -641,7 +641,7 @@ if( params.merge_replicates == true ){
 	.groupTuple()
 	.set{group_forward}
 
-	process calc_wig_correlation{
+	/*process calc_wig_correlation{
 		tag {name}
 		echo true
 		cache false
@@ -658,7 +658,7 @@ if( params.merge_replicates == true ){
 		"""
 		echo ${query}
 		"""
-	}
+	}*/
 
 	process merge_wigs{
 		tag {name}
