@@ -10,6 +10,7 @@ RUN apk update && apk add --no-cache R R-dev font-noto \
     Rscript -e 'install.packages("optparse",repos = "http://cran.us.r-project.org")' && \
     Rscript -e 'install.packages("ggplot2",repos = "http://cran.us.r-project.org")' && \
 	Rscript -e 'install.packages("wig",repos = "http://cran.us.r-project.org")' && \
+	Rscript -e 'install.packages("reshape2",repos = "http://cran.us.r-project.org")' && \
     apk del R-dev make g++ gcc 
 
 ADD bin/plot_experimental_barcode_distribution.R /usr/local/bin
