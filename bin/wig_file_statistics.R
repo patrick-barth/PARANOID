@@ -15,7 +15,7 @@ option_list <- list(
   make_option(c("-t", "--type"),          type = "character",   default = "png",
               metavar = "character",      help = "File type of output plot")
 )
-opt_parser  <- OptionParser(option_list=option_list)
+opt_parser  <- OptionParser(option_list = option_list)
 opt         <- parse_args(opt_parser)
 
 input_path    <- opt$input_path
@@ -25,7 +25,7 @@ type          <- opt$type
 
 chrom_length            <- read.csv(chrom_length, header = FALSE, sep = "\t", row.names = 1)
 # This line is only an adaption to the import_wig function which cuts chrom names at the first encountered dot
-row.names(chrom_length) <- unlist(lapply(strsplit(row.names(chrom_length),"\\."), `[`, 1))
+row.names(chrom_length) <- unlist(lapply(strsplit(row.names(chrom_length), "\\."), `[`, 1))
 files                   <- list.files(path = input_path, pattern = "\\.wig$")
 
 import_wig_files <- function(files = vector())
@@ -68,10 +68,10 @@ do_cor_analysis <- function(files = vector(), dat = list()) {
     appended_values <- rbind(appended_values, tmp_df)
   }
 
-  appended_values <- appended_values[rowSums(appended_values[])>0,]
+  appended_values <- appended_values[rowSums(appended_values[]) > 0, ]
 
   cor_res           <- cor(appended_values)
-  colnames(cor_res) <- unlist(lapply(strsplit(basename(files),"_[forward,reverse]+\\."), `[`, 1))
+  colnames(cor_res) <- unlist(lapply(strsplit(basename(files), "_[forward,reverse]+\\."), `[`, 1))
   rownames(cor_res) <- colnames(cor_res)
 
   csv_output_file <- paste(output, "_correlation.csv", sep = "")
@@ -83,10 +83,10 @@ do_cor_analysis <- function(files = vector(), dat = list()) {
 
 
   # print all the stuff
-  plot <- ggplot(molten_cor_res,aes(x = Var1, y = Var2, fill = value)) +
-    geom_tile()+
+  plot <- ggplot(molten_cor_res, aes(x = Var1, y = Var2, fill = value)) +
+    geom_tile() +
     scale_fill_gradient2(low = "red", mid = "white", high = "blue") +
-    labs(title = paste("Correlation of samples belonging\nto ", basename(output), sep="")) +
+    labs(title = paste("Correlation of samples belonging\nto ", basename(output), sep = "")) +
     theme(plot.title = element_text(hjust = 0.5),
           axis.title.x = element_blank(),
           axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
