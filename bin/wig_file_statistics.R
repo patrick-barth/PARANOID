@@ -62,13 +62,16 @@ import_wig_files <- function(files = vector())
 
 do_cor_analysis <- function(files = vector(), dat = list()) {
   appended_values <- data.frame(dat[[1]]$val)
+
   for (chr in seq(2, length(dat))) {
     tmp_df          <- data.frame(dat[[chr]]$val)
     appended_values <- rbind(appended_values, tmp_df)
   }
 
-  cor_res           <- cor(dat[[chr]]$val)
-  colnames(cor_res) <- basename(files)
+  appended_values <- appended_values[rowSums(appended_values[])>0,]
+
+  cor_res           <- cor(appended_values)
+  colnames(cor_res) <- unlist(lapply(strsplit(basename(files),"_[forward,reverse]+\\."), `[`, 1))
   rownames(cor_res) <- colnames(cor_res)
 
   csv_output_file <- paste(output, "_correlation.csv", sep = "")
@@ -76,14 +79,24 @@ do_cor_analysis <- function(files = vector(), dat = list()) {
   write.csv(cor_res, file = csv_output_file)
 
   print(cor_res)
+  molten_cor_res <- melt(cor_res)
+
 
   # print all the stuff
-  heatmap(cor_res, symm = TRUE)
-  heatmap_output_file <- paste(output, "_correlation.", type, sep = "")
-  pdf(file=heatmap_output_file, paper = "a4")
-  heatmap(cor_res, symm = TRUE)
-  dev.off()
+  plot <- ggplot(molten_cor_res,aes(x = Var1, y = Var2, fill = value)) +
+    geom_tile()+
+    scale_fill_gradient2(low = "red", mid = "white", high = "blue") +
+    labs(title = paste("Correlation of samples belonging\nto ", basename(output), sep="")) +
+    theme(plot.title = element_text(hjust = 0.5),
+          axis.title.x = element_blank(),
+          axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+          axis.title.y = element_blank())
 
+  ggsave(
+    paste(output, ".", type, sep = ""),
+    plot = plot,
+    device = type
+  )
 }
 
 do_cor_analysis(files, import_wig_files(files))
