@@ -27,7 +27,9 @@ plot <- ggplot(log_file,
        aes(x=Barcode, y=Count)) +
   geom_bar(stat="identity", fill = color) +
     ylab("Number of assigned reads") +
-  theme(axis.title.x = element_blank(),
+    ggtitle("Number of reads assigned to experiments") +
+  theme(plot.title = element_text(hjust = 0.5),
+        axis.title.x = element_blank(),
         axis.text.x = element_text(angle=45,hjust=1))
 
 ggsave(
