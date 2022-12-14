@@ -2,6 +2,7 @@
 
 library(optparse)
 library(ggplot2)
+library(reshape2)
 library(wig)
 
 #### Get arguments ##
