@@ -583,7 +583,7 @@ process get_chromosome_sizes{
 	file(ref) from reference_to_chrom_sizes
 
 	output:
-	file("${ref.simpleName}.chromosome_sizes.txt") into (chrom_sizes_to_cross_link_calculation,chrom_sizes_to_bigWig)
+	file("${ref.simpleName}.chromosome_sizes.txt") into (chrom_sizes_to_cross_link_calculation,chrom_sizes_to_bigWig,chrom_sizes_to_correlation)
 
 	"""
 	samtools faidx ${ref}
@@ -641,24 +641,25 @@ if( params.merge_replicates == true ){
 	.groupTuple()
 	.set{group_forward}
 
-	/*process calc_wig_correlation{
+	process calc_wig_correlation{
 		tag {name}
-		echo true
-		cache false
+		publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}{.png,_correlation.csv}"
 
 		input:
-		set val(name),file(query) from group_forward
+		set val(name),file(query),file(chrom_sizes) from group_forward.combine(chrom_sizes_to_correlation)
 
 		output:
-		val("${name}")
+		file("${name}.png") optional true
+		file("${name}_correlation.csv") optional true
 
-		when:
-		{query}.size() >= 2
-
+		script:
+		String[] test_size = query
 		"""
-		echo ${query}
+		if [[ ${test_size.size()} > 1 ]]; then
+			wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name} --type png
+		fi
 		"""
-	}*/
+	}
 
 	process merge_wigs{
 		tag {name}
@@ -757,6 +758,7 @@ if (params.omit_peak_calling == false){
 
 	process pureCLIP {
 		tag{bam.simpleName}
+		cache false
 		errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
 
 		publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
@@ -784,7 +786,8 @@ if (params.omit_peak_calling == false){
 			"""
 		else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == false)
 			"""
-			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
+			ln -s ${ref} ${ref.baseName}_symlink.fasta
+			pureclip -i ${bam} -bai ${bai} -g ${ref.baseName}_symlink.fasta -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
 			"""
 	}
 }
