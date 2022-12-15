@@ -15,5 +15,5 @@ echo "Directory to save images to:      $OUTPUTDIR"
 for d in `ls $DOCKERDIR/`; do
     NAME=${d/dockerfile.}
     echo "Pulling image $NAME"
-    singularity pull --name $ACCOUNT-$NAME-$VERSION.img docker://$ACCOUNT/$NAME:$VERSION > /dev/null
+    singularity pull --name $OUTPUTDIR/$ACCOUNT-$NAME-$VERSION.img docker://$ACCOUNT/$NAME:$VERSION > /dev/null
 done
