@@ -1,5 +1,5 @@
 Supplementary scripts for PARANOiD
-===================
+==================================
 
 Supplementary scripts for PARANOiD
 
