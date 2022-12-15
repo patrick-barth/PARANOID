@@ -3,7 +3,7 @@ FROM alpine:3.16
 LABEL tool="subread"
 LABEL tool.version="2.0.3"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 ARG FILE=subread-2.0.3-source.tar.gz
 ARG TMPDIR=/opt

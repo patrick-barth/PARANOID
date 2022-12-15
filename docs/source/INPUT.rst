@@ -15,7 +15,12 @@ Reads
 3. **Delimiter line**. Starts with a ``+``
 4. **Quality values** of nucleotide sequence (line2). Must contain same number of symbols as line 2
 
+<<<<<<< HEAD
 Example:
+=======
+Example::
+"""""""""
+>>>>>>> 3744fb5d4a29f1e45b707323c09701aee51d2d4f
 
 1. @SEQ_ID
 2. GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT

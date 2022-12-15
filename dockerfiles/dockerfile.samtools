@@ -3,7 +3,7 @@ FROM alpine:3.16
 LABEL tool="samtools"
 LABEL tool.version="1.16.1"
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 ARG FILE=samtools-1.16.1.tar.bz2
 ARG TMPDIR=/opt

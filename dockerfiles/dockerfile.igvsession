@@ -1,6 +1,6 @@
 FROM python:3.11-slim
 
-MAINTAINER Patrick Barth <patrick.barth@computational.bio.uni-giessen.de>
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 ADD bin/generate-igv-session.py /usr/local/bin
 

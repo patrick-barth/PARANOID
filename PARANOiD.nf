@@ -358,7 +358,7 @@ process sort_bam{
 process deduplicate{
 	publishDir "${params.output}/statistics/PCR-deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
 	tag {query.simpleName}
-	memory { 5.GB + 1.B * query.size() }
+	memory { 20.GB + 1.B * query.size() }
 
 	input:
 	set file(query), file(index) from bam_sort_to_deduplicate
@@ -492,7 +492,7 @@ if (params.map_to_transcripts == true){
 		set file(txt_sequences), file(ref) from txt_get_hits_to_extract_sequences.combine(fasta_rm_newline_to_extract_sequences)
 
 		output:
-		file("${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna") into top_transcripts_to_collect
+		file("${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna") into (top_transcripts_to_collect,top_transcripts_to_strand_preference)
 
 
 		"""
@@ -500,7 +500,7 @@ if (params.map_to_transcripts == true){
 		"""
 	}
 
-	bam_merge_to_calculate_crosslinks.mix(bam_extract_alignments_to_calc_crosslink)
+	bam_extract_alignments_to_calc_crosslink
 	.into{collected_bam_files; collected_bam_files_to_sort}
 } else {
 	bam_merge_to_calculate_crosslinks
@@ -523,13 +523,21 @@ process sort_bam_before_strand_pref {
 
 if(params.merge_replicates == true){
 	bam_sort_to_group
-	.map{file -> tuple(file.name - ~/_rep_\d*(.sorted)?.bam$/,file)} 
+	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*(.sorted)?.bam$/,file)} 
 	.groupTuple()
 	.set{grouped_bam_to_strand_preference}
 } else {
 	bam_sort_to_group
-	.map{file -> tuple(file.name - ~/(.sorted)?.bam$/,file)}
+	.map{file -> tuple(file.name - ~/(_filtered_top\d*)?(.sorted)?.bam$/,file)}
 	.set{grouped_bam_to_strand_preference}
+}
+
+if (params.map_to_transcripts == true){
+	top_transcripts_to_strand_preference
+	.set{choose_correct_reference_file}
+} else {
+	reference_to_strand_preference
+	.set{choose_correct_reference_file}
 }
 
 process determine_strand_preference {
@@ -537,7 +545,7 @@ process determine_strand_preference {
 	publishDir "${params.output}/strand-distribution", mode: 'copy', pattern: "${name}.strand_proportion.txt"
 
 	input:
-	set val(name),file(query),file(reference) from grouped_bam_to_strand_preference.combine(reference_to_strand_preference)
+	set val(name),file(query),file(reference) from grouped_bam_to_strand_preference.combine(choose_correct_reference_file)
 
 	output:
 	file("${name}.strand_proportion.txt") into txt_determine_strand_to_visualize
@@ -575,7 +583,7 @@ process get_chromosome_sizes{
 	file(ref) from reference_to_chrom_sizes
 
 	output:
-	file("${ref.simpleName}.chromosome_sizes.txt") into (chrom_sizes_to_cross_link_calculation,chrom_sizes_to_bigWig)
+	file("${ref.simpleName}.chromosome_sizes.txt") into (chrom_sizes_to_cross_link_calculation,chrom_sizes_to_bigWig,chrom_sizes_to_correlation)
 
 	"""
 	samtools faidx ${ref}
@@ -591,9 +599,9 @@ process calculate_crosslink_sites{
 	set file(query), file(chrom_sizes) from collected_bam_files.combine(chrom_sizes_to_cross_link_calculation)
 
 	output:
-	file "${query.simpleName}.wig2" optional true into wig_calculate_crosslink_to_group_samples
+	file "${query.simpleName}.wig2" optional true into (wig_calculate_crosslink_to_group_samples,wig2_calc_cl_sites_to_split)
 	set val("cross-link-sites"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") optional true into wig_cross_link_sites_to_transform
-	file "${query.simpleName}_{forward,reverse}.wig" optional true into wig_to_output
+	file "${query.simpleName}_{forward,reverse}.wig" optional true into wig_calculate_cl_sites_to_split_strand
 
 	"""
 	create-wig-from-bam.py --input ${query} --mapq ${params.mapq} --chrom_sizes ${chrom_sizes} --output ${query.simpleName}.wig2
@@ -611,25 +619,71 @@ if( params.merge_replicates == true ){
 	wig_calculate_crosslink_to_group_samples
 	.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} 
 	.groupTuple()
-	.set{grouped_samples}
+	.set{wig2_grouped_samples_to_merge}
+
+	process split_wig2_for_correlation{
+		tag {query.simpleName}
+
+		input:
+		file(query) from wig2_calc_cl_sites_to_split
+
+		output:
+		file("${query.simpleName}_forward.wig") optional true into split_wig_forward_to_correlation
+		file("${query.simpleName}_reverse.wig") optional true into split_wig_reverse_to_correlation
+
+		"""
+		wig2-to-wig.py --input ${query} --output ${query.simpleName}
+		"""
+	}
+
+	split_wig_forward_to_correlation
+	.map{file -> tuple(file.name - ~/_rep_\d*_forward.wig$/,file)} 
+	.groupTuple()
+	.set{group_forward}
+
+	process calc_wig_correlation{
+		tag {name}
+		publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}{.png,_correlation.csv}"
+
+		input:
+		set val(name),file(query),file(chrom_sizes) from group_forward.combine(chrom_sizes_to_correlation)
+
+		output:
+		file("${name}.png") optional true
+		file("${name}_correlation.csv") optional true
+
+		script:
+		String[] test_size = query
+		"""
+		if [[ ${test_size.size()} > 1 ]]; then
+			wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name} --type png
+		fi
+		"""
+	}
 
 	process merge_wigs{
 		tag {name}
-
 		publishDir "${params.output}/cross-link-sites-merged/wig", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
 
 		input:
-		set name, file(query) from grouped_samples
+		set name, file(query) from wig2_grouped_samples_to_merge
 
 		output:
 		file "${name}.wig2" into collected_wig_files
 		set val("cross-link-sites-merged"), file("${name}_forward.wig"), file("${name}_reverse.wig") into wig_merged_cross_link_sites_to_transform
 		file "${name}_{forward,reverse}.wig" into output
 
-		"""
-		merge-wig.py --wig ${query} --output ${name}.wig2
-		wig2-to-wig.py --input ${name}.wig2 --output ${name}
-		"""
+		script:
+		if(name !=~ "unmatched*")
+			"""
+			merge-wig.py --wig ${query} --output ${name}.wig2
+			wig2-to-wig.py --input ${name}.wig2 --output ${name}
+			"""
+		else
+			"""
+			merge-wig.py --wig ${query} --output unmatched.wig2
+			wig2-to-wig.py --input unmatched.wig2 --output unmatched
+			"""
 	}
 } else {
 	wig_calculate_crosslink_to_group_samples
@@ -684,7 +738,7 @@ process bigWig_to_bedgraph{
 }
 
 // Generate one channel per postprocessing analysis
-collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance }
+collected_wig_files.into{ collected_wig_2_to_RNA_subtypes_distribution; collected_wig_2_to_sequence_extraction; collected_wig_2_to_peak_distance; collect_wig_2_to_peak_height_histogram }
 
 if (params.omit_peak_calling == false){
 	process index_for_peak_calling {
@@ -704,6 +758,7 @@ if (params.omit_peak_calling == false){
 
 	process pureCLIP {
 		tag{bam.simpleName}
+		cache false
 		errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
 
 		publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
@@ -731,14 +786,44 @@ if (params.omit_peak_calling == false){
 			"""
 		else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == false)
 			"""
-			pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
+			ln -s ${ref} ${ref.baseName}_symlink.fasta
+			pureclip -i ${bam} -bai ${bai} -g ${ref.baseName}_symlink.fasta -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
 			"""
 	}
 }
 
+process split_wig_2_for_peak_height_hist {
+	tag {query.simpleName}
+
+	input:
+	file(query) from collect_wig_2_to_peak_height_histogram
+
+	output:
+	set val("${query.simpleName}"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") into split_wig2_to_generate_peak_height_histogram
+
+	"""
+	wig2-to-wig.py --input ${query} --output ${query.simpleName}
+	"""
+}
+
+process generate_peak_height_histogram {
+	tag {query}
+	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
+
+	input:
+	set val(query), file(forward), file(reverse) from split_wig2_to_generate_peak_height_histogram
+
+	output:
+	file("${query}.png")
+
+	"""
+	generate-peak-height-histogram.R --input . --output ${query} --type png --color "${params.color_barplot}" --percentile ${params.percentile}
+	"""
+}
+
 if ( params.annotation != 'NO_FILE'){
 	process wig_to_bam {
-		tag{query.simpleName}
+		tag {query.simpleName}
 
 		input:
 		file(query) from collected_wig_2_to_RNA_subtypes_distribution
@@ -1003,7 +1088,7 @@ if (params.annotation != 'NO_FILE'){
 		"""
 	}
 } else {
-	annotation_name_to_igv_session = Channel.empty()
+	annotation_name_to_igv_session = Channel.from('NO_FILE')
 }
 
 process generate_igv_session {

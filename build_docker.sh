@@ -9,6 +9,6 @@ set -e
 for d in `ls dockerfiles/`; do
     NAME=${d/dockerfile.}
     docker build -t ${NAME}:${VERSION} . -f dockerfiles/${d}
-    docker tag ${NAME}:${VERSION} harbor.computational.bio.uni-giessen.de/sjaenick/${NAME}:${VERSION}
-    docker push harbor.computational.bio.uni-giessen.de/sjaenick/${NAME}:${VERSION}
+    docker tag ${NAME}:${VERSION} ${ACCOUNT}/${NAME}:${VERSION}
+    docker push ${ACCOUNT}/${NAME}:${VERSION}
 done
