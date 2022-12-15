@@ -12,6 +12,8 @@ Welcome to PARANOiD's documentation!
 
    Inputs <INPUT>
    Parameters <PARAMETERS>
+   Analyses <ANALYSES>
    Outputs <OUTPUT>
+   Additional scripts <ADDITIONAL_SCRIPTS>
    FAQ <FAQ>
 
