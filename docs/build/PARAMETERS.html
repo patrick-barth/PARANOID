@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PARANOiD Parameters &mdash; PARANOiD  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Included Analyses" href="ANALYSES.html" />
+    <link rel="prev" title="PARANOiD Inputs" href="INPUT.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PARANOiD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#merge-replicates">Merge replicates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#change-barcode-pattern">Change barcode pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#choose-aligner">Choose aligner</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output-directory">Output directory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minimum-read-length-after-adapter-removal">Minimum read length after adapter removal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minimum-base-quality">Minimum base quality</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PARANOiD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">PARANOiD Parameters</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/PARAMETERS.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="paranoid-parameters">
+<h1>PARANOiD Parameters<a class="headerlink" href="#paranoid-parameters" title="Permalink to this heading"></a></h1>
+<p>Explanation of all PARANOiD parameters</p>
+<div class="section" id="merge-replicates">
+<span id="id1"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
+<p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">[barcodes section]</span></a></p>
+<p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
+<p>Usage:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--merge_replicates</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="change-barcode-pattern">
+<span id="barcode-pattern"></span><h2>Change barcode pattern<a class="headerlink" href="#change-barcode-pattern" title="Permalink to this heading"></a></h2>
+<p>Adapt barcode patterns to different protocols. Default protocol is <cite>iCLIP2 &lt;https://doi.org/10.1016/j.ymeth.2019.10.003&gt;</cite>.
+<code class="docutils literal notranslate"><span class="pre">N</span></code> s represent the random barcode and <code class="docutils literal notranslate"><span class="pre">X</span></code> s the experimental barcode</p>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--barcode_pattern</span> <span class="pre">NNNNNXXXXXXNNNN</span>
+<span class="pre">`</span></code>
+Example for iCLIP1
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--barcode_pattern</span> <span class="pre">NNNXXXXNN</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="choose-aligner">
+<span id="domain"></span><h2>Choose aligner<a class="headerlink" href="#choose-aligner" title="Permalink to this heading"></a></h2>
+<p>Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> file besides the reference.</p>
+<p>Options:
+| pro -&gt; Bowtie2 (default)
+| eu  -&gt; STAR</p>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--domain</span> <span class="pre">pro</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="output-directory">
+<span id="output-dir"></span><h2>Output directory<a class="headerlink" href="#output-directory" title="Permalink to this heading"></a></h2>
+<p>Specify directory to which output generated by PARANOiD will be written.</p>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--output</span> <span class="pre">./output</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="minimum-read-length-after-adapter-removal">
+<span id="min-length"></span><h2>Minimum read length after adapter removal<a class="headerlink" href="#minimum-read-length-after-adapter-removal" title="Permalink to this heading"></a></h2>
+<p>Specify minimum length a read needs to have after adapter removal to persist. Reads that become shorter during adapter removal will be filtered out.</p>
+<p>Usage (default)
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_length</span> <span class="pre">30</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="minimum-base-quality">
+<span id="min-qual"></span><h2>Minimum base quality<a class="headerlink" href="#minimum-base-quality" title="Permalink to this heading"></a></h2>
+<p>Minimum quality for bases.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="INPUT.html" class="btn btn-neutral float-left" title="PARANOiD Inputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ANALYSES.html" class="btn btn-neutral float-right" title="Included Analyses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Patrick Barth.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
