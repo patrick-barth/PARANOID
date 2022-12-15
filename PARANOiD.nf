@@ -3,6 +3,12 @@
 import java.nio.file.*
 import groovy.io.FileType
 
+//Check for pipeline version. Pipeline is only executed if version is not requested
+params.version = false
+if(params.version){
+	println(workflow.manifest.version)
+} else {
+
 params.split_fastq_by = 1000000
 params.speed = false
 
@@ -62,6 +68,7 @@ params.omit_cl_nucleotide = false
 params.max_motif_num = 50						// INT max number of motifs to search for 
 params.min_motif_width = 8						// INT minimum motif width to report, >=3
 params.max_motif_width = 15						// INT maximum motif width to report, <= 30
+
 
 // Check if the speed mode was being used. If so the fastq input file will be split every ${params.split_fastq_by} reads to greatly enhance the preprocessing speed
 input_reads.into { input_reads_QC; input_reads_processing }
@@ -1145,4 +1152,5 @@ workflow.onComplete{
 workflow.onError {
 	println "Something went wrong :("
 	println "Pipeline execution stopped with following error message: ${workflow.errorMessage}"
+}
 }
