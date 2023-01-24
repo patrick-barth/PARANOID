@@ -1,11 +1,11 @@
 FROM alpine:3.16
 
 LABEL tool="bowtie2"
-LABEL tool.version="2.4.5"
+LABEL tool.version="2.5.1"
 
 LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
-ARG FILE=bowtie2-2.4.5-source.zip
+ARG FILE=bowtie2-2.5.1-source.zip
 
 RUN apk update && apk add perl \
 	python3\
@@ -13,12 +13,12 @@ RUN apk update && apk add perl \
 	zlib-dev \
 	make \
 	bash && \
-	wget -q https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.4.5/$FILE && \
+	wget -q https://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.5.1/$FILE && \
 	unzip $FILE && \
 	rm $FILE && \
-	cd bowtie2-2.4.5 && \
+	cd bowtie2-2.5.1 && \
 	make prefix=/usr/local NO_TBB=1 install && \
-        cd .. && rm -rf bowtie2-2.4.5 && \
+        cd .. && rm -rf bowtie2-2.5.1 && \
         wget -q https://github.com/samtools/samtools/releases/download/1.16.1/samtools-1.16.1.tar.bz2 && \
         tar xjf samtools-1.16.1.tar.bz2 && \
         cd samtools-1.16.1 && \
