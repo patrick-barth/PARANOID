@@ -14,7 +14,7 @@ RUN apk update && apk add --no-cache python3 \
 	unzip \
 	perl \
 	bash && \
-	pip --no-cache-dir install cutadapt==4.1 && \
+	pip --no-cache-dir install cutadapt==4.2 && \
     apk del python3-dev py3-pip g++ make unzip
 
 #install trim_galore	
