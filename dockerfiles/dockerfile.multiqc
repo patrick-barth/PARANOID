@@ -8,7 +8,7 @@ RUN apk update && apk add --no-cache python3 py3-click py3-requests \
         py3-matplotlib py3-pygments py3-simplejson py3-networkx \
         py3-pip py3-numpy py3-kiwisolver py3-jinja2 py3-future py3-coloredlogs \
         bash && \
-        python3 -m pip install multiqc==1.13
+        pip --no-cache-dir install multiqc==1.13
 
 ENV	LC_ALL C.UTF-8
 ENV	LANG C.UTF-8
