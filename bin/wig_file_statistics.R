@@ -94,7 +94,7 @@ do_cor_analysis <- function(files = vector(), dat = list()) {
           axis.title.y = element_blank())
 
   ggsave(
-    paste(output, ".", type, sep = ""),
+    paste(output, "_correlation.", type, sep = ""),
     plot = plot,
     device = type
   )
