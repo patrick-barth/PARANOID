@@ -55,7 +55,7 @@ import_wig_files <- function(files = vector())
 
   # build the result list
   for (chr in chromosomes) {
-    chr_dat[[chr]] <- list(name = chr, len = chrom_length[chr, ], val = chromosome_values[[chr]])
+    chr_dat[[chr]] <- list(name = chr, len = as.numeric(chrom_length[chr, ]), val = chromosome_values[[chr]])
   }
 
   return(chr_dat)
