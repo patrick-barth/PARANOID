@@ -38,6 +38,7 @@ params.map_to_transcripts = false 						//BOOLEAN decides if top X sequences fro
 params.number_top_transcripts = 10 						//INT number of top transcripts presented when params.map_to_transcripts = true
 
 params.merge_replicates = false
+params.correlation_analysis = false
 
 // parameters for peak calling
 params.omit_peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
@@ -643,31 +644,40 @@ if( params.merge_replicates == true ){
 		"""
 	}
 
-	split_wig_forward_to_correlation
-	.map{file -> tuple(file.name - ~/_rep_\d*_forward.wig$/,file)} 
-	.groupTuple()
-	.set{group_forward}
+	if( params.correlation_analysis == true ){
 
-	process calc_wig_correlation{
-		tag {name}
-		publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}{.png,_correlation.csv}"
+		split_wig_forward_to_correlation
+			.map{file -> tuple(file.name - ~/_rep_\d*_forward.wig$/,file)} 
+			.groupTuple()
+			.combine("forward")
+			.set{group_forward}
 
-		input:
-		set val(name),file(query),file(chrom_sizes) from group_forward.combine(chrom_sizes_to_correlation)
+		split_wig_reverse_to_correlation
+			.map{file -> tuple(file.name - ~/_rep_\d*_reverse.wig$/,file)} 
+			.groupTuple()
+			.combine("reverse")
+			.set{group_reverse}
 
-		output:
-		file("${name}.png") optional true
-		file("${name}_correlation.csv") optional true
+		process calc_wig_correlation{
+			tag {name}
+			publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}{.png,_correlation.csv}"
 
-		script:
-		String[] test_size = query
-		"""
-		if [[ ${test_size.size()} > 1 ]]; then
-			wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name} --type png
-		fi
-		"""
+			input:
+			set val(name),file(query),val(strand),file(chrom_sizes) from group_forward.concat(group_reverse).combine(chrom_sizes_to_correlation)
+
+			output:
+			file("${name}.png") optional true
+			file("${name}_correlation.csv") optional true
+
+			script:
+			String[] test_size = query
+			"""
+			if [[ ${test_size.size()} > 1 ]]; then
+				wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png
+			fi
+			"""
+		}
 	}
-
 	process merge_wigs{
 		tag {name}
 		publishDir "${params.output}/cross-link-sites-merged/wig", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
