@@ -49,7 +49,7 @@ import_wig_files <- function(files = vector())
       lines       <- filelist[[i]]$chr == chr
       positions   <- filelist[[i]][lines, ]$pos
       values      <- filelist[[i]][lines, ]$val
-      chromosome_values[[chr]][positions, i] <- values
+      chromosome_values[[chr]][positions, i] <- abs(values)
     }
   }
 
