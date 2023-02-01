@@ -654,22 +654,26 @@ if( params.merge_replicates == true ){
 			.combine(forward_value)
 			.set{group_forward}
 
+		reverse_value = Channel.from("reverse")
+
 		split_wig_reverse_to_correlation
 			.map{file -> tuple(file.name - ~/_rep_\d*_reverse.wig$/,file)} 
 			.groupTuple()
-			.combine("reverse")
+			.combine(reverse_value)
 			.set{group_reverse}
 
 		process calc_wig_correlation{
+
+			cache false
 			tag {name}
-			publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}{.png,_correlation.csv}"
+			publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}_${strand}_correlation.{png,csv}"
 
 			input:
 			set val(name),file(query),val(strand),file(chrom_sizes) from group_forward.concat(group_reverse).combine(chrom_sizes_to_correlation)
 
 			output:
-			file("${name}.png") optional true
-			file("${name}_correlation.csv") optional true
+			file("${name}_${strand}_correlation.png") optional true
+			file("${name}_${strand}_correlation.csv") optional true
 
 			script:
 			String[] test_size = query
