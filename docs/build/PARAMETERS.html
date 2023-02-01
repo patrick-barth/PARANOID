@@ -16,6 +16,7 @@
         <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/sphinx_highlight.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -43,11 +44,33 @@
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#merge-replicates">Merge replicates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#correlation-analysis">Correlation analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#change-barcode-pattern">Change barcode pattern</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#choose-aligner">Choose aligner</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#output-directory">Output directory</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#minimum-read-length-after-adapter-removal">Minimum read length after adapter removal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#minimum-base-quality">Minimum base quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minimum-percent-of-nucleotides-above-quality-threshold">Minimum percent of nucleotides above quality threshold</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mismatches-allowed-within-barcodes">Mismatches allowed within barcodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alignment-quality">Alignment quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#align-to-transcripts">Align to transcripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#number-of-top-transcripts">Number of top transcripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Omit peak calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-calling-for-references-with-a-generally-high-coverage">Peak calling for references with a generally high coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#return-peak-regions-instead-of-single-peaks">Return peak regions instead of single peaks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adapt-width-of-peak-regions">Adapt width of peak regions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#name-of-gene-id-in-annotation-file">Name of gene ID in annotation file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#color-of-barplot">Color of barplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">RNA subtypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-peak-distance-analysis">Omit peak distance analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distance-for-peak-distance-analysis">Distance for peak distance analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction">Peak percentiles for peak distance analysis and sequence extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-sequence-extraction-and-motif-analysis">Omit sequence extraction and motif analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#length-for-sequence-extraction">Length for sequence extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-nucleotide-at-cross-linking-site">Omit nucleotide at cross linking site</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maximum-number-of-motifs">Maximum number of motifs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#minumum-width-of-motifs">Minumum width of motifs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#maximum-width-of-motifs">Maximum width of motifs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
@@ -85,11 +108,22 @@
 <p>Explanation of all PARANOiD parameters</p>
 <div class="section" id="merge-replicates">
 <span id="id1"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
-<p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">[barcodes section]</span></a></p>
+<p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">[barcodes section]</span></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--merge_replicates</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="correlation-analysis">
+<span id="id2"></span><h2>Correlation analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="#merge-replicates"><span class="std std-ref">[replicate merging]</span></a> is chosen.
+Does a correlation analysis of replicates to show their similarity (and thus if they should be merged at all).
+Can cause problems with large reference genomes due to excessive RAM usage.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
+<p>Usage:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--correlation_analysis</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="change-barcode-pattern">
@@ -125,7 +159,7 @@ Example for iCLIP1
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="minimum-read-length-after-adapter-removal">
-<span id="min-length"></span><h2>Minimum read length after adapter removal<a class="headerlink" href="#minimum-read-length-after-adapter-removal" title="Permalink to this heading"></a></h2>
+<span id="min-read-length"></span><h2>Minimum read length after adapter removal<a class="headerlink" href="#minimum-read-length-after-adapter-removal" title="Permalink to this heading"></a></h2>
 <p>Specify minimum length a read needs to have after adapter removal to persist. Reads that become shorter during adapter removal will be filtered out.</p>
 <p>Usage (default)
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -133,8 +167,107 @@ Example for iCLIP1
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="minimum-base-quality">
-<span id="min-qual"></span><h2>Minimum base quality<a class="headerlink" href="#minimum-base-quality" title="Permalink to this heading"></a></h2>
-<p>Minimum quality for bases.</p>
+<span id="min-base-qual"></span><h2>Minimum base quality<a class="headerlink" href="#minimum-base-quality" title="Permalink to this heading"></a></h2>
+<p>Minimum quality for bases. All bases below that quality are cut off.
+The quality score (also known as Phred quality score) describes the certainty of correctness of the base and is typically calculated as follows with e being the error probability: <span class="math notranslate nohighlight">\(Q-Score = -10log_\text{10}(e)\)</span></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 37%" />
+<col style="width: 33%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Phred Quality score</p></th>
+<th class="head"><p>Error probability</p></th>
+<th class="head"><p>Accuracy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>10</p></td>
+<td><p>10%</p></td>
+<td><p>90%</p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td><p>1%</p></td>
+<td><p>99%</p></td>
+</tr>
+<tr class="row-even"><td><p>30</p></td>
+<td><p>0.1%</p></td>
+<td><p>99.9%</p></td>
+</tr>
+<tr class="row-odd"><td><p>40</p></td>
+<td><p>0.01%</p></td>
+<td><p>99.99%</p></td>
+</tr>
+</tbody>
+</table>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="minimum-percent-of-nucleotides-above-quality-threshold">
+<h2>Minimum percent of nucleotides above quality threshold<a class="headerlink" href="#minimum-percent-of-nucleotides-above-quality-threshold" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="mismatches-allowed-within-barcodes">
+<h2>Mismatches allowed within barcodes<a class="headerlink" href="#mismatches-allowed-within-barcodes" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="alignment-quality">
+<h2>Alignment quality<a class="headerlink" href="#alignment-quality" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="align-to-transcripts">
+<h2>Align to transcripts<a class="headerlink" href="#align-to-transcripts" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="number-of-top-transcripts">
+<h2>Number of top transcripts<a class="headerlink" href="#number-of-top-transcripts" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="id3">
+<h2>Omit peak calling<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="peak-calling-for-references-with-a-generally-high-coverage">
+<h2>Peak calling for references with a generally high coverage<a class="headerlink" href="#peak-calling-for-references-with-a-generally-high-coverage" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="return-peak-regions-instead-of-single-peaks">
+<h2>Return peak regions instead of single peaks<a class="headerlink" href="#return-peak-regions-instead-of-single-peaks" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="adapt-width-of-peak-regions">
+<h2>Adapt width of peak regions<a class="headerlink" href="#adapt-width-of-peak-regions" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="name-of-gene-id-in-annotation-file">
+<h2>Name of gene ID in annotation file<a class="headerlink" href="#name-of-gene-id-in-annotation-file" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="color-of-barplot">
+<h2>Color of barplot<a class="headerlink" href="#color-of-barplot" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="id4">
+<h2>RNA subtypes<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="omit-peak-distance-analysis">
+<h2>Omit peak distance analysis<a class="headerlink" href="#omit-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="distance-for-peak-distance-analysis">
+<h2>Distance for peak distance analysis<a class="headerlink" href="#distance-for-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="peak-percentiles-for-peak-distance-analysis-and-sequence-extraction">
+<h2>Peak percentiles for peak distance analysis and sequence extraction<a class="headerlink" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="omit-sequence-extraction-and-motif-analysis">
+<h2>Omit sequence extraction and motif analysis<a class="headerlink" href="#omit-sequence-extraction-and-motif-analysis" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="length-for-sequence-extraction">
+<h2>Length for sequence extraction<a class="headerlink" href="#length-for-sequence-extraction" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="omit-nucleotide-at-cross-linking-site">
+<h2>Omit nucleotide at cross linking site<a class="headerlink" href="#omit-nucleotide-at-cross-linking-site" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="maximum-number-of-motifs">
+<h2>Maximum number of motifs<a class="headerlink" href="#maximum-number-of-motifs" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="minumum-width-of-motifs">
+<h2>Minumum width of motifs<a class="headerlink" href="#minumum-width-of-motifs" title="Permalink to this heading"></a></h2>
+</div>
+<div class="section" id="maximum-width-of-motifs">
+<h2>Maximum width of motifs<a class="headerlink" href="#maximum-width-of-motifs" title="Permalink to this heading"></a></h2>
 </div>
 </div>
 

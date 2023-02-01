@@ -16,3 +16,14 @@ Usage:
 featuretypes-from-gtfgff.awk /path/to/anntotation_file.gff
 ```
 
+.. _pull_images:
+
+Pull images
+-----------
+
+Pulls images via singularity. Images are used to build the containers used by processes.
+Should be used to pull all images before starting PARANOiD.
+
+```
+pull_images.sh /path/to/PARANOiD/dockerfiles /path/to/image_directory
+```

@@ -28,7 +28,7 @@ Analysis to show if specific RNAs are more prone to interact with the the protei
 If choosing this analysis a file containing all RNAs of interest should be used as input reference instead of the genome. Here all RNAs of interest (or artificial RNAs present in the sample) can be combined to a single fasta file. If the general transcriptome of an organism shall be examined, they can often be accessed next to the genome and annotation of the organism. If not a FASTA file containing the transcripts can be generated as follows (needs the genome and an annotation file):
 
 ```
-
+--map_to_transcripts
 ```
 
 .. _peak_calling:

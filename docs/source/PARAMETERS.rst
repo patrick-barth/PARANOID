@@ -8,7 +8,8 @@ Explanation of all PARANOiD parameters
 Merge replicates
 ----------------
 
-Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  :ref:`[barcodes section]<barcodes>`
+Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  :ref:`[barcodes section]<barcodes>`.
+
 
 ``Default: false``
 
@@ -17,6 +18,21 @@ Usage:
 --merge_replicates
 ```
 
+.. _correlation_analysis:
+
+Correlation analysis
+--------------------
+
+Only applies when :ref:`[replicate merging]<merge-replicates>` is chosen.
+Does a correlation analysis of replicates to show their similarity (and thus if they should be merged at all).
+Can cause problems with large reference genomes due to excessive RAM usage.
+
+``Default: false``
+
+Usage:  
+```
+--correlation_analysis
+```
 
 .. _barcode-pattern:
 
@@ -51,7 +67,7 @@ Usage (default):
 --domain pro 
 ```
 
-.. _output_dir:
+.. _output-dir:
 
 Output directory
 ----------------
@@ -63,7 +79,7 @@ Usage (default):
 --output ./output
 ```
 
-.. _min_length:
+.. _min-read-length:
 
 Minimum read length after adapter removal
 -----------------------------------------
@@ -75,9 +91,112 @@ Usage (default)
 --min_length 30
 ```
 
-.. _min_qual:
+.. _min-base-qual:
 
 Minimum base quality
 --------------------
 
-Minimum quality for bases. 
+Minimum quality for bases. All bases below that quality are cut off. 
+The quality score (also known as Phred quality score) describes the certainty of correctness of the base and is typically calculated as follows with e being the error probability: :math:`Q-Score = -10log_\text{10}(e)`
+
++---------------------+-------------------+-----------------+
+| Phred Quality score | Error probability | Accuracy        |
++=====================+===================+=================+
+| 10                  | 10%               | 90%             |
++---------------------+-------------------+-----------------+
+| 20                  | 1%                | 99%             |
++---------------------+-------------------+-----------------+
+| 30                  | 0.1%              | 99.9%           |
++---------------------+-------------------+-----------------+
+| 40                  | 0.01%             | 99.99%          |
++---------------------+-------------------+-----------------+
+
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _percent-qual-filter:
+Minimum percent of nucleotides above quality threshold
+------------------------------------------------------
+
+.. _barcode-mismatches:
+Mismatches allowed within barcodes
+----------------------------------
+
+.. _mapq:
+Alignment quality
+-----------------
+
+.. _map-to-transcripts:
+Align to transcripts
+--------------------
+
+.. _number-top-transcripts:
+Number of top transcripts
+-------------------------
+
+.. _omit-peak-calling:
+Omit peak calling
+-----------------
+
+.. _peak-calling-for-high-coverage:
+Peak calling for references with a generally high coverage
+----------------------------------------------------------
+
+.. _peak-calling-regions:
+Return peak regions instead of single peaks
+-------------------------------------------
+
+.. _peak-calling-region-width:
+Adapt width of peak regions
+---------------------------
+
+.. _gene-id:
+Name of gene ID in annotation file
+----------------------------------
+
+.. _color-barplot:
+Color of barplot
+----------------
+
+.. _rna-subtypes:
+RNA subtypes
+------------
+
+.. _omit-peak-distance:
+Omit peak distance analysis
+---------------------------
+
+.. _max-peak-distance:
+Distance for peak distance analysis
+-----------------------------------
+
+.. _distance-percentile:
+Peak percentiles for peak distance analysis and sequence extraction
+-------------------------------------------------------------------
+
+.. _omit-sequence-extraction:
+Omit sequence extraction and motif analysis
+-------------------------------------------
+
+.. _sequence-extarction-length:
+Length for sequence extraction
+------------------------------
+
+.. _omit-cl-nuckeotide:
+Omit nucleotide at cross linking site
+-------------------------------------
+
+.. _max-number-of-motifs:
+Maximum number of motifs
+------------------------
+
+.. _min-motif-width:
+Minumum width of motifs
+-----------------------
+
+.. _max-motif-width:
+Maximum width of motifs
+-----------------------
