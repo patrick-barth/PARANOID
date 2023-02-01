@@ -664,7 +664,6 @@ if( params.merge_replicates == true ){
 
 		process calc_wig_correlation{
 
-			cache false
 			tag {name}
 			publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}_${strand}_correlation.{png,csv}"
 
