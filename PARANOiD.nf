@@ -645,11 +645,13 @@ if( params.merge_replicates == true ){
 	}
 
 	if( params.correlation_analysis == true ){
+		
+		forward_value = Channel.from("forward")
 
 		split_wig_forward_to_correlation
 			.map{file -> tuple(file.name - ~/_rep_\d*_forward.wig$/,file)} 
 			.groupTuple()
-			.combine("forward")
+			.combine(forward_value)
 			.set{group_forward}
 
 		split_wig_reverse_to_correlation
