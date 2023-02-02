@@ -112,7 +112,7 @@
 <p>Explanation of all PARANOiD parameters</p>
 <div class="section" id="merge-replicates">
 <span id="id1"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
-<p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">[barcodes section]</span></a>.</p>
+<p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcodes section</span></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -121,7 +121,7 @@
 </div>
 <div class="section" id="correlation-analysis">
 <span id="id2"></span><h2>Correlation analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this heading"></a></h2>
-<p>Only applies when <a class="reference internal" href="#merge-replicates"><span class="std std-ref">[replicate merging]</span></a> is chosen.
+<p>Only applies when <a class="reference internal" href="#merge-replicates"><span class="std std-ref">replicate merging</span></a> is chosen.
 Does a correlation analysis of replicates to show their similarity (and thus if they should be merged at all).
 Can cause problems with large reference genomes due to excessive RAM usage.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
@@ -145,7 +145,7 @@ Example for iCLIP1
 </div>
 <div class="section" id="choose-aligner">
 <span id="domain"></span><h2>Choose aligner<a class="headerlink" href="#choose-aligner" title="Permalink to this heading"></a></h2>
-<p>Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> file besides the reference.</p>
+<p>Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> file besides the reference.</p>
 <p>Options:
 | pro -&gt; Bowtie2 (default)
 | eu  -&gt; STAR</p>
@@ -212,7 +212,7 @@ The quality score (also known as Phred quality score) describes the certainty of
 </div>
 <div class="section" id="minimum-percent-of-nucleotides-above-quality-threshold">
 <span id="percent-qual-filter"></span><h2>Minimum percent of nucleotides above quality threshold<a class="headerlink" href="#minimum-percent-of-nucleotides-above-quality-threshold" title="Permalink to this heading"></a></h2>
-<p>Percentage of nucleotides that need to have a quality score above the chosen <a class="reference internal" href="#min-base-qual"><span class="std std-ref">[minimum base quality]</span></a>.
+<p>Percentage of nucleotides that need to have a quality score above the chosen <a class="reference internal" href="#min-base-qual"><span class="std std-ref">minimum base quality</span></a>.
 Reads with less nucleotides above the desired quality will be removed.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -230,7 +230,7 @@ Typically, experimental barcodes should be designed with a v of at least 3 to ea
 </div>
 <div class="section" id="alignment-quality">
 <span id="mapq"></span><h2>Alignment quality<a class="headerlink" href="#alignment-quality" title="Permalink to this heading"></a></h2>
-<p>Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via <a class="reference internal" href="#domain"><span class="std std-ref">[–domain]</span></a>.
+<p>Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via <a class="reference internal" href="#domain"><span class="std std-ref">–domain</span></a>.
 All alignments with a mapq score below will be removed after the alignment step.
 Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
 the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
@@ -317,7 +317,7 @@ More information can be found <a class="reference internal" href="ANALYSES.html#
 </div>
 <div class="section" id="number-of-top-transcripts">
 <span id="number-top-transcripts"></span><h2>Number of top transcripts<a class="headerlink" href="#number-of-top-transcripts" title="Permalink to this heading"></a></h2>
-<p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">[–map_to_transcripts]</span></a> was used.
+<p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">–map_to_transcripts</span></a> was used.
 As the amount is chosen from each sample the total number of transcripts can excede this number.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -326,7 +326,7 @@ As the amount is chosen from each sample the total number of transcripts can exc
 </div>
 <div class="section" id="omit-peak-calling">
 <span id="id4"></span><h2>Omit peak calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
-<p>If specified <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">[peak calling]</span></a> will not be performed.
+<p>If specified <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> will not be performed.
 Will be performed by default.</p>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -335,7 +335,7 @@ Will be performed by default.</p>
 </div>
 <div class="section" id="peak-calling-for-references-with-a-generally-high-coverage">
 <span id="peak-calling-for-high-coverage"></span><h2>Peak calling for references with a generally high coverage<a class="headerlink" href="#peak-calling-for-references-with-a-generally-high-coverage" title="Permalink to this heading"></a></h2>
-<p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">[peak calling]</span></a> is performed.
+<p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> is performed.
 Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error.
 From our experience the parameters added by this argument can help PureCLIP with performing it’s analysis.
 Adds following arguments to the PureCLIP execution: <code class="docutils literal notranslate"><span class="pre">-mtc</span> <span class="pre">5000</span> <span class="pre">-mtc2</span> <span class="pre">5000</span> <span class="pre">-ld</span></code></p>
@@ -346,7 +346,7 @@ Adds following arguments to the PureCLIP execution: <code class="docutils litera
 </div>
 <div class="section" id="return-peak-regions-instead-of-single-peaks">
 <span id="peak-calling-regions"></span><h2>Return peak regions instead of single peaks<a class="headerlink" href="#return-peak-regions-instead-of-single-peaks" title="Permalink to this heading"></a></h2>
-<p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">[peak calling]</span></a> is performed.
+<p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> is performed.
 If specified peak regions instead of single peaks will be returned by PureCLIP.</p>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -355,7 +355,7 @@ If specified peak regions instead of single peaks will be returned by PureCLIP.<
 </div>
 <div class="section" id="adapt-width-of-peak-regions">
 <span id="peak-calling-region-width"></span><h2>Adapt width of peak regions<a class="headerlink" href="#adapt-width-of-peak-regions" title="Permalink to this heading"></a></h2>
-<p>Only has an effect if <a class="reference internal" href="#peak-calling-regions"><span class="std std-ref">[peak calling regions]</span></a> are stated.
+<p>Only has an effect if <a class="reference internal" href="#peak-calling-regions"><span class="std std-ref">peak calling regions</span></a> are stated.
 Changes the width of peak calling regions returned by PureCLIP.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -364,7 +364,7 @@ Changes the width of peak calling regions returned by PureCLIP.</p>
 </div>
 <div class="section" id="name-of-gene-id-in-annotation-file">
 <span id="gene-id"></span><h2>Name of gene ID in annotation file<a class="headerlink" href="#name-of-gene-id-in-annotation-file" title="Permalink to this heading"></a></h2>
-<p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a> performed.
+<p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> performed.
 Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
 The column looks similar to this <code class="docutils literal notranslate"><span class="pre">ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true</span></code>. In this case the tag necessary is <cite>ID</cite>.</p>
 <p>Usage (default):
@@ -375,7 +375,7 @@ The column looks similar to this <code class="docutils literal notranslate"><spa
 <div class="section" id="color-of-barplot">
 <span id="color-barplot"></span><h2>Color of barplot<a class="headerlink" href="#color-of-barplot" title="Permalink to this heading"></a></h2>
 <p>Color of barplots returned by PARANOiD.
-Affects graphs generated by <a class="reference internal" href="OUTPUT.html#peak-height-distribution"><span class="std std-ref">[peak height distribution]</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a> and the <a class="reference internal" href="OUTPUT.html#experimental-barcode-distribution"><span class="std std-ref">[experimental barcode distribution]</span></a>.
+Affects graphs generated by <a class="reference internal" href="OUTPUT.html#peak-height-distribution"><span class="std std-ref">peak height distribution</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> and the <a class="reference internal" href="OUTPUT.html#experimental-barcode-distribution"><span class="std std-ref">experimental barcode distribution</span></a>.
 Color is staded via a hexadecimal color code. If unsure which code translates to which color several websites can help to pick the correct one. <a class="reference external" href="https://www.color-hex.com/">Example</a></p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -384,10 +384,10 @@ Color is staded via a hexadecimal color code. If unsure which code translates to
 </div>
 <div class="section" id="rna-subtypes">
 <span id="id5"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
-<p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a> performed.
-RNA subtypes/regions that shall be included in the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a>. RNA subtypes need to be separated by a <cite>,</cite> and should appear in the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> within the <strong>feature type</strong> column (3rd column).
+<p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> performed.
+RNA subtypes/regions that shall be included in the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a>. RNA subtypes need to be separated by a <cite>,</cite> and should appear in the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> within the <strong>feature type</strong> column (3rd column).
 If both requirements are not met the analysis will either not be performed correctly or be aborted.
-If not sure which RNA subtypes are included within your annotation file you can use the script <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">[featuretypes-from-gtfgff.awk]</span></a>.
+If not sure which RNA subtypes are included within your annotation file you can use the script <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">featuretypes-from-gtfgff.awk</span></a>.
 Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as <strong>ambiguous</strong>.
 Inormation about the hierarchical structure of RNA subtypes/regions can be obtained <a class="reference external" href="https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/">here</a>.</p>
 <p>Usage (default):

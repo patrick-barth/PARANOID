@@ -8,7 +8,7 @@ Supplementary scripts for PARANOiD
 Determine valid RNA subtypes
 ----------------------------
 
-Script added to determine valid RNA subtypes for the :ref:`[RNA subtype analysis]<RNA-subtype>`.
+Script added to determine valid RNA subtypes for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`.
 Script name: featuretypes-from-gtfgff.awk
 
 Usage:
