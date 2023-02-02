@@ -18,7 +18,7 @@ Usage:
 --merge_replicates
 ```
 
-.. _correlation_analysis:
+.. _correlation-analysis:
 
 Correlation analysis
 --------------------

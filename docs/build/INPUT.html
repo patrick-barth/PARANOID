@@ -102,7 +102,7 @@
 <span id="id1"></span><h2>Barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">TSV</span></code> file containing experiment names and the corresponding barcode sequences. Reads from the input <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file are split according to the detected barcode sequence and assigned to the appropriate experiment. This results in one <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file per experiment.</div>
-<div class="line">When choosing the option to merge replicates <a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">[–merge_replicates]</span></a> the experiment names have to be chosen appropriately indicating which experiments belong together. In order to do that the appendix <code class="docutils literal notranslate"><span class="pre">_rep_&lt;number&gt;</span></code> has to be added to the experiment names, exchanging <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> with the replicate number.</div>
+<div class="line">When choosing the option to merge replicates <span class="xref std std-ref">[–merge_replicates]</span> the experiment names have to be chosen appropriately indicating which experiments belong together. In order to do that the appendix <code class="docutils literal notranslate"><span class="pre">_rep_&lt;number&gt;</span></code> has to be added to the experiment names, exchanging <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> with the replicate number.</div>
 <div class="line">Barcode files consist of 2 columns separated by a single <code class="docutils literal notranslate"><span class="pre">tab</span></code>:</div>
 </div>
 <ol class="arabic simple">
@@ -141,7 +141,7 @@ AATATACCTGGGTTCCTATAGTCTCCACCATCACATCTTTATGGAGATTCTTCTGGGAGGGATCCAGCAAATCCCACTCT
 <div class="section" id="annotation">
 <span id="id3"></span><h2>Annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">GFF</span></code> or <code class="docutils literal notranslate"><span class="pre">GTF</span></code> file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for it’s analysis, however it is highly recommended to provid it when working with splicing capable organisms (<a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">[–domain eu]</span></a>) as annotation files typically contain information about intron-exon structures which highly improve the mapping capability.
-Furthermore, providing an annotation file enables the <a class="reference internal" href="ANALYSES.html#rna-subtype"><span class="std std-ref">RNA subtype analysis</span></a>.
+Furthermore, providing an annotation file enables the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a>.
 Consists of several header lines followed by one line feature.
 Header lines start with a <code class="docutils literal notranslate"><span class="pre">#</span></code> and contain general information about the annotation.</p>
 <div class="line-block">
