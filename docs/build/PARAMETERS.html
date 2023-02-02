@@ -57,7 +57,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-star-domain-eu">Score meanings for STAR (–domain eu)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#align-to-transcripts">Align to transcripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map-to-transcripts">Map to transcripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#number-of-top-transcripts">Number of top transcripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#omit-peak-calling">Omit peak calling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#peak-calling-for-references-with-a-generally-high-coverage">Peak calling for references with a generally high coverage</a></li>
@@ -305,22 +305,27 @@ the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf</a></p>
 </div>
 </div>
-<div class="section" id="align-to-transcripts">
-<span id="map-to-transcripts"></span><h2>Align to transcripts<a class="headerlink" href="#align-to-transcripts" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<div class="section" id="map-to-transcripts">
+<span id="id3"></span><h2>Map to transcripts<a class="headerlink" href="#map-to-transcripts" title="Permalink to this heading"></a></h2>
+<p>Should be used when transcripts are given as reference instead of a reference genome. Returns the transcripts with most hits from each sample.
+More information can be found <span class="xref std std-ref">[here]</span></p>
+<p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--map_to_transcripts</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="number-of-top-transcripts">
 <span id="number-top-transcripts"></span><h2>Number of top transcripts<a class="headerlink" href="#number-of-top-transcripts" title="Permalink to this heading"></a></h2>
+<p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">[–map_to_transcripts]</span></a> was used.
+As the amount is chosen from each sample the total number of transcripts can excede this number.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--number_top_transcripts</span> <span class="pre">10</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="omit-peak-calling">
-<span id="id3"></span><h2>Omit peak calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
+<span id="id4"></span><h2>Omit peak calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--min_qual</span> <span class="pre">20</span>
@@ -362,7 +367,7 @@ Source: <a class="reference external" href="https://physiology.med.cornell.edu/f
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="rna-subtypes">
-<span id="id4"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
+<span id="id5"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--min_qual</span> <span class="pre">20</span>

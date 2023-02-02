@@ -19,7 +19,7 @@ RNA subtypes
 Analysis to determine if the protein of interest is prone to bind to specific RNA subtypes or regions. As this is determined via the :ref:`[annotation file]<annotation>` only subtypes included there can be determined (shown in column 3). To see which RNA subtypes are included in the annotation file a :ref:`[script]<determine_feature_types>` was added. When choosing RNA subtypes one has to be careful not to use subtypes that are hierarchically higher or lower to each other as these will at least partially cover the same reference regoins making hits in these regions ambiguous. The `SO ontologies <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo>` can be used to get an overview of the official hierarchical structures of annotation files. 
 Is activated when an :ref:`[annotation file]<annotation>` is provided.
 
-.. _transcript_analysis:
+.. _transcript-analysis:
 
 Transcript analysis
 -------------------

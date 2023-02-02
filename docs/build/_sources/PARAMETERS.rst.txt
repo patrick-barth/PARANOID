@@ -201,12 +201,17 @@ Source: https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_n
 
 .. _map-to-transcripts:
 
-Align to transcripts
+Map to transcripts
 --------------------
 
-Usage (default):
+Should be used when transcripts are given as reference instead of a reference genome. Returns the transcripts with most hits from each sample. 
+More information can be found :ref:`[here]<transcript-analysis>`
+
+``Default: false``
+
+Usage:
 ```
---min_qual 20 
+--map_to_transcripts
 ```
 
 .. _number-top-transcripts:
@@ -214,9 +219,12 @@ Usage (default):
 Number of top transcripts
 -------------------------
 
+The number of transcripts with most hits that are selected from each sample if parameter :ref:`[--map_to_transcripts]<map-to-transcripts>` was used.
+As the amount is chosen from each sample the total number of transcripts can excede this number.
+
 Usage (default):
 ```
---min_qual 20
+--number_top_transcripts 10
 ```
 
 .. _omit-peak-calling:
