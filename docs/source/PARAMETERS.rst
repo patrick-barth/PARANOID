@@ -118,85 +118,209 @@ Usage (default):
 ```
 
 .. _percent-qual-filter:
+
 Minimum percent of nucleotides above quality threshold
 ------------------------------------------------------
 
+Percentage of nucleotides that need to have a quality score above the chosen :ref:`[minimum base quality]<min-base-qual>`.
+Reads with less nucleotides above the desired quality will be removed.
+
 .. _barcode-mismatches:
+
 Mismatches allowed within barcodes
 ----------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _mapq:
+
 Alignment quality
 -----------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _map-to-transcripts:
+
 Align to transcripts
 --------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _number-top-transcripts:
+
 Number of top transcripts
 -------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _omit-peak-calling:
+
 Omit peak calling
 -----------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _peak-calling-for-high-coverage:
+
 Peak calling for references with a generally high coverage
 ----------------------------------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _peak-calling-regions:
+
 Return peak regions instead of single peaks
 -------------------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _peak-calling-region-width:
+
 Adapt width of peak regions
 ---------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _gene-id:
+
 Name of gene ID in annotation file
 ----------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _color-barplot:
+
 Color of barplot
 ----------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _rna-subtypes:
+
 RNA subtypes
 ------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _omit-peak-distance:
+
 Omit peak distance analysis
 ---------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _max-peak-distance:
+
 Distance for peak distance analysis
 -----------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _distance-percentile:
+
 Peak percentiles for peak distance analysis and sequence extraction
 -------------------------------------------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _omit-sequence-extraction:
+
 Omit sequence extraction and motif analysis
 -------------------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _sequence-extarction-length:
+
 Length for sequence extraction
 ------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _omit-cl-nuckeotide:
+
 Omit nucleotide at cross linking site
 -------------------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _max-number-of-motifs:
+
 Maximum number of motifs
 ------------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _min-motif-width:
+
 Minumum width of motifs
 -----------------------
 
+Usage (default):
+```
+--min_qual 20
+```
+
 .. _max-motif-width:
+
 Maximum width of motifs
 -----------------------
+
+Usage (default):
+```
+--min_qual 20
+```

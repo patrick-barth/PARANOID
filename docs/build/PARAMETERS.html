@@ -55,13 +55,13 @@
 <li class="toctree-l2"><a class="reference internal" href="#alignment-quality">Alignment quality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#align-to-transcripts">Align to transcripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#number-of-top-transcripts">Number of top transcripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">Omit peak calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-peak-calling">Omit peak calling</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#peak-calling-for-references-with-a-generally-high-coverage">Peak calling for references with a generally high coverage</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#return-peak-regions-instead-of-single-peaks">Return peak regions instead of single peaks</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#adapt-width-of-peak-regions">Adapt width of peak regions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#name-of-gene-id-in-annotation-file">Name of gene ID in annotation file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#color-of-barplot">Color of barplot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id4">RNA subtypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rna-subtypes">RNA subtypes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#omit-peak-distance-analysis">Omit peak distance analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#distance-for-peak-distance-analysis">Distance for peak distance analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction">Peak percentiles for peak distance analysis and sequence extraction</a></li>
@@ -207,67 +207,149 @@ The quality score (also known as Phred quality score) describes the certainty of
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="minimum-percent-of-nucleotides-above-quality-threshold">
-<h2>Minimum percent of nucleotides above quality threshold<a class="headerlink" href="#minimum-percent-of-nucleotides-above-quality-threshold" title="Permalink to this heading"></a></h2>
+<span id="percent-qual-filter"></span><h2>Minimum percent of nucleotides above quality threshold<a class="headerlink" href="#minimum-percent-of-nucleotides-above-quality-threshold" title="Permalink to this heading"></a></h2>
+<p>Percentage of nucleotides that need to have a quality score above the chosen <a class="reference internal" href="#min-base-qual"><span class="std std-ref">[minimum base quality]</span></a>.
+Reads with less nucleotides above the desired quality will be removed.</p>
 </div>
 <div class="section" id="mismatches-allowed-within-barcodes">
-<h2>Mismatches allowed within barcodes<a class="headerlink" href="#mismatches-allowed-within-barcodes" title="Permalink to this heading"></a></h2>
+<span id="barcode-mismatches"></span><h2>Mismatches allowed within barcodes<a class="headerlink" href="#mismatches-allowed-within-barcodes" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="alignment-quality">
-<h2>Alignment quality<a class="headerlink" href="#alignment-quality" title="Permalink to this heading"></a></h2>
+<span id="mapq"></span><h2>Alignment quality<a class="headerlink" href="#alignment-quality" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="align-to-transcripts">
-<h2>Align to transcripts<a class="headerlink" href="#align-to-transcripts" title="Permalink to this heading"></a></h2>
+<span id="map-to-transcripts"></span><h2>Align to transcripts<a class="headerlink" href="#align-to-transcripts" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="number-of-top-transcripts">
-<h2>Number of top transcripts<a class="headerlink" href="#number-of-top-transcripts" title="Permalink to this heading"></a></h2>
+<span id="number-top-transcripts"></span><h2>Number of top transcripts<a class="headerlink" href="#number-of-top-transcripts" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
-<div class="section" id="id3">
-<h2>Omit peak calling<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<div class="section" id="omit-peak-calling">
+<span id="id3"></span><h2>Omit peak calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="peak-calling-for-references-with-a-generally-high-coverage">
-<h2>Peak calling for references with a generally high coverage<a class="headerlink" href="#peak-calling-for-references-with-a-generally-high-coverage" title="Permalink to this heading"></a></h2>
+<span id="peak-calling-for-high-coverage"></span><h2>Peak calling for references with a generally high coverage<a class="headerlink" href="#peak-calling-for-references-with-a-generally-high-coverage" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="return-peak-regions-instead-of-single-peaks">
-<h2>Return peak regions instead of single peaks<a class="headerlink" href="#return-peak-regions-instead-of-single-peaks" title="Permalink to this heading"></a></h2>
+<span id="peak-calling-regions"></span><h2>Return peak regions instead of single peaks<a class="headerlink" href="#return-peak-regions-instead-of-single-peaks" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="adapt-width-of-peak-regions">
-<h2>Adapt width of peak regions<a class="headerlink" href="#adapt-width-of-peak-regions" title="Permalink to this heading"></a></h2>
+<span id="peak-calling-region-width"></span><h2>Adapt width of peak regions<a class="headerlink" href="#adapt-width-of-peak-regions" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="name-of-gene-id-in-annotation-file">
-<h2>Name of gene ID in annotation file<a class="headerlink" href="#name-of-gene-id-in-annotation-file" title="Permalink to this heading"></a></h2>
+<span id="gene-id"></span><h2>Name of gene ID in annotation file<a class="headerlink" href="#name-of-gene-id-in-annotation-file" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="color-of-barplot">
-<h2>Color of barplot<a class="headerlink" href="#color-of-barplot" title="Permalink to this heading"></a></h2>
+<span id="color-barplot"></span><h2>Color of barplot<a class="headerlink" href="#color-of-barplot" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
-<div class="section" id="id4">
-<h2>RNA subtypes<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+<div class="section" id="rna-subtypes">
+<span id="id4"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="omit-peak-distance-analysis">
-<h2>Omit peak distance analysis<a class="headerlink" href="#omit-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<span id="omit-peak-distance"></span><h2>Omit peak distance analysis<a class="headerlink" href="#omit-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="distance-for-peak-distance-analysis">
-<h2>Distance for peak distance analysis<a class="headerlink" href="#distance-for-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<span id="max-peak-distance"></span><h2>Distance for peak distance analysis<a class="headerlink" href="#distance-for-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="peak-percentiles-for-peak-distance-analysis-and-sequence-extraction">
-<h2>Peak percentiles for peak distance analysis and sequence extraction<a class="headerlink" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction" title="Permalink to this heading"></a></h2>
+<span id="distance-percentile"></span><h2>Peak percentiles for peak distance analysis and sequence extraction<a class="headerlink" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="omit-sequence-extraction-and-motif-analysis">
-<h2>Omit sequence extraction and motif analysis<a class="headerlink" href="#omit-sequence-extraction-and-motif-analysis" title="Permalink to this heading"></a></h2>
+<span id="omit-sequence-extraction"></span><h2>Omit sequence extraction and motif analysis<a class="headerlink" href="#omit-sequence-extraction-and-motif-analysis" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="length-for-sequence-extraction">
-<h2>Length for sequence extraction<a class="headerlink" href="#length-for-sequence-extraction" title="Permalink to this heading"></a></h2>
+<span id="sequence-extarction-length"></span><h2>Length for sequence extraction<a class="headerlink" href="#length-for-sequence-extraction" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="omit-nucleotide-at-cross-linking-site">
-<h2>Omit nucleotide at cross linking site<a class="headerlink" href="#omit-nucleotide-at-cross-linking-site" title="Permalink to this heading"></a></h2>
+<span id="omit-cl-nuckeotide"></span><h2>Omit nucleotide at cross linking site<a class="headerlink" href="#omit-nucleotide-at-cross-linking-site" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="maximum-number-of-motifs">
-<h2>Maximum number of motifs<a class="headerlink" href="#maximum-number-of-motifs" title="Permalink to this heading"></a></h2>
+<span id="max-number-of-motifs"></span><h2>Maximum number of motifs<a class="headerlink" href="#maximum-number-of-motifs" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="minumum-width-of-motifs">
-<h2>Minumum width of motifs<a class="headerlink" href="#minumum-width-of-motifs" title="Permalink to this heading"></a></h2>
+<span id="min-motif-width"></span><h2>Minumum width of motifs<a class="headerlink" href="#minumum-width-of-motifs" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="maximum-width-of-motifs">
-<h2>Maximum width of motifs<a class="headerlink" href="#maximum-width-of-motifs" title="Permalink to this heading"></a></h2>
+<span id="max-motif-width"></span><h2>Maximum width of motifs<a class="headerlink" href="#maximum-width-of-motifs" title="Permalink to this heading"></a></h2>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">`</span></code></p>
 </div>
 </div>
 
