@@ -52,7 +52,11 @@
 <li class="toctree-l2"><a class="reference internal" href="#minimum-base-quality">Minimum base quality</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#minimum-percent-of-nucleotides-above-quality-threshold">Minimum percent of nucleotides above quality threshold</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mismatches-allowed-within-barcodes">Mismatches allowed within barcodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alignment-quality">Alignment quality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#alignment-quality">Alignment quality</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-bowtie2-domain-pro">Score meanings for Bowtie2 (–domain pro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-star-domain-eu">Score meanings for STAR (–domain eu)</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#align-to-transcripts">Align to transcripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#number-of-top-transcripts">Number of top transcripts</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#omit-peak-calling">Omit peak calling</a></li>
@@ -128,7 +132,7 @@ Can cause problems with large reference genomes due to excessive RAM usage.</p>
 </div>
 <div class="section" id="change-barcode-pattern">
 <span id="barcode-pattern"></span><h2>Change barcode pattern<a class="headerlink" href="#change-barcode-pattern" title="Permalink to this heading"></a></h2>
-<p>Adapt barcode patterns to different protocols. Default protocol is <cite>iCLIP2 &lt;https://doi.org/10.1016/j.ymeth.2019.10.003&gt;</cite>.
+<p>Adapt barcode patterns to different protocols. Default protocol is <a class="reference external" href="https://doi.org/10.1016/j.ymeth.2019.10.003">iCLIP2</a>.
 <code class="docutils literal notranslate"><span class="pre">N</span></code> s represent the random barcode and <code class="docutils literal notranslate"><span class="pre">X</span></code> s the experimental barcode</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -210,20 +214,96 @@ The quality score (also known as Phred quality score) describes the certainty of
 <span id="percent-qual-filter"></span><h2>Minimum percent of nucleotides above quality threshold<a class="headerlink" href="#minimum-percent-of-nucleotides-above-quality-threshold" title="Permalink to this heading"></a></h2>
 <p>Percentage of nucleotides that need to have a quality score above the chosen <a class="reference internal" href="#min-base-qual"><span class="std std-ref">[minimum base quality]</span></a>.
 Reads with less nucleotides above the desired quality will be removed.</p>
+<p>Usage (default):
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--min_percent_qual_filter</span> <span class="pre">90</span>
+<span class="pre">`</span></code></p>
 </div>
 <div class="section" id="mismatches-allowed-within-barcodes">
 <span id="barcode-mismatches"></span><h2>Mismatches allowed within barcodes<a class="headerlink" href="#mismatches-allowed-within-barcodes" title="Permalink to this heading"></a></h2>
+<p>Number of mismatches allowed within the experimental barcode to still assign a read to an experiment.
+Typically, experimental barcodes should be designed with a v of at least 3 to each other in order to allow one mismatch.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--barcode_mismatches</span> <span class="pre">1</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="alignment-quality">
 <span id="mapq"></span><h2>Alignment quality<a class="headerlink" href="#alignment-quality" title="Permalink to this heading"></a></h2>
+<p>Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via <a class="reference internal" href="#domain"><span class="std std-ref">[–domain]</span></a>.
+All alignments with a mapq score below will be removed after the alignment step.
+Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
+the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--mapq</span> <span class="pre">2</span>
 <span class="pre">`</span></code></p>
+<div class="section" id="score-meanings-for-bowtie2-domain-pro">
+<h3>Score meanings for Bowtie2 (–domain pro)<a class="headerlink" href="#score-meanings-for-bowtie2-domain-pro" title="Permalink to this heading"></a></h3>
+<p>Apart from the description in the table a higher MAPQ score means less allowed mismatches (with difference of the base quality a mismatched nucleotide has)</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 84%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>MAPQ score</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>All mappable reads</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Multimapped reads that have the same alignment quality at different positions</p></td>
+</tr>
+<tr class="row-even"><td><p>2-39</p></td>
+<td><p>Mulitmapped reads that have one specific alignment with a better score than the other potential positions</p></td>
+</tr>
+<tr class="row-odd"><td><p>40</p></td>
+<td><p>Reads mappable to only one position</p></td>
+</tr>
+<tr class="row-even"><td><p>42</p></td>
+<td><p>Reads mappable to only one position with an almost perfect alignment. Best MAPQ score in Bowtie2 alignments</p></td>
+</tr>
+</tbody>
+</table>
+<p>More information can be found <a class="reference external" href="http://biofinysics.blogspot.com/2014/05/how-does-bowtie2-assign-mapq-scores.html">here</a></p>
+</div>
+<div class="section" id="score-meanings-for-star-domain-eu">
+<h3>Score meanings for STAR (–domain eu)<a class="headerlink" href="#score-meanings-for-star-domain-eu" title="Permalink to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 84%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>MAPQ score</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>Maps to 10 or more positions</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>Maps to 4-9 positions</p></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>Maps to 3 positions</p></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>Maps to 2 positions</p></td>
+</tr>
+<tr class="row-even"><td><p>255</p></td>
+<td><p>Reads mappable to only one position. Best MAPQ score in STAR alignments.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  <span class="math notranslate nohighlight">\(MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))\)</span> for multi-mapping reads. This scheme is same as the one used by TopHat […]
+Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf</a></p>
+</div>
 </div>
 <div class="section" id="align-to-transcripts">
 <span id="map-to-transcripts"></span><h2>Align to transcripts<a class="headerlink" href="#align-to-transcripts" title="Permalink to this heading"></a></h2>

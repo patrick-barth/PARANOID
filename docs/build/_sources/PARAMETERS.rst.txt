@@ -39,7 +39,7 @@ Usage:
 Change barcode pattern
 ----------------------
 
-Adapt barcode patterns to different protocols. Default protocol is `iCLIP2 <https://doi.org/10.1016/j.ymeth.2019.10.003>`.
+Adapt barcode patterns to different protocols. Default protocol is `iCLIP2 <https://doi.org/10.1016/j.ymeth.2019.10.003>`_.
 ``N`` s represent the random barcode and ``X`` s the experimental barcode
 
 Usage (default):
@@ -125,14 +125,22 @@ Minimum percent of nucleotides above quality threshold
 Percentage of nucleotides that need to have a quality score above the chosen :ref:`[minimum base quality]<min-base-qual>`.
 Reads with less nucleotides above the desired quality will be removed.
 
+Usage (default):
+```
+--min_percent_qual_filter 90
+```
+
 .. _barcode-mismatches:
 
 Mismatches allowed within barcodes
 ----------------------------------
 
+Number of mismatches allowed within the experimental barcode to still assign a read to an experiment.
+Typically, experimental barcodes should be designed with a v of at least 3 to each other in order to allow one mismatch. 
+
 Usage (default):
 ```
---min_qual 20
+--barcode_mismatches 1
 ```
 
 .. _mapq:
@@ -140,10 +148,56 @@ Usage (default):
 Alignment quality
 -----------------
 
+Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via :ref:`[--domain]<domain>`.
+All alignments with a mapq score below will be removed after the alignment step. 
+Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
+the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.
+
 Usage (default):
 ```
---min_qual 20
+--mapq 2
 ```
+
+Score meanings for Bowtie2 (--domain pro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Apart from the description in the table a higher MAPQ score means less allowed mismatches (with difference of the base quality a mismatched nucleotide has)
+
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| MAPQ score          | Description                                                                                                  |
++=====================+==============================================================================================================+
+| 0                   | All mappable reads                                                                                           |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 1                   | Multimapped reads that have the same alignment quality at different positions                                |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 2-39                | Mulitmapped reads that have one specific alignment with a better score than the other potential positions    |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 40                  | Reads mappable to only one position                                                                          |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 42                  | Reads mappable to only one position with an almost perfect alignment. Best MAPQ score in Bowtie2 alignments  |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+
+More information can be found `here <http://biofinysics.blogspot.com/2014/05/how-does-bowtie2-assign-mapq-scores.html>`_
+
+Score meanings for STAR (--domain eu)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| MAPQ score          | Description                                                                                                  |
++=====================+==============================================================================================================+
+| 0                   | Maps to 10 or more positions                                                                                 |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 1                   | Maps to 4-9 positions                                                                                        |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 2                   | Maps to 3 positions                                                                                          |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 3                   | Maps to 2 positions                                                                                          |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 255                 | Reads mappable to only one position. Best MAPQ score in STAR alignments.                                     |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+
+The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  :math:`MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))` for multi-mapping reads. This scheme is same as the one used by TopHat [...]
+Source: https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf
 
 .. _map-to-transcripts:
 
@@ -152,7 +206,7 @@ Align to transcripts
 
 Usage (default):
 ```
---min_qual 20
+--min_qual 20 
 ```
 
 .. _number-top-transcripts:
