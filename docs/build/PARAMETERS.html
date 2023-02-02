@@ -302,13 +302,13 @@ the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 </tbody>
 </table>
 <p>The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  <span class="math notranslate nohighlight">\(MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))\)</span> for multi-mapping reads. This scheme is same as the one used by TopHat […]
-Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf</a></p>
+Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">Bowtie2 manual</a></p>
 </div>
 </div>
 <div class="section" id="map-to-transcripts">
 <span id="id3"></span><h2>Map to transcripts<a class="headerlink" href="#map-to-transcripts" title="Permalink to this heading"></a></h2>
 <p>Should be used when transcripts are given as reference instead of a reference genome. Returns the transcripts with most hits from each sample.
-More information can be found <a class="reference internal" href="ANALYSES.html#transcript-analysis"><span class="std std-ref">[here]</span></a></p>
+More information can be found <a class="reference internal" href="ANALYSES.html#transcript-analysis"><span class="std std-ref">here</span></a></p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -326,51 +326,73 @@ As the amount is chosen from each sample the total number of transcripts can exc
 </div>
 <div class="section" id="omit-peak-calling">
 <span id="id4"></span><h2>Omit peak calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<p>If specified <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">[peak calling]</span></a> will not be performed.
+Will be performed by default.</p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--omit_peak_calling</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="peak-calling-for-references-with-a-generally-high-coverage">
 <span id="peak-calling-for-high-coverage"></span><h2>Peak calling for references with a generally high coverage<a class="headerlink" href="#peak-calling-for-references-with-a-generally-high-coverage" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">[peak calling]</span></a> is performed.
+Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error.
+From our experience the parameters added by this argument can help PureCLIP with performing it’s analysis.
+Adds following arguments to the PureCLIP execution: <code class="docutils literal notranslate"><span class="pre">-mtc</span> <span class="pre">5000</span> <span class="pre">-mtc2</span> <span class="pre">5000</span> <span class="pre">-ld</span></code></p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--peak_calling_for_high_coverage</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="return-peak-regions-instead-of-single-peaks">
 <span id="peak-calling-regions"></span><h2>Return peak regions instead of single peaks<a class="headerlink" href="#return-peak-regions-instead-of-single-peaks" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">[peak calling]</span></a> is performed.
+If specified peak regions instead of single peaks will be returned by PureCLIP.</p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--peak_calling_regions</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="adapt-width-of-peak-regions">
 <span id="peak-calling-region-width"></span><h2>Adapt width of peak regions<a class="headerlink" href="#adapt-width-of-peak-regions" title="Permalink to this heading"></a></h2>
+<p>Only has an effect if <a class="reference internal" href="#peak-calling-regions"><span class="std std-ref">[peak calling regions]</span></a> are stated.
+Changes the width of peak calling regions returned by PureCLIP.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--peak_calling_regions_width</span> <span class="pre">8</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="name-of-gene-id-in-annotation-file">
 <span id="gene-id"></span><h2>Name of gene ID in annotation file<a class="headerlink" href="#name-of-gene-id-in-annotation-file" title="Permalink to this heading"></a></h2>
+<p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a> performed.
+Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
+The column looks similar to this <code class="docutils literal notranslate"><span class="pre">ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true</span></code>. In this case the tag necessary is <cite>ID</cite>.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--gene_id</span> <span class="pre">ID</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="color-of-barplot">
 <span id="color-barplot"></span><h2>Color of barplot<a class="headerlink" href="#color-of-barplot" title="Permalink to this heading"></a></h2>
+<p>Color of barplots returned by PARANOiD.
+Affects graphs generated by <a class="reference internal" href="OUTPUT.html#peak-height-distribution"><span class="std std-ref">[peak height distribution]</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a> and the <a class="reference internal" href="OUTPUT.html#experimental-barcode-distribution"><span class="std std-ref">[experimental barcode distribution]</span></a>.
+Color is staded via a hexadecimal color code. If unsure which code translates to which color several websites can help to pick the correct one. <a class="reference external" href="https://www.color-hex.com/">Example</a></p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--color_barplot</span> <span class="pre">#69b3a2</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="rna-subtypes">
 <span id="id5"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
+<p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a> performed.
+RNA subtypes/regions that shall be included in the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">[RNA subtype analysis]</span></a>. RNA subtypes need to be separated by a <cite>,</cite> and should appear in the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">[annotation file]</span></a> within the <strong>feature type</strong> column (3rd column).
+If both requirements are not met the analysis will either not be performed correctly or be aborted.
+If not sure which RNA subtypes are included within your annotation file you can use the script <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">[featuretypes-from-gtfgff.awk]</span></a>.
+Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as <strong>ambiguous</strong>.
+Inormation about the hierarchical structure of RNA subtypes/regions can be obtained <a class="reference external" href="https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/">here</a>.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--rna_subtypes</span> <span class="pre">3_prime_UTR,transcript,5_prime_UTR</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="omit-peak-distance-analysis">
