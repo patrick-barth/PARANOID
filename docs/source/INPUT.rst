@@ -3,7 +3,7 @@ PARANOiD Inputs
 
 Detailed description of all input files
 
-.. _read file:
+.. _read-file:
 
 Reads
 -----
@@ -74,7 +74,7 @@ Annotation
 
 
 ``GFF`` or ``GTF`` file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for it's analysis, however it is highly recommended to provid it when working with splicing capable organisms (:ref:`[--domain eu]<domain>`) as annotation files typically contain information about intron-exon structures which highly improve the mapping capability.
-Furthermore, providing an annotation file enables the :ref:`RNA subtype analysis<RNA_subtype>`.
+Furthermore, providing an annotation file enables the :ref:`RNA subtype analysis<RNA-subtype-analysis>`.
 Consists of several header lines followed by one line feature.
 Header lines start with a ``#`` and contain general information about the annotation.
 

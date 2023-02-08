@@ -8,7 +8,8 @@ Explanation of all PARANOiD parameters
 Merge replicates
 ----------------
 
-Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  :ref:`[barcodes section]<barcodes>`
+Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  :ref:`barcodes section <barcodes>`.
+
 
 ``Default: false``
 
@@ -17,13 +18,28 @@ Usage:
 --merge_replicates
 ```
 
+.. _correlation-analysis:
+
+Correlation analysis
+--------------------
+
+Only applies when :ref:`replicate merging <merge-replicates>` is chosen.
+Does a correlation analysis of replicates to show their similarity (and thus if they should be merged at all).
+Can cause problems with large reference genomes due to excessive RAM usage.
+
+``Default: false``
+
+Usage:  
+```
+--correlation_analysis
+```
 
 .. _barcode-pattern:
 
 Change barcode pattern
 ----------------------
 
-Adapt barcode patterns to different protocols. Default protocol is `iCLIP2 <https://doi.org/10.1016/j.ymeth.2019.10.003>`.
+Adapt barcode patterns to different protocols. Default protocol is `iCLIP2 <https://doi.org/10.1016/j.ymeth.2019.10.003>`_.
 ``N`` s represent the random barcode and ``X`` s the experimental barcode
 
 Usage (default):
@@ -40,7 +56,7 @@ Example for iCLIP1
 Choose aligner
 --------------
 
-Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an :ref:`[annotation file]<annotation>` file besides the reference.
+Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an :ref:`annotation file <annotation>` file besides the reference.
 
 Options:
 | pro -> Bowtie2 (default)
@@ -51,7 +67,7 @@ Usage (default):
 --domain pro 
 ```
 
-.. _output_dir:
+.. _output-dir:
 
 Output directory
 ----------------
@@ -63,7 +79,7 @@ Usage (default):
 --output ./output
 ```
 
-.. _min_length:
+.. _min-read-length:
 
 Minimum read length after adapter removal
 -----------------------------------------
@@ -75,9 +91,327 @@ Usage (default)
 --min_length 30
 ```
 
-.. _min_qual:
+.. _min-base-qual:
 
 Minimum base quality
 --------------------
 
-Minimum quality for bases. 
+Minimum quality for bases. All bases below that quality are cut off. 
+The quality score (also known as Phred quality score) describes the certainty of correctness of the base and is typically calculated as follows with e being the error probability: :math:`Q-Score = -10log_\text{10}(e)`
+
++---------------------+-------------------+-----------------+
+| Phred Quality score | Error probability | Accuracy        |
++=====================+===================+=================+
+| 10                  | 10%               | 90%             |
++---------------------+-------------------+-----------------+
+| 20                  | 1%                | 99%             |
++---------------------+-------------------+-----------------+
+| 30                  | 0.1%              | 99.9%           |
++---------------------+-------------------+-----------------+
+| 40                  | 0.01%             | 99.99%          |
++---------------------+-------------------+-----------------+
+
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _percent-qual-filter:
+
+Minimum percent of nucleotides above quality threshold
+------------------------------------------------------
+
+Percentage of nucleotides that need to have a quality score above the chosen :ref:`minimum base quality <min-base-qual>`.
+Reads with less nucleotides above the desired quality will be removed.
+
+Usage (default):
+```
+--min_percent_qual_filter 90
+```
+
+.. _barcode-mismatches:
+
+Mismatches allowed within barcodes
+----------------------------------
+
+Number of mismatches allowed within the experimental barcode to still assign a read to an experiment.
+Typically, experimental barcodes should be designed with a v of at least 3 to each other in order to allow one mismatch. 
+
+Usage (default):
+```
+--barcode_mismatches 1
+```
+
+.. _mapq:
+
+Alignment quality
+-----------------
+
+Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via :ref:`--domain <domain>`.
+All alignments with a mapq score below will be removed after the alignment step. 
+Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
+the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.
+
+Usage (default):
+```
+--mapq 2
+```
+
+Score meanings for Bowtie2 (--domain pro)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Apart from the description in the table a higher MAPQ score means less allowed mismatches (with difference of the base quality a mismatched nucleotide has)
+
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| MAPQ score          | Description                                                                                                  |
++=====================+==============================================================================================================+
+| 0                   | All mappable reads                                                                                           |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 1                   | Multimapped reads that have the same alignment quality at different positions                                |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 2-39                | Mulitmapped reads that have one specific alignment with a better score than the other potential positions    |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 40                  | Reads mappable to only one position                                                                          |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 42                  | Reads mappable to only one position with an almost perfect alignment. Best MAPQ score in Bowtie2 alignments  |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+
+More information can be found `here <http://biofinysics.blogspot.com/2014/05/how-does-bowtie2-assign-mapq-scores.html>`_
+
+Score meanings for STAR (--domain eu)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| MAPQ score          | Description                                                                                                  |
++=====================+==============================================================================================================+
+| 0                   | Maps to 10 or more positions                                                                                 |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 1                   | Maps to 4-9 positions                                                                                        |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 2                   | Maps to 3 positions                                                                                          |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 3                   | Maps to 2 positions                                                                                          |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+| 255                 | Reads mappable to only one position. Best MAPQ score in STAR alignments.                                     |
++---------------------+--------------------------------------------------------------------------------------------------------------+
+
+The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  :math:`MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))` for multi-mapping reads. This scheme is same as the one used by TopHat [...]
+Source: `Bowtie2 manual <https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf>`_
+
+.. _map-to-transcripts:
+
+Map to transcripts
+--------------------
+
+Should be used when transcripts are given as reference instead of a reference genome. Returns the transcripts with most hits from each sample. 
+More information can be found :ref:`here <transcript-analysis>`
+
+``Default: false``
+
+Usage:
+```
+--map_to_transcripts
+```
+
+.. _number-top-transcripts:
+
+Number of top transcripts
+-------------------------
+
+The number of transcripts with most hits that are selected from each sample if parameter :ref:`--map_to_transcripts <map-to-transcripts>` was used.
+As the amount is chosen from each sample the total number of transcripts can excede this number.
+
+Usage (default):
+```
+--number_top_transcripts 10
+```
+
+.. _omit-peak-calling:
+
+Omit peak calling
+-----------------
+
+If specified :ref:`peak calling <peak-calling>` will not be performed.
+Will be performed by default.
+
+Usage:
+```
+--omit_peak_calling
+```
+
+.. _peak-calling-for-high-coverage:
+
+Peak calling for references with a generally high coverage
+----------------------------------------------------------
+
+Only has an effect if :ref:`peak calling <peak-calling>` is performed. 
+Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error. 
+From our experience the parameters added by this argument can help PureCLIP with performing it's analysis.
+Adds following arguments to the PureCLIP execution: ``-mtc 5000 -mtc2 5000 -ld``
+
+Usage:
+```
+--peak_calling_for_high_coverage
+```
+
+.. _peak-calling-regions:
+
+Return peak regions instead of single peaks
+-------------------------------------------
+
+Only has an effect if :ref:`peak calling <peak-calling>` is performed.
+If specified peak regions instead of single peaks will be returned by PureCLIP.
+
+Usage:
+```
+--peak_calling_regions
+```
+
+.. _peak-calling-region-width:
+
+Adapt width of peak regions
+---------------------------
+
+Only has an effect if :ref:`peak calling regions <peak-calling-regions>` are stated.
+Changes the width of peak calling regions returned by PureCLIP.
+
+Usage (default):
+```
+--peak_calling_regions_width 8
+```
+
+.. _gene-id:
+
+Name of gene ID in annotation file
+----------------------------------
+
+Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
+Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
+The column looks similar to this ``ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true``. In this case the tag necessary is `ID`.
+
+Usage (default):
+```
+--gene_id ID
+```
+
+.. _color-barplot:
+
+Color of barplot
+----------------
+
+Color of barplots returned by PARANOiD.
+Affects graphs generated by :ref:`peak height distribution <peak-height-distribution>`, :ref:`RNA subtype analysis <RNA-subtype-analysis>` and the :ref:`experimental barcode distribution <experimental_barcode_distribution>`.
+Color is staded via a hexadecimal color code. If unsure which code translates to which color several websites can help to pick the correct one. `Example <https://www.color-hex.com/>`_
+
+Usage (default):
+```
+--color_barplot #69b3a2
+```
+
+.. _rna-subtypes:
+
+RNA subtypes
+------------
+
+Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
+RNA subtypes/regions that shall be included in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes need to be separated by a `,` and should appear in the :ref:`annotation file <annotation>` within the **feature type** column (3rd column).
+If both requirements are not met the analysis will either not be performed correctly or be aborted.
+If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`.
+Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as **ambiguous**.
+Inormation about the hierarchical structure of RNA subtypes/regions can be obtained `here <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/>`_.
+
+Usage (default):
+```
+--rna_subtypes 3_prime_UTR,transcript,5_prime_UTR
+```
+
+.. _omit-peak-distance:
+
+Omit peak distance analysis
+---------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _max-peak-distance:
+
+Distance for peak distance analysis
+-----------------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _distance-percentile:
+
+Peak percentiles for peak distance analysis and sequence extraction
+-------------------------------------------------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _omit-sequence-extraction:
+
+Omit sequence extraction and motif analysis
+-------------------------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _sequence-extarction-length:
+
+Length for sequence extraction
+------------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _omit-cl-nuckeotide:
+
+Omit nucleotide at cross linking site
+-------------------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _max-number-of-motifs:
+
+Maximum number of motifs
+------------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _min-motif-width:
+
+Minumum width of motifs
+-----------------------
+
+Usage (default):
+```
+--min_qual 20
+```
+
+.. _max-motif-width:
+
+Maximum width of motifs
+-----------------------
+
+Usage (default):
+```
+--min_qual 20
+```
