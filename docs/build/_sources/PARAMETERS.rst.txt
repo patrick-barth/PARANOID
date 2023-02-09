@@ -331,7 +331,9 @@ Usage (default):
 -\-omit_peak_distance
 ---------------------
 
-Usage (default):
+Omits the :ref:`peak distance analysis <peak-distance-analysis>`
+
+Usage:
 ```
 --omit_peak_distance
 ```
@@ -341,7 +343,7 @@ Usage (default):
 -\-distance
 -----------------------------------
 
-Max distance used for the peak distance analysis
+Max distance used for the :ref:`peak distance analysis <peak-distance-analysis>`. 
 
 Usage (default):
 ```
@@ -353,7 +355,9 @@ Usage (default):
 -\-percentile
 -------------
 
-Peak percentiles for peak distance analysis and sequence extraction
+Peak percentiles for :ref:`peak distance analysis <peak-distance-analysis>` and :ref:`sequence extraction/motif analysis <motif-detection>`.  
+Only peaks with a value above this threshold are considered while all peaks below are omitted as background noise.  
+A percentile of 90 means that only top 10% of peaks are used.
 
 Usage (default):
 ```

@@ -397,14 +397,15 @@ Inormation about the hierarchical structure of RNA subtypes/regions can be obtai
 </div>
 <div class="section" id="omit-peak-distance">
 <span id="id16"></span><h2>--omit_peak_distance<a class="headerlink" href="#omit-peak-distance" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<p>Omits the <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a></p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--omit_peak_distance</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="distance">
 <span id="max-peak-distance"></span><h2>--distance<a class="headerlink" href="#distance" title="Permalink to this heading"></a></h2>
-<p>Max distance used for the peak distance analysis</p>
+<p>Max distance used for the <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a>.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--distance</span> <span class="pre">30</span>
@@ -412,7 +413,9 @@ Inormation about the hierarchical structure of RNA subtypes/regions can be obtai
 </div>
 <div class="section" id="percentile">
 <span id="distance-percentile"></span><h2>--percentile<a class="headerlink" href="#percentile" title="Permalink to this heading"></a></h2>
-<p>Peak percentiles for peak distance analysis and sequence extraction</p>
+<p>Peak percentiles for <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a> and <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">sequence extraction/motif analysis</span></a>.
+Only peaks with a value above this threshold are considered while all peaks below are omitted as background noise.
+A percentile of 90 means that only top 10% of peaks are used.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--percentile</span> <span class="pre">90</span>
