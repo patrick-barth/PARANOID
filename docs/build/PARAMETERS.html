@@ -423,13 +423,17 @@ A percentile of 90 means that only top 10% of peaks are used.</p>
 </div>
 <div class="section" id="omit-sequence-extraction">
 <span id="id17"></span><h2>--omit_sequence_extraction<a class="headerlink" href="#omit-sequence-extraction" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<p>Omits the <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a></p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--omit_sequence_extraction</span>
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="seq-len">
 <span id="sequence-extraction-length"></span><h2>--seq_len<a class="headerlink" href="#seq-len" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Length in nucleotides to each side of a peak that is extracted from the <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference</span></a>.
+A value of 20 will lead to sequences of 41 nucleotides being extracted. (20nt upstream;cross-link nt;20nt downstream)</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--seq_len</span> <span class="pre">20</span>
@@ -437,6 +441,9 @@ A percentile of 90 means that only top 10% of peaks are used.</p>
 </div>
 <div class="section" id="omit-cl-nucleotide">
 <span id="omit-cl-nuckeotide"></span><h2>--omit_cl_nucleotide<a class="headerlink" href="#omit-cl-nucleotide" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+The nucleotide directly at the cross-linking position will be substituted with an <strong>N</strong> when extracting sequences.
+Can improve the motif detection since iCLIP tends to have a bias towards <strong>U</strong> when cross-linking which can influence the motif search.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--omit_cl_nucleotide</span>

@@ -369,7 +369,9 @@ Usage (default):
 -\-omit_sequence_extraction
 ---------------------------
 
-Usage (default):
+Omits the :ref:`motif detection <motif-detection>`
+
+Usage:
 ```
 --omit_sequence_extraction
 ```
@@ -378,6 +380,10 @@ Usage (default):
 
 -\-seq_len
 ----------
+
+Only applies when :ref:`motif detection <motif-detection>` is performed.
+Length in nucleotides to each side of a peak that is extracted from the :ref:`reference <reference>`.  
+A value of 20 will lead to sequences of 41 nucleotides being extracted. (20nt upstream;cross-link nt;20nt downstream)
 
 Usage (default):
 ```
@@ -388,6 +394,10 @@ Usage (default):
 
 -\-omit_cl_nucleotide
 ---------------------
+
+Only applies when :ref:`motif detection <motif-detection>` is performed.
+The nucleotide directly at the cross-linking position will be substituted with an **N** when extracting sequences.  
+Can improve the motif detection since iCLIP tends to have a bias towards **U** when cross-linking which can influence the motif search.
 
 Usage (default):
 ```
