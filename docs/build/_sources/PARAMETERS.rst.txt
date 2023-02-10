@@ -409,6 +409,9 @@ Usage (default):
 -\-max_motif_num
 ----------------
 
+Only applies when :ref:`motif detection <motif-detection>` is performed.
+Maximum number of motifs that is reported by streme.
+
 Usage (default):
 ```
 --max_motif_num 50
@@ -419,6 +422,10 @@ Usage (default):
 -\-min_motif_width
 ------------------
 
+Only applies when :ref:`motif detection <motif-detection>` is performed.
+Minimum length of motifs reported by streme.
+Cannot be lower than 3
+
 Usage (default):
 ```
 --min_motif_width 8
@@ -428,6 +435,10 @@ Usage (default):
 
 -\-max_motif_width
 ------------------
+
+Only applies when :ref:`motif detection <motif-detection>` is performed.
+Maximum length of motifs reported by streme.
+Cannot be higher than 30
 
 Usage (default):
 ```
