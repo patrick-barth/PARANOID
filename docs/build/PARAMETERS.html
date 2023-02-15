@@ -43,38 +43,38 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#merge-replicates">Merge replicates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#correlation-analysis">Correlation analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#change-barcode-pattern">Change barcode pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#choose-aligner">Choose aligner</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#output-directory">Output directory</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#minimum-read-length-after-adapter-removal">Minimum read length after adapter removal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#minimum-base-quality">Minimum base quality</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#minimum-percent-of-nucleotides-above-quality-threshold">Minimum percent of nucleotides above quality threshold</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#mismatches-allowed-within-barcodes">Mismatches allowed within barcodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#alignment-quality">Alignment quality</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#merge-replicates">--merge_replicates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#correlation-analysis">--correlation_analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#barcode-pattern">--barcode_pattern</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#domain">--domain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">--output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min-length">--min_length</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min-qual">--min_qual</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min-percent-qual-filter">--min_percent_qual_filter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#barcode-mismatches">--barcode_mismatches</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mapq">--mapq</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-bowtie2-domain-pro">Score meanings for Bowtie2 (–domain pro)</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-star-domain-eu">Score meanings for STAR (–domain eu)</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#map-to-transcripts">Map to transcripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#number-of-top-transcripts">Number of top transcripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#omit-peak-calling">Omit peak calling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#peak-calling-for-references-with-a-generally-high-coverage">Peak calling for references with a generally high coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#return-peak-regions-instead-of-single-peaks">Return peak regions instead of single peaks</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#adapt-width-of-peak-regions">Adapt width of peak regions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#name-of-gene-id-in-annotation-file">Name of gene ID in annotation file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#color-of-barplot">Color of barplot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#rna-subtypes">RNA subtypes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#omit-peak-distance-analysis">Omit peak distance analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#distance-for-peak-distance-analysis">Distance for peak distance analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction">Peak percentiles for peak distance analysis and sequence extraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#omit-sequence-extraction-and-motif-analysis">Omit sequence extraction and motif analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#length-for-sequence-extraction">Length for sequence extraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#omit-nucleotide-at-cross-linking-site">Omit nucleotide at cross linking site</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#maximum-number-of-motifs">Maximum number of motifs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#minumum-width-of-motifs">Minumum width of motifs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#maximum-width-of-motifs">Maximum width of motifs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#map-to-transcripts">--map_to_transcripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#number-top-transcripts">--number_top_transcripts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-peak-calling">--omit_peak_calling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-calling-for-high-coverage">--peak_calling_for_high_coverage</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-calling-regions">--peak_calling_regions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-calling-regions-width">--peak_calling_regions_width</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gene-id">--gene_id</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#color-barplot">--color_barplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rna-subtypes">--rna_subtypes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-peak-distance">--omit_peak_distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distance">--distance</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#percentile">--percentile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-sequence-extraction">--omit_sequence_extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#seq-len">--seq_len</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-cl-nucleotide">--omit_cl_nucleotide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#max-motif-num">--max_motif_num</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#min-motif-width">--min_motif_width</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#max-motif-width">--max_motif_width</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
@@ -111,7 +111,7 @@
 <h1>PARANOiD Parameters<a class="headerlink" href="#paranoid-parameters" title="Permalink to this heading"></a></h1>
 <p>Explanation of all PARANOiD parameters</p>
 <div class="section" id="merge-replicates">
-<span id="id1"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
+<span id="id1"></span><h2>--merge_replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
 <p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcodes section</span></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
 <p>Usage:
@@ -120,7 +120,7 @@
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="correlation-analysis">
-<span id="id2"></span><h2>Correlation analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this heading"></a></h2>
+<span id="id2"></span><h2>--correlation_analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="#merge-replicates"><span class="std std-ref">replicate merging</span></a> is chosen.
 Does a correlation analysis of replicates to show their similarity (and thus if they should be merged at all).
 Can cause problems with large reference genomes due to excessive RAM usage.</p>
@@ -130,8 +130,8 @@ Can cause problems with large reference genomes due to excessive RAM usage.</p>
 <span class="pre">--correlation_analysis</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="change-barcode-pattern">
-<span id="barcode-pattern"></span><h2>Change barcode pattern<a class="headerlink" href="#change-barcode-pattern" title="Permalink to this heading"></a></h2>
+<div class="section" id="barcode-pattern">
+<span id="id3"></span><h2>--barcode_pattern<a class="headerlink" href="#barcode-pattern" title="Permalink to this heading"></a></h2>
 <p>Adapt barcode patterns to different protocols. Default protocol is <a class="reference external" href="https://doi.org/10.1016/j.ymeth.2019.10.003">iCLIP2</a>.
 <code class="docutils literal notranslate"><span class="pre">N</span></code> s represent the random barcode and <code class="docutils literal notranslate"><span class="pre">X</span></code> s the experimental barcode</p>
 <p>Usage (default):
@@ -143,8 +143,8 @@ Example for iCLIP1
 <span class="pre">--barcode_pattern</span> <span class="pre">NNNXXXXNN</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="choose-aligner">
-<span id="domain"></span><h2>Choose aligner<a class="headerlink" href="#choose-aligner" title="Permalink to this heading"></a></h2>
+<div class="section" id="domain">
+<span id="id4"></span><h2>--domain<a class="headerlink" href="#domain" title="Permalink to this heading"></a></h2>
 <p>Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> file besides the reference.</p>
 <p>Options:
 | pro -&gt; Bowtie2 (default)
@@ -154,24 +154,24 @@ Example for iCLIP1
 <span class="pre">--domain</span> <span class="pre">pro</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="output-directory">
-<span id="output-dir"></span><h2>Output directory<a class="headerlink" href="#output-directory" title="Permalink to this heading"></a></h2>
+<div class="section" id="output">
+<span id="output-dir"></span><h2>--output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
 <p>Specify directory to which output generated by PARANOiD will be written.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--output</span> <span class="pre">./output</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="minimum-read-length-after-adapter-removal">
-<span id="min-read-length"></span><h2>Minimum read length after adapter removal<a class="headerlink" href="#minimum-read-length-after-adapter-removal" title="Permalink to this heading"></a></h2>
+<div class="section" id="min-length">
+<span id="min-read-length"></span><h2>--min_length<a class="headerlink" href="#min-length" title="Permalink to this heading"></a></h2>
 <p>Specify minimum length a read needs to have after adapter removal to persist. Reads that become shorter during adapter removal will be filtered out.</p>
 <p>Usage (default)
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--min_length</span> <span class="pre">30</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="minimum-base-quality">
-<span id="min-base-qual"></span><h2>Minimum base quality<a class="headerlink" href="#minimum-base-quality" title="Permalink to this heading"></a></h2>
+<div class="section" id="min-qual">
+<span id="min-base-qual"></span><h2>--min_qual<a class="headerlink" href="#min-qual" title="Permalink to this heading"></a></h2>
 <p>Minimum quality for bases. All bases below that quality are cut off.
 The quality score (also known as Phred quality score) describes the certainty of correctness of the base and is typically calculated as follows with e being the error probability: <span class="math notranslate nohighlight">\(Q-Score = -10log_\text{10}(e)\)</span></p>
 <table class="docutils align-default">
@@ -210,8 +210,8 @@ The quality score (also known as Phred quality score) describes the certainty of
 <span class="pre">--min_qual</span> <span class="pre">20</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="minimum-percent-of-nucleotides-above-quality-threshold">
-<span id="percent-qual-filter"></span><h2>Minimum percent of nucleotides above quality threshold<a class="headerlink" href="#minimum-percent-of-nucleotides-above-quality-threshold" title="Permalink to this heading"></a></h2>
+<div class="section" id="min-percent-qual-filter">
+<span id="percent-qual-filter"></span><h2>--min_percent_qual_filter<a class="headerlink" href="#min-percent-qual-filter" title="Permalink to this heading"></a></h2>
 <p>Percentage of nucleotides that need to have a quality score above the chosen <a class="reference internal" href="#min-base-qual"><span class="std std-ref">minimum base quality</span></a>.
 Reads with less nucleotides above the desired quality will be removed.</p>
 <p>Usage (default):
@@ -219,8 +219,8 @@ Reads with less nucleotides above the desired quality will be removed.</p>
 <span class="pre">--min_percent_qual_filter</span> <span class="pre">90</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="mismatches-allowed-within-barcodes">
-<span id="barcode-mismatches"></span><h2>Mismatches allowed within barcodes<a class="headerlink" href="#mismatches-allowed-within-barcodes" title="Permalink to this heading"></a></h2>
+<div class="section" id="barcode-mismatches">
+<span id="id5"></span><h2>--barcode_mismatches<a class="headerlink" href="#barcode-mismatches" title="Permalink to this heading"></a></h2>
 <p>Number of mismatches allowed within the experimental barcode to still assign a read to an experiment.
 Typically, experimental barcodes should be designed with a v of at least 3 to each other in order to allow one mismatch.</p>
 <p>Usage (default):
@@ -228,8 +228,8 @@ Typically, experimental barcodes should be designed with a v of at least 3 to ea
 <span class="pre">--barcode_mismatches</span> <span class="pre">1</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="alignment-quality">
-<span id="mapq"></span><h2>Alignment quality<a class="headerlink" href="#alignment-quality" title="Permalink to this heading"></a></h2>
+<div class="section" id="mapq">
+<span id="id6"></span><h2>--mapq<a class="headerlink" href="#mapq" title="Permalink to this heading"></a></h2>
 <p>Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via <a class="reference internal" href="#domain"><span class="std std-ref">–domain</span></a>.
 All alignments with a mapq score below will be removed after the alignment step.
 Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
@@ -306,7 +306,7 @@ Source: <a class="reference external" href="https://physiology.med.cornell.edu/f
 </div>
 </div>
 <div class="section" id="map-to-transcripts">
-<span id="id3"></span><h2>Map to transcripts<a class="headerlink" href="#map-to-transcripts" title="Permalink to this heading"></a></h2>
+<span id="id7"></span><h2>--map_to_transcripts<a class="headerlink" href="#map-to-transcripts" title="Permalink to this heading"></a></h2>
 <p>Should be used when transcripts are given as reference instead of a reference genome. Returns the transcripts with most hits from each sample.
 More information can be found <a class="reference internal" href="ANALYSES.html#transcript-analysis"><span class="std std-ref">here</span></a></p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
@@ -315,8 +315,8 @@ More information can be found <a class="reference internal" href="ANALYSES.html#
 <span class="pre">--map_to_transcripts</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="number-of-top-transcripts">
-<span id="number-top-transcripts"></span><h2>Number of top transcripts<a class="headerlink" href="#number-of-top-transcripts" title="Permalink to this heading"></a></h2>
+<div class="section" id="number-top-transcripts">
+<span id="id8"></span><h2>--number_top_transcripts<a class="headerlink" href="#number-top-transcripts" title="Permalink to this heading"></a></h2>
 <p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">–map_to_transcripts</span></a> was used.
 As the amount is chosen from each sample the total number of transcripts can excede this number.</p>
 <p>Usage (default):
@@ -325,7 +325,7 @@ As the amount is chosen from each sample the total number of transcripts can exc
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="omit-peak-calling">
-<span id="id4"></span><h2>Omit peak calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
+<span id="id9"></span><h2>--omit_peak_calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
 <p>If specified <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> will not be performed.
 Will be performed by default.</p>
 <p>Usage:
@@ -333,8 +333,8 @@ Will be performed by default.</p>
 <span class="pre">--omit_peak_calling</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="peak-calling-for-references-with-a-generally-high-coverage">
-<span id="peak-calling-for-high-coverage"></span><h2>Peak calling for references with a generally high coverage<a class="headerlink" href="#peak-calling-for-references-with-a-generally-high-coverage" title="Permalink to this heading"></a></h2>
+<div class="section" id="peak-calling-for-high-coverage">
+<span id="id10"></span><h2>--peak_calling_for_high_coverage<a class="headerlink" href="#peak-calling-for-high-coverage" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> is performed.
 Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error.
 From our experience the parameters added by this argument can help PureCLIP with performing it’s analysis.
@@ -344,8 +344,8 @@ Adds following arguments to the PureCLIP execution: <code class="docutils litera
 <span class="pre">--peak_calling_for_high_coverage</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="return-peak-regions-instead-of-single-peaks">
-<span id="peak-calling-regions"></span><h2>Return peak regions instead of single peaks<a class="headerlink" href="#return-peak-regions-instead-of-single-peaks" title="Permalink to this heading"></a></h2>
+<div class="section" id="peak-calling-regions">
+<span id="id11"></span><h2>--peak_calling_regions<a class="headerlink" href="#peak-calling-regions" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> is performed.
 If specified peak regions instead of single peaks will be returned by PureCLIP.</p>
 <p>Usage:
@@ -353,8 +353,8 @@ If specified peak regions instead of single peaks will be returned by PureCLIP.<
 <span class="pre">--peak_calling_regions</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="adapt-width-of-peak-regions">
-<span id="peak-calling-region-width"></span><h2>Adapt width of peak regions<a class="headerlink" href="#adapt-width-of-peak-regions" title="Permalink to this heading"></a></h2>
+<div class="section" id="peak-calling-regions-width">
+<span id="peak-calling-region-width"></span><h2>--peak_calling_regions_width<a class="headerlink" href="#peak-calling-regions-width" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if <a class="reference internal" href="#peak-calling-regions"><span class="std std-ref">peak calling regions</span></a> are stated.
 Changes the width of peak calling regions returned by PureCLIP.</p>
 <p>Usage (default):
@@ -362,8 +362,8 @@ Changes the width of peak calling regions returned by PureCLIP.</p>
 <span class="pre">--peak_calling_regions_width</span> <span class="pre">8</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="name-of-gene-id-in-annotation-file">
-<span id="gene-id"></span><h2>Name of gene ID in annotation file<a class="headerlink" href="#name-of-gene-id-in-annotation-file" title="Permalink to this heading"></a></h2>
+<div class="section" id="gene-id">
+<span id="id12"></span><h2>--gene_id<a class="headerlink" href="#gene-id" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> performed.
 Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
 The column looks similar to this <code class="docutils literal notranslate"><span class="pre">ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true</span></code>. In this case the tag necessary is <cite>ID</cite>.</p>
@@ -372,8 +372,8 @@ The column looks similar to this <code class="docutils literal notranslate"><spa
 <span class="pre">--gene_id</span> <span class="pre">ID</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="color-of-barplot">
-<span id="color-barplot"></span><h2>Color of barplot<a class="headerlink" href="#color-of-barplot" title="Permalink to this heading"></a></h2>
+<div class="section" id="color-barplot">
+<span id="id13"></span><h2>--color_barplot<a class="headerlink" href="#color-barplot" title="Permalink to this heading"></a></h2>
 <p>Color of barplots returned by PARANOiD.
 Affects graphs generated by <a class="reference internal" href="OUTPUT.html#peak-height-distribution"><span class="std std-ref">peak height distribution</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> and the <a class="reference internal" href="OUTPUT.html#experimental-barcode-distribution"><span class="std std-ref">experimental barcode distribution</span></a>.
 Color is staded via a hexadecimal color code. If unsure which code translates to which color several websites can help to pick the correct one. <a class="reference external" href="https://www.color-hex.com/">Example</a></p>
@@ -383,7 +383,7 @@ Color is staded via a hexadecimal color code. If unsure which code translates to
 <span class="pre">`</span></code></p>
 </div>
 <div class="section" id="rna-subtypes">
-<span id="id5"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
+<span id="id14"></span><h2>--rna_subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> performed.
 RNA subtypes/regions that shall be included in the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a>. RNA subtypes need to be separated by a <cite>,</cite> and should appear in the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> within the <strong>feature type</strong> column (3rd column).
 If both requirements are not met the analysis will either not be performed correctly or be aborted.
@@ -395,67 +395,87 @@ Inormation about the hierarchical structure of RNA subtypes/regions can be obtai
 <span class="pre">--rna_subtypes</span> <span class="pre">3_prime_UTR,transcript,5_prime_UTR</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="omit-peak-distance-analysis">
-<span id="omit-peak-distance"></span><h2>Omit peak distance analysis<a class="headerlink" href="#omit-peak-distance-analysis" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<div class="section" id="omit-peak-distance">
+<span id="id16"></span><h2>--omit_peak_distance<a class="headerlink" href="#omit-peak-distance" title="Permalink to this heading"></a></h2>
+<p>Omits the <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a></p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--omit_peak_distance</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="distance-for-peak-distance-analysis">
-<span id="max-peak-distance"></span><h2>Distance for peak distance analysis<a class="headerlink" href="#distance-for-peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<div class="section" id="distance">
+<span id="max-peak-distance"></span><h2>--distance<a class="headerlink" href="#distance" title="Permalink to this heading"></a></h2>
+<p>Max distance used for the <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a>.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--distance</span> <span class="pre">30</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="peak-percentiles-for-peak-distance-analysis-and-sequence-extraction">
-<span id="distance-percentile"></span><h2>Peak percentiles for peak distance analysis and sequence extraction<a class="headerlink" href="#peak-percentiles-for-peak-distance-analysis-and-sequence-extraction" title="Permalink to this heading"></a></h2>
+<div class="section" id="percentile">
+<span id="distance-percentile"></span><h2>--percentile<a class="headerlink" href="#percentile" title="Permalink to this heading"></a></h2>
+<p>Peak percentiles for <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a> and <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">sequence extraction/motif analysis</span></a>.
+Only peaks with a value above this threshold are considered while all peaks below are omitted as background noise.
+A percentile of 90 means that only top 10% of peaks are used.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--percentile</span> <span class="pre">90</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="omit-sequence-extraction-and-motif-analysis">
-<span id="omit-sequence-extraction"></span><h2>Omit sequence extraction and motif analysis<a class="headerlink" href="#omit-sequence-extraction-and-motif-analysis" title="Permalink to this heading"></a></h2>
-<p>Usage (default):
+<div class="section" id="omit-sequence-extraction">
+<span id="id17"></span><h2>--omit_sequence_extraction<a class="headerlink" href="#omit-sequence-extraction" title="Permalink to this heading"></a></h2>
+<p>Omits the <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a></p>
+<p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--omit_sequence_extraction</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="length-for-sequence-extraction">
-<span id="sequence-extarction-length"></span><h2>Length for sequence extraction<a class="headerlink" href="#length-for-sequence-extraction" title="Permalink to this heading"></a></h2>
+<div class="section" id="seq-len">
+<span id="sequence-extraction-length"></span><h2>--seq_len<a class="headerlink" href="#seq-len" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Length in nucleotides to each side of a peak that is extracted from the <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference</span></a>.
+A value of 20 will lead to sequences of 41 nucleotides being extracted. (20nt upstream;cross-link nt;20nt downstream)</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--seq_len</span> <span class="pre">20</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="omit-nucleotide-at-cross-linking-site">
-<span id="omit-cl-nuckeotide"></span><h2>Omit nucleotide at cross linking site<a class="headerlink" href="#omit-nucleotide-at-cross-linking-site" title="Permalink to this heading"></a></h2>
+<div class="section" id="omit-cl-nucleotide">
+<span id="omit-cl-nuckeotide"></span><h2>--omit_cl_nucleotide<a class="headerlink" href="#omit-cl-nucleotide" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+The nucleotide directly at the cross-linking position will be substituted with an <strong>N</strong> when extracting sequences.
+Can improve the motif detection since iCLIP tends to have a bias towards <strong>U</strong> when cross-linking which can influence the motif search.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--omit_cl_nucleotide</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="maximum-number-of-motifs">
-<span id="max-number-of-motifs"></span><h2>Maximum number of motifs<a class="headerlink" href="#maximum-number-of-motifs" title="Permalink to this heading"></a></h2>
+<div class="section" id="max-motif-num">
+<span id="max-number-of-motifs"></span><h2>--max_motif_num<a class="headerlink" href="#max-motif-num" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Maximum number of motifs that is reported by streme.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--max_motif_num</span> <span class="pre">50</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="minumum-width-of-motifs">
-<span id="min-motif-width"></span><h2>Minumum width of motifs<a class="headerlink" href="#minumum-width-of-motifs" title="Permalink to this heading"></a></h2>
+<div class="section" id="min-motif-width">
+<span id="id18"></span><h2>--min_motif_width<a class="headerlink" href="#min-motif-width" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Minimum length of motifs reported by streme.
+Cannot be lower than 3</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--min_motif_width</span> <span class="pre">8</span>
 <span class="pre">`</span></code></p>
 </div>
-<div class="section" id="maximum-width-of-motifs">
-<span id="max-motif-width"></span><h2>Maximum width of motifs<a class="headerlink" href="#maximum-width-of-motifs" title="Permalink to this heading"></a></h2>
+<div class="section" id="max-motif-width">
+<span id="id19"></span><h2>--max_motif_width<a class="headerlink" href="#max-motif-width" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Maximum length of motifs reported by streme.
+Cannot be higher than 30</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
+<span class="pre">--max_motif_width</span> <span class="pre">15</span>
 <span class="pre">`</span></code></p>
 </div>
 </div>
