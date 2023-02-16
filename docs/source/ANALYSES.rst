@@ -13,9 +13,9 @@ This version shows the mean hit count for every position. Additionally, a correl
 an evaluation of the sample similarity and therefore a rationale for this analysis.
 Is deactivated by default.
 
-Associated parameters:
-:ref:`--merge_replicates <merge-replicates>`   Merges replicates according to the name in the :ref:`barcode file <barcodes>`
-:ref:`--correlation_analysis <correlation-analysis>`   Does a correlation analysis for merged replicates
+| Associated parameters:
+| :ref:`-\-merge_replicates <merge-replicates>`           Merges replicates according to the name in the :ref:`barcode file <barcodes>`
+| :ref:`-\-correlation_analysis <correlation-analysis>`   Does a correlation analysis for merged replicates
 
 .. _RNA-subtype-analysis:
 
@@ -46,9 +46,9 @@ If not a FASTA file containing the transcripts can be generated as follows (need
 gffread -w output_transcripts.fa -g input_reference_genome.fa input_annotation.gff3
 '''
 
-```
---map_to_transcripts
-```
+| Associated parameters
+| :ref:`-\-map_to_transcripts <map-to-transcripts>`            Activates transcript analysis
+| :ref:`-\-number_top_transcripts <number-top-transcripts>`    Amount of transcripts with most hits per sample that are offered as output
 
 .. _peak-calling:
 
