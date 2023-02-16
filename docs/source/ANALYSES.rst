@@ -11,7 +11,7 @@ Merge replicates
 Merges several replicates into a single representative version which can be used for publications, posters or presentations. 
 This version shows the mean hit count for every position. Additionally, a correlation analysis is performed to give the user 
 an evaluation of the sample similarity and therefore a rationale for this analysis.
-Is deactivated by default. Can be activated via :ref:`--merge_replicates <merge-replicates>`
+Is deactivated by default.
 
 .. _RNA-subtype-analysis:
 
@@ -37,6 +37,10 @@ If choosing this analysis a file containing all RNAs of interest should be used 
 Here all RNAs of interest (or artificial RNAs present in the sample) can be combined to a single fasta file. If the general 
 transcriptome of an organism shall be examined, they can often be accessed next to the genome and annotation of the organism. 
 If not a FASTA file containing the transcripts can be generated as follows (needs the genome and an annotation file):
+
+'''
+gffread -w output_transcripts.fa -g input_reference_genome.fa input_annotation.gff3
+'''
 
 ```
 --map_to_transcripts
