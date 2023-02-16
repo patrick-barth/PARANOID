@@ -55,12 +55,23 @@ PARANOiD employs `PureCLIP <https://github.com/skrakau/PureCLIP>`_ for its peak 
 to divide the reference into 4 different states based on the peak distribution. Additionally, identified peaks in close proximity 
 can be merged into binding regions. 
 
+.. _motif-detection:
+
+Motif detection
+---------------
+
+Protein binding sites are often determined by protein-specific RNA motifs. Therefore, finding said motifs at or closely around
+cross-linking sites 
+
 .. _peak-distance-analysis:
 
 Peak distance analysis
 ----------------------
 
-.. _motif-detection:
-
-Motif detection
----------------
+Some proteins bind to long stretches of RNA instead of certain motif-dependent RNA subregions. This is, for example, the case with
+the Nucleocapsid (N) protein of several virus species which bind to a distinct number of nucleotides per N protein while packaging 
+the viral RNA. The peak distance analysis was implemented to detect such periodical RNA-protein interactions by determining the
+occurences of distances between peaks. 
+Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used). Then, 
+going through every peak above the threshold, the distances to all other peaks above this threshold, which are within a certain 
+distance (by default 30 nt) are measured, summarized and provided as a TSV file and visualized as a plot.
