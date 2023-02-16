@@ -60,8 +60,12 @@ can be merged into binding regions.
 Motif detection
 ---------------
 
-Protein binding sites are often determined by protein-specific RNA motifs. Therefore, finding said motifs at or closely around
-cross-linking sites 
+Protein binding sites are often determined by protein-specific RNA motifs. These motifs are typically found at or in close proximity to
+cross-linking sites. To identify these motifs the motif detection was implemented. 
+Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used) in the same
+manner as in the :ref:`peak distance analysis <peak-distance-analysis>`. Sequences around all peaks above the threshold are extracted and 
+provided as output. All extracted sequences are then used for motif detection via `streme <https://meme-suite.org/meme/doc/streme.html>`_,
+which offers several enriched sequences.
 
 .. _peak-distance-analysis:
 
@@ -72,6 +76,7 @@ Some proteins bind to long stretches of RNA instead of certain motif-dependent R
 the Nucleocapsid (N) protein of several virus species which bind to a distinct number of nucleotides per N protein while packaging 
 the viral RNA. The peak distance analysis was implemented to detect such periodical RNA-protein interactions by determining the
 occurences of distances between peaks. 
-Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used). Then, 
-going through every peak above the threshold, the distances to all other peaks above this threshold, which are within a certain 
-distance (by default 30 nt) are measured, summarized and provided as a TSV file and visualized as a plot.
+Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used) in the same
+manner as in the :ref:`motif detection <motif-detection>`. Then, going through every peak above the threshold, the 
+distances to all other peaks above this threshold, which are within a certain distance (by default 30 nt) are measured, summarized 
+and provided as a TSV file and visualized as a plot.
