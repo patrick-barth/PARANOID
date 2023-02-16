@@ -13,6 +13,10 @@ This version shows the mean hit count for every position. Additionally, a correl
 an evaluation of the sample similarity and therefore a rationale for this analysis.
 Is deactivated by default.
 
+Associated parameters:
+:ref:`--merge_replicates <merge-replicates>`   Merges replicates according to the name in the :ref:`barcode file <barcodes>`
+:ref:`--correlation_analysis <correlation-analysis>`   Does a correlation analysis for merged replicates
+
 .. _RNA-subtype-analysis:
 
 RNA subtypes
