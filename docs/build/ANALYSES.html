@@ -47,8 +47,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#rna-subtypes">RNA subtypes</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#transcript-analysis">Transcript analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#peak-calling">Peak calling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#peak-distance-analysis">Peak distance analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#motif-detection">Motif detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#peak-distance-analysis">Peak distance analysis</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
@@ -85,30 +85,72 @@
 <p>Short overview of all analyses implemented in PARANOiD</p>
 <div class="section" id="merge-replicates">
 <span id="merge-replicates-analysis"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
-<p>Merges several replicates into a single representative version which can be used for publications, posters or presentations. This version shows the mean hit count for every position. Additionally, a correllation analysis is performed to give the user an evaluation of the sample similarity and therefore a rationale for this analysis.
-Is deactivated by default. Can be activated via <a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">–merge_replicates</span></a></p>
+<p>Merges several replicates into a single representative version which can be used for publications, posters or presentations.
+This version shows the mean hit count for every position. Additionally, a correlation analysis is performed to give the user
+an evaluation of the sample similarity and therefore a rationale for this analysis.
+Is deactivated by default.</p>
+<div class="line-block">
+<div class="line">Associated parameters:</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">–merge_replicates</span></a>           Merges replicates according to the name in the <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcode file</span></a></div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#correlation-analysis"><span class="std std-ref">–correlation_analysis</span></a>   Does a correlation analysis for merged replicates</div>
+</div>
 </div>
 <div class="section" id="rna-subtypes">
 <span id="rna-subtype-analysis"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
-<p>Analysis to determine if the protein of interest is prone to bind to specific RNA subtypes or regions. As this is determined via the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> only subtypes included there can be determined (shown in column 3). To see which RNA subtypes are included in the annotation file a <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">script</span></a> was added. When choosing RNA subtypes one has to be careful not to use subtypes that are hierarchically higher or lower to each other as these will at least partially cover the same reference regoins making hits in these regions ambiguous. The <a class="reference external" href="https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo">SO ontologies</a> can be used to get an overview of the official hierarchical structures of annotation files.
+<p>Analysis to determine if the protein of interest is prone to bind to specific RNA subtypes or regions. As this is determined
+via the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> only subtypes included there can be determined (shown in column 3).
+To see which RNA subtypes are included in the annotation file a <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">script</span></a> was added.
+When choosing RNA subtypes one has to be careful not to use subtypes that are hierarchically higher or lower to each other as
+these will at least partially cover the same reference regions making hits in these regions ambiguous.
+The <a class="reference external" href="https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo">SO ontologies</a> can
+be used to get an overview of the official hierarchical structures of annotation files.
 Is activated when an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided.</p>
 </div>
 <div class="section" id="transcript-analysis">
 <span id="id1"></span><h2>Transcript analysis<a class="headerlink" href="#transcript-analysis" title="Permalink to this heading"></a></h2>
 <p>Analysis to show if specific RNAs are more prone to interact with the the protein of interest.
-If choosing this analysis a file containing all RNAs of interest should be used as input reference instead of the genome. Here all RNAs of interest (or artificial RNAs present in the sample) can be combined to a single fasta file. If the general transcriptome of an organism shall be examined, they can often be accessed next to the genome and annotation of the organism. If not a FASTA file containing the transcripts can be generated as follows (needs the genome and an annotation file):</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--map_to_transcripts</span>
-<span class="pre">`</span></code></p>
+If choosing this analysis a file containing all RNAs of interest should be used as input reference instead of the genome.
+Here all RNAs of interest (or artificial RNAs present in the sample) can be combined to a single fasta file. If the general
+transcriptome of an organism shall be examined, they can often be accessed next to the genome and annotation of the organism.
+If not a FASTA file containing the transcripts can be generated as follows (needs the genome and an annotation file):</p>
+<p>‘’’
+gffread -w output_transcripts.fa -g input_reference_genome.fa input_annotation.gff3
+‘’’</p>
+<div class="line-block">
+<div class="line">Associated parameters</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#map-to-transcripts"><span class="std std-ref">–map_to_transcripts</span></a>            Activates transcript analysis</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#number-top-transcripts"><span class="std std-ref">–number_top_transcripts</span></a>    Amount of transcripts with most hits per sample that are offered as output</div>
+</div>
 </div>
 <div class="section" id="peak-calling">
 <span id="id2"></span><h2>Peak calling<a class="headerlink" href="#peak-calling" title="Permalink to this heading"></a></h2>
-</div>
-<div class="section" id="peak-distance-analysis">
-<span id="id3"></span><h2>Peak distance analysis<a class="headerlink" href="#peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<p>Results obtained from analyzed iCLIP experiments typically contain a fair amount of background noise (signal not caused by
+the actual protein-RNA interaction). This can be due to the reverse transcription not terminating when encountering an
+aminoacid or by a covalent binding of the protein of interest with an RNA just because their were in close proximity. Peak calling
+is supposed to filter out this background noise and thus reduce the amount of false positive signal.
+PARANOiD employs <a class="reference external" href="https://github.com/skrakau/PureCLIP">PureCLIP</a> for its peak calling process. PureCLIP uses a hidden Markov model
+to divide the reference into 4 different states based on the peak distribution. Additionally, identified peaks in close proximity
+can be merged into binding regions.</p>
 </div>
 <div class="section" id="motif-detection">
-<span id="id4"></span><h2>Motif detection<a class="headerlink" href="#motif-detection" title="Permalink to this heading"></a></h2>
+<span id="id3"></span><h2>Motif detection<a class="headerlink" href="#motif-detection" title="Permalink to this heading"></a></h2>
+<p>Protein binding sites are often determined by protein-specific RNA motifs. These motifs are typically found at or in close proximity to
+cross-linking sites. To identify these motifs the motif detection was implemented.
+Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used) in the same
+manner as in the <a class="reference internal" href="#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a>. Sequences around all peaks above the threshold are extracted and
+provided as output. All extracted sequences are then used for motif detection via <a class="reference external" href="https://meme-suite.org/meme/doc/streme.html">streme</a>,
+which offers several enriched sequences.</p>
+</div>
+<div class="section" id="peak-distance-analysis">
+<span id="id4"></span><h2>Peak distance analysis<a class="headerlink" href="#peak-distance-analysis" title="Permalink to this heading"></a></h2>
+<p>Some proteins bind to long stretches of RNA instead of certain motif-dependent RNA subregions. This is, for example, the case with
+the Nucleocapsid (N) protein of several virus species which bind to a distinct number of nucleotides per N protein while packaging
+the viral RNA. The peak distance analysis was implemented to detect such periodical RNA-protein interactions by determining the
+occurences of distances between peaks.
+Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used) in the same
+manner as in the <a class="reference internal" href="#motif-detection"><span class="std std-ref">motif detection</span></a>. Then, going through every peak above the threshold, the
+distances to all other peaks above this threshold, which are within a certain distance (by default 30 nt) are measured, summarized
+and provided as a TSV file and visualized as a plot.</p>
 </div>
 </div>
 
