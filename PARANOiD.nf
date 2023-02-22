@@ -821,7 +821,7 @@ process split_wig_2_for_peak_height_hist {
 	file(query) from collect_wig_2_to_peak_height_histogram
 
 	output:
-	set val("${query.simpleName}"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") into split_wig2_to_generate_peak_height_histogram
+	set val("${query.simpleName}"), file("${query.simpleName}_forward.wig"), file("${query.simpleName}_reverse.wig") optional true into split_wig2_to_generate_peak_height_histogram
 
 	"""
 	wig2-to-wig.py --input ${query} --output ${query.simpleName}
