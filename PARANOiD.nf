@@ -692,11 +692,11 @@ if( params.merge_replicates == true ){
 
 		output:
 		file "${name}.wig2" into collected_wig_files
-		set val("cross-link-sites-merged"), file("${name}_forward.wig"), file("${name}_reverse.wig") into wig_merged_cross_link_sites_to_transform
-		file "${name}_{forward,reverse}.wig" into output
+		set val("cross-link-sites-merged"), file("${name}_forward.wig"), file("${name}_reverse.wig") optional true into wig_merged_cross_link_sites_to_transform
+		file "${name}_{forward,reverse}.wig" optional true into output
 
 		script:
-		if(name !=~ "unmatched*")
+		if(name !=~ "unmatched.wig2")
 			"""
 			merge-wig.py --wig ${query} --output ${name}.wig2
 			wig2-to-wig.py --input ${name}.wig2 --output ${name}
