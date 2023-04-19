@@ -33,6 +33,7 @@ row.names(chrom_length) <- unlist(lapply(strsplit(row.names(chrom_length), "\\."
 files                   <- list.files(path = input_path, pattern = "\\.wig$")
 
 if(both_strands){
+  # remove everything after the last _ from filenames (including the _)
   group_replicates <- function(file_name) {
     sub("_[^_]*$","", file_name)
   }
@@ -51,6 +52,7 @@ import_wig_files <- function(files = vector())
   chr_dat           <- list()
   filelist          <- list()
 
+  # imports all wig files
   for (i in seq(1, length(files))) {
     full_path <- paste(input_path, "/", files[i], sep = "")
     filelist[[i]] <- import_wig(full_path)
@@ -79,9 +81,10 @@ import_wig_files <- function(files = vector())
         positions_reverse   <- filelist[[file_reverse]][lines_reverse, ]$pos
         values_reverse      <- filelist[[file_reverse]][lines_reverse, ]$val
         
+        # Adds length of current chromosome to positions of reverse hits
         positions_reverse <- sapply(positions_reverse, function(x) x + chrom_length[chr, ])
         
-        
+        # Values for forward and reverse hits are appended
         chromosome_values[[chr]][c(positions_forward,positions_reverse), i] <- c(abs(values_forward),abs(values_reverse))
       }
     } else {
@@ -105,13 +108,14 @@ import_wig_files <- function(files = vector())
 }
 
 do_cor_analysis <- function(files = vector(), dat = list()) {
+  # Appends values of all chromosomes into a single data frame
   appended_values <- data.frame(dat[[1]]$val)
-
   for (chr in seq(2, length(dat))) {
     tmp_df          <- data.frame(dat[[chr]]$val)
     appended_values <- rbind(appended_values, tmp_df)
   }
 
+  # Removes all positions without any hits 
   appended_values <- appended_values[rowSums(appended_values[]) > 0, ]
   print(appended_values)
 
@@ -142,6 +146,7 @@ do_cor_analysis <- function(files = vector(), dat = list()) {
     device = type
   )
 }
+
 if(both_strands){
   do_cor_analysis(names(combined_strands), import_wig_files(files))
 } else {
