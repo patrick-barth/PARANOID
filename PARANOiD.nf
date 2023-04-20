@@ -39,6 +39,7 @@ params.number_top_transcripts = 10 						//INT number of top transcripts present
 
 params.merge_replicates = false
 params.correlation_analysis = false
+params.combine_strands_correlation = false
 
 // parameters for peak calling
 params.omit_peak_calling = false 							//BOOLEAN decides if peak calling via pureclip takes place after normal processing
@@ -631,6 +632,7 @@ if( params.merge_replicates == true ){
 
 	process split_wig2_for_correlation{
 		tag {query.simpleName}
+		cache false
 
 		input:
 		file(query) from wig2_calc_cl_sites_to_split
@@ -638,6 +640,7 @@ if( params.merge_replicates == true ){
 		output:
 		file("${query.simpleName}_forward.wig") optional true into split_wig_forward_to_correlation
 		file("${query.simpleName}_reverse.wig") optional true into split_wig_reverse_to_correlation
+		file("${query.simpleName}_{forward,reverse}.wig") optional true into split_wig_both_to_correlation
 
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.simpleName}
@@ -645,30 +648,47 @@ if( params.merge_replicates == true ){
 	}
 
 	if( params.correlation_analysis == true ){
-		
-		forward_value = Channel.from("forward")
 
-		split_wig_forward_to_correlation
-			.map{file -> tuple(file.name - ~/_rep_\d*_forward.wig$/,file)} 
-			.groupTuple()
-			.combine(forward_value)
-			.set{group_forward}
+		if( params.combine_strands_correlation == true ){
 
-		reverse_value = Channel.from("reverse")
+			both_value = Channel.from("both_strands")
 
-		split_wig_reverse_to_correlation
-			.map{file -> tuple(file.name - ~/_rep_\d*_reverse.wig$/,file)} 
-			.groupTuple()
-			.combine(reverse_value)
-			.set{group_reverse}
+			split_wig_both_to_correlation
+				.flatten()
+				.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*_(forward|reverse)?.wig$/,file)}
+				.groupTuple()
+				.combine(both_value)
+				.combine(chrom_sizes_to_correlation)
+				.set{prepared_input_correlation}
+			
+		} else { 
+			forward_value = Channel.from("forward")
 
+			split_wig_forward_to_correlation
+				.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?_forward.wig$/,file)} 
+				.groupTuple()
+				.combine(forward_value)
+				.set{group_forward}
+
+			reverse_value = Channel.from("reverse")
+
+			split_wig_reverse_to_correlation
+				.map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?_reverse.wig$/,file)} 
+				.groupTuple()
+				.combine(reverse_value)
+				.set{group_reverse}
+
+			group_forward.concat(group_reverse)
+				.combine(chrom_sizes_to_correlation)
+				.set{prepared_input_correlation}
+		}
 		process calc_wig_correlation{
 
 			tag {name}
 			publishDir "${params.output}/correlation_of_replicates", mode: 'copy', pattern: "${name}_${strand}_correlation.{png,csv}"
 
 			input:
-			set val(name),file(query),val(strand),file(chrom_sizes) from group_forward.concat(group_reverse).combine(chrom_sizes_to_correlation)
+			set val(name),file(query),val(strand),file(chrom_sizes) from prepared_input_correlation
 
 			output:
 			file("${name}_${strand}_correlation.png") optional true
@@ -676,11 +696,18 @@ if( params.merge_replicates == true ){
 
 			script:
 			String[] test_size = query
-			"""
-			if [[ ${test_size.size()} > 1 ]]; then
-				wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png
-			fi
-			"""
+			if(params.combine_strands_correlation)
+				"""
+				if [[ ${test_size.size()} > 1 ]]; then
+					wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --both_strands --type png
+				fi
+				"""
+			else
+				"""
+				if [[ ${test_size.size()} > 1 ]]; then
+					wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png
+				fi
+				"""
 		}
 	}
 	process merge_wigs{
@@ -979,23 +1006,23 @@ if (params.omit_sequence_extraction == false) {
 // if sequence_extraction is performed in FASTA format, we can compute motifs
 if (params.omit_sequence_extraction == false && (2*params.seq_len)+1 >= params.min_motif_width) {
     process motif_search {
-    	tag {fasta.simpleName}
-	    publishDir "${params.output}/motif_search/", mode: 'copy'
+		tag {fasta.simpleName}
+		publishDir "${params.output}/motif_search/", mode: 'copy'
 
-	    input:
-	    file fasta from extracted_sequences
+		input:
+		file fasta from extracted_sequences
 
 		output:
-	    file "${fasta.baseName}_motif" optional true
+		file "${fasta.baseName}_motif" optional true
 
 		script:
 		
-	    """
+		"""
 		if [[ \$(wc -l ${fasta} | cut -f1 -d' ') -ge 4 ]]; then
 			streme --oc ${fasta.baseName}_motif --p ${fasta} --dna --seed 0 --nmotifs ${params.max_motif_num} --minw ${params.min_motif_width} --maxw ${params.max_motif_width}
 		fi
-	    """
-    }
+		"""
+	}
 }
 
 
