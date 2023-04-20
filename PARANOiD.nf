@@ -1131,7 +1131,7 @@ if (params.annotation != 'NO_FILE'){
 		file("${annotation.baseName}.sorted.gff.gz*")
 
 		"""
-		~/software/gff3sort/gff3sort.pl ${annotation} > ${annotation.baseName}.sorted.gff
+		gff3sort.pl ${annotation} > ${annotation.baseName}.sorted.gff
 		bgzip ${annotation.baseName}.sorted.gff
 		tabix ${annotation.baseName}.sorted.gff.gz
 		"""
