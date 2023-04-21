@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to PARANOiD’s documentation! &mdash; PARANOiD  documentation</title>
+  <title>Basic usage of PARANOiD &mdash; PARANOiD  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PARANOiD Inputs" href="INPUT.html" /> 
+    <link rel="next" title="PARANOiD Parameters" href="PARAMETERS.html" />
+    <link rel="prev" title="PARANOiD Inputs" href="INPUT.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -27,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> PARANOiD
+            <a href="index.html" class="icon icon-home"> PARANOiD
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -38,9 +39,9 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
@@ -54,17 +55,17 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">PARANOiD</a>
+          <a href="index.html">PARANOiD</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Welcome to PARANOiD’s documentation!</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Basic usage of PARANOiD</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/BASICUSAGE.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -72,27 +73,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="welcome-to-paranoid-s-documentation">
-<h1>Welcome to PARANOiD’s documentation!<a class="headerlink" href="#welcome-to-paranoid-s-documentation" title="Permalink to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
-</ul>
-</div>
+  <div class="section" id="basic-usage-of-paranoid">
+<h1>Basic usage of PARANOiD<a class="headerlink" href="#basic-usage-of-paranoid" title="Permalink to this heading"></a></h1>
+<p>Description on how to the minimal set of PARANOiD.
+This means running it with only a <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">FASTQ file</span></a> containing reads, a <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference genome</span></a> and
+a <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcode file</span></a>.
+Generated outputs include <a class="reference internal" href="OUTPUT.html#output-alignments"><span class="std std-ref">alignments</span></a>, <a class="reference internal" href="OUTPUT.html#output-cross-link-sites"><span class="std std-ref">cross-link sites</span></a> in 3 different file types,
+an overview of the <a class="reference internal" href="OUTPUT.html#output-peak-height-distribution"><span class="std std-ref">peak height distribution</span></a>, :ref:` processing statistics &lt;output-statistics&gt;`,
+<a class="reference internal" href="OUTPUT.html#output-strand-distribution"><span class="std std-ref">strand distributions</span></a> and an <a class="reference internal" href="OUTPUT.html#output-igv-session"><span class="std std-ref">IGV session</span></a> which can be loaded directly into
+thr IGV to visualize first results. A directory with the name output (<a class="reference internal" href="PARAMETERS.html#output-dir"><span class="std std-ref">unless stated otherwise</span></a>) containing all results
+will be generated.
+All parts marked with &lt;&gt; are files that need to be specified by the user</p>
+<p><code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">nextflow</span> <span class="pre">/path/to/directory/PARANOiD.nf</span> <span class="pre">--reads</span> <span class="pre">&lt;read-file&gt;</span> <span class="pre">--reference</span> <span class="pre">&lt;reference-file&gt;</span> <span class="pre">--barcodes</span> <span class="pre">&lt;barcode-file&gt;</span> <span class="pre">--omit_peak_calling</span> <span class="pre">--omit_peak_distance</span> <span class="pre">--omit_sequence_extraction</span>
+<span class="pre">`</span></code></p>
 </div>
 
 
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="INPUT.html" class="btn btn-neutral float-right" title="PARANOiD Inputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="INPUT.html" class="btn btn-neutral float-left" title="PARANOiD Inputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="PARAMETERS.html" class="btn btn-neutral float-right" title="PARANOiD Parameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
