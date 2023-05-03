@@ -11,6 +11,7 @@ thr IGV to visualize first results. A directory with the name output (:ref:`unle
 will be generated. 
 All parts marked with <> are files that need to be specified by the user
 
-```
-nextflow /path/to/directory/PARANOiD.nf --reads <read-file> --reference <reference-file> --barcodes <barcode-file> --omit_peak_calling --omit_peak_distance --omit_sequence_extraction
-```
+
+.. code-block:: shell
+
+   nextflow /path/to/directory/PARANOiD.nf --reads <read-file> --reference <reference-file> --barcodes <barcode-file> --omit_peak_calling --omit_peak_distance --omit_sequence_extraction

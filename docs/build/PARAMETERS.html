@@ -122,10 +122,10 @@
 <div class="line">States <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">file</span></a> containing reads obtained by iCLIP experiments.</div>
 <div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file.</div>
 </div>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--reads</span> <span class="pre">/path/to/input-file.fastq</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--reads /path/to/input-file.fastq
+</pre></div>
+</div>
 </div>
 <div class="section" id="barcodes">
 <span id="parameters-barcodes"></span><h2>--barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
@@ -134,10 +134,10 @@
 <div class="line">States <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">file</span></a> containing barcode sequences and experiment names. Necessary to split reads and allocate them to their experiment.</div>
 <div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">TSV</span></code> file.</div>
 </div>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--barcodes</span> <span class="pre">/path/to/barcodes.tsv</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--barcodes /path/to/barcodes.tsv
+</pre></div>
+</div>
 </div>
 <div class="section" id="reference">
 <span id="parameters-reference"></span><h2>--reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
@@ -146,10 +146,10 @@
 <div class="line">States <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference genome</span></a> used to align reads to and thus to determine the location of cross-link sites.</div>
 <div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> file.</div>
 </div>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--reference</span> <span class="pre">/path/to/reference.fasta</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--reference /path/to/reference.fasta
+</pre></div>
+</div>
 </div>
 <div class="section" id="annotation">
 <span id="parameters-annotation"></span><h2>--annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
@@ -157,19 +157,19 @@
 <div class="line">States <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> used for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysius</span></a>.</div>
 <div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">GFF</span></code> or <code class="docutils literal notranslate"><span class="pre">GTF</span></code> file.</div>
 </div>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--annotation</span> <span class="pre">/path/to/annotation.gff</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--annotation /path/to/annotation.gff
+</pre></div>
+</div>
 </div>
 <div class="section" id="merge-replicates">
 <span id="id1"></span><h2>--merge_replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
 <p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcodes section</span></a>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--merge_replicates</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--merge_replicates
+</pre></div>
+</div>
 </div>
 <div class="section" id="correlation-analysis">
 <span id="id2"></span><h2>--correlation_analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this heading"></a></h2>
@@ -177,23 +177,23 @@
 Does a correlation analysis of replicates to show their similarity (and thus if they should be merged at all).
 Can cause problems with large reference genomes due to excessive RAM usage.</p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--correlation_analysis</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--correlation_analysis
+</pre></div>
+</div>
 </div>
 <div class="section" id="barcode-pattern">
 <span id="id3"></span><h2>--barcode_pattern<a class="headerlink" href="#barcode-pattern" title="Permalink to this heading"></a></h2>
 <p>Adapt barcode patterns to different protocols. Default protocol is <a class="reference external" href="https://doi.org/10.1016/j.ymeth.2019.10.003">iCLIP2</a>.
 <code class="docutils literal notranslate"><span class="pre">N</span></code> s represent the random barcode and <code class="docutils literal notranslate"><span class="pre">X</span></code> s the experimental barcode</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--barcode_pattern</span> <span class="pre">NNNNNXXXXXXNNNN</span>
-<span class="pre">`</span></code>
-Example for iCLIP1
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--barcode_pattern</span> <span class="pre">NNNXXXXNN</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--barcode_pattern NNNNNXXXXXXNNNN
+</pre></div>
+</div>
+<p>Example for iCLIP1</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--barcode_pattern NNNXXXXNN
+</pre></div>
+</div>
 </div>
 <div class="section" id="domain">
 <span id="id4"></span><h2>--domain<a class="headerlink" href="#domain" title="Permalink to this heading"></a></h2>
@@ -201,26 +201,26 @@ Example for iCLIP1
 <p>Options:
 | pro -&gt; Bowtie2 (default)
 | eu  -&gt; STAR</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--domain</span> <span class="pre">pro</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--domain pro
+</pre></div>
+</div>
 </div>
 <div class="section" id="output">
 <span id="output-dir"></span><h2>--output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
 <p>Specify directory to which output generated by PARANOiD will be written.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--output</span> <span class="pre">./output</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--output ./output
+</pre></div>
+</div>
 </div>
 <div class="section" id="min-length">
 <span id="min-read-length"></span><h2>--min_length<a class="headerlink" href="#min-length" title="Permalink to this heading"></a></h2>
 <p>Specify minimum length a read needs to have after adapter removal to persist. Reads that become shorter during adapter removal will be filtered out.</p>
-<p>Usage (default)
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_length</span> <span class="pre">30</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default)</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--min_length <span class="m">30</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="min-qual">
 <span id="min-base-qual"></span><h2>--min_qual<a class="headerlink" href="#min-qual" title="Permalink to this heading"></a></h2>
@@ -257,28 +257,28 @@ The quality score (also known as Phred quality score) describes the certainty of
 </tr>
 </tbody>
 </table>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_qual</span> <span class="pre">20</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--min_qual <span class="m">20</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="min-percent-qual-filter">
 <span id="percent-qual-filter"></span><h2>--min_percent_qual_filter<a class="headerlink" href="#min-percent-qual-filter" title="Permalink to this heading"></a></h2>
 <p>Percentage of nucleotides that need to have a quality score above the chosen <a class="reference internal" href="#min-base-qual"><span class="std std-ref">minimum base quality</span></a>.
 Reads with less nucleotides above the desired quality will be removed.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_percent_qual_filter</span> <span class="pre">90</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--min_percent_qual_filter <span class="m">90</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="barcode-mismatches">
 <span id="id5"></span><h2>--barcode_mismatches<a class="headerlink" href="#barcode-mismatches" title="Permalink to this heading"></a></h2>
 <p>Number of mismatches allowed within the experimental barcode to still assign a read to an experiment.
 Typically, experimental barcodes should be designed with a v of at least 3 to each other in order to allow one mismatch.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--barcode_mismatches</span> <span class="pre">1</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--barcode_mismatches <span class="m">1</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="mapq">
 <span id="id6"></span><h2>--mapq<a class="headerlink" href="#mapq" title="Permalink to this heading"></a></h2>
@@ -286,10 +286,10 @@ Typically, experimental barcodes should be designed with a v of at least 3 to ea
 All alignments with a mapq score below will be removed after the alignment step.
 Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
 the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--mapq</span> <span class="pre">2</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--mapq <span class="m">2</span>
+</pre></div>
+</div>
 <div class="section" id="score-meanings-for-bowtie2-domain-pro">
 <h3>Score meanings for Bowtie2 (--domain pro)<a class="headerlink" href="#score-meanings-for-bowtie2-domain-pro" title="Permalink to this heading"></a></h3>
 <p>Apart from the description in the table a higher MAPQ score means less allowed mismatches (with difference of the base quality a mismatched nucleotide has)</p>
@@ -362,28 +362,28 @@ Source: <a class="reference external" href="https://physiology.med.cornell.edu/f
 <p>Should be used when transcripts are given as reference instead of a reference genome. Returns the transcripts with most hits from each sample.
 More information can be found <a class="reference internal" href="ANALYSES.html#transcript-analysis"><span class="std std-ref">here</span></a></p>
 <p><code class="docutils literal notranslate"><span class="pre">Default:</span> <span class="pre">false</span></code></p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--map_to_transcripts</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--map_to_transcripts
+</pre></div>
+</div>
 </div>
 <div class="section" id="number-top-transcripts">
 <span id="id8"></span><h2>--number_top_transcripts<a class="headerlink" href="#number-top-transcripts" title="Permalink to this heading"></a></h2>
 <p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">--map_to_transcripts</span></a> was used.
 As the amount is chosen from each sample the total number of transcripts can excede this number.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--number_top_transcripts</span> <span class="pre">10</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--number_top_transcripts <span class="m">10</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="omit-peak-calling">
 <span id="id9"></span><h2>--omit_peak_calling<a class="headerlink" href="#omit-peak-calling" title="Permalink to this heading"></a></h2>
 <p>If specified <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> will not be performed.
 Will be performed by default.</p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--omit_peak_calling</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--omit_peak_calling
+</pre></div>
+</div>
 </div>
 <div class="section" id="peak-calling-for-high-coverage">
 <span id="id10"></span><h2>--peak_calling_for_high_coverage<a class="headerlink" href="#peak-calling-for-high-coverage" title="Permalink to this heading"></a></h2>
@@ -391,48 +391,48 @@ Will be performed by default.</p>
 Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error.
 From our experience the parameters added by this argument can help PureCLIP with performing it's analysis.
 Adds following arguments to the PureCLIP execution: <code class="docutils literal notranslate"><span class="pre">-mtc</span> <span class="pre">5000</span> <span class="pre">-mtc2</span> <span class="pre">5000</span> <span class="pre">-ld</span></code></p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--peak_calling_for_high_coverage</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--peak_calling_for_high_coverage
+</pre></div>
+</div>
 </div>
 <div class="section" id="peak-calling-regions">
 <span id="id11"></span><h2>--peak_calling_regions<a class="headerlink" href="#peak-calling-regions" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> is performed.
 If specified peak regions instead of single peaks will be returned by PureCLIP.</p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--peak_calling_regions</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--peak_calling_regions
+</pre></div>
+</div>
 </div>
 <div class="section" id="peak-calling-regions-width">
 <span id="peak-calling-region-width"></span><h2>--peak_calling_regions_width<a class="headerlink" href="#peak-calling-regions-width" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if <a class="reference internal" href="#peak-calling-regions"><span class="std std-ref">peak calling regions</span></a> are stated.
 Changes the width of peak calling regions returned by PureCLIP.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--peak_calling_regions_width</span> <span class="pre">8</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--peak_calling_regions_width <span class="m">8</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="gene-id">
 <span id="id12"></span><h2>--gene_id<a class="headerlink" href="#gene-id" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided and thus the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> performed.
 Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
 The column looks similar to this <code class="docutils literal notranslate"><span class="pre">ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true</span></code>. In this case the tag necessary is <cite>ID</cite>.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--gene_id</span> <span class="pre">ID</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--gene_id ID
+</pre></div>
+</div>
 </div>
 <div class="section" id="color-barplot">
 <span id="id13"></span><h2>--color_barplot<a class="headerlink" href="#color-barplot" title="Permalink to this heading"></a></h2>
 <p>Color of barplots returned by PARANOiD.
 Affects graphs generated by <a class="reference internal" href="OUTPUT.html#output-peak-height-distribution"><span class="std std-ref">peak height distribution</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> and the <a class="reference internal" href="OUTPUT.html#output-experimental-barcode-distribution"><span class="std std-ref">experimental barcode distribution</span></a>.
 Color is staded via a hexadecimal color code. If unsure which code translates to which color several websites can help to pick the correct one. <a class="reference external" href="https://www.color-hex.com/">Example</a></p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--color_barplot</span> <span class="pre">#69b3a2</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--color_barplot <span class="c1">#69b3a2</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="rna-subtypes">
 <span id="id14"></span><h2>--rna_subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
@@ -442,93 +442,93 @@ If both requirements are not met the analysis will either not be performed corre
 If not sure which RNA subtypes are included within your annotation file you can use the script <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">featuretypes-from-gtfgff.awk</span></a>.
 Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as <strong>ambiguous</strong>.
 Inormation about the hierarchical structure of RNA subtypes/regions can be obtained <a class="reference external" href="https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/">here</a>.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--rna_subtypes</span> <span class="pre">3_prime_UTR,transcript,5_prime_UTR</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--rna_subtypes 3_prime_UTR,transcript,5_prime_UTR
+</pre></div>
+</div>
 </div>
 <div class="section" id="omit-peak-distance">
 <span id="id16"></span><h2>--omit_peak_distance<a class="headerlink" href="#omit-peak-distance" title="Permalink to this heading"></a></h2>
 <p>Omits the <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a></p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--omit_peak_distance</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--omit_peak_distance
+</pre></div>
+</div>
 </div>
 <div class="section" id="distance">
 <span id="max-peak-distance"></span><h2>--distance<a class="headerlink" href="#distance" title="Permalink to this heading"></a></h2>
 <p>Max distance used for the <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a>.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--distance</span> <span class="pre">30</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--distance <span class="m">30</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="percentile">
 <span id="distance-percentile"></span><h2>--percentile<a class="headerlink" href="#percentile" title="Permalink to this heading"></a></h2>
 <p>Peak percentiles for <a class="reference internal" href="ANALYSES.html#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a> and <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">sequence extraction/motif analysis</span></a>.
 Only peaks with a value above this threshold are considered while all peaks below are omitted as background noise.
 A percentile of 90 means that only top 10% of peaks are used.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--percentile</span> <span class="pre">90</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--percentile <span class="m">90</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="omit-sequence-extraction">
 <span id="id17"></span><h2>--omit_sequence_extraction<a class="headerlink" href="#omit-sequence-extraction" title="Permalink to this heading"></a></h2>
 <p>Omits the <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a></p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--omit_sequence_extraction</span>
-<span class="pre">`</span></code></p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--omit_sequence_extraction
+</pre></div>
+</div>
 </div>
 <div class="section" id="seq-len">
 <span id="sequence-extraction-length"></span><h2>--seq_len<a class="headerlink" href="#seq-len" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Length in nucleotides to each side of a peak that is extracted from the <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference</span></a>.
 A value of 20 will lead to sequences of 41 nucleotides being extracted. (20nt upstream;cross-link nt;20nt downstream)</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--seq_len</span> <span class="pre">20</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--seq_len <span class="m">20</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="omit-cl-nucleotide">
 <span id="id18"></span><h2>--omit_cl_nucleotide<a class="headerlink" href="#omit-cl-nucleotide" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 The nucleotide directly at the cross-linking position will be substituted with an <strong>N</strong> when extracting sequences.
 Can improve the motif detection since iCLIP tends to have a bias towards <strong>U</strong> when cross-linking which can influence the motif search.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--omit_cl_nucleotide</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--omit_cl_nucleotide
+</pre></div>
+</div>
 </div>
 <div class="section" id="max-motif-num">
 <span id="max-number-of-motifs"></span><h2>--max_motif_num<a class="headerlink" href="#max-motif-num" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Maximum number of motifs that is reported by streme.</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--max_motif_num</span> <span class="pre">50</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--max_motif_num <span class="m">50</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="min-motif-width">
 <span id="id19"></span><h2>--min_motif_width<a class="headerlink" href="#min-motif-width" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Minimum length of motifs reported by streme.
 Cannot be lower than 3</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--min_motif_width</span> <span class="pre">8</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--min_motif_width <span class="m">8</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="max-motif-width">
 <span id="id20"></span><h2>--max_motif_width<a class="headerlink" href="#max-motif-width" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Maximum length of motifs reported by streme.
 Cannot be higher than 30</p>
-<p>Usage (default):
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">--max_motif_width</span> <span class="pre">15</span>
-<span class="pre">`</span></code></p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--max_motif_width <span class="m">15</span>
+</pre></div>
+</div>
 </div>
 </div>
 

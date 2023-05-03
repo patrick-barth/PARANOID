@@ -98,6 +98,6 @@ Example:
 | #!genome-build-accession NCBI_Assembly:GCF_017639785.1 
 | #!annotation-source NCBI Mesocricetus auratus Annotation Release 103 
 | ##sequence-region NW_024429180.1 1 52462669 
-| ##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10036 
+| ##species \https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10036
 | NW_024429180.1	RefSeq	region	1	52462669	.	+	.	ID=NW_024429180.1:1..52462669;Dbxref=taxon:10036;Name=Unknown;chromosome=Unknown;dev-stage=adult;gbkey=Src;genome=genomic;isolate=SY011;mol_type=genomic DNA;sex=female;tissue-type=liver 
 | NW_024429180.1	Gnomon	pseudogene	37366	38359	.	+	.	ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true

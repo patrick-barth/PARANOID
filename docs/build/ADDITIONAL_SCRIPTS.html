@@ -82,20 +82,25 @@
 <p>Supplementary scripts for PARANOiD</p>
 <div class="section" id="determine-valid-rna-subtypes">
 <span id="determine-feature-types"></span><h2>Determine valid RNA subtypes<a class="headerlink" href="#determine-valid-rna-subtypes" title="Permalink to this heading"></a></h2>
-<p>Script added to determine valid RNA subtypes for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a>.
-Script name: featuretypes-from-gtfgff.awk</p>
-<p>Usage:
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">featuretypes-from-gtfgff.awk</span> <span class="pre">/path/to/anntotation_file.gff</span>
-<span class="pre">`</span></code></p>
+<div class="line-block">
+<div class="line">Script added to determine valid RNA subtypes for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a>.</div>
+<div class="line">Script name: featuretypes-from-gtfgff.awk</div>
+</div>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>featuretypes-from-gtfgff.awk /path/to/anntotation_file.gff
+</pre></div>
+</div>
 </div>
 <div class="section" id="pull-images">
 <span id="id1"></span><h2>Pull images<a class="headerlink" href="#pull-images" title="Permalink to this heading"></a></h2>
-<p>Pulls images via singularity. Images are used to build the containers used by processes.
-Should be used to pull all images before starting PARANOiD.</p>
-<p><code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">pull_images.sh</span> <span class="pre">/path/to/PARANOiD/dockerfiles</span> <span class="pre">/path/to/image_directory</span>
-<span class="pre">`</span></code></p>
+<div class="line-block">
+<div class="line">Pulls images via singularity. Images are used to build the containers used by processes.</div>
+<div class="line">Should be used to pull all images before starting PARANOiD.</div>
+</div>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pull_images.sh /path/to/PARANOiD/dockerfiles /path/to/image_directory
+</pre></div>
+</div>
 </div>
 </div>
 
