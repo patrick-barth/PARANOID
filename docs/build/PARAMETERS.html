@@ -58,8 +58,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#min-percent-qual-filter">--min_percent_qual_filter</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#barcode-mismatches">--barcode_mismatches</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#mapq">--mapq</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-bowtie2-domain-pro">Score meanings for Bowtie2 (–domain pro)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-star-domain-eu">Score meanings for STAR (–domain eu)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-bowtie2-domain-pro">Score meanings for Bowtie2 (--domain pro)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#score-meanings-for-star-domain-eu">Score meanings for STAR (--domain eu)</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#map-to-transcripts">--map_to_transcripts</a></li>
@@ -117,9 +117,11 @@
 <p>Explanation of all PARANOiD parameters</p>
 <div class="section" id="reads">
 <span id="parameters-read-file"></span><h2>--reads<a class="headerlink" href="#reads" title="Permalink to this heading"></a></h2>
-<p>Essential parameter!
-States <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">file</span></a> containing reads obtained by iCLIP experiments.
-Expects a <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file.</p>
+<div class="line-block">
+<div class="line">Essential parameter!</div>
+<div class="line">States <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">file</span></a> containing reads obtained by iCLIP experiments.</div>
+<div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file.</div>
+</div>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--reads</span> <span class="pre">/path/to/input-file.fastq</span>
@@ -127,9 +129,11 @@ Expects a <code class="docutils literal notranslate"><span class="pre">FASTQ</sp
 </div>
 <div class="section" id="barcodes">
 <span id="parameters-barcodes"></span><h2>--barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
-<p>Essential parameter!
-States <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">file</span></a> containing barcode sequences and experiment names. Necessary to split reads and allocate them to their experiment.
-Expects a <code class="docutils literal notranslate"><span class="pre">TSV</span></code> file.</p>
+<div class="line-block">
+<div class="line">Essential parameter!</div>
+<div class="line">States <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">file</span></a> containing barcode sequences and experiment names. Necessary to split reads and allocate them to their experiment.</div>
+<div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">TSV</span></code> file.</div>
+</div>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--barcodes</span> <span class="pre">/path/to/barcodes.tsv</span>
@@ -137,9 +141,11 @@ Expects a <code class="docutils literal notranslate"><span class="pre">TSV</span
 </div>
 <div class="section" id="reference">
 <span id="parameters-reference"></span><h2>--reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
-<p>Essential parameter!
-States <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference genome</span></a> used to align reads to and thus to determine the location of cross-link sites.
-Expects a <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> file.</p>
+<div class="line-block">
+<div class="line">Essential parameter!</div>
+<div class="line">States <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference genome</span></a> used to align reads to and thus to determine the location of cross-link sites.</div>
+<div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> file.</div>
+</div>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--reference</span> <span class="pre">/path/to/reference.fasta</span>
@@ -147,8 +153,10 @@ Expects a <code class="docutils literal notranslate"><span class="pre">FASTA</sp
 </div>
 <div class="section" id="annotation">
 <span id="parameters-annotation"></span><h2>--annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
-<p>States <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> used for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysius</span></a>.
-Expects a <code class="docutils literal notranslate"><span class="pre">GFF</span></code> or <code class="docutils literal notranslate"><span class="pre">GTF</span></code> file.</p>
+<div class="line-block">
+<div class="line">States <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> used for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysius</span></a>.</div>
+<div class="line">Expects a <code class="docutils literal notranslate"><span class="pre">GFF</span></code> or <code class="docutils literal notranslate"><span class="pre">GTF</span></code> file.</div>
+</div>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>
 <span class="pre">--annotation</span> <span class="pre">/path/to/annotation.gff</span>
@@ -274,7 +282,7 @@ Typically, experimental barcodes should be designed with a v of at least 3 to ea
 </div>
 <div class="section" id="mapq">
 <span id="id6"></span><h2>--mapq<a class="headerlink" href="#mapq" title="Permalink to this heading"></a></h2>
-<p>Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via <a class="reference internal" href="#domain"><span class="std std-ref">–domain</span></a>.
+<p>Minimum alignment quality (mapq score) an alignment needs to retain. The meaning of different scores is dependant on the aligner chosen via <a class="reference internal" href="#domain"><span class="std std-ref">--domain</span></a>.
 All alignments with a mapq score below will be removed after the alignment step.
 Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
 the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
@@ -283,7 +291,7 @@ the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 <span class="pre">--mapq</span> <span class="pre">2</span>
 <span class="pre">`</span></code></p>
 <div class="section" id="score-meanings-for-bowtie2-domain-pro">
-<h3>Score meanings for Bowtie2 (–domain pro)<a class="headerlink" href="#score-meanings-for-bowtie2-domain-pro" title="Permalink to this heading"></a></h3>
+<h3>Score meanings for Bowtie2 (--domain pro)<a class="headerlink" href="#score-meanings-for-bowtie2-domain-pro" title="Permalink to this heading"></a></h3>
 <p>Apart from the description in the table a higher MAPQ score means less allowed mismatches (with difference of the base quality a mismatched nucleotide has)</p>
 <table class="docutils align-default">
 <colgroup>
@@ -316,7 +324,7 @@ the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 <p>More information can be found <a class="reference external" href="http://biofinysics.blogspot.com/2014/05/how-does-bowtie2-assign-mapq-scores.html">here</a></p>
 </div>
 <div class="section" id="score-meanings-for-star-domain-eu">
-<h3>Score meanings for STAR (–domain eu)<a class="headerlink" href="#score-meanings-for-star-domain-eu" title="Permalink to this heading"></a></h3>
+<h3>Score meanings for STAR (--domain eu)<a class="headerlink" href="#score-meanings-for-star-domain-eu" title="Permalink to this heading"></a></h3>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 16%" />
@@ -345,7 +353,7 @@ the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 </tr>
 </tbody>
 </table>
-<p>The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  <span class="math notranslate nohighlight">\(MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))\)</span> for multi-mapping reads. This scheme is same as the one used by TopHat […]
+<p>The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  <span class="math notranslate nohighlight">\(MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))\)</span> for multi-mapping reads. This scheme is same as the one used by TopHat [...]
 Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">Bowtie2 manual</a></p>
 </div>
 </div>
@@ -361,7 +369,7 @@ More information can be found <a class="reference internal" href="ANALYSES.html#
 </div>
 <div class="section" id="number-top-transcripts">
 <span id="id8"></span><h2>--number_top_transcripts<a class="headerlink" href="#number-top-transcripts" title="Permalink to this heading"></a></h2>
-<p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">–map_to_transcripts</span></a> was used.
+<p>The number of transcripts with most hits that are selected from each sample if parameter <a class="reference internal" href="#map-to-transcripts"><span class="std std-ref">--map_to_transcripts</span></a> was used.
 As the amount is chosen from each sample the total number of transcripts can excede this number.</p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -381,7 +389,7 @@ Will be performed by default.</p>
 <span id="id10"></span><h2>--peak_calling_for_high_coverage<a class="headerlink" href="#peak-calling-for-high-coverage" title="Permalink to this heading"></a></h2>
 <p>Only has an effect if <a class="reference internal" href="ANALYSES.html#peak-calling"><span class="std std-ref">peak calling</span></a> is performed.
 Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error.
-From our experience the parameters added by this argument can help PureCLIP with performing it’s analysis.
+From our experience the parameters added by this argument can help PureCLIP with performing it's analysis.
 Adds following arguments to the PureCLIP execution: <code class="docutils literal notranslate"><span class="pre">-mtc</span> <span class="pre">5000</span> <span class="pre">-mtc2</span> <span class="pre">5000</span> <span class="pre">-ld</span></code></p>
 <p>Usage:
 <code class="docutils literal notranslate"><span class="pre">`</span>

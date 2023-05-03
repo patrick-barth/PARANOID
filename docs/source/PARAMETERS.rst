@@ -8,9 +8,9 @@ Explanation of all PARANOiD parameters
 -\-reads
 --------
 
-Essential parameter!
-States :ref:`file <read-file>` containing reads obtained by iCLIP experiments.
-Expects a ``FASTQ`` file.
+| Essential parameter!
+| States :ref:`file <read-file>` containing reads obtained by iCLIP experiments.
+| Expects a ``FASTQ`` file.
 
 Usage:
 ```
@@ -22,9 +22,9 @@ Usage:
 -\-barcodes
 -----------
 
-Essential parameter!
-States :ref:`file <barcodes>` containing barcode sequences and experiment names. Necessary to split reads and allocate them to their experiment.
-Expects a ``TSV`` file.
+| Essential parameter!
+| States :ref:`file <barcodes>` containing barcode sequences and experiment names. Necessary to split reads and allocate them to their experiment.
+| Expects a ``TSV`` file.
 
 Usage:
 ```
@@ -36,9 +36,9 @@ Usage:
 -\-reference
 ------------
 
-Essential parameter!
-States :ref:`reference genome <reference>` used to align reads to and thus to determine the location of cross-link sites.
-Expects a ``FASTA`` file.
+| Essential parameter!
+| States :ref:`reference genome <reference>` used to align reads to and thus to determine the location of cross-link sites.
+| Expects a ``FASTA`` file.
 
 Usage:
 ```
@@ -50,8 +50,8 @@ Usage:
 -\-annotation
 -------------
 
-States :ref:`annotation file <annotation>` used for the :ref:`RNA subtype analysius <RNA-subtype-analysis>`.
-Expects a ``GFF`` or ``GTF`` file.
+| States :ref:`annotation file <annotation>` used for the :ref:`RNA subtype analysius <RNA-subtype-analysis>`.
+| Expects a ``GFF`` or ``GTF`` file.
 
 Usage:
 ```

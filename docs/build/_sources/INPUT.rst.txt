@@ -29,13 +29,13 @@ Barcodes
 --------
 
 | ``TSV`` file containing experiment names and the corresponding barcode sequences. Reads from the input ``FASTQ`` file are split according to the detected barcode sequence and assigned to the appropriate experiment. This results in one ``FASTQ`` file per experiment. 
-| When choosing the option to merge replicates :ref:`[--merge_replicates]<merge-replicates>` the experiment names have to be chosen appropriately indicating which experiments belong together. In order to do that the appendix ``_rep_<number>`` has to be added to the experiment names, exchanging ``<number>`` with the replicate number. 
+| When choosing the option to merge replicates :ref:`-\-merge_replicates <merge-replicates>` the experiment names have to be chosen appropriately indicating which experiments belong together. In order to do that the appendix ``_rep_<number>`` has to be added to the experiment names, exchanging ``<number>`` with the replicate number. 
 | Barcode files consist of 2 columns separated by a single ``tab``: 
 
 1. experiment name 
 2. barcode sequence present in reads 
 
-| Experiment names should only consist of Letters ``{a-zA-Z}``, numbers ``{1-9}`` and underscores ``_``. Any whitespaces (e.g. space, tab) will result in errors and thus the termination of the pipeline execution. The length of the barcode sequence is dependant on the protocol used an can be adapted via :ref:`[--barcode_pattern]<barcode-pattern>`.
+| Experiment names should only consist of Letters ``{a-zA-Z}``, numbers ``{1-9}`` and underscores ``_``. Any whitespaces (e.g. space, tab) will result in errors and thus the termination of the pipeline execution. The length of the barcode sequence is dependant on the protocol used an can be adapted via :ref:`-\-barcode_pattern <barcode-pattern>`.
 
 Example:
 
@@ -73,7 +73,7 @@ Annotation
 ----------
 
 
-``GFF`` or ``GTF`` file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for it's analysis, however it is highly recommended to provid it when working with splicing capable organisms (:ref:`[--domain eu]<domain>`) as annotation files typically contain information about intron-exon structures which highly improve the mapping capability.
+``GFF`` or ``GTF`` file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for it's analysis, however it is highly recommended to provid it when working with splicing capable organisms (:ref:`-\-domain eu <domain>`) as annotation files typically contain information about intron-exon structures which highly improve the mapping capability.
 Furthermore, providing an annotation file enables the :ref:`RNA subtype analysis<RNA-subtype-analysis>`.
 Consists of several header lines followed by one line feature.
 Header lines start with a ``#`` and contain general information about the annotation.

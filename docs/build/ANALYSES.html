@@ -41,6 +41,7 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Analyses</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#basic-analysis">Basic analysis</a></li>
@@ -90,16 +91,16 @@
 The preprocessing involves adapter removal, quality filtering, splitting reads according to their experimental barcode and removing the whole barcode. The alignmentcan be done via <a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">2 different alignment tools (Bowtie2 or STAR)</span></a> and is followed by a deduplication step in which PCR duplicates are removed. Finally, alignments are filtered via the <a class="reference internal" href="PARAMETERS.html#mapq"><span class="std std-ref">MAPQ score</span></a> and cross-linking positions are calculated for each alignment. <a class="reference internal" href="OUTPUT.html#output-cross-link-sites"><span class="std std-ref">2 WIG, BIGWIG and BEDGRAPH files</span></a> are generated for each sample - one for forward and one for reverse alignments.</p>
 <div class="line-block">
 <div class="line">Associated parameters (preprocessing)</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#barcode-pattern"><span class="std std-ref">–barcode_pattern</span></a>               States composition of random and experimental barcodes</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#barcode-mismatches"><span class="std std-ref">–barcode_mismatches</span></a>         Number of mismatches allowed mismatches within experimental barcode to still align it to it’s sample</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#min-read-length"><span class="std std-ref">–min_length</span></a>                    Minimum length of reads necessary to retain after adapter removal</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#min-base-qual"><span class="std std-ref">–min_qual</span></a>                        Minimum quality a base needs to retain</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#percent-qual-filter"><span class="std std-ref">–min_percent_qual_filter</span></a>   Percentage of bases above the <a class="reference internal" href="PARAMETERS.html#min-base-qual"><span class="std std-ref">quality threshold</span></a> necessary to retain the read</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#barcode-pattern"><span class="std std-ref">--barcode_pattern</span></a>               States composition of random and experimental barcodes</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#barcode-mismatches"><span class="std std-ref">--barcode_mismatches</span></a>         Number of mismatches allowed mismatches within experimental barcode to still align it to it's sample</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#min-read-length"><span class="std std-ref">--min_length</span></a>                    Minimum length of reads necessary to retain after adapter removal</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#min-base-qual"><span class="std std-ref">--min_qual</span></a>                        Minimum quality a base needs to retain</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#percent-qual-filter"><span class="std std-ref">--min_percent_qual_filter</span></a>   Percentage of bases above the <a class="reference internal" href="PARAMETERS.html#min-base-qual"><span class="std std-ref">quality threshold</span></a> necessary to retain the read</div>
 </div>
 <div class="line-block">
 <div class="line">Associated parameters (alignment &amp; cross link site determination)</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">–domain</span></a>    States if Bowtie2 or STAR is being used as aligner</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#mapq"><span class="std std-ref">–mapq</span></a>        Minimum MAPQ score for alignments necessary to retain</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">--domain</span></a>    States if Bowtie2 or STAR is being used as aligner</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#mapq"><span class="std std-ref">--mapq</span></a>        Minimum MAPQ score for alignments necessary to retain</div>
 </div>
 </div>
 <div class="section" id="merge-replicates">
@@ -110,8 +111,8 @@ an evaluation of the sample similarity and therefore a rationale for this analys
 Is deactivated by default.</p>
 <div class="line-block">
 <div class="line">Associated parameters:</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">–merge_replicates</span></a>           Merges replicates according to the name in the <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcode file</span></a></div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#correlation-analysis"><span class="std std-ref">–correlation_analysis</span></a>   Does a correlation analysis for merged replicates</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">--merge_replicates</span></a>           Merges replicates according to the name in the <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcode file</span></a></div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#correlation-analysis"><span class="std std-ref">--correlation_analysis</span></a>   Does a correlation analysis for merged replicates</div>
 </div>
 </div>
 <div class="section" id="rna-subtypes">
@@ -126,9 +127,9 @@ be used to get an overview of the official hierarchical structures of annotation
 Is activated when an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided.</p>
 <div class="line-block">
 <div class="line">Associated parameters</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#gene-id"><span class="std std-ref">–gene_id</span></a>               Tag for the gene ID used within the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a></div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#color-barplot"><span class="std std-ref">–color_barplot</span></a>   Color bars within the barplot generated by this analysis</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#rna-subtypes"><span class="std std-ref">–rna_subtypes</span></a>     RNA subtypes/regions used for this analysis</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#gene-id"><span class="std std-ref">--gene_id</span></a>               Tag for the gene ID used within the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a></div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#color-barplot"><span class="std std-ref">--color_barplot</span></a>   Color bars within the barplot generated by this analysis</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#rna-subtypes"><span class="std std-ref">--rna_subtypes</span></a>     RNA subtypes/regions used for this analysis</div>
 </div>
 </div>
 <div class="section" id="transcript-analysis">
@@ -138,13 +139,13 @@ If choosing this analysis a file containing all RNAs of interest should be used 
 Here all RNAs of interest (or artificial RNAs present in the sample) can be combined to a single fasta file. If the general
 transcriptome of an organism shall be examined, they can often be accessed next to the genome and annotation of the organism.
 If not a FASTA file containing the transcripts can be generated as follows (needs the genome and an annotation file):</p>
-<p>‘’’
+<p>'''
 gffread -w output_transcripts.fa -g input_reference_genome.fa input_annotation.gff3
-‘’’</p>
+'''</p>
 <div class="line-block">
 <div class="line">Associated parameters</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#map-to-transcripts"><span class="std std-ref">–map_to_transcripts</span></a>            Activates transcript analysis</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#number-top-transcripts"><span class="std std-ref">–number_top_transcripts</span></a>    Amount of transcripts with most hits per sample that are offered as output</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#map-to-transcripts"><span class="std std-ref">--map_to_transcripts</span></a>            Activates transcript analysis</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#number-top-transcripts"><span class="std std-ref">--number_top_transcripts</span></a>    Amount of transcripts with most hits per sample that are offered as output</div>
 </div>
 </div>
 <div class="section" id="peak-calling">
@@ -158,10 +159,10 @@ to divide the reference into 4 different states based on the peak distribution. 
 can be merged into binding regions.</p>
 <div class="line-block">
 <div class="line">Associated parameters:</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-peak-calling"><span class="std std-ref">–omit_peak_calling</span></a>                           Omits peak calling analysis</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#peak-calling-for-high-coverage"><span class="std std-ref">–peak_calling_for_high_coverage</span></a> Adds parameters to PureCLIP which can allow it’s succesful execution for high coverage samples</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#peak-calling-regions"><span class="std std-ref">–peak_calling_regions</span></a>                     Allows merging several cross link sites in close proximity to a cross link region</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#peak-calling-region-width"><span class="std std-ref">–peak_calling_regions_width</span></a>          Sets the width until which cross link sites in close proximity are allowd to be merged</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-peak-calling"><span class="std std-ref">--omit_peak_calling</span></a>                           Omits peak calling analysis</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#peak-calling-for-high-coverage"><span class="std std-ref">--peak_calling_for_high_coverage</span></a> Adds parameters to PureCLIP which can allow it's succesful execution for high coverage samples</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#peak-calling-regions"><span class="std std-ref">--peak_calling_regions</span></a>                     Allows merging several cross link sites in close proximity to a cross link region</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#peak-calling-region-width"><span class="std std-ref">--peak_calling_regions_width</span></a>          Sets the width until which cross link sites in close proximity are allowd to be merged</div>
 </div>
 </div>
 <div class="section" id="motif-detection">
@@ -174,13 +175,13 @@ provided as output. All extracted sequences are then used for motif detection vi
 which offers several enriched sequences.</p>
 <div class="line-block">
 <div class="line">Associated parameters:</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-sequence-extraction"><span class="std std-ref">–omit_sequence_extraction</span></a> Omits the sequence extarction and motif detection</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#distance-percentile"><span class="std std-ref">–percentile</span></a>                    Sets threshold for peak values used for this analysis using percentiles</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#sequence-extraction-length"><span class="std std-ref">–seq_len</span></a>                Nucleotides extracted from each side of a cross link site</div>
-<div class="line"><span class="xref std std-ref">–omit_cl_nucleotide</span>             Omits the nucleotide at the cross link position</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#max-number-of-motifs"><span class="std std-ref">–max_motif_num</span></a>                Maximum number of motifs generated</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#min-motif-width"><span class="std std-ref">–min_motif_width</span></a>                   Minimum width allowd for motifs</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#max-motif-width"><span class="std std-ref">–max_motif_width</span></a>                   Maximum width allowed for motifs</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-sequence-extraction"><span class="std std-ref">--omit_sequence_extraction</span></a> Omits the sequence extarction and motif detection</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#distance-percentile"><span class="std std-ref">--percentile</span></a>                    Sets threshold for peak values used for this analysis using percentiles</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#sequence-extraction-length"><span class="std std-ref">--seq_len</span></a>                Nucleotides extracted from each side of a cross link site</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-cl-nucleotide"><span class="std std-ref">--omit_cl_nucleotide</span></a>             Omits the nucleotide at the cross link position</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#max-number-of-motifs"><span class="std std-ref">--max_motif_num</span></a>                Maximum number of motifs generated</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#min-motif-width"><span class="std std-ref">--min_motif_width</span></a>                   Minimum width allowd for motifs</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#max-motif-width"><span class="std std-ref">--max_motif_width</span></a>                   Maximum width allowed for motifs</div>
 </div>
 </div>
 <div class="section" id="peak-distance-analysis">
@@ -195,8 +196,8 @@ distances to all other peaks above this threshold, which are within a certain di
 and provided as a TSV file and visualized as a plot.</p>
 <div class="line-block">
 <div class="line">Associated parameters:</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-peak-distance"><span class="std std-ref">–omit_peak_distance</span></a>     Omits the peak distance analysis</div>
-<div class="line"><a class="reference internal" href="PARAMETERS.html#distance-percentile"><span class="std std-ref">–percentile</span></a>            Sets threshold for peak values used for this analysis using percentiles</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#omit-peak-distance"><span class="std std-ref">--omit_peak_distance</span></a>     Omits the peak distance analysis</div>
+<div class="line"><a class="reference internal" href="PARAMETERS.html#distance-percentile"><span class="std std-ref">--percentile</span></a>            Sets threshold for peak values used for this analysis using percentiles</div>
 </div>
 </div>
 </div>
