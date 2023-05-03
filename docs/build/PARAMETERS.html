@@ -198,9 +198,11 @@ Can cause problems with large reference genomes due to excessive RAM usage.</p>
 <div class="section" id="domain">
 <span id="id4"></span><h2>--domain<a class="headerlink" href="#domain" title="Permalink to this heading"></a></h2>
 <p>Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> file besides the reference.</p>
-<p>Options:
-| pro -&gt; Bowtie2 (default)
-| eu  -&gt; STAR</p>
+<div class="line-block">
+<div class="line">Options:</div>
+<div class="line">pro -&gt; Bowtie2 (default)</div>
+<div class="line">eu  -&gt; STAR</div>
+</div>
 <p>Usage (default):</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--domain pro
 </pre></div>
@@ -217,7 +219,7 @@ Can cause problems with large reference genomes due to excessive RAM usage.</p>
 <div class="section" id="min-length">
 <span id="min-read-length"></span><h2>--min_length<a class="headerlink" href="#min-length" title="Permalink to this heading"></a></h2>
 <p>Specify minimum length a read needs to have after adapter removal to persist. Reads that become shorter during adapter removal will be filtered out.</p>
-<p>Usage (default)</p>
+<p>Usage (default):</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--min_length <span class="m">30</span>
 </pre></div>
 </div>
@@ -353,8 +355,10 @@ the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.</p>
 </tr>
 </tbody>
 </table>
-<p>The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  <span class="math notranslate nohighlight">\(MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))\)</span> for multi-mapping reads. This scheme is same as the one used by TopHat [...]
-Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">Bowtie2 manual</a></p>
+<div class="line-block">
+<div class="line">The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  <span class="math notranslate nohighlight">\(MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))\)</span> for multi-mapping reads. This scheme is same as the one used by TopHat [...]</div>
+<div class="line">Source: <a class="reference external" href="https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf">Bowtie2 manual</a></div>
+</div>
 </div>
 </div>
 <div class="section" id="map-to-transcripts">

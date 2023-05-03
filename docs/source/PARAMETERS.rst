@@ -118,7 +118,7 @@ Usage (default):
 Example for iCLIP1
 
 .. code-block:: shell
-    
+
     --barcode_pattern NNNXXXXNN
 
 
@@ -129,7 +129,7 @@ Example for iCLIP1
 
 Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an :ref:`annotation file <annotation>` file besides the reference.
 
-Options:
+| Options:
 | pro -> Bowtie2 (default)
 | eu  -> STAR
 
@@ -161,7 +161,7 @@ Usage (default):
 
 Specify minimum length a read needs to have after adapter removal to persist. Reads that become shorter during adapter removal will be filtered out.
 
-Usage (default)
+Usage (default):
 
 .. code-block:: shell
 
@@ -281,8 +281,8 @@ Score meanings for STAR (--domain eu)
 | 255                 | Reads mappable to only one position. Best MAPQ score in STAR alignments.                                     |
 +---------------------+--------------------------------------------------------------------------------------------------------------+
 
-The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  :math:`MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))` for multi-mapping reads. This scheme is same as the one used by TopHat [...]
-Source: `Bowtie2 manual <https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf>`_
+| The mapping quality MAPQ (column 5) is 255 for uniquely mapping reads, and  :math:`MAPQ score = int(-10log_\text{10}(1-1/[\text{number of positions the read maps to}]))` for multi-mapping reads. This scheme is same as the one used by TopHat [...]
+| Source: `Bowtie2 manual <https://physiology.med.cornell.edu/faculty/skrabanek/lab/angsd/lecture_notes/STARmanual.pdf>`_
 
 .. _map-to-transcripts:
 
