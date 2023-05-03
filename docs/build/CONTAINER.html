@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to PARANOiD&#39;s documentation! &mdash; PARANOiD  documentation</title>
+  <title>Container usage &mdash; PARANOiD  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -19,7 +19,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="PARANOiD Inputs" href="INPUT.html" /> 
+    <link rel="next" title="Supplementary scripts for PARANOiD" href="ADDITIONAL_SCRIPTS.html" />
+    <link rel="prev" title="PARANOiD Inputs" href="OUTPUT.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -27,7 +28,7 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="#" class="icon icon-home"> PARANOiD
+            <a href="index.html" class="icon icon-home"> PARANOiD
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -38,13 +39,18 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Container Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podman">Podman</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#singularity">Singularity</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
 </ul>
@@ -55,17 +61,17 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="#">PARANOiD</a>
+          <a href="index.html">PARANOiD</a>
       </nav>
 
       <div class="wy-nav-content">
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="#" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Welcome to PARANOiD's documentation!</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Container usage</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/CONTAINER.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -73,20 +79,37 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="welcome-to-paranoid-s-documentation">
-<h1>Welcome to PARANOiD's documentation!<a class="headerlink" href="#welcome-to-paranoid-s-documentation" title="Permalink to this heading"></a></h1>
-<div class="toctree-wrapper compound">
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
-<li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
-</ul>
+  <div class="section" id="container-usage">
+<h1>Container usage<a class="headerlink" href="#container-usage" title="Permalink to this heading"></a></h1>
+<div class="line-block">
+<div class="line">PARANOiD offers the usage of docker containers via several different executors.</div>
+<div class="line">Currently supported are Docker, Podman and Singularity.</div>
+<div class="line">As containers are handled via Nextflow the download should start automatically when running the pipeline.</div>
+<div class="line">The default directory for images is within the work directory generated by Nextflow.</div>
+<div class="line">If problems occur while downloading images via Nextflow the script <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#pull-images"><span class="std std-ref">pull_images.sh</span></a> can be used to preload them.</div>
+<div class="line">It is recommended to run PARANOiD with containers to ensure correct versioning of tools.</div>
+<div class="line">If several profiles are used (e.g. using singularity together with SLURM) they are separated by a single <code class="docutils literal notranslate"><span class="pre">,</span></code> (<code class="docutils literal notranslate"><span class="pre">-profile</span> <span class="pre">singularity,slurm</span></code>)</div>
+</div>
+<div class="section" id="docker">
+<h2>Docker<a class="headerlink" href="#docker" title="Permalink to this heading"></a></h2>
+<p>Uses Docker to run processes within containers</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>-profile docker
+</pre></div>
+</div>
+</div>
+<div class="section" id="podman">
+<h2>Podman<a class="headerlink" href="#podman" title="Permalink to this heading"></a></h2>
+<p>Uses Podman to run processes within containers</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>-profile podman
+</pre></div>
+</div>
+</div>
+<div class="section" id="singularity">
+<h2>Singularity<a class="headerlink" href="#singularity" title="Permalink to this heading"></a></h2>
+<p>Uses Singularity to run processes within containers</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>-profile singularity
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -94,7 +117,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="INPUT.html" class="btn btn-neutral float-right" title="PARANOiD Inputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="OUTPUT.html" class="btn btn-neutral float-left" title="PARANOiD Inputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="ADDITIONAL_SCRIPTS.html" class="btn btn-neutral float-right" title="Supplementary scripts for PARANOiD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

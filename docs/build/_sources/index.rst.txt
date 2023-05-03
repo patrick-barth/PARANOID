@@ -10,6 +10,7 @@ Welcome to PARANOiD's documentation!
    Parameters <PARAMETERS>
    Analyses <ANALYSES>
    Outputs <OUTPUT>
+   Container Usage <CONTAINER>
    Additional scripts <ADDITIONAL_SCRIPTS>
    FAQ <FAQ>
 
