@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Included Analyses" href="ANALYSES.html" />
-    <link rel="prev" title="PARANOiD Inputs" href="INPUT.html" /> 
+    <link rel="prev" title="Basic usage of PARANOiD" href="BASICUSAGE.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -42,7 +42,12 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#reads">--reads</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#barcodes">--barcodes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#reference">--reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#annotation">--annotation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#merge-replicates">--merge_replicates</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#correlation-analysis">--correlation_analysis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#barcode-pattern">--barcode_pattern</a></li>
@@ -110,6 +115,45 @@
   <div class="section" id="paranoid-parameters">
 <h1>PARANOiD Parameters<a class="headerlink" href="#paranoid-parameters" title="Permalink to this heading"></a></h1>
 <p>Explanation of all PARANOiD parameters</p>
+<div class="section" id="reads">
+<span id="parameters-read-file"></span><h2>--reads<a class="headerlink" href="#reads" title="Permalink to this heading"></a></h2>
+<p>Essential parameter!
+States <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">file</span></a> containing reads obtained by iCLIP experiments.
+Expects a <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file.</p>
+<p>Usage:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--reads</span> <span class="pre">/path/to/input-file.fastq</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="barcodes">
+<span id="parameters-barcodes"></span><h2>--barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
+<p>Essential parameter!
+States <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">file</span></a> containing barcode sequences and experiment names. Necessary to split reads and allocate them to their experiment.
+Expects a <code class="docutils literal notranslate"><span class="pre">TSV</span></code> file.</p>
+<p>Usage:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--barcodes</span> <span class="pre">/path/to/barcodes.tsv</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="reference">
+<span id="parameters-reference"></span><h2>--reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
+<p>Essential parameter!
+States <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference genome</span></a> used to align reads to and thus to determine the location of cross-link sites.
+Expects a <code class="docutils literal notranslate"><span class="pre">FASTA</span></code> file.</p>
+<p>Usage:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--reference</span> <span class="pre">/path/to/reference.fasta</span>
+<span class="pre">`</span></code></p>
+</div>
+<div class="section" id="annotation">
+<span id="parameters-annotation"></span><h2>--annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
+<p>States <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> used for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysius</span></a>.
+Expects a <code class="docutils literal notranslate"><span class="pre">GFF</span></code> or <code class="docutils literal notranslate"><span class="pre">GTF</span></code> file.</p>
+<p>Usage:
+<code class="docutils literal notranslate"><span class="pre">`</span>
+<span class="pre">--annotation</span> <span class="pre">/path/to/annotation.gff</span>
+<span class="pre">`</span></code></p>
+</div>
 <div class="section" id="merge-replicates">
 <span id="id1"></span><h2>--merge_replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
 <p>Merges replicates into a single representatiove form. In order to do so experiment names need to named in a particular manner which is further explained in the  <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcodes section</span></a>.</p>
@@ -375,7 +419,7 @@ The column looks similar to this <code class="docutils literal notranslate"><spa
 <div class="section" id="color-barplot">
 <span id="id13"></span><h2>--color_barplot<a class="headerlink" href="#color-barplot" title="Permalink to this heading"></a></h2>
 <p>Color of barplots returned by PARANOiD.
-Affects graphs generated by <a class="reference internal" href="OUTPUT.html#output-peak-height-distribution"><span class="std std-ref">peak height distribution</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> and the <span class="xref std std-ref">experimental barcode distribution</span>.
+Affects graphs generated by <a class="reference internal" href="OUTPUT.html#output-peak-height-distribution"><span class="std std-ref">peak height distribution</span></a>, <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> and the <a class="reference internal" href="OUTPUT.html#output-experimental-barcode-distribution"><span class="std std-ref">experimental barcode distribution</span></a>.
 Color is staded via a hexadecimal color code. If unsure which code translates to which color several websites can help to pick the correct one. <a class="reference external" href="https://www.color-hex.com/">Example</a></p>
 <p>Usage (default):
 <code class="docutils literal notranslate"><span class="pre">`</span>
@@ -484,7 +528,7 @@ Cannot be higher than 30</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="INPUT.html" class="btn btn-neutral float-left" title="PARANOiD Inputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="BASICUSAGE.html" class="btn btn-neutral float-left" title="Basic usage of PARANOiD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ANALYSES.html" class="btn btn-neutral float-right" title="Included Analyses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
