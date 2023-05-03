@@ -1,5 +1,5 @@
 Container usage
-===================
+===============
 
 | PARANOiD offers the usage of docker containers via several different executors.
 | Currently supported are Docker, Podman and Singularity.
@@ -8,6 +8,8 @@ Container usage
 | If problems occur while downloading images via Nextflow the script :ref:`pull_images.sh <pull-images>` can be used to preload them.
 | It is recommended to run PARANOiD with containers to ensure correct versioning of tools.
 | If several profiles are used (e.g. using singularity together with SLURM) they are separated by a single ``,`` (``-profile singularity,slurm``)
+
+.. _container-docker:
 
 Docker
 ------
@@ -19,6 +21,8 @@ Uses Docker to run processes within containers
     -profile docker
 
 
+.. _container-podman:
+
 Podman
 ------
 
@@ -28,6 +32,8 @@ Uses Podman to run processes within containers
 
     -profile podman
 
+
+.. _container-singularity:
 
 Singularity
 -----------
