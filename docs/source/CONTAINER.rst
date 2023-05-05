@@ -1,3 +1,5 @@
+.. _section-container:
+
 Container usage
 ===============
 
