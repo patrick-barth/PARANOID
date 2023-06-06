@@ -18,5 +18,6 @@ ADD bin/plot-distances.R /usr/local/bin
 ADD bin/RNA_subtypes_barcharts.R /usr/local/bin
 ADD bin/visualize_strand_distribution.R /usr/local/bin
 ADD bin/wig_file_statistics.R /usr/local/bin
+ADD bin/generate-peak-height-histogram.R /usr/local/bin
 
 CMD ["/bin/bash"]
