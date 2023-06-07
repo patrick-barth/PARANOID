@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to PARANOiD’s documentation! &mdash; PARANOiD  documentation</title>
+  <title>Welcome to PARANOiD&#39;s documentation! &mdash; PARANOiD  documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -40,10 +40,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EXAMPLE.html">Example run</a></li>
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="REQUIREMENTS.html">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
 </ul>
 
@@ -61,7 +66,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="#" class="icon icon-home"></a></li>
-      <li class="breadcrumb-item active">Welcome to PARANOiD’s documentation!</li>
+      <li class="breadcrumb-item active">Welcome to PARANOiD's documentation!</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -72,74 +77,20 @@
            <div itemprop="articleBody">
              
   <div class="section" id="welcome-to-paranoid-s-documentation">
-<h1>Welcome to PARANOiD’s documentation!<a class="headerlink" href="#welcome-to-paranoid-s-documentation" title="Permalink to this heading"></a></h1>
+<h1>Welcome to PARANOiD's documentation!<a class="headerlink" href="#welcome-to-paranoid-s-documentation" title="Permalink to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="INPUT.html#reads">Reads</a></li>
-<li class="toctree-l2"><a class="reference internal" href="INPUT.html#barcodes">Barcodes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="INPUT.html#reference">Reference</a></li>
-<li class="toctree-l2"><a class="reference internal" href="INPUT.html#annotation">Annotation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#merge-replicates">--merge_replicates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#correlation-analysis">--correlation_analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#barcode-pattern">--barcode_pattern</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#domain">--domain</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#output">--output</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#min-length">--min_length</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#min-qual">--min_qual</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#min-percent-qual-filter">--min_percent_qual_filter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#barcode-mismatches">--barcode_mismatches</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#mapq">--mapq</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#map-to-transcripts">--map_to_transcripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#number-top-transcripts">--number_top_transcripts</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#omit-peak-calling">--omit_peak_calling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#peak-calling-for-high-coverage">--peak_calling_for_high_coverage</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#peak-calling-regions">--peak_calling_regions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#peak-calling-regions-width">--peak_calling_regions_width</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#gene-id">--gene_id</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#color-barplot">--color_barplot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#rna-subtypes">--rna_subtypes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#omit-peak-distance">--omit_peak_distance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#distance">--distance</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#percentile">--percentile</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#omit-sequence-extraction">--omit_sequence_extraction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#seq-len">--seq_len</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#omit-cl-nucleotide">--omit_cl_nucleotide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#max-motif-num">--max_motif_num</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#min-motif-width">--min_motif_width</a></li>
-<li class="toctree-l2"><a class="reference internal" href="PARAMETERS.html#max-motif-width">--max_motif_width</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#basic-analysis">Basic analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#merge-replicates">Merge replicates</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#rna-subtypes">RNA subtypes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#transcript-analysis">Transcript analysis</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#peak-calling">Peak calling</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#motif-detection">Motif detection</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ANALYSES.html#peak-distance-analysis">Peak distance analysis</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#alignments">Alignments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#cross-link-sites">Cross link sites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#cross-link-sites-merged">Cross link sites merged</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#peak-height-distribution">Peak height distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#statistics">Statistics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#strand-distribution">Strand distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#experimental-barcode-distribution">Experimental barcode distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="OUTPUT.html#igv-session">IGV-session</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-valid-rna-subtypes">Determine valid RNA subtypes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html#pull-images">Pull images</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EXAMPLE.html">Example run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="REQUIREMENTS.html">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
 </ul>
 </div>

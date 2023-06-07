@@ -1,19 +1,19 @@
-.. PARANOiD documentation master file, created by
-   sphinx-quickstart on Wed Oct 19 18:22:56 2022.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 Welcome to PARANOiD's documentation!
 ====================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    Inputs <INPUT>
+   Basic Usage <BASICUSAGE>
+   Example run <EXAMPLE>
    Parameters <PARAMETERS>
    Analyses <ANALYSES>
    Outputs <OUTPUT>
+   Container Usage <CONTAINER>
+   Cluster Usage <CLUSTER>
    Additional scripts <ADDITIONAL_SCRIPTS>
+   Requirements <REQUIREMENTS>
    FAQ <FAQ>
 
