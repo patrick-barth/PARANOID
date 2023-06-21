@@ -1,3 +1,8 @@
+/*
+ * Counts and orders the amount of alignment each sequence in the reference got assigned
+ * Input: [BAM] Allignment file 
+ * Output: [TSV] File showing the amount of alignment each sequence in the reference git assigned to  
+ */
 process count_hits {
     tag {bam.simpleName}
 
@@ -7,13 +12,19 @@ process count_hits {
     path(bam)
 
     output:
-    path("${bam.baseName}.hits.tsv")// into tsv_count_to_get_hits
+    path("${bam.baseName}.hits.tsv")
 
     """
     samtools view ${bam} | cut -f3 | sort | uniq -c | sort -nr > ${bam.baseName}.hits.tsv
     """
 }
 
+/*
+ * Extracts the top transcripts
+ * Input: [TSV] Transcript names and the amount of reads aligned to each
+ * Params: [INT] Amount of top transcripts extracted
+ * Output: [TXT] Names of transcripts with most alignments
+ */
 process get_top_hits {
 
     publishDir "${params.output}/transcripts/overview-hits", mode: 'copy'
@@ -29,6 +40,11 @@ process get_top_hits {
     """
 }
 
+/*
+ * Sorts and indexes BAM files
+ * Input: [BAM] Alignment file
+ * Output: Tuple of [BAM] Sorted alignment file and [BAI] index file
+ */
 process index_alignments {
     tag {bam.simpleName}
 
@@ -44,6 +60,12 @@ process index_alignments {
     """
 }
 
+/*
+ * Extractes alignment entries of transcripts with most alignments from BAM file
+ * Input: Tuple of [BAM] sorted alignment file, [BAI] index file, [TXT] names of alignments to be extracted
+ * Params: [INT] Amount of top transcripts extracted
+ * Output: [BAM] Filtered alignments
+ */
 process extract_top_alignments {
     tag {bam.simpleName}
 
@@ -58,6 +80,11 @@ process extract_top_alignments {
     """
 }
 
+/*
+ * Removes newline from within the sequences of the reference file
+ * Input: [FASTA] Reference file 
+ * Output: [FASTA] Reference file without newline in the sequences 
+ */
 process remove_newlines {
 
     input:
@@ -71,6 +98,12 @@ process remove_newlines {
     """
 }
 
+/*
+ * Extarctes the transcripts with most alignments from the reference
+ * Input: Tuple of [TXT] names of top transcripts, [FASTA] reference file without newlines in the sequences 
+ * Params: [INT] Amount of top transcripts extracted
+ * Output: [FASTA] Transcripts with most alignments 
+ */
 process extract_top_transcript_sequences {
     tag {txt_sequences.simpleName}
     publishDir "${params.output}/transcripts", mode: 'copy'
