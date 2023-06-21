@@ -126,10 +126,10 @@ process collect_experiments_without_alignments {
 	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'experiments-without-alignments.txt'
 
 	input:
-	file(query) from log_experiments_without_alignments.flatten().toList()
+	file(query)
 
 	output:
-	file("experiments-without-alignments.txt") optional true into output_log_exp_without_alignment
+	file("experiments-without-alignments.txt"), optional: true
 
 	"""
 	if [[ ! \$(cat ${query} | wc -l) == 0 ]]; then

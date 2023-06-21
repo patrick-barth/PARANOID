@@ -32,6 +32,7 @@ include{
     build_index_STAR
     mapping_STAR
     filter_empty_bams
+    collect_experiments_without_alignments
 } from './modules/alignment.nf'
 
 //import processes used for deduplication
@@ -204,10 +205,11 @@ workflow alignment {
             report_alignments = mapping_STAR.out.report_alignments
         }
         filter_empty_bams(alignments)
+        collect_experiments_without_alignments(filter_empty_bams.out.report_empty_alignments.flatten().toList())
 
     emit:
         // reports
-        report_empty_alignments         = filter_empty_bams.out.report_empty_alignments
+        report_empty_alignments         = collect_experiments_without_alignments.out
         report_alignments               = report_alignments
 
         // data for downstream processes
