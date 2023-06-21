@@ -1,3 +1,8 @@
+/*
+ * Sorts and indexes BAM files
+ * Input: [BAM] Aligned sequences 
+ * Output: Tuple of [BAM] Sorted aligned sequences and [BAI] Index file  
+ */
 process sort_bam{
 	tag {query.simpleName}
 
@@ -13,6 +18,13 @@ process sort_bam{
 	"""
 }
 
+/*
+ * Removes PCR-duplicates by comparing the random barcode (which was saved in the header of each read) and the 
+ *  alignment position. If both are identical for 2 or more reads all but one are removed.
+ * Input: Tuple of [BAM] Sorted aligned sequences and [BAI] Index file
+ * Output: bam_deduplicated -> [BAM] Aligned sequences without PCR duplicates 
+ *		report_deduplicated -> [LOG] Report of deduplication
+ */
 process deduplicate{
 	publishDir "${params.output}/statistics/PCR-deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
 	tag {query.simpleName}
@@ -30,6 +42,11 @@ process deduplicate{
 	"""
 }
 
+/*
+ * Merges several BAM files into a single one
+ * Input: Tuple of [STR] Name of outptu file and [BAM] several BAM files  
+ * Output: [BAM] Aligned sequences
+ */
 process merge_deduplicated_bam {
 	tag {name}
 
