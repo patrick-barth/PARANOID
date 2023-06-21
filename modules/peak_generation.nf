@@ -1,3 +1,8 @@
+/*
+ * Retrieves sizes of all chromosomes in reference file 
+ * Input: [FASTA] Reference file 
+ * Output: [TXT] Name and size of all chromosomes 
+ */
 process get_chromosome_sizes{
 	input:
 	path(ref)
@@ -11,6 +16,17 @@ process get_chromosome_sizes{
 	"""
 }
 
+/*
+ * Calculates cross-link sites from BAM files and returns them as 2 WIG files - one for the forward and one for the reverse strand.
+ * Forward cross-link sites are determined by StartPosition -1
+ * Reverse reads are dertermined by StartPosition + CIGAR string
+ *  Additionally, alignments are filtered by the mapq score stated via params.mapq
+ * Input: Tuple of [BAM] aligned reads and [TXT] file stating chromosome names and sizes 
+ * Params: params.mapq -> MAPQ-score to filter out low quality alignments
+ * Output:  wig2_cross_link_sites       -> [WIG2] Cross-link sites 
+ *          wig_cross_link_sites_split  -> Tuple of [STR] saying "cross-link-sites", [WIG] forward peaks and [WIG] reverse peaks
+ *          wig_cross_link_sites        -> [WIG] Cross-link sites with strands being divided
+ */
 process calculate_crosslink_sites{
 	tag {query.simpleName}
 	publishDir "${params.output}/cross-link-sites/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
@@ -30,6 +46,12 @@ process calculate_crosslink_sites{
 	"""
 }
 
+/*
+ * Merges several WIG2 files into a single representative form 
+ * Input: Tuple of [STR] Experiment name, [WIG2] several cross-link site files 
+ * Output:  wig2_merged                 -> [WIG2] Merged cross-link sites
+ *          wig_merged_cross_link_sites -> Tuple of [STR] saying "cross-link-sites-merged", [WIG] merged forward peaks, [WIG] merged reverse peaks
+ */
 process merge_wigs{
     tag {name}
     publishDir "${params.output}/cross-link-sites-merged/wig", mode: 'copy', pattern: "${name}_{forward,reverse}.wig"
@@ -55,6 +77,13 @@ process merge_wigs{
         """
 }
 
+/*
+ * Splits WIG2 files into 2 WIG files - one for each strand
+ * Input: [WIG2] Cross-link sites 
+ * Output:  wig_split_forward       -> [WIG] forward cross-link sites
+ *          wig_split_reverse       -> [WIG] reverse cross-link sites
+ *          wig_split_both_strands  -> [WIG] cross-link sites for both strands
+ */
 process split_wig2_for_correlation{
     tag {query.simpleName}
 
@@ -71,6 +100,12 @@ process split_wig2_for_correlation{
     """
 }
 
+/*
+ * Calculates correlation for merging of WIG files. Both strands can get their correlation analysed separately or combined
+ * Input: Tuple of [STR] name of experiment, [WIG] cross-link sites to be merged, [STR] current strand, [TXT] names of all chromosomes and their sizes
+ * Output:  correlation_heatmap -> [PNG] Heatmap showing the correlation of merged WIG files
+ *          correlation_matrix  -> [CSV] Matrix showing the correlation of merged WIG files
+ */
 process calc_wig_correlation{
 
     tag {name}
@@ -80,8 +115,8 @@ process calc_wig_correlation{
     tuple val(name),path(query),val(strand),path(chrom_sizes)
 
     output:
-    path("${name}_${strand}_correlation.png"), optional: true
-    path("${name}_${strand}_correlation.csv"), optional: true
+    path("${name}_${strand}_correlation.png"), emit: correlation_heatmap, optional: true
+    path("${name}_${strand}_correlation.csv"), emit: correlation_matrix, optional: true
 
     script:
     String[] test_size = query
@@ -92,6 +127,13 @@ process calc_wig_correlation{
     """
 }
 
+/*
+ * Transforms WIG files to bigWig
+ * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] forward cross-link sites, [WIG] reverse cross-link sites, [TXT] chroms names and sizes
+ * Output:  bigWig_both_strands -> Tuple of [STR] output directory, [BW] cross-link-sites for both strands
+ *          bigWig_reverse      -> Tuple of [STR] output directory, [BW] reverse cross-link-sites 
+ *          bigWig_forward      -> Tuple of [STR] output directory, [BW] forward cross-link-sites
+ */
 process wig_to_bigWig{
 	tag {forward.simpleName}
 	publishDir "${params.output}/${out_dir}/bigWig", mode: 'copy', pattern: "*.bw"
@@ -115,6 +157,11 @@ process wig_to_bigWig{
 	"""
 }
 
+/*
+ * Transforms bigWig files into the bedGraph format
+ * Input: Tuple of [STR] output directory and [BW] cross-link sites
+ * Output: [BEDGRAPH] Cross-link sites  
+ */
 process bigWig_to_bedgraph{
 	tag {bigWig.simpleName}
 	publishDir "${params.output}/${out_dir}/bedgraph", mode: 'copy', pattern: "*.bedgraph"
@@ -130,6 +177,11 @@ process bigWig_to_bedgraph{
 	"""
 }
 
+/*
+ * Sorts and indexes BAM files before peak calling
+ * Input: [BAM] Alignment file
+ * Output: Tuple of [BAM] Sorted alignment file and [BAI] index file
+ */
 process index_for_peak_calling {
     tag{query.simpleName}
 
@@ -145,6 +197,15 @@ process index_for_peak_calling {
     """
 }
 
+/*
+ * Performs peak calling via PureCLIP. Can do single peaks or peak regions.
+ * Input: Tuple of [BAM] alignment file, [BAI] index file and [FASTA] reference file
+ * Params:  params.peak_calling_for_high_coverage   -> Enables special settings I found useful when analysing data with huge amount of peaks all across the reference (-mtc 5000 -mtc2 5000 -ld)
+ *          params.peak_calling_regions             -> Can place determined cross-link sites in close proximity into a single cross-link region
+ *          params.peak_calling_regions_width       -> Determines the maximum allowed width of cross-link regions
+ * Output:  bed_crosslink_sites -> [BED] Cross-link sites determined by PureCLIP
+ *          report_pureCLIP     -> [PARAMS] Report of PureCLIP
+ */
 process pureCLIP {
     tag{bam.simpleName}
     cache false
@@ -180,6 +241,11 @@ process pureCLIP {
         """
 }
 
+/*
+ * Splits WIG2 into 2 WIG files - one for each strand
+ * Input: [WIG2] Cross-link sites
+ * Output: Tuple of [STR] experiment name, [WIG] forward cross-link sites and [WIG] reverse cross-link sites
+ */
 process split_wig_2_for_peak_height_hist {
 	tag {query.simpleName}
 
@@ -194,6 +260,13 @@ process split_wig_2_for_peak_height_hist {
 	"""
 }
 
+/*
+ * Generates a peak height histogram with a bar showing the percentile cutoff being used by several other analyses
+ * Input: Tuple of [STR] experiment name, [WIG] forward cross-link sites and [WIG] reverse cross-link sites
+ * Params:  params.color_barplot    -> [STR] Hexcode for color of histogram
+ *          params.percentile       -> [FLOAT] Percentile used to show the peak height cutoff employed by other analyses
+ * Output: [PNG] Histogram of peak heights  
+ */
 process generate_peak_height_histogram {
 	tag {query}
 	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
