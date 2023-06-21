@@ -1,5 +1,7 @@
 /*
  * Prepares index for bowtie2
+ * Input: [FASTA] Reference file 
+ * Output: Tuple of [FASTA] reference file and [BT2] index files generated for the reference   
  */
 process build_index_bowtie {
 
@@ -17,6 +19,10 @@ process build_index_bowtie {
 /*
  * Alignes reads to a reference via bowtie2, filters out unaligned sequeces
  * and converts output to BAM. Reference needs to be indexed.
+ * Input: Tuple of [FASTA] reference file and [BT2] index files generated for the reference
+ * 		[FASTA] Read files to be aligned to the reference
+ * Output: bam_alignments 	-> [BAM] Aligned sequences
+ * 		  report_alignments -> [TXT] Alignment reports
  */
 process mapping_bowtie{
 	tag {query.simpleName}
@@ -36,6 +42,9 @@ process mapping_bowtie{
 
 /*
  * Prepares index for STAR. Includes alignment if one is given
+ * Input: [FASTA] Reference sequence
+ *		[GTF]|[GFF3] Annotation file - if non is given it should say [NO_FILE]
+ * Output: [DIR] Directory with index generated for given reference file
  */
 process build_index_STAR {
 
@@ -62,7 +71,10 @@ process build_index_STAR {
 /*
  * Alignes reads to reference via STAR. Reference needs to be index before.
  * Suppresses clipping at 5' end (--alignEndsType Extend5pOfRead1)
- * Output is provided as BAM file that is sorted by coordinates (--outSAMtype BAM SortedByCoordinate)
+ * Output is provided as BAM file that is sorted by coordinates
+ * Input: Tuple of [FASTQ] Read files to be aligned and [DIR] Directory containing the STAR index 
+ * Output: bam_alignments -> [BAM] Aligned reads sorted by coordinates 
+ *		report_alignments -> [TXT] Alignment report
  */
 process mapping_STAR{
 	tag {query.simpleName}
@@ -81,7 +93,10 @@ process mapping_STAR{
 
 /*
  * Filters out BAM files without any valid alignments
- * Names of filtered out files are collected and forwarded 
+ * Names of filtered out files are collected and forwarded
+ * Input: [BAM] Aligned sequences 
+ * Output: bam_filtered_empty 	-> [BAM] Aligned sequences without empty files
+ *		report_empty_alignments -> [TXT] Name of bam files without any alignments (one file per empty sample)
  */
 process filter_empty_bams{
 	tag {query.simpleName}
@@ -102,8 +117,9 @@ process filter_empty_bams{
 }
 
 /*
- * Collects all files filtered out via filter_empty_bams and writes
- * their names in a single file.
+ * Collects all files filtered out via filter_empty_bams and writes their names in a single file.
+ * Input: [TXT] Files containing names of samples without alignment 
+ * Output: [TXT] Report file containing all names of samples without alignments  
  */
 process collect_experiments_without_alignments {
 	tag {query.simpleName}
