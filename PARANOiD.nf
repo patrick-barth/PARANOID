@@ -472,13 +472,13 @@ if(params.version){
         output_reference(reference)
         command_line = Channel.from(workflow.commandLine)
         collect_workflow_metrics(command_line)
-        multiqc(preprocessing.out.multiqc_adapter_removal,
-                preprocessing.out.multiqc_quality_filter,
+        multiqc(preprocessing.out.multiqc_adapter_removal.flatten().toList(),
+                preprocessing.out.multiqc_quality_filter.flatten().toList(),
                 preprocessing.out.multiqc_quality_control,
                 preprocessing.out.multiqc_quality_control_post_preprocessing,
-                barcode_handling.out.multiqc_exp_barcode_splitting,
-                alignment.out.report_alignments,
-                deduplication.out.report_deduplication)
+                barcode_handling.out.multiqc_exp_barcode_splitting.flatten().toList(),
+                alignment.out.report_alignments.flatten().toList(),
+                deduplication.out.report_deduplication.flatten().toList())
     }
 }
 
