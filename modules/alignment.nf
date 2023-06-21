@@ -126,10 +126,10 @@ process collect_experiments_without_alignments {
 	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'experiments-without-alignments.txt'
 
 	input:
-	file(query)
+	path(query)
 
 	output:
-	file("experiments-without-alignments.txt"), optional: true
+	path("experiments-without-alignments.txt"), optional: true
 
 	"""
 	if [[ ! \$(cat ${query} | wc -l) == 0 ]]; then
