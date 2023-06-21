@@ -41,11 +41,9 @@ process sort_and_index_alignment{
 }
 
 /*
- * Calculates distances between peaks
- * Params: params.percentile -> Percentile of peaks being omited in order to filter out background noise. Omits peaks according to their height
- *		params.distance -> Maximum distance between peaks allowed
- * Input: [WIG2] Peak files
- * Output: [TSV] Tab separated files showing the amounts of found distances
+ * Outputs the reference to the output directory
+ * Input: [FASTA] Reference file 
+ * Output: [FASTA] Reference file 
  */
 process output_reference {
 	publishDir "${params.output}", mode: 'copy', pattern: "${query}"
@@ -61,11 +59,15 @@ process output_reference {
 }
 
 /*
- * Calculates distances between peaks
- * Params: params.percentile -> Percentile of peaks being omited in order to filter out background noise. Omits peaks according to their height
- *		params.distance -> Maximum distance between peaks allowed
- * Input: [WIG2] Peak files
- * Output: [TSV] Tab separated files showing the amounts of found distances
+ * Collects statistics of a variety of tools and runs multiqc on them to summarize them
+ * Input: 	[TXT] Report Adapter trimming from Trim Galore
+ *			[TXT] Report Quality filtering from cutadapt
+ *			[HTML]&[ZIP] General read report from FastQC (before preprocessing)
+ *			[HTML]&[ZIP] General read report from FastQC (after preprocessing)	
+ *			[LOG] Report experimental barcode splitting from fastx_barcode_splitter.pl
+ *			[TXT] Report alignment of reads from Bowtie2 or STAR
+ *			[TSV] Report PCR deduplication from umi_tools dedup
+ * Output: [HTML] Report overview and [DIR] Directory containing information about the reports
  */
 process multiqc{
 	publishDir "${params.output}/statistics", mode: 'move'
@@ -88,10 +90,9 @@ process multiqc{
 }
 
 /*
- * Calculates distances between peaks
- * Params: params.percentile -> Percentile of peaks being omited in order to filter out background noise. Omits peaks according to their height
- *		params.distance -> Maximum distance between peaks allowed
- * Input: [WIG2] Peak files
+ * Collects a variety of different metrics such as the command line used to execute the workflow and the parameters used
+ * Params: params
+ * Input: [VAL] Peak files
  * Output: [TSV] Tab separated files showing the amounts of found distances
  */
 process collect_workflow_metrics{
