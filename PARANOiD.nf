@@ -477,8 +477,6 @@ if(params.version){
                 barcode_handling.out.multiqc_exp_barcode_splitting,
                 alignment.out.report_alignments,
                 deduplication.out.report_deduplication)
-
-        collect_workflow_metrics(workflow.commandLine)
     }
 }
 
