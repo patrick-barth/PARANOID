@@ -57,7 +57,7 @@ process get_RNA_subtypes_distribution {
 
 	output:
 	path("${name}.subtypes_distribution.tsv"), emit: tsv_subtype_distribution
-	path("${name}.subtype.log"), emit: report_errors, optinoal: true
+	path("${name}.subtype.log"), emit: report_errors, optional: true
 
 	script:
 	subtypes_as_string = subtypes.join(' ')
