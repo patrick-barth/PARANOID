@@ -15,7 +15,7 @@ process prepare_annotation_for_igv {
 	path("${annotation.baseName}.sorted.gff.gz*"), emit: files_annotation_for_igv
 
 	"""
-	~/software/gff3sort/gff3sort.pl ${annotation} > ${annotation.baseName}.sorted.gff
+	gff3sort.pl ${annotation} > ${annotation.baseName}.sorted.gff
 	bgzip ${annotation.baseName}.sorted.gff
 	tabix ${annotation.baseName}.sorted.gff.gz
 	"""
