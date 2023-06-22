@@ -444,7 +444,7 @@ if(params.version){
         strand_preference(bam_collected,reference_for_downstream)
         peak_generation(bam_collected,reference)
         if(params.annotation != 'NO_FILE'){
-            rna_subtype_analysis(peak_generation.out.wig2_collected, rna_subtypes, annotation)
+            rna_subtype_analysis(peak_generation.out.wig2_collected, rna_subtypes, annotation_file)
         }
         if(params.omit_sequence_extraction == false){
             motif_analysis(peak_generation.out.wig2_collected,reference)
