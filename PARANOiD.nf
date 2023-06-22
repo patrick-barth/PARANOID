@@ -363,7 +363,7 @@ workflow peak_generation {
 
 workflow rna_subtype_analysis {
     take:
-        wig2_crosslink_sites
+        wig2_cross_link_sites
         rna_subtypes
         annotation
     main:
