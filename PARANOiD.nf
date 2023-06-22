@@ -77,7 +77,7 @@ include{
 } from './modules/strand_preference.nf'
 
 //import processes used for RNA subtype analysis
-if(params.annotation =! 'NO_FILE'){
+if(params.annotation != 'NO_FILE'){
     include{
         wig_to_bam
         feature_counts
