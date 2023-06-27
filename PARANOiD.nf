@@ -1,10 +1,4 @@
 #!/usr/bin/env nextflow
-/*
-test run DSL1:
-nextflow /homes/pbarth/PhD/git-projects/PARANOID/PARANOiD.nf --reads data/reads_short.fastq --reference data/reference_RVFV.fasta --barcodes data/barcodes-RVFV.tsv --output output-DSL1 --merge_replicates --correlation_analysis --omit_peak_calling --omit_peak_distance --omit_sequence_extraction -profile slurm,podman -resume
-test run DSL2:
-nextflow /homes/pbarth/tmp/PARANOiD-DSL2/PARANOiD_DSL2.nf --reads data/reads_short.fastq --reference data/reference_RVFV.fasta --barcodes data/barcodes-RVFV.tsv --output output-DSL2 --merge_replicates --correlation_analysis --omit_peak_calling --omit_peak_distance --omit_sequence_extraction -profile slurm,podman -resume
-*/
 
 //import processes for preprocessing
 include{
