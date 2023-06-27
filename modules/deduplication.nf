@@ -28,7 +28,7 @@ process sort_bam{
 process deduplicate{
 	publishDir "${params.output}/statistics/PCR-deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
 	tag {query.simpleName}
-	memory { 20.GB + 1.B * query.size() }
+	memory { 20.GB + 2.B * query.size() }
 
 	input:
 	tuple path(query), path(index)
