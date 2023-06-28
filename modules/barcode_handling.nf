@@ -47,6 +47,7 @@ process check_barcode_file {
  */
 process split_exp_barcode {
 	tag {query.simpleName}
+	publishDir "${params.output}/statistics/barcode-distribution", mode: 'copy', pattern: 'barcode_split.txt'
 
 	input:
 	tuple path(query), path(barcodes)
@@ -59,7 +60,7 @@ process split_exp_barcode {
 	if(params.barcode_mismatches == 0)
 		"""
 		mkdir output
-		cat ${query} | fastx_barcode_splitter.pl --bcfile ${barcodes} --bol --exact --prefix ./output/ --suffix .fastq > log_split.txt
+		cat ${query} | fastx_barcode_splitter.pl --bcfile ${barcodes} --bol --exact --prefix ./output/ --suffix .fastq > barcode_split.txt
 		"""
 	else
 		"""
@@ -131,7 +132,7 @@ process merge_preprocessed_reads {
  * Pushes output to ${params.output}/statistics
  */
 process generate_barcode_barplot {
-	publishDir "${params.output}/statistics", mode: 'copy'
+	publishDir "${params.output}/statistics/barcode-distribution", mode: 'copy'
 
 	input:
 	path(query)
