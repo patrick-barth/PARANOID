@@ -212,6 +212,7 @@ process pureCLIP {
     errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
 
     publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
+    publishDir "${params.output}/statistics/PureCLIP", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_sites.param"
 
     input:
     tuple path(bam), path(bai), path(ref)
@@ -219,7 +220,7 @@ process pureCLIP {
     output:
     path("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed")
     path("${bam.simpleName}.pureCLIP_crosslink_sites.bed"), emit: bed_crosslink_sites
-    path("${bam.simpleName}.pureCLIP_crosslink_sites.params"), emit: report_pureCLIP
+    path("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.params"), emit: report_pureCLIP
 
     script:
     if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == true)
