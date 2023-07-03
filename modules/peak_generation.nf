@@ -47,6 +47,50 @@ process calculate_crosslink_sites{
 }
 
 /*
+ * Performs peak calling via PureCLIP. Can do single peaks or peak regions.
+ * Input: Tuple of [BAM] alignment file, [BAI] index file and [FASTA] reference file
+ * Params:  params.peak_calling_for_high_coverage   -> Enables special settings I found useful when analysing data with huge amount of peaks all across the reference (-mtc 5000 -mtc2 5000 -ld)
+ *          params.peak_calling_regions             -> Can place determined cross-link sites in close proximity into a single cross-link region
+ *          params.peak_calling_regions_width       -> Determines the maximum allowed width of cross-link regions
+ * Output:  bed_crosslink_sites -> [BED] Cross-link sites determined by PureCLIP
+ *          report_pureCLIP     -> [PARAMS] Report of PureCLIP
+ */
+process pureCLIP {
+    tag{bam.simpleName}
+    cache false
+    errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
+
+    publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
+
+    input:
+    tuple path(bam), path(bai), path(ref)
+
+    output:
+    path("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed")
+    path("${bam.simpleName}.pureCLIP_crosslink_sites.bed"), emit: bed_crosslink_sites
+    path("${bam.simpleName}.pureCLIP_crosslink_sites.params"), emit: report_pureCLIP
+
+    script:
+    if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == true)
+        """
+        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width} -mtc 5000 -mtc2 5000 -ld
+        """
+    else if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == false)
+        """
+        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
+        """
+    else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == true)
+        """
+        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width}
+        """
+    else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == false)
+        """
+        ln -s ${ref} ${ref.baseName}_symlink.fasta
+        pureclip -i ${bam} -bai ${bai} -g ${ref.baseName}_symlink.fasta -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
+        """
+}
+
+/*
  * Merges several WIG2 files into a single representative form 
  * Input: Tuple of [STR] Experiment name, [WIG2] several cross-link site files 
  * Output:  wig2_merged                 -> [WIG2] Merged cross-link sites
@@ -195,50 +239,6 @@ process index_for_peak_calling {
     samtools sort ${query} > ${query.simpleName}.sorted.bam
     samtools index ${query.simpleName}.sorted.bam
     """
-}
-
-/*
- * Performs peak calling via PureCLIP. Can do single peaks or peak regions.
- * Input: Tuple of [BAM] alignment file, [BAI] index file and [FASTA] reference file
- * Params:  params.peak_calling_for_high_coverage   -> Enables special settings I found useful when analysing data with huge amount of peaks all across the reference (-mtc 5000 -mtc2 5000 -ld)
- *          params.peak_calling_regions             -> Can place determined cross-link sites in close proximity into a single cross-link region
- *          params.peak_calling_regions_width       -> Determines the maximum allowed width of cross-link regions
- * Output:  bed_crosslink_sites -> [BED] Cross-link sites determined by PureCLIP
- *          report_pureCLIP     -> [PARAMS] Report of PureCLIP
- */
-process pureCLIP {
-    tag{bam.simpleName}
-    cache false
-    errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
-
-    publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
-
-    input:
-    tuple path(bam), path(bai), path(ref)
-
-    output:
-    path("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed")
-    path("${bam.simpleName}.pureCLIP_crosslink_sites.bed"), emit: bed_crosslink_sites
-    path("${bam.simpleName}.pureCLIP_crosslink_sites.params"), emit: report_pureCLIP
-
-    script:
-    if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == true)
-        """
-        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width} -mtc 5000 -mtc2 5000 -ld
-        """
-    else if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == false)
-        """
-        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
-        """
-    else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == true)
-        """
-        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width}
-        """
-    else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == false)
-        """
-        ln -s ${ref} ${ref.baseName}_symlink.fasta
-        pureclip -i ${bam} -bai ${bai} -g ${ref.baseName}_symlink.fasta -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
-        """
 }
 
 /*
