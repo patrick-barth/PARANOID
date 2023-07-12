@@ -136,9 +136,7 @@ process pureCLIP_to_wig{
 /*
  * Transforms WIG files to bigWig
  * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] forward cross-link sites, [WIG] reverse cross-link sites, [TXT] chroms names and sizes
- * Output:  bigWig_both_strands -> Tuple of [STR] output directory, [BW] cross-link-sites for both strands
- *          bigWig_reverse      -> Tuple of [STR] output directory, [BW] reverse cross-link-sites 
- *          bigWig_forward      -> Tuple of [STR] output directory, [BW] forward cross-link-sites
+ * Output:  bigWig -> Tuple of [STR] output directory, [BW] cross-link-sites
  */
 process wig_to_bigWig_peak_called{
 	tag {query.simpleName}
