@@ -51,6 +51,7 @@ if(params.map_to_transcripts == true){
 //import processes used to generate peaks
 include{
     get_chromosome_sizes
+    pureCLIP_to_wig
     calculate_crosslink_sites
     split_wig2_for_correlation
     calc_wig_correlation
@@ -278,6 +279,19 @@ workflow peak_generation {
         get_chromosome_sizes(reference)
         calculate_crosslink_sites(bam_collected
             .combine(get_chromosome_sizes.out))
+        //Handle peak calling when it is not omitted. If pureCLIP is executed all further analyses are performed on the peaks determined by pureCLIP
+        if(params.omit_peak_calling == false){
+            index_for_peak_calling(bam_collected)
+            pureCLIP(index_for_peak_calling.out
+                .combine(reference))
+            pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
+            report_pureCLIP     = pureCLIP.out.report_pureCLIP
+            bed_pureCLIP_peaks  = pureCLIP.out.bed_crosslink_sites 
+        } else { 
+            report_pureCLIP     = Channel.empty() 
+            bed_pureCLIP_peaks  = Channel.empty()
+        }
+        
         wig2_cross_link_sites = calculate_crosslink_sites.out.wig2_cross_link_sites
         if(params.merge_replicates == true){
             wig2_cross_link_sites
@@ -333,16 +347,7 @@ workflow peak_generation {
             .combine(get_chromosome_sizes.out))
         bigWig_to_bedgraph(wig_to_bigWig.out.bigWig_forward
             .mix(wig_to_bigWig.out.bigWig_reverse))
-        if(params.omit_peak_calling == false){
-            index_for_peak_calling(bam_collected)
-            pureCLIP(index_for_peak_calling.out
-                .combine(reference))
-            report_pureCLIP     = pureCLIP.out.report_pureCLIP
-            bed_pureCLIP_peaks  = pureCLIP.out.bed_crosslink_sites 
-        } else { 
-            report_pureCLIP     = Channel.empty() 
-            bed_pureCLIP_peaks  = Channel.empty()
-        }
+        
         split_wig_2_for_peak_height_hist(wig2_cross_link_sites_collected)
         generate_peak_height_histogram(split_wig_2_for_peak_height_hist.out)
     emit:

@@ -91,6 +91,43 @@ process pureCLIP {
 }
 
 /*
+ * Transforms output from pureCLIP to WIG format
+ */
+
+
+process pureCLIP_to_wig{
+    tag {query.simpleName}
+    publishDir "${params.output}/peak_calling/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
+    echo true
+
+    input:
+    path(query)
+
+    output:
+    tuple val("cross-link-sites"), path("${query.simpleName}_forward.wig"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites, optional: true
+    path('empty_sample,txt'), emit: txt_empty_sample, optional: true
+
+    """
+    if [[ "${query.size()}" > 0 ]]; then
+        # split into strands
+        awk '{if (\$6 == "+") {print \$0 > "${query.simpleName}_forward.bed";} else {print \$0 > "${query.simpleName}_reverse.bed";}}' ${query}
+        # Add 1 into the 4th column (since it#s from peak calling the actual size of the peak does not matter anymore)
+        #  Then extracts important columns and converts the data into a valif WIG file
+        if [[ -e "${query.simpleName}_forward.bed" ]]; then
+            awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t1";print \$0;}' ${query.simpleName}_forward.bed > ${query.simpleName}_forward.1.bed
+            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s\\t%s\\n", \$3, \$8);}' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
+        fi
+        if [[ -e "${query.simpleName}_reverse.bed" ]]; then
+            awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t-1";print \$0;}' ${query.simpleName}_reverse.bed > ${query.simpleName}_reverse.1.bed
+            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s\\t%s\\n", \$3, \$8);}' ${query.simpleName}_reverse.1.bed > ${query.simpleName}_reverse.wig
+        fi
+    else
+        echo "${query.simpleName}" > empty_sample.txt
+    fi
+    """
+}
+
+/*
  * Merges several WIG2 files into a single representative form 
  * Input: Tuple of [STR] Experiment name, [WIG2] several cross-link site files 
  * Output:  wig2_merged                 -> [WIG2] Merged cross-link sites
