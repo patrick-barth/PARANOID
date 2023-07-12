@@ -52,6 +52,8 @@ if(params.map_to_transcripts == true){
 include{
     get_chromosome_sizes
     pureCLIP_to_wig
+    wig_to_bigWig_peak_called
+    bigWig_to_bedgraph_peak_called
     calculate_crosslink_sites
     split_wig2_for_correlation
     calc_wig_correlation
@@ -285,6 +287,11 @@ workflow peak_generation {
             pureCLIP(index_for_peak_calling.out
                 .combine(reference))
             pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
+            wig_to_bigWig_peak_called(pureCLIP_to_wig.out.wig_peak_called_cl_sites
+                .combine(get_chromosome_sizes.out))
+            bigWig_to_bedgraph_peak_called(wig_to_bigWig_peak_called.out.bigWig_forward
+                .mix(wig_to_bigWig_peak_called.out.bigWig_reverse))
+
             report_pureCLIP     = pureCLIP.out.report_pureCLIP
             bed_pureCLIP_peaks  = pureCLIP.out.bed_crosslink_sites 
         } else { 

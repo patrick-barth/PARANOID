@@ -98,13 +98,13 @@ process pureCLIP {
 process pureCLIP_to_wig{
     tag {query.simpleName}
     publishDir "${params.output}/peak_calling/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
-    echo true
 
     input:
     path(query)
 
     output:
-    tuple val("cross-link-sites"), path("${query.simpleName}_forward.wig"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites, optional: true
+    path("${query.simpleName}.wig2"), emit: wig2_peak_called_cl_sites, optional: true
+    tuple val("peak_calling"), path("${query.simpleName}_forward.wig"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites, optional: true
     path('empty_sample,txt'), emit: txt_empty_sample, optional: true
 
     """
@@ -115,16 +115,71 @@ process pureCLIP_to_wig{
         #  Then extracts important columns and converts the data into a valif WIG file
         if [[ -e "${query.simpleName}_forward.bed" ]]; then
             awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t1";print \$0;}' ${query.simpleName}_forward.bed > ${query.simpleName}_forward.1.bed
-            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s\\t%s\\n", \$3, \$8);}' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
+            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
+        else
+            touch ${query.simpleName}_forward.wig
         fi
         if [[ -e "${query.simpleName}_reverse.bed" ]]; then
             awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t-1";print \$0;}' ${query.simpleName}_reverse.bed > ${query.simpleName}_reverse.1.bed
-            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s\\t%s\\n", \$3, \$8);}' ${query.simpleName}_reverse.1.bed > ${query.simpleName}_reverse.wig
+            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_reverse.1.bed > ${query.simpleName}_reverse.wig
+        else
+            touch ${query.simpleName}_reverse.wig
         fi
+        wig-to-wig2.py --wig ${query.simpleName}_forward.wig ${query.simpleName}_reverse.wig --output ${query.simpleName}.wig2
     else
         echo "${query.simpleName}" > empty_sample.txt
     fi
     """
+}
+
+/*
+ * Transforms WIG files to bigWig
+ * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] forward cross-link sites, [WIG] reverse cross-link sites, [TXT] chroms names and sizes
+ * Output:  bigWig_both_strands -> Tuple of [STR] output directory, [BW] cross-link-sites for both strands
+ *          bigWig_reverse      -> Tuple of [STR] output directory, [BW] reverse cross-link-sites 
+ *          bigWig_forward      -> Tuple of [STR] output directory, [BW] forward cross-link-sites
+ */
+process wig_to_bigWig_peak_called{
+	tag {forward.simpleName}
+	publishDir "${params.output}/${out_dir}/bigWig", mode: 'copy', pattern: "*.bw"
+
+	input:
+	tuple val(out_dir), path(forward), path(reverse), path(chrom_sizes)
+
+	output:
+	path("*.bw"), optional: true
+	tuple val(out_dir), path("*.bw"), emit: bigWig_both_strands, optional: true
+	tuple val(out_dir), path("${reverse.baseName}.bw"), emit: bigWig_reverse, optional: true
+	tuple val(out_dir), path("${forward.baseName}.bw"), emit: bigWig_forward, optional: true
+
+	"""
+	if [[ \$(cat ${forward} | wc -l) > 1 ]]; then
+		wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
+	fi
+	if [[ \$(cat ${reverse} | wc -l) > 1 ]]; then
+		wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
+	fi
+	"""
+}
+
+/*
+ * Transforms bigWig files into the bedGraph format
+ * Input: Tuple of [STR] output directory and [BW] cross-link sites
+ * Output: [BEDGRAPH] Cross-link sites  
+ */
+process bigWig_to_bedgraph_peak_called{
+	tag {bigWig.simpleName}
+	publishDir "${params.output}/${out_dir}/bedgraph", mode: 'copy', pattern: "*.bedgraph"
+
+	input:
+	tuple val(out_dir), path(bigWig)
+
+	output:
+	path("*.bedgraph")
+
+	"""
+	bigWigToBedGraph ${bigWig} ${bigWig.baseName}.bedgraph
+	"""
 }
 
 /*
