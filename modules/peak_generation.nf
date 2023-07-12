@@ -104,7 +104,8 @@ process pureCLIP_to_wig{
 
     output:
     path("${query.simpleName}.wig2"), emit: wig2_peak_called_cl_sites, optional: true
-    tuple val("peak_calling"), path("${query.simpleName}_forward.wig"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites, optional: true
+    tuple val("peak_calling"), path("${query.simpleName}_forward.wig"), emit: wig_peak_called_cl_sites_forward, optional: true
+    tuple val("peak_calling"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites_reverse, optional: true
     path('empty_sample,txt'), emit: txt_empty_sample, optional: true
 
     """
@@ -140,24 +141,19 @@ process pureCLIP_to_wig{
  *          bigWig_forward      -> Tuple of [STR] output directory, [BW] forward cross-link-sites
  */
 process wig_to_bigWig_peak_called{
-	tag {forward.simpleName}
+	tag {query.simpleName}
 	publishDir "${params.output}/${out_dir}/bigWig", mode: 'copy', pattern: "*.bw"
 
 	input:
-	tuple val(out_dir), path(forward), path(reverse), path(chrom_sizes)
+	tuple val(out_dir), path(query), path(chrom_sizes)
 
 	output:
 	path("*.bw"), optional: true
-	tuple val(out_dir), path("*.bw"), emit: bigWig_both_strands, optional: true
-	tuple val(out_dir), path("${reverse.baseName}.bw"), emit: bigWig_reverse, optional: true
-	tuple val(out_dir), path("${forward.baseName}.bw"), emit: bigWig_forward, optional: true
+	tuple val(out_dir), path("*.bw"), emit: bigWig, optional: true
 
 	"""
-	if [[ \$(cat ${forward} | wc -l) > 1 ]]; then
-		wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
-	fi
-	if [[ \$(cat ${reverse} | wc -l) > 1 ]]; then
-		wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
+	if [[ \$(cat ${query} | wc -l) > 1 ]]; then
+		wigToBigWig ${query} ${chrom_sizes} ${query.baseName}.bw
 	fi
 	"""
 }

@@ -287,10 +287,11 @@ workflow peak_generation {
             pureCLIP(index_for_peak_calling.out
                 .combine(reference))
             pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
-            wig_to_bigWig_peak_called(pureCLIP_to_wig.out.wig_peak_called_cl_sites
+            //Transform wig to other formats. Just done for output
+            wig_to_bigWig_peak_called(pureCLIP_to_wig.out.wig_peak_called_cl_sites_forward
+                .mix(pureCLIP_to_wig.out.wig_peak_called_cl_sites_reverse)
                 .combine(get_chromosome_sizes.out))
-            bigWig_to_bedgraph_peak_called(wig_to_bigWig_peak_called.out.bigWig_forward
-                .mix(wig_to_bigWig_peak_called.out.bigWig_reverse))
+            bigWig_to_bedgraph_peak_called(wig_to_bigWig_peak_called.out.bigWig)
 
             report_pureCLIP     = pureCLIP.out.report_pureCLIP
             bed_pureCLIP_peaks  = pureCLIP.out.bed_crosslink_sites 
