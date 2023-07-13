@@ -52,8 +52,6 @@ if(params.map_to_transcripts == true){
 include{
     get_chromosome_sizes
     pureCLIP_to_wig
-    wig_to_bigWig_peak_called
-    bigWig_to_bedgraph_peak_called
     calculate_crosslink_sites
     split_wig2_for_correlation
     calc_wig_correlation
@@ -279,36 +277,44 @@ workflow peak_generation {
 
     main:
         get_chromosome_sizes(reference)
+        //calculate raw cross-link sites
         calculate_crosslink_sites(bam_collected
             .combine(get_chromosome_sizes.out))
+        collect_cl_sites_to_transform = calculate_crosslink_sites.out.wig_cross_link_sites_split_forward
+                                            .concat(calculate_crosslink_sites.out.wig_cross_link_sites_split_reverse)
+        
         //Handle peak calling when it is not omitted. If pureCLIP is executed all further analyses are performed on the peaks determined by pureCLIP
         if(params.omit_peak_calling == false){
             index_for_peak_calling(bam_collected)
             pureCLIP(index_for_peak_calling.out
                 .combine(reference))
             pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
-            //Transform wig to other formats. Just done for output
-            wig_to_bigWig_peak_called(pureCLIP_to_wig.out.wig_peak_called_cl_sites_forward
-                .mix(pureCLIP_to_wig.out.wig_peak_called_cl_sites_reverse)
-                .combine(get_chromosome_sizes.out))
-            bigWig_to_bedgraph_peak_called(wig_to_bigWig_peak_called.out.bigWig)
 
-            report_pureCLIP     = pureCLIP.out.report_pureCLIP
-            bed_pureCLIP_peaks  = pureCLIP.out.bed_crosslink_sites 
+            report_pureCLIP                 = pureCLIP.out.report_pureCLIP
+            bed_pureCLIP_peaks              = pureCLIP.out.bed_crosslink_sites
+            wig2_cross_link_sites           = pureCLIP_to_wig.out.wig2_peak_called_cl_sites
+            collect_cl_sites_to_transform   = collect_cl_sites_to_transform
+                                                .concat(pureCLIP_to_wig.out.wig_peak_called_cl_sites_forward)
+                                                .concat(pureCLIP_to_wig.out.wig_peak_called_cl_sites_reverse)
         } else { 
-            report_pureCLIP     = Channel.empty() 
-            bed_pureCLIP_peaks  = Channel.empty()
+            report_pureCLIP         = Channel.empty() 
+            bed_pureCLIP_peaks      = Channel.empty()
+            wig2_cross_link_sites   = calculate_crosslink_sites.out.wig2_cross_link_sites
         }
         
-        wig2_cross_link_sites = calculate_crosslink_sites.out.wig2_cross_link_sites
         if(params.merge_replicates == true){
+            //group replicates according to their experiment and merge them
             wig2_cross_link_sites
                 .map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*.wig2$/,file)} 
                 .groupTuple()
                 .set{wig2_grouped_samples}
             merge_wigs(wig2_grouped_samples)
+
             if(params.correlation_analysis == true){
                 split_wig2_for_correlation(wig2_cross_link_sites)
+                // combines replicates for correlation analysis. if both strands are to be checked together they are combined
+                //  if the strands are to be checked separately they are only the according strands are combined. 
+                //  Code for grouping goes until the next comment
                 if(params.combine_strands_correlation == true){
                     value_both_strands = Channel.from("both_strands")
                     split_wig2_for_correlation.out.wig_split_both_strands
@@ -338,24 +344,33 @@ workflow peak_generation {
                         .combine(get_chromosome_sizes.out)
                         .set{prepared_input_correlation}
                 }
+                // actual calculation of correlation
                 calc_wig_correlation(prepared_input_correlation)
             }
+            // Generates output channels
             merge_wigs.out.wig2_merged
                 .set{wig2_cross_link_sites_collected}
-            merge_wigs.out.wig_merged_cross_link_sites
-                .concat(calculate_crosslink_sites.out.wig_cross_link_sites_split)
-                .set{wig_cross_link_sites_to_bigWig}
         } else {
             wig2_cross_link_sites
                 .set{wig2_cross_link_sites_collected}
-            calculate_crosslink_sites.out.wig_cross_link_sites_split
-                .set{wig_cross_link_sites_to_bigWig}
         }
-        wig_to_bigWig(wig_cross_link_sites_to_bigWig
+        //Transformation of peaks into different formats (bigWig and bedgraph)
+        wig_to_bigWig(collect_cl_sites_to_transform
             .combine(get_chromosome_sizes.out))
-        bigWig_to_bedgraph(wig_to_bigWig.out.bigWig_forward
-            .mix(wig_to_bigWig.out.bigWig_reverse))
-        
+        bigWig_to_bedgraph(wig_to_bigWig.out.bigWig)
+
+        // Get correct bigWigs to display via IGV
+        if(params.omit_peak_calling == false){
+            wig_to_bigWig.out.bigWig
+                .filter{ it[0] == 'peak_calling' }
+                .set{collect_bigWig_to_IGV}
+        } else {
+            wig_to_bigWig.out.bigWig
+                .filter{ it[0] == 'raw-cross-link-sites' }
+                .set{collect_bigWig_to_IGV}
+        }
+
+        //Generate peak height histogram
         split_wig_2_for_peak_height_hist(wig2_cross_link_sites_collected)
         generate_peak_height_histogram(split_wig_2_for_peak_height_hist.out)
     emit:
@@ -364,7 +379,7 @@ workflow peak_generation {
 
         // data for downstream analysis
         wig2_collected      = wig2_cross_link_sites_collected
-        bigWig_collected    = wig_to_bigWig.out.bigWig_both_strands
+        bigWig_collected    = collect_bigWig_to_IGV
         bed_pureCLIP_peaks  = bed_pureCLIP_peaks
 }
 

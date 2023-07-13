@@ -35,7 +35,8 @@ process calculate_crosslink_sites{
 	tuple path(query), path(chrom_sizes)
 	output:
 	path("${query.simpleName}.wig2"), emit: wig2_cross_link_sites, optional: true
-	tuple val("cross-link-sites"), path("${query.simpleName}_forward.wig"), path("${query.simpleName}_reverse.wig"), emit: wig_cross_link_sites_split, optional: true
+	tuple val("raw-cross-link-sites"), path("${query.simpleName}_forward.wig"), emit: wig_cross_link_sites_split_forward, optional: true
+    tuple val("raw-cross-link-sites"), path("${query.simpleName}_reverse.wig"), emit: wig_cross_link_sites_split_reverse, optional: true
 	path("${query.simpleName}_{forward,reverse}.wig"), emit: wig_cross_link_sites, optional: true
 
 	"""
@@ -130,49 +131,6 @@ process pureCLIP_to_wig{
 }
 
 /*
- * Transforms WIG files to bigWig
- * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] forward cross-link sites, [WIG] reverse cross-link sites, [TXT] chroms names and sizes
- * Output:  bigWig -> Tuple of [STR] output directory, [BW] cross-link-sites
- */
-process wig_to_bigWig_peak_called{
-	tag {query.simpleName}
-	publishDir "${params.output}/${out_dir}/bigWig", mode: 'copy', pattern: "*.bw"
-
-	input:
-	tuple val(out_dir), path(query), path(chrom_sizes)
-
-	output:
-	path("*.bw"), optional: true
-	tuple val(out_dir), path("*.bw"), emit: bigWig, optional: true
-
-	"""
-	if [[ \$(cat ${query} | wc -l) > 1 ]]; then
-		wigToBigWig ${query} ${chrom_sizes} ${query.baseName}.bw
-	fi
-	"""
-}
-
-/*
- * Transforms bigWig files into the bedGraph format
- * Input: Tuple of [STR] output directory and [BW] cross-link sites
- * Output: [BEDGRAPH] Cross-link sites  
- */
-process bigWig_to_bedgraph_peak_called{
-	tag {bigWig.simpleName}
-	publishDir "${params.output}/${out_dir}/bedgraph", mode: 'copy', pattern: "*.bedgraph"
-
-	input:
-	tuple val(out_dir), path(bigWig)
-
-	output:
-	path("*.bedgraph")
-
-	"""
-	bigWigToBedGraph ${bigWig} ${bigWig.baseName}.bedgraph
-	"""
-}
-
-/*
  * Merges several WIG2 files into a single representative form 
  * Input: Tuple of [STR] Experiment name, [WIG2] several cross-link site files 
  * Output:  wig2_merged                 -> [WIG2] Merged cross-link sites
@@ -255,30 +213,23 @@ process calc_wig_correlation{
 
 /*
  * Transforms WIG files to bigWig
- * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] forward cross-link sites, [WIG] reverse cross-link sites, [TXT] chroms names and sizes
- * Output:  bigWig_both_strands -> Tuple of [STR] output directory, [BW] cross-link-sites for both strands
- *          bigWig_reverse      -> Tuple of [STR] output directory, [BW] reverse cross-link-sites 
- *          bigWig_forward      -> Tuple of [STR] output directory, [BW] forward cross-link-sites
+ * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] cross-link sites, [TXT] chroms names and sizes
+ * Output:  bigWig -> Tuple of [STR] output directory, [BW] cross-link-sites
  */
 process wig_to_bigWig{
-	tag {forward.simpleName}
+	tag {query.simpleName}
 	publishDir "${params.output}/${out_dir}/bigWig", mode: 'copy', pattern: "*.bw"
 
 	input:
-	tuple val(out_dir), path(forward), path(reverse), path(chrom_sizes)
+	tuple val(out_dir), path(query), path(chrom_sizes)
 
 	output:
 	path("*.bw"), optional: true
-	tuple val(out_dir), path("*.bw"), emit: bigWig_both_strands, optional: true
-	tuple val(out_dir), path("${reverse.baseName}.bw"), emit: bigWig_reverse, optional: true
-	tuple val(out_dir), path("${forward.baseName}.bw"), emit: bigWig_forward, optional: true
+	tuple val(out_dir), path("${query.baseName}.bw"), emit: bigWig, optional: true
 
 	"""
-	if [[ \$(cat ${forward} | wc -l) > 1 ]]; then
-		wigToBigWig ${forward} ${chrom_sizes} ${forward.baseName}.bw
-	fi
-	if [[ \$(cat ${reverse} | wc -l) > 1 ]]; then
-		wigToBigWig ${reverse} ${chrom_sizes} ${reverse.baseName}.bw
+	if [[ \$(cat ${query} | wc -l) > 1 ]]; then
+		wigToBigWig ${query} ${chrom_sizes} ${query.baseName}.bw
 	fi
 	"""
 }
