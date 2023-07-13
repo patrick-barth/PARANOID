@@ -360,7 +360,11 @@ workflow peak_generation {
         bigWig_to_bedgraph(wig_to_bigWig.out.bigWig)
 
         // Get correct bigWigs to display via IGV
-        if(params.omit_peak_calling == false){
+        if(params.merge_replicates == true){
+            wig_to_bigWig.out.bigWig
+                .filter{ it[0] == 'cross-link-sites-merged' }
+                .set{collect_bigWig_to_IGV}
+        } else if(params.omit_peak_calling == false){
             wig_to_bigWig.out.bigWig
                 .filter{ it[0] == 'peak_calling' }
                 .set{collect_bigWig_to_IGV}
