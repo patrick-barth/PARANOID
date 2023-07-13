@@ -117,14 +117,10 @@ process pureCLIP_to_wig{
         if [[ -e "${query.simpleName}_forward.bed" ]]; then
             awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t1";print \$0;}' ${query.simpleName}_forward.bed > ${query.simpleName}_forward.1.bed
             awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
-        else
-            touch ${query.simpleName}_forward.wig
         fi
         if [[ -e "${query.simpleName}_reverse.bed" ]]; then
             awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t-1";print \$0;}' ${query.simpleName}_reverse.bed > ${query.simpleName}_reverse.1.bed
             awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_reverse.1.bed > ${query.simpleName}_reverse.wig
-        else
-            touch ${query.simpleName}_reverse.wig
         fi
         wig-to-wig2.py --wig ${query.simpleName}_forward.wig ${query.simpleName}_reverse.wig --output ${query.simpleName}.wig2
     else
