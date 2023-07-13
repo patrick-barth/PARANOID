@@ -1,0 +1,11 @@
+FROM alpine:3.17
+
+LABEL tool="wig-to-wig2"
+
+LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
+
+RUN apk update && apk add --no-cache gawk bash grep \
+    python3    
+
+ADD bin/wig-to-wig2.py /usr/local/bin
+ADD bin/wig_files_writer.py /usr/local/bin
