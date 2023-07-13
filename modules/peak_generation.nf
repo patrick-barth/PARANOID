@@ -29,14 +29,14 @@ process get_chromosome_sizes{
  */
 process calculate_crosslink_sites{
 	tag {query.simpleName}
-	publishDir "${params.output}/cross-link-sites/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
+	publishDir "${params.output}/cross-link-sites-raw/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
 
 	input:
 	tuple path(query), path(chrom_sizes)
 	output:
 	path("${query.simpleName}.wig2"), emit: wig2_cross_link_sites, optional: true
-	tuple val("raw-cross-link-sites"), path("${query.simpleName}_forward.wig"), emit: wig_cross_link_sites_split_forward, optional: true
-    tuple val("raw-cross-link-sites"), path("${query.simpleName}_reverse.wig"), emit: wig_cross_link_sites_split_reverse, optional: true
+	tuple val("cross-link-sites-raw"), path("${query.simpleName}_forward.wig"), emit: wig_cross_link_sites_split_forward, optional: true
+    tuple val("cross-link-sites-raw"), path("${query.simpleName}_reverse.wig"), emit: wig_cross_link_sites_split_reverse, optional: true
 	path("${query.simpleName}_{forward,reverse}.wig"), emit: wig_cross_link_sites, optional: true
 
 	"""
@@ -98,15 +98,15 @@ process pureCLIP {
 
 process pureCLIP_to_wig{
     tag {query.simpleName}
-    publishDir "${params.output}/peak_calling/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
+    publishDir "${params.output}/cross-link-sites-peak-called/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
 
     input:
     path(query)
 
     output:
     path("${query.simpleName}.wig2"), emit: wig2_peak_called_cl_sites, optional: true
-    tuple val("peak_calling"), path("${query.simpleName}_forward.wig"), emit: wig_peak_called_cl_sites_forward, optional: true
-    tuple val("peak_calling"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites_reverse, optional: true
+    tuple val("cross-link-sites-peak-called"), path("${query.simpleName}_forward.wig"), emit: wig_peak_called_cl_sites_forward, optional: true
+    tuple val("cross-link-sites-peak-called"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites_reverse, optional: true
     path('empty_sample,txt'), emit: txt_empty_sample, optional: true
 
     """

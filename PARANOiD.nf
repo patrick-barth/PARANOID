@@ -366,11 +366,11 @@ workflow peak_generation {
                 .set{collect_bigWig_to_IGV}
         } else if(params.omit_peak_calling == false){
             wig_to_bigWig.out.bigWig
-                .filter{ it[0] == 'peak_calling' }
+                .filter{ it[0] == 'cross-link-sites-peak-called' }
                 .set{collect_bigWig_to_IGV}
         } else {
             wig_to_bigWig.out.bigWig
-                .filter{ it[0] == 'raw-cross-link-sites' }
+                .filter{ it[0] == 'cross-link-sites-raw' }
                 .set{collect_bigWig_to_IGV}
         }
 
