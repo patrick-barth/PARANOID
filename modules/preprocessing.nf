@@ -69,6 +69,7 @@ process adapter_removal {
  */
 process quality_filter {
 	tag {query.simpleName}
+	publishDir "${params.output}/statistics", mode: 'copy', pattern: "summary-quality-filter.txt"
 
 	input:
 	path query
