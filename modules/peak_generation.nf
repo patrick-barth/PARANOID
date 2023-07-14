@@ -286,10 +286,17 @@ process split_wig_2_for_peak_height_hist {
 	path(query)
 
 	output:
-	tuple val("${query.simpleName}"), path("${query.simpleName}_forward.wig"), path("${query.simpleName}_reverse.wig"), optional: true
+	tuple val("${query.simpleName}"), path("${query.simpleName}_forward.wig"), emit: wig_split_forward, optional: true
+    tuple val("${query.simpleName}"), path("${query.simpleName}_reverse.wig"), emit: wig_split_reverse, optional: true
 
 	"""
 	wig2-to-wig.py --input ${query} --output ${query.simpleName}
+    if [ ! -f ${query.simpleName}_forward.wig ]; then
+        touch ${query.simpleName}_forward.wig
+    fi
+    if [[ ! -f ${query.simpleName}_reverse.wig ]]; then
+        touch ${query.simpleName}_reverse.wig
+    fi
 	"""
 }
 
@@ -305,7 +312,7 @@ process generate_peak_height_histogram {
 	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
 
 	input:
-	tuple val(query), path(forward), path(reverse)
+	tuple val(query), path(forward)
 
 	output:
 	path("${query}.png")

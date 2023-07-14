@@ -376,7 +376,12 @@ workflow peak_generation {
 
         //Generate peak height histogram
         split_wig_2_for_peak_height_hist(wig2_cross_link_sites_collected)
-        generate_peak_height_histogram(split_wig_2_for_peak_height_hist.out)
+        split_wig_2_for_peak_height_hist.out.wig_split_forward
+            .mix(split_wig_2_for_peak_height_hist.out.wig_split_reverse)
+            .groupTuple()
+            .set{combined_wig_for_peak_height_histogram}
+
+        generate_peak_height_histogram(combined_wig_for_peak_height_histogram)
     emit:
         // reports
         report_pureCLIP     = report_pureCLIP
