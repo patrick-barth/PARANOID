@@ -3,8 +3,7 @@
  * Params: params.omit_cl_nucleotide -> if TRUE the nucleotide at the cl site is replaced with an N
  *		params.omit_peak_calling -> if TRUE no percentile cutoff is performed as PureCLIP should already filter out background noise
  *		params.seq_len -> Length of sequence being extracted from each site around the cross-link site
- * 		params.percentile -> Percentile of peaks being omited in order to filter out background noise. Omits peaks according to their height
- * Input: Tuple of [WIG2] peak files and [FASTA] a reference genome
+ * Input: Tuple of [WIG2] peak files, [FASTA] a reference genome and [FLOAT] percentile being used
  * Output: [FASTA] Sequences extracted around peaks
  */
 process sequence_extraction {
@@ -13,7 +12,7 @@ process sequence_extraction {
 	publishDir "${params.output}/extracted_sequences", mode: 'copy', pattern: "*.extracted-sequences.*"
 
 	input:
-	tuple path(query),path(reference)
+	tuple path(query),path(reference), val(percentile)
 
 	output:
 	path("*.extracted-sequences.fasta"), emit: extracted_sequences, optional: true
@@ -23,20 +22,20 @@ process sequence_extraction {
 	if(params.omit_cl_nucleotide == true && params.omit_peak_calling == true)
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
+		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl
 		"""
 	else if(params.omit_cl_nucleotide == true && params.omit_peak_calling == false)
 		"""
-		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile} --omit_cl
+		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl
 		"""
 	else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == true)
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile}
+		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile}
 		"""
 	else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == false)
 		"""
-		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${params.percentile}
+		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile}
 		"""
 }
 

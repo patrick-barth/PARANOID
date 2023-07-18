@@ -1,8 +1,7 @@
 /*
  * Calculates distances between peaks
- * Params: params.percentile -> Percentile of peaks being omited in order to filter out background noise. Omits peaks according to their height
- *		params.distance -> Maximum distance between peaks allowed
- * Input: [WIG2] Peak files
+ * Params: params.distance -> Maximum distance between peaks allowed
+ * Input: Tuple of [WIG2] Peak files and [FLOAT] percentile being used
  * Output: [TSV] Tab separated files showing the amounts of found distances
  */
 process calculate_peak_distance {
@@ -11,14 +10,14 @@ process calculate_peak_distance {
 	publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.baseName}.peak-distance.tsv"
 
 	input:
-	path(query)
+	tuple path(query), val(percentile)
 
 	output:
 	path("${query.baseName}.peak-distance.tsv")
 
 	"""
 	wig2-to-wig.py --input ${query} --output ${query.baseName}
-	peak-distance.py --input ${query.baseName}_*.wig --output ${query.baseName}.peak-distance.tsv --percentile ${params.percentile} --distance ${params.distance}
+	peak-distance.py --input ${query.baseName}_*.wig --output ${query.baseName}.peak-distance.tsv --percentile ${percentile} --distance ${params.distance}
 	"""
 }
 

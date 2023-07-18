@@ -120,8 +120,13 @@ if(params.annotation != 'NO_FILE'){
 }
 annotation = file(params.annotation)
 
-//preparation for RNA subtype analysis
+if(params.omit_peak_calling == false){
+    percentile = Channel.from(0)
+} else {
+    percentile = Channel.from(params.percentile)
+}
 
+//preparation for RNA subtype analysis
 rna_subtypes = Channel.from(params.rna_subtypes
                         .split(','))
 
@@ -380,8 +385,9 @@ workflow peak_generation {
             .mix(split_wig_2_for_peak_height_hist.out.wig_split_reverse)
             .groupTuple()
             .set{combined_wig_for_peak_height_histogram}
+        generate_peak_height_histogram(combined_wig_for_peak_height_histogram
+            .combine(percentile))
 
-        generate_peak_height_histogram(combined_wig_for_peak_height_histogram)
     emit:
         // reports
         report_pureCLIP     = report_pureCLIP
@@ -418,7 +424,8 @@ workflow motif_analysis {
         reference
     main:
         sequence_extraction(peaks
-            .combine(reference))
+            .combine(reference)
+            .combine(percentile))
         if((2*params.seq_len)+1 >= params.min_motif_width){
             motif_search(sequence_extraction.out.extracted_sequences)
         }
@@ -428,7 +435,8 @@ workflow peak_distance_analysis {
     take:
         wig_peaks
     main:
-        calculate_peak_distance(wig_peaks)
+        calculate_peak_distance(wig_peaks
+            .combine(percentile))
         plot_peak_distance(calculate_peak_distance.out)
 }
 workflow igv_session {

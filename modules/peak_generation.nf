@@ -302,9 +302,9 @@ process split_wig_2_for_peak_height_hist {
 
 /*
  * Generates a peak height histogram with a bar showing the percentile cutoff being used by several other analyses
- * Input: Tuple of [STR] experiment name, [WIG] forward cross-link sites and [WIG] reverse cross-link sites
+ * Input: Tuple of [STR] experiment name, [WIG] array of cross-link sites and [FLOAT] percentile being used
  * Params:  params.color_barplot    -> [STR] Hexcode for color of histogram
- *          params.percentile       -> [FLOAT] Percentile used to show the peak height cutoff employed by other analyses
+ *          percentile              -> [FLOAT] Percentile used to show the peak height cutoff employed by other analyses
  * Output: [PNG] Histogram of peak heights  
  */
 process generate_peak_height_histogram {
@@ -312,12 +312,12 @@ process generate_peak_height_histogram {
 	publishDir "${params.output}/peak_height_distribution", mode: 'copy'
 
 	input:
-	tuple val(query), path(forward)
+	tuple val(query), path(forward), val(percentile)
 
 	output:
 	path("${query}.png")
 
 	"""
-	generate-peak-height-histogram.R --input . --output ${query} --type png --color "${params.color_barplot}" --percentile ${params.percentile}
+	generate-peak-height-histogram.R --input . --output ${query} --type png --color "${params.color_barplot}" --percentile ${percentile}
 	"""
 }
