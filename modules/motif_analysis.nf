@@ -22,11 +22,11 @@ process sequence_extraction {
 	if(params.omit_cl_nucleotide == true && params.omit_peak_calling == true)
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
-		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl
+		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl --omit_width ${params.omit_cl_width}
 		"""
 	else if(params.omit_cl_nucleotide == true && params.omit_peak_calling == false)
 		"""
-		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl
+		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl --omit_width ${params.omit_cl_width}
 		"""
 	else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == true)
 		"""

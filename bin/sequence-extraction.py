@@ -24,6 +24,7 @@ parser.add_argument('--length', 		'-l', type=int,				default=20,		help='Number o
 parser.add_argument('--percentile', 	'-p', type=float,			default=90,		help='Percentile used to calculate the cutoff')
 parser.add_argument('--output', 		'-o', type=str,								help='Output file for extracted sequences')
 parser.add_argument('--omit_cl', 		'-u', action='store_true',	default=False,  help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
+parser.add_argument('--omit_width',		'-w', type=int,				default=0,  	help='INT: Allows to omit nucleotides besides the CL site. Only works when --omit_cl is stated.')
 parser.add_argument('--generate_bed', 	'-b', 										help='If used a BED file is generated')
 args = parser.parse_args()
 
@@ -35,12 +36,15 @@ args = parser.parse_args()
 ###################
 ###################
 
-def main(input,reference,length,percentile,output,omit_cl):
+def main(input,reference,length,percentile,output,omit_cl,omit_width):
 	referenceSequences: Dict 	= parse_fasta(reference)
 	extension:			str 	= os.path.splitext(input[0])[1][1:]
 	# Check if all files have the same ending
 	if not all([x.endswith(extension) for x in input]):
 		errx("Input files contain different extensions")
+	# Check if omitted nucleotides don't exceed the total extracted length
+	if args.omit_width >= args.length:
+		errx("Length of omitted nucleotides exceeds the actual length of extracted nucleotides")
 
 	chromosomes: Dict[str,List[Dict[str,str]]] = {}
 	for k in sorted(referenceSequences):
@@ -88,7 +92,7 @@ def main(input,reference,length,percentile,output,omit_cl):
 			sequenceEnd: 	int = position + length
 			sequence:		str = reference_current[sequenceStart:sequenceEnd]
 			if omit_cl == True:
-				sequence = sequence[:length] + 'n' + sequence[length+1:]
+				sequence = sequence[:length - omit_width] + 'n' + ('n' * omit_width * 2) + sequence[length + omit_width + 1:]
 			if 	strand == '-':
 				sequence = sequence.reverse_complement()
 			FASTA_output += '>sequence%s chromosome=%s position=%s strand=%s\n' % (sequenceCounter,chromosome,position,strand)
@@ -134,4 +138,5 @@ main(input=args.input,
 	length=args.length,
 	percentile=args.percentile,
 	output=args.output,
-	omit_cl=args.omit_cl)
+	omit_cl=args.omit_cl,
+	omit_width=args.omit_width)
