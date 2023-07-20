@@ -19,23 +19,25 @@ process sequence_extraction {
 	path("*.extracted-sequences.*"), emit: complete_output, optional: true
 	
 	script:
-	if(params.omit_cl_nucleotide == true && params.omit_peak_calling == true)
+	if(params.omit_cl_nucleotide == true && params.remove_overlaps == true)
+		"""
+		wig2-to-wig.py --input ${query} --output ${query.baseName}
+		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl --omit_width ${params.omit_cl_width} --remove_overlaps
+		"""
+	else if(params.omit_cl_nucleotide == true && params.remove_overlaps == false)
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
 		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl --omit_width ${params.omit_cl_width}
 		"""
-	else if(params.omit_cl_nucleotide == true && params.omit_peak_calling == false)
+	else if(params.omit_cl_nucleotide == false && params.remove_overlaps == true)
 		"""
-		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --omit_cl --omit_width ${params.omit_cl_width}
+		wig2-to-wig.py --input ${query} --output ${query.baseName}
+		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile} --remove_overlaps
 		"""
-	else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == true)
+	else if(params.omit_cl_nucleotide == false && params.remove_overlaps == false)
 		"""
 		wig2-to-wig.py --input ${query} --output ${query.baseName}
 		sequence-extraction.py --input ${query.baseName}*.wig --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile}
-		"""
-	else if(params.omit_cl_nucleotide == false && params.omit_peak_calling == false)
-		"""
-		sequence-extraction.py --input ${query} --reference ${reference} --output ${query.baseName}.extracted-sequences.fasta --length ${params.seq_len} --percentile ${percentile}
 		"""
 }
 
