@@ -7,7 +7,7 @@ LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 RUN apk update && apk add --no-cache bash && \
     apk add python3 --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/main/ --allow-untrusted && \
     apk add py3-numpy --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted && \
-    apk add py3-biopython --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+    apk add py3-biopython --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community/ --allow-untrusted
 
 ADD bin/wig_files_writer.py /usr/local/bin
 ADD bin/sequence-extraction.py /usr/local/bin
