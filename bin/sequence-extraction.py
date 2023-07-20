@@ -24,6 +24,7 @@ parser.add_argument('--length', 		'-l', type=int,				default=20,		help='Number o
 parser.add_argument('--percentile', 	'-p', type=float,			default=90,		help='Percentile used to calculate the cutoff')
 parser.add_argument('--output', 		'-o', type=str,								help='Output file for extracted sequences')
 parser.add_argument('--omit_cl', 		'-u', action='store_true',	default=False,  help='BOOLEAN: If true nucleotide at cross/link site will be omitted')
+parser.add_argument('--remove_overlaps','-v', action='store_true',	default=False,  help='BOOLEAN: ')
 parser.add_argument('--omit_width',		'-w', type=int,				default=0,  	help='INT: Allows to omit nucleotides besides the CL site. Only works when --omit_cl is stated.')
 parser.add_argument('--generate_bed', 	'-b', 										help='If used a BED file is generated')
 args = parser.parse_args()
@@ -36,7 +37,7 @@ args = parser.parse_args()
 ###################
 ###################
 
-def main(input,reference,length,percentile,output,omit_cl,omit_width):
+def main(input,reference,length,percentile,output,omit_cl,remove_overlaps,omit_width):
 	referenceSequences: Dict 	= parse_fasta(reference)
 	extension:			str 	= os.path.splitext(input[0])[1][1:]
 	# Check if all files have the same ending
@@ -66,7 +67,13 @@ def main(input,reference,length,percentile,output,omit_cl,omit_width):
 			for chromosome in file:
 				if not chromosome in chromosomes:
 					errx('Chromosome %s not found in reference' % (chromosome))
-				for position,value in file[chromosome].items():
+				# If remove_overlaps is stated only the highest peaks are used in case of an overlap
+				if remove_overlaps:
+					distance_to_check = length * 2
+					peaks = filter_overlaying_sequences(file[chromosome], distance_to_check)
+				else:
+					peaks = file[chromosome]
+				for position,value in peaks.items():
 					if abs(value) >= cutoff:
 						chromosomes[chromosome].append((int(position),strand))
 
@@ -126,6 +133,28 @@ def bundle_counts(wigFiles):
 					floatCounts = numpy.append(floatCounts, abs(file[chromosome][pos]))
 	return floatCounts
 
+def filter_overlaying_sequences( peaks, distance ):
+	remaining_peaks = {}
+	# Iterate over every peak
+	for position,value in peaks.items():
+		# Get all peaks that are in distance of the current peak; get their values; get the highest value of all peaks around the current one
+		peaks_in_range 		= dict([(key,value) for key, value in peaks.items() if int(key) > int(position) - distance and int(key) < int(position) + distance ])
+		all_values_in_range = [abs(value) for value in peaks_in_range.values()]
+		max_value_in_range 	= max(all_values_in_range)
+		# Only proceed if the current peak is the highest (or among the highest)
+		if abs(value) == max_value_in_range:
+			# If the current peak is the single highest it will be returned
+			if all_values_in_range.count(max_value_in_range) == 1:
+				remaining_peaks[position] = value
+			else:
+				# If none of the surrounding peaks are present in the remaining peak list the current peak is taken
+				#	This is done to rtain as many peaks as possible while still avoiding overlapping sequences
+				if not bool(set(peaks_in_range.keys()) & set(remaining_peaks.keys())):
+					remaining_peaks[position] = value
+
+	return remaining_peaks
+
+
 def errx(message):
     print(message)
     exit(1)
@@ -139,4 +168,5 @@ main(input=args.input,
 	percentile=args.percentile,
 	output=args.output,
 	omit_cl=args.omit_cl,
+	remove_overlaps=args.remove_overlaps,
 	omit_width=args.omit_width)
