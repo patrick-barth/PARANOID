@@ -29,6 +29,7 @@ process deduplicate{
 	publishDir "${params.output}/statistics/PCR-deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
 	tag {query.simpleName}
 	memory { 40.GB + 5.B * query.size() }
+	queue 'chaos'
 
 	input:
 	tuple path(query), path(index)
