@@ -534,6 +534,22 @@ Usage (default):
     --omit_cl_width 0
 
 
+.. _remove-overlaps:
+
+-\-remove_overlaps
+---------------------
+
+Only applies when :ref:`motif detection <motif-detection>` is performed. 
+Removes cross-link sites with lower peak values if their extracted sequence would overlap with the sequence from another cross-link site.
+This can be done to avoid doubled sequences during motif detection.
+
+Usage:
+
+.. code-block:: shell
+    
+    --remove_overlaps
+
+
 .. _max-number-of-motifs:
 
 -\-max_motif_num

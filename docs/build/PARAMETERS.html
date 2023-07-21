@@ -79,6 +79,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#seq-len">--seq_len</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#omit-cl-nucleotide">--omit_cl_nucleotide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#omit-cl-width">--omit_cl_width</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-overlaps">--remove_overlaps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#max-motif-num">--max_motif_num</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#min-motif-width">--min_motif_width</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#max-motif-width">--max_motif_width</a></li>
@@ -519,6 +520,16 @@ Omits nucleotides on both sides of the cross-linking position with an <strong>N<
 </pre></div>
 </div>
 </div>
+<div class="section" id="remove-overlaps">
+<span id="id20"></span><h2>--remove_overlaps<a class="headerlink" href="#remove-overlaps" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Removes cross-link sites with lower peak values if their extracted sequence would overlap with the sequence from another cross-link site.
+This can be done to avoid doubled sequences during motif detection.</p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--remove_overlaps
+</pre></div>
+</div>
+</div>
 <div class="section" id="max-motif-num">
 <span id="max-number-of-motifs"></span><h2>--max_motif_num<a class="headerlink" href="#max-motif-num" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
@@ -529,7 +540,7 @@ Maximum number of motifs that is reported by streme.</p>
 </div>
 </div>
 <div class="section" id="min-motif-width">
-<span id="id20"></span><h2>--min_motif_width<a class="headerlink" href="#min-motif-width" title="Permalink to this heading"></a></h2>
+<span id="id21"></span><h2>--min_motif_width<a class="headerlink" href="#min-motif-width" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Minimum length of motifs reported by streme.
 Cannot be lower than 3</p>
@@ -539,7 +550,7 @@ Cannot be lower than 3</p>
 </div>
 </div>
 <div class="section" id="max-motif-width">
-<span id="id21"></span><h2>--max_motif_width<a class="headerlink" href="#max-motif-width" title="Permalink to this heading"></a></h2>
+<span id="id22"></span><h2>--max_motif_width<a class="headerlink" href="#max-motif-width" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Maximum length of motifs reported by streme.
 Cannot be higher than 30</p>

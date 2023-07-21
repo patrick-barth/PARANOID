@@ -106,11 +106,12 @@ provided as output. All extracted sequences are then used for motif detection vi
 which offers several enriched sequences.
 
 | Associated parameters:
-| :ref:`-\-omit_sequence_extraction <omit-sequence-extraction>` Omits the sequence extarction and motif detection
+| :ref:`-\-omit_sequence_extraction <omit-sequence-extraction>` Omits the sequence extraction and motif detection
 | :ref:`-\-percentile <distance-percentile>`                    Sets threshold for peak values used for this analysis using percentiles 
 | :ref:`-\-seq_len <sequence-extraction-length>`                Nucleotides extracted from each side of a cross link site
 | :ref:`-\-omit_cl_nucleotide <omit-cl-nucleotide>`             Omits the nucleotide at the cross link position
 | :ref:`-\-omit_cl_width <omit-cl-width>`                       Omits the nucleotides surrounding the cross link position
+| :ref:`-\-remove_overlaps <remove-overlaps>`                   Removes overlapping sequences 
 | :ref:`-\-max_motif_num <max-number-of-motifs>`                Maximum number of motifs generated 
 | :ref:`-\-min_motif_width <min-motif-width>`                   Minimum width allowed for motifs
 | :ref:`-\-max_motif_width <max-motif-width>`                   Maximum width allowed for motifs 
