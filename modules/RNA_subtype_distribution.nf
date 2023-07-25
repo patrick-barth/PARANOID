@@ -56,13 +56,13 @@ process get_RNA_subtypes_distribution {
 	tuple val(name), path(query)
 
 	output:
-	path("${name}.subtypes_distribution.tsv"), emit: tsv_subtype_distribution
+	path("${name}.subtype_distribution.tsv"), emit: tsv_subtype_distribution
 	path("${name}.subtype.log"), emit: report_errors, optional: true
 
 	script:
 	subtypes_as_string = subtypes.join(' ')
 	"""
-	calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name}.subtypes_distribution.tsv > ${name}.subtype.log
+	calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name}.subtype_distribution.tsv > ${name}.subtype.log
 	"""
 }
 
