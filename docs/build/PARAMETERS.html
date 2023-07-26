@@ -21,7 +21,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Included Analyses" href="ANALYSES.html" />
-    <link rel="prev" title="Basic usage of PARANOiD" href="BASICUSAGE.html" /> 
+    <link rel="prev" title="Example run" href="EXAMPLE.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,6 +43,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EXAMPLE.html">Example run</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Parameters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#reads">--reads</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#barcodes">--barcodes</a></li>
@@ -77,6 +78,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#omit-sequence-extraction">--omit_sequence_extraction</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#seq-len">--seq_len</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#omit-cl-nucleotide">--omit_cl_nucleotide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#omit-cl-width">--omit_cl_width</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-overlaps">--remove_overlaps</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#max-motif-num">--max_motif_num</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#min-motif-width">--min_motif_width</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#max-motif-width">--max_motif_width</a></li>
@@ -84,7 +87,10 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="REQUIREMENTS.html">Requirements</a></li>
 <li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
 </ul>
 
@@ -500,8 +506,27 @@ A value of 20 will lead to sequences of 41 nucleotides being extracted. (20nt up
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 The nucleotide directly at the cross-linking position will be substituted with an <strong>N</strong> when extracting sequences.
 Can improve the motif detection since iCLIP tends to have a bias towards <strong>U</strong> when cross-linking which can influence the motif search.</p>
-<p>Usage (default):</p>
+<p>Usage:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--omit_cl_nucleotide
+</pre></div>
+</div>
+</div>
+<div class="section" id="omit-cl-width">
+<span id="id19"></span><h2>--omit_cl_width<a class="headerlink" href="#omit-cl-width" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed and the <a class="reference internal" href="#omit-cl-nucleotide"><span class="std std-ref">cl nucleotide is omitted</span></a>.
+Omits nucleotides on both sides of the cross-linking position with an <strong>N</strong> to avoid potential uridine-polymers which can negatively influence the motif search. The number determines the amount of nucleotides on both sides that are to be replaced.</p>
+<p>Usage (default):</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--omit_cl_width <span class="m">0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="remove-overlaps">
+<span id="id20"></span><h2>--remove_overlaps<a class="headerlink" href="#remove-overlaps" title="Permalink to this heading"></a></h2>
+<p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
+Removes cross-link sites with lower peak values if their extracted sequence would overlap with the sequence from another cross-link site.
+This can be done to avoid doubled sequences during motif detection.</p>
+<p>Usage:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>--remove_overlaps
 </pre></div>
 </div>
 </div>
@@ -515,7 +540,7 @@ Maximum number of motifs that is reported by streme.</p>
 </div>
 </div>
 <div class="section" id="min-motif-width">
-<span id="id19"></span><h2>--min_motif_width<a class="headerlink" href="#min-motif-width" title="Permalink to this heading"></a></h2>
+<span id="id21"></span><h2>--min_motif_width<a class="headerlink" href="#min-motif-width" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Minimum length of motifs reported by streme.
 Cannot be lower than 3</p>
@@ -525,7 +550,7 @@ Cannot be lower than 3</p>
 </div>
 </div>
 <div class="section" id="max-motif-width">
-<span id="id20"></span><h2>--max_motif_width<a class="headerlink" href="#max-motif-width" title="Permalink to this heading"></a></h2>
+<span id="id22"></span><h2>--max_motif_width<a class="headerlink" href="#max-motif-width" title="Permalink to this heading"></a></h2>
 <p>Only applies when <a class="reference internal" href="ANALYSES.html#motif-detection"><span class="std std-ref">motif detection</span></a> is performed.
 Maximum length of motifs reported by streme.
 Cannot be higher than 30</p>
@@ -540,7 +565,7 @@ Cannot be higher than 30</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="BASICUSAGE.html" class="btn btn-neutral float-left" title="Basic usage of PARANOiD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="EXAMPLE.html" class="btn btn-neutral float-left" title="Example run" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="ANALYSES.html" class="btn btn-neutral float-right" title="Included Analyses" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

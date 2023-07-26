@@ -512,11 +512,42 @@ Only applies when :ref:`motif detection <motif-detection>` is performed.
 The nucleotide directly at the cross-linking position will be substituted with an **N** when extracting sequences.  
 Can improve the motif detection since iCLIP tends to have a bias towards **U** when cross-linking which can influence the motif search.
 
-Usage (default):
+Usage:
 
 .. code-block:: shell
     
     --omit_cl_nucleotide
+
+
+.. _omit-cl-width:
+
+-\-omit_cl_width
+---------------------
+
+Only applies when :ref:`motif detection <motif-detection>` is performed and the :ref:`cl nucleotide is omitted <omit-cl-nucleotide>`.
+Omits nucleotides on both sides of the cross-linking position with an **N** to avoid potential uridine-polymers which can negatively influence the motif search. The number determines the amount of nucleotides on both sides that are to be replaced.
+
+Usage (default):
+
+.. code-block:: shell
+    
+    --omit_cl_width 0
+
+
+.. _remove-overlaps:
+
+-\-remove_overlaps
+---------------------
+
+Only applies when :ref:`motif detection <motif-detection>` is performed. 
+Removes cross-link sites with lower peak values if their extracted sequence would overlap with the sequence from another cross-link site.
+This can be done to avoid doubled sequences during motif detection.
+
+Usage:
+
+.. code-block:: shell
+    
+    --remove_overlaps
 
 
 .. _max-number-of-motifs:
