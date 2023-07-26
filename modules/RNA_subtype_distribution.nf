@@ -45,6 +45,7 @@ process feature_counts {
  *			Tuple of [STR] Sample name and [TSV] several lists describing assignment to RNA subtypes 
  * Output: 	tsv_subtype_distribution 	-> [TSV] Distribution of peaks to all RNA subtypes  
  *			report_errors 				-> [LOG] Report for RNA subtype distribution
+ *			tsv_ambiguous_peaks			-> [TSV] Composition of peaks being marked as ambiguous
  */
 process get_RNA_subtypes_distribution {
 	tag {name}
@@ -58,11 +59,12 @@ process get_RNA_subtypes_distribution {
 	output:
 	path("${name}.subtype_distribution.tsv"), emit: tsv_subtype_distribution
 	path("${name}.subtype.log"), emit: report_errors, optional: true
+	path("${name}.ambiguous.tsv"), emit: tsv_ambiguous_peaks, optional: true
 
 	script:
 	subtypes_as_string = subtypes.join(' ')
 	"""
-	calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name}.subtype_distribution.tsv > ${name}.subtype.log
+	calc-RNA-subtypes-distribution.py --input ${query} --rna_subtypes ${subtypes_as_string} --output ${name} --report_ambiguous > ${name}.subtype.log
 	"""
 }
 

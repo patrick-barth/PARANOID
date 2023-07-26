@@ -9,9 +9,10 @@ from typing import Dict,Any,List
 #####################################################
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input', 			'-i', 	nargs='+', 	help='Input file')
-parser.add_argument('--rna_subtypes',	'-r',	nargs='+',	help='All RNA subtypes to be included')
-parser.add_argument('--output', 		'-o', 				help='Output file')
+parser.add_argument('--input', 				'-i', 	nargs='+', 								help='Input file')
+parser.add_argument('--rna_subtypes',		'-r',	nargs='+',								help='All RNA subtypes to be included')
+parser.add_argument('--report_ambiguous',	'-a',	action='store_true',	default=False,	help='Reports distribution of ambiguous reads')
+parser.add_argument('--output', 			'-o', 											help='Output file')
 args = parser.parse_args()
 
 #######################
@@ -35,7 +36,7 @@ args = parser.parse_args()
 ###################
 ###################
 
-def main(input,rna_subtypes,output):
+def main(input,rna_subtypes,report_ambiguous,output):
 	samples_collected = {}
 
 	# iterate through every file given as input (one file per RNA subtype)
@@ -64,9 +65,16 @@ def main(input,rna_subtypes,output):
 					samples_collected[read_name][rna_of_current_file]: bool = True
 
 	# initiate dictionary to count how many reads are assigned to which subtypes
-	rna_subtypes_counts: Dict[str,int] = {}
+	rna_subtypes_counts: Dict[str,int] 				= {}
+	# initiate dict to show the composition of ambiguous reads
+	ambiguous_explanation: Dict[str,Dict[str,int]] 	= {}
 	for subtype in rna_subtypes:
 		rna_subtypes_counts[subtype]: int = 0
+		# Dict for ambiguous reads is only filled if it is actually requested
+		if(report_ambiguous):
+			ambiguous_explanation[subtype] = {}
+			for subtype_a in rna_subtypes:
+				ambiguous_explanation[subtype][subtype_a] = 0
 	read_count: 	int = 0
 	not_assigned: 	int = 0
 	ambiguous: 		int = 0
@@ -83,6 +91,14 @@ def main(input,rna_subtypes,output):
 		elif 	number_of_assignments >= 2:
 			# IF it will be necessary to adapt the script to split the amounts of multimapped reads: here would probably the best part to implement it
 			ambiguous += 1
+			# Generates a dictionary that contains information of overlapping RNA subtype assignments
+			if report_ambiguous:
+				for subtype_a,value_a in assignments.items():
+					if value_a:
+						for subtype_b,value_b in assignments.items():
+							if value_b:
+								ambiguous_explanation[subtype_a][subtype_b] += 1
+
 
 	rna_subtypes_counts["not_assigned"]: 	int = not_assigned
 	rna_subtypes_counts["ambiguous"]: 		int = ambiguous
@@ -106,9 +122,18 @@ def main(input,rna_subtypes,output):
 		TSV_string += '\n%s\t%s\t%s' % (current_rna,current_rna_count,current_rna_percentage)
 	TSV_string += '\ntotal\t%s\t%s' % (total_read_count,total_percentage)
 
-	out_file = open(os.path.realpath(output), 'w')
+	out_file = open(os.path.realpath(output + '.subtype_distribution.tsv'), 'w')
 	out_file.write(TSV_string)
 	out_file.close()
+
+	if report_ambiguous:
+		ambiguous_string = '\t' + '\t'.join(ambiguous_explanation.keys())
+		for subtype,values in ambiguous_explanation.items():
+			ambiguous_string += '\n' + subtype + '\t' + '\t'.join([str(values[key]) for key in ambiguous_explanation.keys()])
+
+		out_file = open(os.path.realpath(output + '.ambiguous.tsv'), 'w')
+		out_file.write(ambiguous_string)
+		out_file.close()
 
 #######################
 #######################
@@ -141,5 +166,6 @@ def get_percentage_amount(div,total):
 ##########################
 main(input=args.input,
 	rna_subtypes=args.rna_subtypes,
+	report_ambiguous=args.report_ambiguous,
 	output=args.output)
 
