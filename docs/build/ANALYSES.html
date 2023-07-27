@@ -111,7 +111,8 @@ The preprocessing involves adapter removal, quality filtering, splitting reads a
 <span id="merge-replicates-analysis"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
 <p>Merges several replicates into a single representative version which can be used for publications, posters or presentations.
 This version shows the mean hit count for every position. Additionally, a correlation analysis is performed to give the user
-an evaluation of the sample similarity and therefore a rationale for this analysis.
+an evaluation of the sample similarity and therefore a rationale for this analysis. The correlation is performed on raw cross-link sites
+(or on significant ones in case <a class="reference internal" href="#peak-calling"><span class="std std-ref">peak calling</span></a> is used) via the Pearson correlation.
 Is deactivated by default.</p>
 <div class="line-block">
 <div class="line">Associated parameters:</div>

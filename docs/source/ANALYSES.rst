@@ -29,7 +29,8 @@ Merge replicates
 
 Merges several replicates into a single representative version which can be used for publications, posters or presentations. 
 This version shows the mean hit count for every position. Additionally, a correlation analysis is performed to give the user 
-an evaluation of the sample similarity and therefore a rationale for this analysis.
+an evaluation of the sample similarity and therefore a rationale for this analysis. The correlation is performed on raw cross-link sites
+(or on significant ones in case :ref:`peak calling <peak-calling>` is used) via the Pearson correlation.
 Is deactivated by default.
 
 | Associated parameters:
