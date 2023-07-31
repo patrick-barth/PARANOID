@@ -383,9 +383,11 @@ Usage (default):
 -\-gene_id
 ----------
 
-Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
-Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
-The column looks similar to this ``ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true``. In this case the tag necessary is `ID`.
+| Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
+| Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
+| The column looks similar to this: 
+| ``ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true``
+| In this case the tag necessary is `ID`.
 
 Usage (default):
 
