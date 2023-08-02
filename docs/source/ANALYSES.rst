@@ -21,7 +21,9 @@ The preprocessing involves adapter removal, quality filtering, splitting reads a
 
     Associated parameters (alignment & cross link site determination)
     :ref:`-\-domain <domain>`                   States if Bowtie2 or STAR is being used as aligner
-    :ref:`-\-mapq <mapq>`                     Minimum MAPQ score for alignments necessary to retain 
+    :ref:`-\-mapq <mapq>`                     Minimum MAPQ score for alignments necessary to retain
+    :ref:`-\-max_alignments <max-alignments>`           Maximum number of alignments provided by the mapping tool
+    :ref:`-\-report_all_alignments <report-all-alignments>`    Reports all possible alignments (might be filtered out later on) 
 
 .. _merge-replicates-analysis:
 

@@ -139,6 +139,32 @@ Usage (default):
 
     --domain pro 
 
+.. _max-alignments:
+
+-\-max_alignments
+-----------------
+
+Maximum number of alignments the mapping tool provides per read. It is not guaranteed that this many alignments are found per read.
+If you want to find as many alignments as possible please use the parameter :ref:`--report_all_alignments <report-all-alignments>`
+
+Usage (default):
+
+.. code-block:: shell
+
+    --max_alignments 1 
+
+.. _report-all-alignments:
+
+-\-report_all_alignments
+------------------------
+
+If used the mapping tools will report all alignments rather than a few. Overwrites the option :ref:`--max_alignments <max-alignments>`
+
+Usage:
+
+.. code-block:: shell
+
+    --report_all_alignments
 
 .. _output-dir:
 
