@@ -35,9 +35,15 @@ process mapping_bowtie{
 	path "${query.baseName}.bam", emit: bam_alignments
 	path "${query.simpleName}.statistics.txt", emit: report_alignments
 
-	"""
-	bowtie2 --no-unal -q -p ${task.cpus} -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
-	"""
+	script:
+	if(params.report_all_alignments)
+		"""
+		bowtie2 --no-unal -q -a -p ${task.cpus} --seed 0 -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
+		"""
+	else
+		"""
+		bowtie2 --no-unal -q -k ${params.max_alignments} -p ${task.cpus} --seed 0 -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
+		"""
 }
 
 /*
@@ -86,9 +92,15 @@ process mapping_STAR{
 	path("${query.baseName}.Aligned.sortedByCoord.out.bam"), emit: bam_alignments
 	path("${query.baseName}.Log.*"), emit: report_alignments
 
-	"""
-	STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}. --alignEndsType Extend5pOfRead1 --outSAMtype BAM SortedByCoordinate
-	"""
+	script:
+	if(params.report_all_alignments)
+		"""
+		STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}. --alignEndsType Extend5pOfRead1 --outSAMmultNmax -1 --outSAMtype BAM SortedByCoordinate
+		"""
+	else
+		"""
+		STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}. --alignEndsType Extend5pOfRead1 --outSAMmultNmax ${params.max_alignments} --outSAMtype BAM SortedByCoordinate
+		"""
 }
 
 /*
