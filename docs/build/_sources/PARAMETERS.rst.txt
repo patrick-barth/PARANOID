@@ -139,6 +139,32 @@ Usage (default):
 
     --domain pro 
 
+.. _max-alignments:
+
+-\-max_alignments
+-----------------
+
+Maximum number of alignments the mapping tool provides per read. It is not guaranteed that this many alignments are found per read.
+If you want to find as many alignments as possible please use the parameter :ref:`--report_all_alignments <report-all-alignments>`
+
+Usage (default):
+
+.. code-block:: shell
+
+    --max_alignments 1 
+
+.. _report-all-alignments:
+
+-\-report_all_alignments
+------------------------
+
+If used the mapping tools will report all alignments rather than a few. Overwrites the option :ref:`--max_alignments <max-alignments>`
+
+Usage:
+
+.. code-block:: shell
+
+    --report_all_alignments
 
 .. _output-dir:
 
@@ -383,9 +409,11 @@ Usage (default):
 -\-gene_id
 ----------
 
-Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
-Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
-The column looks similar to this ``ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true``. In this case the tag necessary is `ID`.
+| Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
+| Wording of the tag that describes the gene ID. Is found in the last column of annotation files, typically as the first tag-value pair.
+| The column looks similar to this: 
+| ``ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true``
+| In this case the tag necessary is `ID`.
 
 Usage (default):
 

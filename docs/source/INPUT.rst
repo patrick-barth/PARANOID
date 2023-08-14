@@ -17,10 +17,11 @@ Reads
 
 Example:
 
-1. @SEQ_ID
-2. GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
-3. \+
-4. !''*((((***+))%%%++)(%%%%).1***-+*''))**55CCF>>>>>>CCCCCCC65
+.. parsed-literal::
+    1. @SEQ_ID
+    2. GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
+    3. \+
+    4. !''*((((***+))%%%++)(%%%%).1***-+*''))**55CCF>>>>>>CCCCCCC65
 
 
 .. _barcodes:
@@ -39,12 +40,13 @@ Barcodes
 
 Example:
 
-| knockdown_N_rep_1    TGATAG 
-| knockdown_N_rep_2    AGTGGA 
-| knockdown_N_rep_3    GCTCGA 
-| mock_N_rep_1    TAAGTA 
-| mock_N_rep_2    GCAGTC 
-| mock_N_rep_3    CCTAGG
+.. parsed-literal::
+    knockdown_N_rep_1    TGATAG 
+    knockdown_N_rep_2    AGTGGA 
+    knockdown_N_rep_3    GCTCGA 
+    mock_N_rep_1    TAAGTA 
+    mock_N_rep_2    GCAGTC 
+    mock_N_rep_3    CCTAGG
 
 .. _reference:
 
@@ -60,12 +62,13 @@ The sequence consists of nucleotides ``{ACGTN}`` and can span an arbitrary amoun
 
 Example:
 
->NW_024429180.1 Mesocricetus auratus isolate SY011 unplaced genomic scaffold
-AACTCTGTTGtaaaaaggctttcccacattcattcCATTCATAAGGTTTCTGTACATTATGGATTCTTTCATGCCTTTTA
-AGATGATTATGATATACATAGACTTTAACACCTCAAGAATAttcaggtttctctccagtatgacaATTTGGTCTAATTAT
-AAAGAAGAATCAGATATTAAGGTTTTATCACTGTTTACACTCATGCTGTTCCCCTTCATTAAGGTTGGTTTGGATCTTTG
-AATATACCTGGGTTCCTATAGTCTCCACCATCACATCTTTATGGAGATTCTTCTGGGAGGGATCCAGCAAATCCCACTCT
-\.\.\.
+.. parsed-literal::
+    >NW_024429180.1 Mesocricetus auratus isolate SY011 unplaced genomic scaffold
+    AACTCTGTTGtaaaaaggctttcccacattcattcCATTCATAAGGTTTCTGTACATTATGGATTCTTTCATGCCTTTTA
+    AGATGATTATGATATACATAGACTTTAACACCTCAAGAATAttcaggtttctctccagtatgacaATTTGGTCTAATTAT
+    AAAGAAGAATCAGATATTAAGGTTTTATCACTGTTTACACTCATGCTGTTCCCCTTCATTAAGGTTGGTTTGGATCTTTG
+    AATATACCTGGGTTCCTATAGTCTCCACCATCACATCTTTATGGAGATTCTTCTGGGAGGGATCCAGCAAATCCCACTCT
+    \.\.\.
 
 .. _annotation:
 
@@ -91,13 +94,14 @@ Header lines start with a ``#`` and contain general information about the annota
 
 Example:
 
-| ##gff-version 3 
-| #!gff-spec-version 1.21 
-| #!processor NCBI annotwriter 
-| #!genome-build BCM_Maur_2.0 
-| #!genome-build-accession NCBI_Assembly:GCF_017639785.1 
-| #!annotation-source NCBI Mesocricetus auratus Annotation Release 103 
-| ##sequence-region NW_024429180.1 1 52462669 
-| ##species \https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10036
-| NW_024429180.1	RefSeq	region	1	52462669	.	+	.	ID=NW_024429180.1:1..52462669;Dbxref=taxon:10036;Name=Unknown;chromosome=Unknown;dev-stage=adult;gbkey=Src;genome=genomic;isolate=SY011;mol_type=genomic DNA;sex=female;tissue-type=liver 
-| NW_024429180.1	Gnomon	pseudogene	37366	38359	.	+	.	ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true
+.. parsed-literal::
+    ##gff-version 3 
+    #!gff-spec-version 1.21 
+    #!processor NCBI annotwriter 
+    #!genome-build BCM_Maur_2.0 
+    #!genome-build-accession NCBI_Assembly:GCF_017639785.1 
+    #!annotation-source NCBI Mesocricetus auratus Annotation Release 103 
+    ##sequence-region NW_024429180.1 1 52462669 
+    ##species \https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10036
+    NW_024429180.1	RefSeq	region	1	52462669	.	+	.	ID=NW_024429180.1:1..52462669;Dbxref=taxon:10036;Name=Unknown;chromosome=Unknown;dev-stage=adult;gbkey=Src;genome=genomic;isolate=SY011;mol_type=genomic DNA;sex=female;tissue-type=liver 
+    NW_024429180.1	Gnomon	pseudogene	37366	38359	.	+	.	ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true
