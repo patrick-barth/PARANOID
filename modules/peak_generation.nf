@@ -205,11 +205,18 @@ process calc_wig_correlation{
 
     script:
     String[] test_size = query
-    """
-    if [[ ${test_size.size()} > 1 ]]; then
-        wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png
-    fi
-    """
+    if(params.combine_strands_correlation)
+        """
+        if [[ ${test_size.size()} > 2 ]]; then
+            wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png --both_strands
+        fi
+        """
+    else
+        """
+        if [[ ${test_size.size()} > 1 ]]; then
+            wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png
+        fi
+        """
 }
 
 /*
