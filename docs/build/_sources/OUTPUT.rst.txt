@@ -38,18 +38,67 @@ Example:
     NB501399:129:HLW7VAFX2:1:21211:6880:4260_CCACAACTC      272     1       15923   0       1S25M659N10M    *       0       0       GACCACTTCCCTGGGAGCTCCCTGGACTGAAGGAGA    AEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE    NH:i:7  HI:i:3  AS:i:35 nM:i:0
 
 
-.. _output-cross-link-sites:
+.. _output-cross-link-sites-peak-called:
 
-Cross link sites
-----------------
+Cross link sites peak called
+----------------------------
 
 .. _output-cross-link-sites-raw:
 
 Raw cross link sites
 --------------------
 
-Directory that contains unmodified cross-link sites with all background noise remaining. Cross-link sites are provided in 3 different formats, which are separated in one directory each; ``WIG``, ``BIGWIG`` and ``BEDGRAPH``.
+Directory that contains unmodified cross-link sites with all background noise remaining. Cross-link sites are provided in 3 different formats, which are separated in one directory each; ``WIG``, ``BIGWIG`` and ``BEDGRAPH``. Each format represents the same data.
 Is included in the :ref:`basic analysis <basic-analysis>`.
+
+WIG (Wiggle)
+^^^^^^^^^^^^
+Format to represent genome-wide coverage that consists of one line per reference chromosome with the coverage listed below each in a tab separated manner.
+Column 1 represents the position while column 2 represents the coverage at the current position.
+For each sample 2 WIG files are generated - one representing cross-link events on the forward ond one on the reverse string which can be distinguished by the name. The amount of cross-link events on the reverse strand is displayed as negative.
+
+.. parsed-literal::
+    variableStep chrom=reference_1 span=1
+    2815    1.0
+    3726    1.0
+    3895    1.0
+    6201    1.0
+    6367    1.0
+    variableStep chrom=reference_2 span=1
+    22  1.0
+    31  1.0
+    66  1.0
+    80  1.0
+
+
+BIGWIG
+^^^^^^
+An extension of the previously mentioned WIG format. While WIG uses plain text BIGWIG uses a binary format to store the data, reducing the file size. Therefore, accessing the data requires specialized software such as the IGV. 
+
+BEDGRAPH
+^^^^^^^^
+Similar format to WIG or BIGWIG. BEDGRAPH files consist of 4 columns:
+1. The chromosome name
+2. The start position of the described events
+3. The end position of the described events (for PARANOiD this is the position of the actual cross-link event)
+4. Coverage of currently described event
+
+.. parsed-literal::
+    DQ375404.1	2814	2815	1
+    DQ375404.1	3725	3726	1
+    DQ375404.1	3894	3895	1
+    DQ375404.1	6200	6201	1
+    DQ375404.1	6366	6367	1
+    DQ380154.1	21	22	1
+    DQ380154.1	30	31	1
+    DQ380154.1	65	66	1
+    DQ380154.1	79	80	1
+
+Visualization with IGV
+^^^^^^^^^^^^^^^^^^^^^^
+All provided file types can be easily visualized via the `Integrative Genomics Viewer (IGV) <https://software.broadinstitute.org/software/igv/>`_.
+To do so first the reference sequences need to be loaded into IGV. This is done by clicking on the tab called *Genomes* - which is located on the top left corner - and then choose the origin of the reference genome.
+
 
 .. _output-cross-link-sites-merged:
 

@@ -47,8 +47,14 @@
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Outputs</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#alignments">Alignments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cross-link-sites">Cross link sites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#raw-cross-link-sites">Raw cross link sites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cross-link-sites-peak-called">Cross link sites peak called</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#raw-cross-link-sites">Raw cross link sites</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#wig-wiggle">WIG (Wiggle)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bigwig">BIGWIG</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bedgraph">BEDGRAPH</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#visualization-with-igv">Visualization with IGV</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#cross-link-sites-merged">Cross link sites merged</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#execution-metrics">Execution metrics</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#igv-session">IGV-session</a></li>
@@ -119,13 +125,60 @@ The information shown by the columns go as follows:
 </pre></div>
 </div>
 </div>
-<div class="section" id="cross-link-sites">
-<span id="output-cross-link-sites"></span><h2>Cross link sites<a class="headerlink" href="#cross-link-sites" title="Permalink to this heading"></a></h2>
+<div class="section" id="cross-link-sites-peak-called">
+<span id="output-cross-link-sites-peak-called"></span><h2>Cross link sites peak called<a class="headerlink" href="#cross-link-sites-peak-called" title="Permalink to this heading"></a></h2>
 </div>
 <div class="section" id="raw-cross-link-sites">
 <span id="output-cross-link-sites-raw"></span><h2>Raw cross link sites<a class="headerlink" href="#raw-cross-link-sites" title="Permalink to this heading"></a></h2>
-<p>Directory that contains unmodified cross-link sites with all background noise remaining. Cross-link sites are provided in 3 different formats, which are separated in one directory each; <code class="docutils literal notranslate"><span class="pre">WIG</span></code>, <code class="docutils literal notranslate"><span class="pre">BIGWIG</span></code> and <code class="docutils literal notranslate"><span class="pre">BEDGRAPH</span></code>.
+<p>Directory that contains unmodified cross-link sites with all background noise remaining. Cross-link sites are provided in 3 different formats, which are separated in one directory each; <code class="docutils literal notranslate"><span class="pre">WIG</span></code>, <code class="docutils literal notranslate"><span class="pre">BIGWIG</span></code> and <code class="docutils literal notranslate"><span class="pre">BEDGRAPH</span></code>. Each format represents the same data.
 Is included in the <a class="reference internal" href="ANALYSES.html#basic-analysis"><span class="std std-ref">basic analysis</span></a>.</p>
+<div class="section" id="wig-wiggle">
+<h3>WIG (Wiggle)<a class="headerlink" href="#wig-wiggle" title="Permalink to this heading"></a></h3>
+<p>Format to represent genome-wide coverage that consists of one line per reference chromosome with the coverage listed below each in a tab separated manner.
+Column 1 represents the position while column 2 represents the coverage at the current position.
+For each sample 2 WIG files are generated - one representing cross-link events on the forward ond one on the reverse string which can be distinguished by the name. The amount of cross-link events on the reverse strand is displayed as negative.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">variableStep</span> <span class="n">chrom</span><span class="o">=</span><span class="n">reference_1</span> <span class="n">span</span><span class="o">=</span><span class="mi">1</span>
+<span class="mi">2815</span>    <span class="mf">1.0</span>
+<span class="mi">3726</span>    <span class="mf">1.0</span>
+<span class="mi">3895</span>    <span class="mf">1.0</span>
+<span class="mi">6201</span>    <span class="mf">1.0</span>
+<span class="mi">6367</span>    <span class="mf">1.0</span>
+<span class="n">variableStep</span> <span class="n">chrom</span><span class="o">=</span><span class="n">reference_2</span> <span class="n">span</span><span class="o">=</span><span class="mi">1</span>
+<span class="mi">22</span>  <span class="mf">1.0</span>
+<span class="mi">31</span>  <span class="mf">1.0</span>
+<span class="mi">66</span>  <span class="mf">1.0</span>
+<span class="mi">80</span>  <span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="bigwig">
+<h3>BIGWIG<a class="headerlink" href="#bigwig" title="Permalink to this heading"></a></h3>
+<p>An extension of the previously mentioned WIG format. While WIG uses plain text BIGWIG uses a binary format to store the data, reducing the file size. Therefore, accessing the data requires specialized software such as the IGV.</p>
+</div>
+<div class="section" id="bedgraph">
+<h3>BEDGRAPH<a class="headerlink" href="#bedgraph" title="Permalink to this heading"></a></h3>
+<p>Similar format to WIG or BIGWIG. BEDGRAPH files consist of 4 columns:
+1. The chromosome name
+2. The start position of the described events
+3. The end position of the described events (for PARANOiD this is the position of the actual cross-link event)
+4. Coverage of currently described event</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DQ375404</span><span class="mf">.1</span>  <span class="mi">2814</span>    <span class="mi">2815</span>    <span class="mi">1</span>
+<span class="n">DQ375404</span><span class="mf">.1</span>  <span class="mi">3725</span>    <span class="mi">3726</span>    <span class="mi">1</span>
+<span class="n">DQ375404</span><span class="mf">.1</span>  <span class="mi">3894</span>    <span class="mi">3895</span>    <span class="mi">1</span>
+<span class="n">DQ375404</span><span class="mf">.1</span>  <span class="mi">6200</span>    <span class="mi">6201</span>    <span class="mi">1</span>
+<span class="n">DQ375404</span><span class="mf">.1</span>  <span class="mi">6366</span>    <span class="mi">6367</span>    <span class="mi">1</span>
+<span class="n">DQ380154</span><span class="mf">.1</span>  <span class="mi">21</span>      <span class="mi">22</span>      <span class="mi">1</span>
+<span class="n">DQ380154</span><span class="mf">.1</span>  <span class="mi">30</span>      <span class="mi">31</span>      <span class="mi">1</span>
+<span class="n">DQ380154</span><span class="mf">.1</span>  <span class="mi">65</span>      <span class="mi">66</span>      <span class="mi">1</span>
+<span class="n">DQ380154</span><span class="mf">.1</span>  <span class="mi">79</span>      <span class="mi">80</span>      <span class="mi">1</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="visualization-with-igv">
+<h3>Visualization with IGV<a class="headerlink" href="#visualization-with-igv" title="Permalink to this heading"></a></h3>
+<p>All provided file types can be easily visualized via the <a class="reference external" href="https://software.broadinstitute.org/software/igv/">Integrative Genomics Viewer (IGV)</a>.
+To do so first the reference sequences need to be loaded into IGV. This is done by clicking on the tab called <em>Genomes</em> - which is located on the top left corner - and then choose the origin of the reference genome.</p>
+</div>
 </div>
 <div class="section" id="cross-link-sites-merged">
 <span id="output-cross-link-sites-merged"></span><h2>Cross link sites merged<a class="headerlink" href="#cross-link-sites-merged" title="Permalink to this heading"></a></h2>
