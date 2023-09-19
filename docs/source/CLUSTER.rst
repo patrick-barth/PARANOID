@@ -1,3 +1,5 @@
+.. _section-cluster:
+
 Cluster usage
 =============
 
