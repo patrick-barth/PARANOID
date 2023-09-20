@@ -11,6 +11,7 @@ Welcome to PARANOiD's documentation!
    Parameters <PARAMETERS>
    Analyses <ANALYSES>
    Outputs <OUTPUT>
+   Files <FILES>
    Container Usage <CONTAINER>
    Cluster Usage <CLUSTER>
    Additional scripts <ADDITIONAL_SCRIPTS>
