@@ -42,10 +42,16 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Example run</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example run</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#download-test-data">Download test data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run-paranoid-on-test-data">Run PARANOiD on test data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#output">Output</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FILES.html">Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
@@ -78,8 +84,70 @@
            <div itemprop="articleBody">
              
   <div class="section" id="example-run">
-<h1>Example run<a class="headerlink" href="#example-run" title="Permalink to this heading"></a></h1>
-<p>Test run with example data.</p>
+<span id="section-example-run"></span><h1>Example run<a class="headerlink" href="#example-run" title="Permalink to this heading"></a></h1>
+<p>This page shows the minimal execution of PARANOiD on example data.</p>
+<div class="section" id="download-test-data">
+<span id="subsection-example-download-data"></span><h2>Download test data<a class="headerlink" href="#download-test-data" title="Permalink to this heading"></a></h2>
+<p>The example files consist of 2 different experiments and can be downloaded from Zenodo via following link:
+<a class="reference external" href="https://zenodo.org/record/7733740">https://zenodo.org/record/7733740</a></p>
+<p>Alternatively they can be downloaded using the CLI with following commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>RVFV sample:
+curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv&quot;</span> -o barcodes-RVFV.tsv
+curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz&quot;</span> -o virion-reads-M-fragment-only.fastq.gz
+curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span> -o reference_RVFV.fasta.gz
+gzip -d reference_RVFV.fasta.gz
+gzip -d virion-reads-M-fragment-only.fastq.gz
+
+BHK sample:
+curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-BHK.tsv&quot;</span> -o barcodes-BHK.tsv
+curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz&quot;</span> -o BHK-reads-M-fragment-only.fastq.gz
+curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span> -o reference_RVFV.fasta.gz
+gzip -d reference_RVFV.fasta.gz
+gzip -d BHK-reads-M-fragment-only.fastq.gz
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-paranoid-on-test-data">
+<span id="subsection-example-execute"></span><h2>Run PARANOiD on test data<a class="headerlink" href="#run-paranoid-on-test-data" title="Permalink to this heading"></a></h2>
+<p>To automatically download and then execute PARANOiD the following commands can be used:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>RVFV sample:
+nextflow run patrick-barth/PARANOiD -r main --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+
+BHK sample:
+nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+</pre></div>
+</div>
+<p>In case the resource
+To manually download and execute PARANOiD following commands can be used:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:patrick-barth/PARANOID.git
+
+RVFV sample:
+nextflow PARANOID/main.nf --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+
+BHK sample:
+nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+</pre></div>
+</div>
+<p>If another container execution system is to be used then <cite>podman</cite> can be displaced with <cite>singularity</cite> or <cite>docker</cite> as described <a class="reference internal" href="CONTAINER.html#section-container"><span class="std std-ref">here</span></a>.
+If the jobs are supposed to be distributed to a cluster the distribution system can be added to the profile argument as described <a class="reference internal" href="CLUSTER.html#section-cluster"><span class="std std-ref">here</span></a>.
+Please note that without distributing jobs to a cluster all processes will be calculated locally.
+This currently uses a minimum of 8 cores and 100 GB memory which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.</p>
+</div>
+<div class="section" id="output">
+<span id="subsection-example-output"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
+<p>The minimal execution of PARANOiD only includes the <a class="reference internal" href="ANALYSES.html#basic-analysis"><span class="std std-ref">basic analysis</span></a> and should provide the following outputs if executed correctly:</p>
+<ol class="arabic simple">
+<li><p>Directory containing alignments</p></li>
+<li><p>Raw cross-link sites</p></li>
+<li><p>Execution metrics</p></li>
+<li><p>An IGV session</p></li>
+<li><p>Distribution of peak heights</p></li>
+<li><p>The reference sequence used for the run</p></li>
+<li><p>Statistics and reports of the run and several processes</p></li>
+<li><p>Strand distributions</p></li>
+</ol>
+<p>More detailed information about the output files can be found <a class="reference internal" href="OUTPUT.html#section-output"><span class="std std-ref">here</span></a>.</p>
+</div>
 </div>
 
 

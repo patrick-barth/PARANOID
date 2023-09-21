@@ -1,3 +1,5 @@
+.. _section-output:
+
 PARANOiD Outputs
 ================
 
