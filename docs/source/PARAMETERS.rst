@@ -1,3 +1,5 @@
+.. _section-parameters:
+
 PARANOiD Parameters
 ===================
 

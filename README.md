@@ -66,4 +66,74 @@ Formats: GFF GTF
 --annotation annotation_file.gff
 ```
 
-For more detailed descriptions of input files, parameters and implemented anaylses please visit the [Read the Docs manual](https://paranoid.readthedocs.io/en/readthedocs/)
+
+## Tools used in this workflow 
+
+This section shows all tools and their versions required by PARANOiD.
+However, Docker containers are provided for every step and it is highly recommended to use them instead. This way only a Nextflow installation and the [according container software](#container-usage) 
+are required. Currently supported are Docker, Podman and Singularity. 
+
+### Essential
+
+These tools are essential to run PARANOiD
+
+| Tool     | Version      |
+|----------|--------------|
+| Nextflow | 23.04.1.5866 |
+
+### Non-essential
+
+These tools are only required when running PARANOiD without the provided containers. However, running PARANOiD this way is not recommended.
+
+| Tool				| Version	| Note																|
+|-------------------|-----------|-------------------------------------------------------------------|
+| FastQC			| 0.11.9	|																	|
+| Cutadapt			| 4.2		|																	|
+| Trim_Galore		| 0.6.7		|																	|
+| fastx_toolkit		| 0.0.14	|																	|
+| umi_tools			| 1.1.4		|																	|
+| Python			| 3.11		|																	|
+| Samtools			| 1.16.1	|																	|
+| Bamtools			| 2.5.2		|																	|
+| wigToBigWig		| 2.9		|																	|
+| bigWigToBedGraph	|			|																	|
+| Bowtie2			| 2.5.1		| Only when using --domain pro or running the transcript analysis	|
+| STAR				| 2.7.10b	| Only when using --domain eu										|
+| subread			| 2.0.3		|																	|
+| pureCLIP			| 1.3.1		| Only when using peak calling										|
+| multiqc			| 1.13		|																	|
+| pysam				| 0.19.1	|																	|
+| R					| 4.0.3		|																	|
+| optparse			|			| R package															|
+| wig				|			| R package															|
+| reshape2			|			| R package															|
+| ggplot2			|			| R package															|
+| numpy				|			| Python package													|
+| biopython			|			| Python package													|
+| ggf3sort.pl		| 1.0.0		| Only when providing an [annotation file](#annotation)				|
+| bgzip				| 1.16		| Only when providing an [annotation file](#annotation)				|
+| tabix				| 1.16		| Only when providing an [annotation file](#annotation)				|
+| meme				| 5.4.1		| Only when using motif detection									|
+
+## Container usage
+
+Containers offer an environment that is separated from your current working environment while providing all tools and dependencies in their correct version necessary to execute a specific task.
+This highly reduces the software a user needs to install and lessens the error potential that comes from installing wrong versions, contributing to the reproducibility of the results. Therefore,
+it is highly recommended to use containers when running PARANOiD.
+Currently supported are Docker, Podman and Singularity. They can be used by adding the following at the end of the command line command:
+
+### Use Docker
+```
+-profile docker
+```
+### Use Podman
+```
+-profile podman
+```
+### Use Singularity
+```
+-profile singularity
+```
+
+
+For more detailed descriptions of input files, parameters and implemented analyses please visit the [Read the Docs manual](https://paranoid.readthedocs.io/en/readthedocs/)
