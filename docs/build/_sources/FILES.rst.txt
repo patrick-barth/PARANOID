@@ -6,17 +6,17 @@ Files present in PARANOiD
 This is an overview of the files and directories that come with PARANOiD.
 
 1. :ref:`bin <subsection-files-bin>`
-2. dockerfiles
-3. docs
-4. modules
-5. build_docker.sh
-6. featuretypes-from-gtfgff.awk
-7. LICENSE
-8. LICENSE.pybam
-9. main.nf
-10. PARANOiD-deprecated-DSL1.nf
-11. pull_images.sh
-12. README.md
+2. :ref:`dockerfiles <subsection-files-dockerfiles>`
+3. :ref:`docs <subsection-files-docs>`
+4. :ref:`modules <subsection-files-modules>`
+5. :ref:`build_docker.sh <subsection-files-build-docker>`
+6. :ref:`featuretypes-from-gtfgff.awk <subsection-files-featuretypes-from-gffgtf>`
+7. :ref:`LICENSE <subsection-files-license>`
+8. :ref:`LICENSE.pybam <subsection-files-license-pybam>`
+9. :ref:`main.nf <subsection-files-main>`
+10. :ref:`PARANOiD-deprecated-DSL1.nf <subsection-files-paranoid-dsl1>`
+11. :ref:`pull_images.sh <subsection-files-pull-images>`
+12. :ref:`README.md <subsection-files-readme>`
 
 .. _subsection-files-bin:
 

@@ -91,14 +91,14 @@
 <p>The example files consist of 2 different experiments and can be downloaded from Zenodo via following link:
 <a class="reference external" href="https://zenodo.org/record/7733740">https://zenodo.org/record/7733740</a></p>
 <p>Alternatively they can be downloaded using the CLI with following commands:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>RVFV sample:
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># RVFV sample:</span>
 curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv&quot;</span> -o barcodes-RVFV.tsv
 curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz&quot;</span> -o virion-reads-M-fragment-only.fastq.gz
 curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span> -o reference_RVFV.fasta.gz
 gzip -d reference_RVFV.fasta.gz
 gzip -d virion-reads-M-fragment-only.fastq.gz
 
-BHK sample:
+<span class="c1"># BHK sample:</span>
 curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-BHK.tsv&quot;</span> -o barcodes-BHK.tsv
 curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz&quot;</span> -o BHK-reads-M-fragment-only.fastq.gz
 curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span> -o reference_RVFV.fasta.gz
@@ -110,10 +110,10 @@ gzip -d BHK-reads-M-fragment-only.fastq.gz
 <div class="section" id="run-paranoid-on-test-data">
 <span id="subsection-example-execute"></span><h2>Run PARANOiD on test data<a class="headerlink" href="#run-paranoid-on-test-data" title="Permalink to this heading"></a></h2>
 <p>To automatically download and then execute PARANOiD the following commands can be used:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>RVFV sample:
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># RVFV sample:</span>
 nextflow run patrick-barth/PARANOiD -r main --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 
-BHK sample:
+<span class="c1"># BHK sample:</span>
 nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 </pre></div>
 </div>
@@ -121,10 +121,10 @@ nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fa
 To manually download and execute PARANOiD following commands can be used:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:patrick-barth/PARANOID.git
 
-RVFV sample:
+<span class="c1"># RVFV sample:</span>
 nextflow PARANOID/main.nf --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 
-BHK sample:
+<span class="c1"># BHK sample:</span>
 nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 </pre></div>
 </div>
@@ -137,16 +137,15 @@ This currently uses a minimum of 8 cores and 100 GB memory which can exceed the 
 <span id="subsection-example-output"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
 <p>The minimal execution of PARANOiD only includes the <a class="reference internal" href="ANALYSES.html#basic-analysis"><span class="std std-ref">basic analysis</span></a> and should provide the following outputs if executed correctly:</p>
 <ol class="arabic simple">
-<li><p>Directory containing alignments</p></li>
-<li><p>Raw cross-link sites</p></li>
-<li><p>Execution metrics</p></li>
-<li><p>An IGV session</p></li>
-<li><p>Distribution of peak heights</p></li>
-<li><p>The reference sequence used for the run</p></li>
-<li><p>Statistics and reports of the run and several processes</p></li>
-<li><p>Strand distributions</p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-alignments"><span class="std std-ref">Directory containing alignments</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-cross-link-sites-raw"><span class="std std-ref">Raw cross-link sites</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-execution-metrics"><span class="std std-ref">Execution metrics</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-execution-metrics"><span class="std std-ref">An IGV session</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-peak-height-distribution"><span class="std std-ref">Distribution of peak heights</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-reference"><span class="std std-ref">The reference sequence used for the run</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-statistics"><span class="std std-ref">Statistics and reports of the run and several processes</span></a></p></li>
+<li><p><a class="reference internal" href="OUTPUT.html#output-strand-distribution"><span class="std std-ref">Strand distributions</span></a></p></li>
 </ol>
-<p>More detailed information about the output files can be found <a class="reference internal" href="OUTPUT.html#section-output"><span class="std std-ref">here</span></a>.</p>
 </div>
 </div>
 

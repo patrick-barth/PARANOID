@@ -17,14 +17,14 @@ Alternatively they can be downloaded using the CLI with following commands:
 
 .. code-block:: shell
 
-    RVFV sample:
+    # RVFV sample:
     curl "https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv" -o barcodes-RVFV.tsv
     curl "https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz" -o virion-reads-M-fragment-only.fastq.gz
     curl "https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz" -o reference_RVFV.fasta.gz
     gzip -d reference_RVFV.fasta.gz
     gzip -d virion-reads-M-fragment-only.fastq.gz
 
-    BHK sample:
+    # BHK sample:
     curl "https://zenodo.org/record/7733740/files/barcodes-BHK.tsv" -o barcodes-BHK.tsv
     curl "https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz" -o BHK-reads-M-fragment-only.fastq.gz
     curl "https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz" -o reference_RVFV.fasta.gz
@@ -40,10 +40,10 @@ To automatically download and then execute PARANOiD the following commands can b
 
 .. code-block:: shell
     
-    RVFV sample:
+    # RVFV sample:
     nextflow run patrick-barth/PARANOiD -r main --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 
-    BHK sample:
+    # BHK sample:
     nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 
 In case the resource 
@@ -53,10 +53,10 @@ To manually download and execute PARANOiD following commands can be used:
     
     git clone git@github.com:patrick-barth/PARANOID.git
 
-    RVFV sample:
+    # RVFV sample:
     nextflow PARANOID/main.nf --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 
-    BHK sample:
+    # BHK sample:
     nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
 
 
@@ -72,13 +72,11 @@ Output
 
 The minimal execution of PARANOiD only includes the :ref:`basic analysis <basic-analysis>` and should provide the following outputs if executed correctly:
 
-1. Directory containing alignments
-2. Raw cross-link sites
-3. Execution metrics
-4. An IGV session
-5. Distribution of peak heights
-6. The reference sequence used for the run
-7. Statistics and reports of the run and several processes
-8. Strand distributions
-
-More detailed information about the output files can be found :ref:`here <section-output>`.
+1. :ref:`Directory containing alignments <output-alignments>`
+2. :ref:`Raw cross-link sites <output-cross-link-sites-raw>`
+3. :ref:`Execution metrics <output-execution-metrics>`
+4. :ref:`An IGV session <output-execution-metrics>`
+5. :ref:`Distribution of peak heights <output-peak-height-distribution>`
+6. :ref:`The reference sequence used for the run <output-reference>`
+7. :ref:`Statistics and reports of the run and several processes <output-statistics>`
+8. :ref:`Strand distributions <output-strand-distribution>`
