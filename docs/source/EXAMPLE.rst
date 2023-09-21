@@ -72,13 +72,11 @@ Output
 
 The minimal execution of PARANOiD only includes the :ref:`basic analysis <basic-analysis>` and should provide the following outputs if executed correctly:
 
-1. Directory containing alignments
-2. Raw cross-link sites
-3. Execution metrics
-4. An IGV session
-5. Distribution of peak heights
-6. The reference sequence used for the run
-7. Statistics and reports of the run and several processes
-8. Strand distributions
-
-More detailed information about the output files can be found :ref:`here <section-output>`.
+1. :ref:`Directory containing alignments <output-alignments>`
+2. :ref:`Raw cross-link sites <output-cross-link-sites-raw>`
+3. :ref:`Execution metrics <output-execution-metrics>`
+4. :ref:`An IGV session <output-execution-metrics>`
+5. :ref:`Distribution of peak heights <output-peak-height-distribution>`
+6. :ref:`The reference sequence used for the run <output-reference>`
+7. :ref:`Statistics and reports of the run and several processes <output-statistics>`
+8. :ref:`Strand distributions <output-strand-distribution>`
