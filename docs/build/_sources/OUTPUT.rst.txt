@@ -1,3 +1,5 @@
+.. _section-output:
+
 PARANOiD Outputs
 ================
 
@@ -81,7 +83,7 @@ Similar format to WIG or BIGWIG. BEDGRAPH files consist of 4 columns:
 1. The chromosome name
 2. The start position of the described events
 3. The end position of the described events (for PARANOiD this is the position of the actual cross-link event)
-4. Coverage of currently described event
+4. Coverage of currently described event (negative for reverse strand)
 
 .. parsed-literal::
     DQ375404.1	2814	2815	1
@@ -99,6 +101,11 @@ Visualization with IGV
 All provided file types can be easily visualized via the `Integrative Genomics Viewer (IGV) <https://software.broadinstitute.org/software/igv/>`_.
 To do so first the reference sequences need to be loaded into IGV. This is done by clicking on the tab called *Genomes* - which is located on the top left corner - and then choose the origin of the reference genome.
 
+|IGV overview wig|
+
+The reference track can be used to zoom in allowing users to see cross-link sites more detailed.
+
+|IGV zoom wig|
 
 .. _output-cross-link-sites-merged:
 
@@ -124,6 +131,7 @@ Directory that contains general execution metrics of the workflow such as:
         f. Execution directory
 3. parameter_information.txt 
     Contains all parameters used
+
 Is included in the :ref:`basic analysis <basic-analysis>`.
 
 .. _output-igv-session:

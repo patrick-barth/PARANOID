@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Files present in PARANOiD &mdash; PARANOiD  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Container usage" href="CONTAINER.html" />
+    <link rel="prev" title="PARANOiD Outputs" href="OUTPUT.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PARANOiD
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="INPUT.html">Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BASICUSAGE.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="EXAMPLE.html">Example run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
+<li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Files</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bin">bin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dockerfiles">dockerfiles</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docs">docs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modules">modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-docker-sh">build_docker.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#featuretypes-from-gtfgff-awk">featuretypes-from-gtfgff.awk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">LICENSE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license-pybam">LICENSE.pybam</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#main-nf">main.nf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#nextflow-config">nextflow.config</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parameters">Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#profiles">Profiles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#resource-allocations">Resource allocations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#paranoid-deprecated-dsl1-nf">PARANOiD-deprecated-DSL1.nf</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pull-images-sh">pull_images.sh</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#readme-md">README.md</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="REQUIREMENTS.html">Requirements</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FAQ.html">FAQ</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PARANOiD</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Files present in PARANOiD</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/FILES.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="files-present-in-paranoid">
+<span id="section-files"></span><h1>Files present in PARANOiD<a class="headerlink" href="#files-present-in-paranoid" title="Permalink to this heading"></a></h1>
+<p>This is an overview of the files and directories that come with PARANOiD.</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#subsection-files-bin"><span class="std std-ref">bin</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-dockerfiles"><span class="std std-ref">dockerfiles</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-docs"><span class="std std-ref">docs</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-modules"><span class="std std-ref">modules</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-build-docker"><span class="std std-ref">build_docker.sh</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-featuretypes-from-gffgtf"><span class="std std-ref">featuretypes-from-gtfgff.awk</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-license"><span class="std std-ref">LICENSE</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-license-pybam"><span class="std std-ref">LICENSE.pybam</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-main"><span class="std std-ref">main.nf</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-paranoid-dsl1"><span class="std std-ref">PARANOiD-deprecated-DSL1.nf</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-pull-images"><span class="std std-ref">pull_images.sh</span></a></p></li>
+<li><p><a class="reference internal" href="#subsection-files-readme"><span class="std std-ref">README.md</span></a></p></li>
+</ol>
+<div class="section" id="bin">
+<span id="subsection-files-bin"></span><h2>bin<a class="headerlink" href="#bin" title="Permalink to this heading"></a></h2>
+<p>Directory that mainly consists of custom scripts that are needed for several PARANOiD steps.
+This directory is only necessary if no containers are used to execute PARANOiD.
+Typically there is no need for users to interact with files in this directory.</p>
+</div>
+<div class="section" id="dockerfiles">
+<span id="subsection-files-dockerfiles"></span><h2>dockerfiles<a class="headerlink" href="#dockerfiles" title="Permalink to this heading"></a></h2>
+<p>Directory that contains dockerfiles from which container images can be built if necessary. Images built from these dockerfiles can be used to generate containers for every step executed by
+PARANOiD (except PureCLIP).
+Typically there is no need for users to interact with files in this directory.</p>
+</div>
+<div class="section" id="docs">
+<span id="subsection-files-docs"></span><h2>docs<a class="headerlink" href="#docs" title="Permalink to this heading"></a></h2>
+<p>Directory that contains files necessary to build and display this documentation.
+Typically there is no need for users to interact with files in this directory.</p>
+</div>
+<div class="section" id="modules">
+<span id="subsection-files-modules"></span><h2>modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h2>
+<p>Directory that contains all nextflow modules included by PARANOiD. These modules are a collection of processes that can be included in nextflow.
+Each process describes the implementation of a specific step together with the necessary and optional inputs and the generated outputs.
+Typically there is no need for users to interact with files in this directory.</p>
+</div>
+<div class="section" id="build-docker-sh">
+<span id="subsection-files-build-docker"></span><h2>build_docker.sh<a class="headerlink" href="#build-docker-sh" title="Permalink to this heading"></a></h2>
+<p>Shell script that can be used to automatically build images from all docker files included in the <a class="reference internal" href="#subsection-files-dockerfiles"><span class="std std-ref">correspondent directory</span></a>
+and upload them to docker hub.
+Typically there is no need for users to interact with files in this directory.</p>
+</div>
+<div class="section" id="featuretypes-from-gtfgff-awk">
+<span id="subsection-files-featuretypes-from-gffgtf"></span><h2>featuretypes-from-gtfgff.awk<a class="headerlink" href="#featuretypes-from-gtfgff-awk" title="Permalink to this heading"></a></h2>
+<p>Short awk script that can be used to get all feature-types described within a gtf or gff file. Can be useful for the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a> as it needs the exact
+subtype names. Usage can be found <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="license">
+<span id="subsection-files-license"></span><h2>LICENSE<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
+<p>MIT copyright declaration. Basically says that PARANOiD can be used however you please. You can copy, change and publish this software or parts of it as long as it is under MIT copyright.</p>
+</div>
+<div class="section" id="license-pybam">
+<span id="subsection-files-license-pybam"></span><h2>LICENSE.pybam<a class="headerlink" href="#license-pybam" title="Permalink to this heading"></a></h2>
+<p>Apache copyright declaration which is only valid for pybam, which is used in the process of generating cross-link pile ups from bam files after the alignment.
+The Apache copyright allows you to use or change the software as much as you want, as long as you do it under the Apache copyright and make notices on all altered files.</p>
+</div>
+<div class="section" id="main-nf">
+<span id="subsection-files-main"></span><h2>main.nf<a class="headerlink" href="#main-nf" title="Permalink to this heading"></a></h2>
+<p>Nextflow script to <a class="reference internal" href="EXAMPLE.html#section-example-run"><span class="std std-ref">run</span></a> when starting a PARANOiD anaylsis.
+Uses processes described within the <a class="reference internal" href="#subsection-files-modules"><span class="std std-ref">modules directory</span></a> and connects them in the right order and with the correct logic to form the pipeline.</p>
+</div>
+<div class="section" id="nextflow-config">
+<span id="subsection-files-config"></span><h2>nextflow.config<a class="headerlink" href="#nextflow-config" title="Permalink to this heading"></a></h2>
+<p>Config file that is automatically used by PARANOiD (given that it is present in the same directory as the <a class="reference internal" href="#subsection-files-main"><span class="std std-ref">main.nf script</span></a>).
+Consists of 3 parts:</p>
+<div class="section" id="parameters">
+<h3>Parameters<a class="headerlink" href="#parameters" title="Permalink to this heading"></a></h3>
+<p>A list of all <a class="reference internal" href="PARAMETERS.html#section-parameters"><span class="std std-ref">parameters</span></a> usable when running PARANOiD together and their default values.
+Default parameters can be adapted by users to better suit their needs.</p>
+</div>
+<div class="section" id="profiles">
+<h3>Profiles<a class="headerlink" href="#profiles" title="Permalink to this heading"></a></h3>
+<p>Describes usage of <a class="reference internal" href="CONTAINER.html#section-container"><span class="std std-ref">container executors</span></a> and <a class="reference internal" href="CLUSTER.html#section-cluster"><span class="std std-ref">cluster distribution</span></a>.
+The specifications should work on most systems but there is a possibility that they need to be adapted if errors related to the profiles arise.</p>
+</div>
+<div class="section" id="resource-allocations">
+<h3>Resource allocations<a class="headerlink" href="#resource-allocations" title="Permalink to this heading"></a></h3>
+<p>Describes the computational resources that will be required to run each process. The current resource requirements are chosen in order to work for most datasets and might not
+be necessary for all datasets. In some cases they might even be set too low; it depends on the size of the <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">read file</span></a> and the <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference</span></a>.
+However, they can (and in some cases should) be adapted if the used system does not meet the required resources which are currently set to 8 cores and 100 GB RAM.
+If PARANOiD will be executed on a local computer with less resources available than necessary, the resource requirements can be adapted in this file.
+Lowering the required resources can also increase the computing speed as more processes are allowed to be run in parallel.
+In this case the file <em>nextflow.config</em> can be opened via a text editor and the relevant resource requirements changed.
+The most relevant processes will be 'build_index_STAR|mapping_STAR' as they require the highest amount of resources. When opening the config file the relevant entry looks like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">withName</span><span class="p">:</span> <span class="s1">&#39;build_index_STAR|mapping_STAR&#39;</span> <span class="p">{</span>
+            <span class="n">cpus</span> <span class="o">=</span> <span class="mi">8</span>
+            <span class="n">memory</span> <span class="o">=</span> <span class="s1">&#39;100 GB&#39;</span>
+            <span class="n">container</span> <span class="o">=</span> <span class="s1">&#39;docker://pbarth/star:1.0&#39;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>To change the required cores the number after <strong>cpus = ** needs to be changed - to lower it to 4 cores it should be **cpus = 4</strong>.
+To change the required memory the number after <strong>memory = ** needs to be changed - to lower it to 50 GB it should be **memory = '50 GB'</strong>.</p>
+</div>
+</div>
+<div class="section" id="paranoid-deprecated-dsl1-nf">
+<span id="subsection-files-paranoid-dsl1"></span><h2>PARANOiD-deprecated-DSL1.nf<a class="headerlink" href="#paranoid-deprecated-dsl1-nf" title="Permalink to this heading"></a></h2>
+<p>An older version of PARANOiD that uses DSL1 instead of the later DSL2. Should not be used as it is already deprecated and will not receive any updates in future.</p>
+</div>
+<div class="section" id="pull-images-sh">
+<span id="subsection-files-pull-images"></span><h2>pull_images.sh<a class="headerlink" href="#pull-images-sh" title="Permalink to this heading"></a></h2>
+<p>Shell script that can be used to download all images used to build containers by PARANOiD into a specific directory.
+Can be used as preparation if PARANOiD is supposed to be run without internet connection.
+Additional information on how t run the script can be found <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#pull-images"><span class="std std-ref">here</span></a>.</p>
+</div>
+<div class="section" id="readme-md">
+<span id="subsection-files-readme"></span><h2>README.md<a class="headerlink" href="#readme-md" title="Permalink to this heading"></a></h2>
+<p>Readme displayed on <a class="reference external" href="https://github.com/patrick-barth/PARANOID">github</a>.
+Typically there is no need for users to interact with this file.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="OUTPUT.html" class="btn btn-neutral float-left" title="PARANOiD Outputs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="CONTAINER.html" class="btn btn-neutral float-right" title="Container usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Patrick Barth.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -24,6 +24,16 @@ exclude_patterns = []
 master_doc = 'index'
 smartquotes = False
 
+# -- Include images ----------------------------------------------------------
+
+rst_prolog = """
+.. |IGV overview wig| image:: images/IGV-wig-overview.png
+    :width: 800
+    :alt: Showing an overview of cross-link events via IGV
+.. |IGV zoom wig| image:: images/IGV-wig-zoomed.png
+    :width: 800
+    :alt: Zoom into cross-link events via IGV
+"""
 
 
 # -- Options for HTML output -------------------------------------------------
