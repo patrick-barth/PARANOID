@@ -110,9 +110,11 @@ import_wig_files <- function(files = vector())
 do_cor_analysis <- function(files = vector(), dat = list()) {
   # Appends values of all chromosomes into a single data frame
   appended_values <- data.frame(dat[[1]]$val)
-  for (chr in seq(2, length(dat))) {
-    tmp_df          <- data.frame(dat[[chr]]$val)
-    appended_values <- rbind(appended_values, tmp_df)
+  if(length(dat)>1){
+    for (chr in seq(2, length(dat))) {
+      tmp_df          <- data.frame(dat[[chr]]$val)
+      appended_values <- rbind(appended_values, tmp_df)
+    }
   }
 
   # Removes all positions without any hits 
