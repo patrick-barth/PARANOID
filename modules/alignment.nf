@@ -4,7 +4,7 @@ process build_index_bowtie {
 	path(ref)
 
 	output:
-	tuple path("${ref}"), path("${ref}.*")
+	tuple path("${ref}"), path("${ref}.*"), emit: index
 
 	"""
 	bowtie2-build ${ref} ${ref}
@@ -19,8 +19,8 @@ process mapping_bowtie{
 	path(query)
 
 	output:
-	path("${query.baseName}.bam"), emit: bam_alignments
-	path("${query.simpleName}.statistics.txt"), emit: report_alignments
+	path("${query.baseName}.bam"), 				emit: alignments
+	path("${query.simpleName}.statistics.txt"), emit: report
 
 	script:
 	def local_all_alignments 	= params.report_all_alignments ? '-a' : ''
@@ -48,7 +48,7 @@ process build_index_STAR {
 	path(gtf)
 
 	output:
-	path(index)
+	path(index), emit: index
 
 	script:
 	def local_annotation = !params.annotation == 'NO_FILE' ? '--sjdbGTFfile ' + gtf : ''
@@ -71,8 +71,8 @@ process mapping_STAR{
 	tuple path(query), path(indexDir)
 
 	output:
-	path("${query.baseName}.Aligned.sortedByCoord.out.bam"), emit: bam_alignments
-	path("${query.baseName}.Log.*"), emit: report_alignments
+	path("${query.baseName}.Aligned.sortedByCoord.out.bam"), 	emit: alignments
+	path("${query.baseName}.Log.*"), 							emit: report
 
 	script:
 	def local_all_alignments = params.report_all_alignments ? '--outSAMmultNmax -1' : ''
@@ -97,8 +97,8 @@ process filter_empty_bams{
 	path(query)
 
 	output:
-	path("${query.baseName}.filtered.bam"), emit: bam_filtered_empty, optional: true
-	path("${query.simpleName}.no_alignments.txt"), emit: report_empty_alignments, optional: true
+	path("${query.baseName}.filtered.bam"), 		emit: bam_filtered, optional: true
+	path("${query.simpleName}.no_alignments.txt"), 	emit: report_empty, optional: true
 	"""
 	if [[ \$(samtools view ${query} | wc -l) == 0 ]]; then
 		echo "${query.simpleName} contains no alignable reads" > ${query.simpleName}.no_alignments.txt
@@ -116,7 +116,7 @@ process collect_experiments_without_alignments {
 	path(query)
 
 	output:
-	path("experiments-without-alignments.txt"), optional: true
+	path("experiments-without-alignments.txt"), emit: output, optional: true
 
 	"""
 	if [[ ! \$(cat ${query} | wc -l) == 0 ]]; then
