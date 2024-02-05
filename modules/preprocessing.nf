@@ -1,35 +1,25 @@
-/*
- * Checks reads for general metrics
- * Input: [FASTQ] Unpreprocessed reads 
- * Output: [HTML] General report for unpreprocessed reads 
- */
 process quality_control {
 	tag {query.simpleName}
 	
 	input:
-	path query
+	path(query)
 
 	output:
-	path "${query.baseName}*"
+	path("${query.baseName}*")
 
 	"""
 	fastqc ${query} -o .
 	"""
 }
 
-/*
- * Checks preprocessed reads for general metrics
- * Input: [FASTQ] Preprocessed reads 
- * Output: [HTML] General report for preprocessed reads
- */
 process quality_control_2 {
 	tag {query.simpleName}
 	
 	input:
-	path query
+	path(query)
 
 	output:
-	path "quality-control-2*"
+	path("quality-control-2*")
 
 	"""
 	cat ${query} > quality-control-2.fastq
@@ -37,49 +27,46 @@ process quality_control_2 {
 	"""
 }
 
-/*
- * Removes adapters from reads
- * Input: [FASTQ] Read file
- * Params: params.min_length -> Minimum length reads need after trimming to not be omitted
- * Output:  fastq_trimmed 	-> [FASTQ] Read file with afdapters trimmed
- *			report_trimming -> [TXT] Report adapter trimming
- */
 process adapter_removal {
 	tag {query.simpleName}
 
 	input:
-	path query
+	path(query)
 
 	output:
-	path "${query}_trimmed.fq", emit: fastq_trimmed 
-	path "${query}_trimming_report.txt", emit: report_trimming 
+	path("${query}_trimmed.fq"), emit: fastq_trimmed
+	path("${query}_trimming_report.txt"), emit: report_trimming
 
 	"""
-	trim_galore --cores ${task.cpus} --basename ${query} -o . --length ${params.min_length} ${query} --quality 0
+	trim_galore \
+		--cores ${task.cpus} \
+		--basename ${query} \
+		-o . \
+		--length ${params.min_length} \
+		${query} \
+		--quality 0
 	"""
 }
 
-/*
- * Removes bases with low quality from reads
- * Input: [FASTQ] Read file
- * Params: 	params.min_qual					-> Bases below this threshold are omitted 
- *			params.min_percent_qual_filter	-> Minimum percentage of bases of a read need to be above this threshold to keep the it 
- * Output: 	fastq_quality_filtered 	-> [FASTQ] Read file with low quality bases filtered out
- *			report_quality_filter 	-> [TXT] Report of quality filtering
- */
 process quality_filter {
 	tag {query.simpleName}
 	publishDir "${params.output}/statistics", mode: 'copy', pattern: "summary-quality-filter.txt"
 
 	input:
-	path query
+	path(query)
 
 	output:
-	path "${query.baseName}.qual-filter.fastq", emit: fastq_quality_filtered 
-	path 'summary-quality-filter.txt', emit: report_quality_filter 
+	path("${query.baseName}.qual-filter.fastq"), emit: fastq_quality_filtered 
+	path()'summary-quality-filter.txt'), emit: report_quality_filter 
 
 
 	"""
-	fastq_quality_filter -v -q ${params.min_qual} -p ${params.min_percent_qual_filter} -i ${query} -o ${query.baseName}.qual-filter.fastq > summary-quality-filter.txt
+	fastq_quality_filter \
+		-v \
+		-q ${params.min_qual} \
+		-p ${params.min_percent_qual_filter} \
+		-i ${query} \
+		-o ${query.baseName}.qual-filter.fastq \
+		> summary-quality-filter.txt
 	"""
 }
