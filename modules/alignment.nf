@@ -1,8 +1,3 @@
-/*
- * Prepares index for bowtie2
- * Input: [FASTA] Reference file 
- * Output: Tuple of [FASTA] reference file and [BT2] index files generated for the reference   
- */
 process build_index_bowtie {
 
 	input:
@@ -16,14 +11,6 @@ process build_index_bowtie {
 	"""
 }
 
-/*
- * Alignes reads to a reference via bowtie2, filters out unaligned sequeces
- * and converts output to BAM. Reference needs to be indexed.
- * Input: Tuple of [FASTA] reference file and [BT2] index files generated for the reference
- * 		[FASTA] Read files to be aligned to the reference
- * Output: bam_alignments 	-> [BAM] Aligned sequences
- * 		  report_alignments -> [TXT] Alignment reports
- */
 process mapping_bowtie{
 	tag {query.simpleName}
 
@@ -32,26 +19,28 @@ process mapping_bowtie{
 	path(query)
 
 	output:
-	path "${query.baseName}.bam", emit: bam_alignments
-	path "${query.simpleName}.statistics.txt", emit: report_alignments
+	path("${query.baseName}.bam"), emit: bam_alignments
+	path("${query.simpleName}.statistics.txt"), emit: report_alignments
 
 	script:
-	if(params.report_all_alignments)
-		"""
-		bowtie2 --no-unal -q -a -p ${task.cpus} --seed 0 -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
-		"""
-	else
-		"""
-		bowtie2 --no-unal -q -k ${params.max_alignments} -p ${task.cpus} --seed 0 -U ${query} -x ${ref} 2> ${query.simpleName}.statistics.txt | samtools view -bS - > ${query.baseName}.bam
+	def local_all_alignments 	= params.report_all_alignments ? '-a' : ''
+	//def some_alignments = params.max_alignments && !params.report_all_alignments ? "-k " + params.max_alignments : '' //TODO: Add when max_alignments is changed
+
+	"""
+	bowtie2 \
+		--no-unal \
+		-q \
+		${local_all_alignments} \
+		-k ${params.max_alignments}
+		-p ${task.cpus} \
+		--seed 0 \
+		-U ${query} \
+		-x ${ref} \
+		2> ${query.simpleName}.statistics.txt | samtools view -bS - \
+		> ${query.baseName}.bam
 		"""
 }
 
-/*
- * Prepares index for STAR. Includes alignment if one is given
- * Input: [FASTA] Reference sequence
- *		[GTF]|[GFF3] Annotation file - if non is given it should say [NO_FILE]
- * Output: [DIR] Directory with index generated for given reference file
- */
 process build_index_STAR {
 
 	input:
@@ -62,26 +51,19 @@ process build_index_STAR {
 	path(index)
 
 	script:
-	if(params.annotation == 'NO_FILE')
-		"""
-		mkdir index
-		STAR --runThreadN ${task.cpus} --runMode genomeGenerate --genomeDir ./index --genomeFastaFiles ${referenceGenome} 
-		"""
-	else
-		"""
-		mkdir index
-		STAR --runThreadN ${task.cpus} --runMode genomeGenerate --genomeDir ./index --genomeFastaFiles ${referenceGenome} --sjdbGTFfile ${gtf}
-		"""
+	def local_annotation = !params.annotation == 'NO_FILE' ? '--sjdbGTFfile ' + gtf : ''
+
+	"""
+	mkdir index
+	STAR \
+		--runThreadN ${task.cpus} \
+		--runMode genomeGenerate \
+		--genomeDir ./index \
+		--genomeFastaFiles ${referenceGenome} \
+		${local_annotation}
+	"""
 }
 
-/*
- * Alignes reads to reference via STAR. Reference needs to be index before.
- * Suppresses clipping at 5' end (--alignEndsType Extend5pOfRead1)
- * Output is provided as BAM file that is sorted by coordinates
- * Input: Tuple of [FASTQ] Read files to be aligned and [DIR] Directory containing the STAR index 
- * Output: bam_alignments -> [BAM] Aligned reads sorted by coordinates 
- *		report_alignments -> [TXT] Alignment report
- */
 process mapping_STAR{
 	tag {query.simpleName}
 
@@ -93,23 +75,21 @@ process mapping_STAR{
 	path("${query.baseName}.Log.*"), emit: report_alignments
 
 	script:
-	if(params.report_all_alignments)
-		"""
-		STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}. --alignEndsType Extend5pOfRead1 --outSAMmultNmax -1 --outSAMtype BAM SortedByCoordinate
-		"""
-	else
-		"""
-		STAR --runThreadN ${task.cpus} --genomeDir ${indexDir} --readFilesIn ${query} --outFileNamePrefix ${query.baseName}. --alignEndsType Extend5pOfRead1 --outSAMmultNmax ${params.max_alignments} --outSAMtype BAM SortedByCoordinate
-		"""
+	def local_all_alignments = params.report_all_alignments ? '--outSAMmultNmax -1' : ''
+	//def some_alignments = params.max_alignments && !params.report_all_alignments ? "--outSAMmultNmax " + params.max_alignments : '' //TODO: Add when max alignment is changed
+
+	"""
+	STAR \
+		--runThreadN ${task.cpus} \
+		--genomeDir ${indexDir} \
+		--readFilesIn ${query} \
+		--outFileNamePrefix ${query.baseName}. \
+		--alignEndsType Extend5pOfRead1 \
+		${local_all_alignments} \
+		--outSAMtype BAM SortedByCoordinate
+	"""
 }
 
-/*
- * Filters out BAM files without any valid alignments
- * Names of filtered out files are collected and forwarded
- * Input: [BAM] Aligned sequences 
- * Output: bam_filtered_empty 	-> [BAM] Aligned sequences without empty files
- *		report_empty_alignments -> [TXT] Name of bam files without any alignments (one file per empty sample)
- */
 process filter_empty_bams{
 	tag {query.simpleName}
 
@@ -128,11 +108,6 @@ process filter_empty_bams{
 	"""
 }
 
-/*
- * Collects all files filtered out via filter_empty_bams and writes their names in a single file.
- * Input: [TXT] Files containing names of samples without alignment 
- * Output: [TXT] Report file containing all names of samples without alignments  
- */
 process collect_experiments_without_alignments {
 	tag {query.simpleName}
 	publishDir "${params.output}/statistics", mode: 'copy', pattern: 'experiments-without-alignments.txt'
