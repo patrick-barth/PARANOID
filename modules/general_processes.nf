@@ -96,30 +96,73 @@ process multiqc{
  * Output: [TSV] Tab separated files showing the amounts of found distances
  */
 process collect_workflow_metrics{
-	publishDir "${params.output}/execution_metrics", mode: "move"
-
-	input:
-	val(command_line)
+	publishDir "${params.output}/metadata", mode: "move"
 
 	output:
-	path("execution_information.txt"), emit: execution_information
-	path("container_information.txt"), emit: container_information
-	path("parameter_information.txt"), emit: parameter_information
+	path("workflow_metrics.txt"), emit: output
 
 	"""
-	echo "Execution command: ${command_line}" > execution_information.txt
-	echo "Project directory: ${workflow.projectDir}" >> execution_information.txt
-	echo "Path to executed script: ${workflow.scriptFile}" >> execution_information.txt
-	echo "Configuration file: ${workflow.configFiles}" >> execution_information.txt
-	echo "Configuration profile: ${workflow.profile}" >> execution_information.txt
-	echo "Nextflow version: ${nextflow.version}" >> execution_information.txt
-	echo "Workflow version: ${workflow.manifest.version}" >> execution_information.txt
-	echo "Execution directory: ${workflow.launchDir}" >> execution_information.txt
-	echo "Unique session ID: ${workflow.sessionId} >> execution_information.txt"
+	cat <<EOF > workflow_metrics.txt
+    Author: ${params.manifest.author}
+    Pipeline version: ${params.manifest.version}
+    Nextflow version: ${nextflow.version}
+    Working directory: ${workflow.workDir}
+    Project directory: ${workflow.projectDir}
+    User name: ${workflow.userName}
+    Execution directory: ${workflow.launchDir}
+    Executed script: ${workflow.scriptFile}
+    Configuration file: ${workflow.configFiles}
+    Configuration profile: ${workflow.profile}
+    Command line: ${workflow.commandLine}
+    Parameters: ${params}
+    Unique session ID: ${workflow.sessionId}
 
-	echo "Container engine used: ${workflow.containerEngine}" > container_information.txt
-	echo "Containers used: ${workflow.container}" >> container_information.txt
+    Container engine: ${workflow.containerEngine}    
+    Containers used: ${workflow.container}
 
-	echo "${params}" >> parameter_information.txt
+    Git repository: ${workflow.repository}
+    Repository revision: ${workflow.revision}
+    EOF
 	"""
+}
+
+process get_md5sum {
+    publishDir "${params.output_dir}/metadata", mode: 'copy', pattern: "md5sums.txt"
+
+    input:
+    path(query)
+
+    output:
+    path("md5sums.txt"), emit: output
+
+    script:
+    """
+    for i in ${query}
+	do
+		if test -f \$i; then
+			md5sum \$i >> md5sums.txt
+		fi
+	done
+
+    echo -e "${task.process}\tmd5sum\t\$(md5sum --version | head -1 | rev | cut -f 1 -d' ' | rev)" > ${task.process}.version.txt
+    """
+}
+
+process collect_versions {
+    publishDir "${params.output_dir}/metadata", mode: 'copy', pattern: "tool_versions.txt"
+
+    input:
+    path(query)
+
+    output:
+    path('tool_versions.txt')
+
+    script:
+    """
+    echo -e "Process\ttool\tversion" > tool_versions.txt
+    for i in ${query}
+	do
+		cat \$i >> tool_versions.txt
+	done
+    """
 }

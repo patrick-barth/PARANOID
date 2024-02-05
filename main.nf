@@ -107,6 +107,8 @@ include{
     output_reference
     multiqc
     collect_workflow_metrics
+    get_md5sum
+    collect_versions
 } from './modules/general_processes.nf'
 
 
@@ -508,9 +510,6 @@ if(params.version){
                     reference,
                     annotation)
 
-        output_reference(reference)
-        command_line = Channel.from(workflow.commandLine)
-        collect_workflow_metrics(command_line)
         multiqc(preprocessing.out.multiqc_adapter_removal.flatten().toList(),
                 preprocessing.out.multiqc_quality_filter.flatten().toList(),
                 preprocessing.out.multiqc_quality_control,
@@ -518,6 +517,11 @@ if(params.version){
                 barcode_handling.out.multiqc_exp_barcode_splitting.flatten().toList(),
                 alignment.out.report_alignments.flatten().toList(),
                 deduplication.out.report_deduplication.flatten().toList())
+
+        output_reference(reference)
+        collect_workflow_metrics()
+        get_md5sum()//TODO: Collect all input files
+        collect_versions()//TODO: Collect all version outputs
     }
 }
 
