@@ -194,28 +194,28 @@ workflow alignment {
     main:
         if( params.domain == 'pro' || params.map_to_transcripts == true ){
             build_index_bowtie(reference)
-            mapping_bowtie(build_index_bowtie.out.first(),
+            mapping_bowtie(build_index_bowtie.out.index.first(),
                 fastq_preprocessed_reads)
-            alignments = mapping_bowtie.out.bam_alignments
-            report_alignments = mapping_bowtie.out.report_alignments
+            alignments = mapping_bowtie.out.alignments
+            report_alignments = mapping_bowtie.out.report
         } else if ( params.domain == 'eu' ) {
             build_index_STAR(reference,
                 annotation)
             mapping_STAR(fastq_preprocessed_reads
-                            .combine(build_index_STAR.out))
-            alignments = mapping_STAR.out.bam_alignments
-            report_alignments = mapping_STAR.out.report_alignments
+                            .combine(build_index_STAR.out.index))
+            alignments = mapping_STAR.out.alignments
+            report_alignments = mapping_STAR.out.report
         }
         filter_empty_bams(alignments)
-        collect_experiments_without_alignments(filter_empty_bams.out.report_empty_alignments.flatten().toList())
+        collect_experiments_without_alignments(filter_empty_bams.out.report_empty.flatten().toList())
 
     emit:
         // reports
-        report_empty_alignments         = collect_experiments_without_alignments.out
+        report_empty_alignments         = collect_experiments_without_alignments.out.output
         report_alignments               = report_alignments
 
         // data for downstream processes
-        bam_filtered_empty_alignments   = filter_empty_bams.out.bam_filtered_empty
+        bam_filtered_empty_alignments   = filter_empty_bams.out.bam_filtered
 }
 
 workflow deduplication {
