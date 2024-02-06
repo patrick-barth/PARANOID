@@ -263,7 +263,8 @@ workflow strand_preference {
         bam_collected
         reference
     main:
-        bam_sorted = sort_bam_before_strand_pref(bam_collected).out.bam_sorted //TODO: Needs to be checked while testing
+        sort_bam_before_strand_pref(bam_collected)
+        bam_sorted = sort_bam_before_strand_pref.out.bam_sorted 
         if(params.merge_replicates == true){
             bam_sorted
                 .map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*(.sorted)?.bam$/,file)} 
@@ -476,7 +477,8 @@ if(params.version){
         barcode_handling(preprocessing.out.fastq_reads_quality_filtered,barcode_file)
         alignment(reference,barcode_handling.out.fastq_preprocessed_reads,annotation)
         if(params.map_to_transcripts == false && params.speed){
-            bam_split_alignments = split_bam_by_chromosome(alignment.out.bam_filtered_empty_alignments).out.bam_split //TODO: Needs to be checked if working
+            split_bam_by_chromosome(alignment.out.bam_filtered_empty_alignments)
+            bam_split_alignments = split_bam_by_chromosome.out.bam_split 
         } else { bam_split_alignments = alignment.out.bam_filtered_empty_alignments }
         deduplication(bam_split_alignments)
         if(params.map_to_transcripts == true){

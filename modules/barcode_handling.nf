@@ -51,7 +51,7 @@ process split_exp_barcode {
 	path "barcode_split.log", emit: report_split_experimental_barcode 
 
 	script:
-	def local_mismatches = params.barcode_mismatches == 0 ? '--exact' : '--mismatches ' = params.barcode_mismatches
+	def local_mismatches = params.barcode_mismatches == 0 ? '--exact' : '--mismatches ' + params.barcode_mismatches
 
 	"""
 	mkdir output
@@ -63,7 +63,7 @@ process split_exp_barcode {
 		${local_mismatches} \
 		--prefix ./output/ \
 		--suffix .fastq \
-		> barcode_split.txt
+		> barcode_split.log
 	"""
 }
 
@@ -81,7 +81,7 @@ process get_length_exp_barcode {
 	env(exp_barcode_length), emit: var_length
 
 	"""
-	exp_barcode_length=\$((\$(echo -n ${pattern} \| sed 's/[^Xx]//g' | wc -m) + 1)) 
+	exp_barcode_length=\$((\$(echo -n ${pattern} | sed 's/[^Xx]//g' | wc -m) + 1)) 
 	"""
 }
 

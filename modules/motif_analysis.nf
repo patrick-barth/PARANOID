@@ -30,7 +30,7 @@ process sequence_extraction {
 		--length ${params.seq_len} \
 		--percentile ${percentile} \
 		${local_omit_cl} \
-		${local_omit_width}} \
+		${local_omit_width} \
 		${local_remove_overlaps}
 	"""
 }

@@ -31,7 +31,7 @@ process mapping_bowtie{
 		--no-unal \
 		-q \
 		${local_all_alignments} \
-		-k ${params.max_alignments}
+		-k ${params.max_alignments} \
 		-p ${task.cpus} \
 		--seed 0 \
 		-U ${query} \
