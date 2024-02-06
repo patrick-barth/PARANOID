@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+nextflow.enable.dsl=2
+
 //import processes for preprocessing
 include{
     quality_control
@@ -357,6 +359,9 @@ workflow peak_generation {
             // Generates output channels
             merge_wigs.out.wig2_merged
                 .set{wig2_cross_link_sites_collected}
+            collect_cl_sites_to_transform = collect_cl_sites_to_transform
+                .concat(merge_wigs.out.wig_merged_cross_link_sites_forward)
+                .concat(merge_wigs.out.wig_merged_cross_link_sites_reverse)
         } else {
             wig2_cross_link_sites
                 .set{wig2_cross_link_sites_collected}

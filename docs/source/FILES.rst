@@ -140,6 +140,14 @@ PARANOiD-deprecated-DSL1.nf
 
 An older version of PARANOiD that uses DSL1 instead of the later DSL2. Should not be used as it is already deprecated and will not receive any updates in future.
 
+.. _subsection-files-paranoid-galaxy:
+
+PARANOiD_galaxy.xml
+-------------------
+
+XML file used to integrate PARANOiD into `Galaxy <https://galaxyproject.org/>`_. Describes all usable parameters, input and output files in order for Galaxy to correctly display 
+and translate them into a valid CLI command.
+
 .. _subsection-files-pull-images:
 
 pull_images.sh
