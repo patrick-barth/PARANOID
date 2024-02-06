@@ -246,16 +246,16 @@ workflow transcript_analysis {
         reference
     main:
         count_hits(bam_deduplicated)
-        get_top_hits(count_hits.out.flatten().toList())
+        get_top_hits(count_hits.out.hit_counts.flatten().toList())
         index_alignments(bam_deduplicated)
-        extract_top_alignments(index_alignments.out
-            .combine(get_top_hits.out))
+        extract_top_alignments(index_alignments.out.alignment_with_index
+            .combine(get_top_hits.out.top_hits))
         remove_newlines(reference)
-        extract_top_transcript_sequences(get_top_hits.out
-            .combine(remove_newlines.out))
+        extract_top_transcript_sequences(get_top_hits.out.top_hits
+            .combine(remove_newlines.out.fasta_no_newlines))
     emit:
-        bam_extracted_transcript_alignments = extract_top_alignments.out
-        fasta_top_transcripts               = extract_top_transcript_sequences.out
+        bam_extracted_transcript_alignments = extract_top_alignments.out.top_alignments
+        fasta_top_transcripts               = extract_top_transcript_sequences.out.fasta_top_sequences
 }
 
 workflow strand_preference {
@@ -263,7 +263,7 @@ workflow strand_preference {
         bam_collected
         reference
     main:
-        bam_sorted = sort_bam_before_strand_pref(bam_collected)
+        bam_sorted = sort_bam_before_strand_pref(bam_collected).out.bam_sorted //TODO: Needs to be checked while testing
         if(params.merge_replicates == true){
             bam_sorted
                 .map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*(.sorted)?.bam$/,file)} 
@@ -276,7 +276,7 @@ workflow strand_preference {
         }
         determine_strand_preference(grouped_bam_to_strand_preference
             .combine(reference))
-        visualize_strand_preference(determine_strand_preference.out)
+        visualize_strand_preference(determine_strand_preference.out.txt_strand_proportions)
 }
 
 workflow peak_generation {
@@ -412,10 +412,10 @@ workflow rna_subtype_analysis {
         annotation
     main:
         wig_to_bam(wig2_cross_link_sites)
-        feature_counts(wig_to_bam.out
+        feature_counts(wig_to_bam.out.bam
             .combine(rna_subtypes)
             .combine(annotation))
-        feature_counts.out
+        feature_counts.out.features
             .map{file -> tuple(file.name - ~/\.[\w.]+.tsv$/,file)}
             .groupTuple()
             .set{tsv_sort_to_calculate_distribution}

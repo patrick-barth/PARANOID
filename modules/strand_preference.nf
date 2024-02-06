@@ -1,7 +1,5 @@
 /*
  * Sorts a BAM file
- * Input: [BAM] Alignment file 
- * Output: [BAM] Sorted alignment file
  */
 process sort_bam_before_strand_pref {
 	tag {query.baseName}
@@ -10,7 +8,7 @@ process sort_bam_before_strand_pref {
 	path(query)
 
 	output:
-	path("${query.baseName}.sorted.bam")
+	path("${query.baseName}.sorted.bam"), emit: bam_sorted
 
 	"""
 	samtools sort ${query} > ${query.baseName}.sorted.bam
@@ -19,19 +17,16 @@ process sort_bam_before_strand_pref {
 
 /*
  * Determines the amount of reads aligned to the forward and the reverse strand for each chromosome in the reference
- * Input: Tuple of [STR] experiment name, [BAM] all alignment files belonging to the experiment, [FASTA] reference file
- * Params: [INT] MAPQ-score used to filter out low quality alignments
- * Output: [TXT] Proportions of how reads are aligned to strands
  */
 process determine_strand_preference {
 	tag {name}
 	publishDir "${params.output}/strand-distribution", mode: 'copy', pattern: "${name}.strand_proportion.txt"
 
 	input:
-	tuple val(name),path(query),path(reference)
+	tuple val(name), path(query), path(reference)
 
 	output:
-	path("${name}.strand_proportion.txt")
+	path("${name}.strand_proportion.txt"), emit: txt_strand_proportions
 
 	"""
 	egrep '^>' ${reference} | cut -f1 -d' ' | cut -c2- > references.txt
@@ -49,8 +44,6 @@ process determine_strand_preference {
 
 /*
  * Visualizes determined strand proportions into bar charts
- * Input: [TXT] Proportions of how reads are aligned to strands
- * Output: [PNG] Bar chart of strand distribution 
  */
 process visualize_strand_preference {
 	publishDir "${params.output}/strand-distribution/visualization", mode: 'copy', pattern: "${strand.simpleName}.png"
@@ -59,9 +52,12 @@ process visualize_strand_preference {
 	path(strand)
 
 	output:
-	path("${strand.simpleName}.png")
+	path("${strand.simpleName}.png"), emit: png_to_output_dir
 
 	"""
-	visualize_strand_distribution.R --input ${strand} --output ${strand.simpleName} --type png
+	visualize_strand_distribution.R \
+		--input ${strand} \
+		--output ${strand.simpleName} \
+		--type png
 	"""
 }
