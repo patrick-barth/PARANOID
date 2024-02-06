@@ -149,8 +149,8 @@ workflow preprocessing {
 
     emit:
         //data for multiqc
-        multiqc_quality_control                     = quality_control.out
-        multiqc_quality_control_post_preprocessing  = quality_control_2.out
+        multiqc_quality_control                     = quality_control.out.summary
+        multiqc_quality_control_post_preprocessing  = quality_control_2.out.summary
         multiqc_adapter_removal                     = adapter_removal.out.report_trimming
         multiqc_quality_filter                      = quality_filter.out.report_quality_filter
 
@@ -171,8 +171,8 @@ workflow barcode_handling {
         remove_exp_barcode(split_exp_barcode.out.fastq_split_experimental_barcode
                             .flatten()
                             .filter{ it.size() > 0 }
-                            .combine(get_length_exp_barcode.out))
-        remove_exp_barcode.out
+                            .combine(get_length_exp_barcode.out.var_length))
+        remove_exp_barcode.out.fastq_trimmed
             .map{file -> tuple(file.name - ~/\.[\w.]+.fastq$/,file)}
             .groupTuple()
             .set{fastq_collect_preprocessed_to_merge}
@@ -185,7 +185,7 @@ workflow barcode_handling {
         multiqc_exp_barcode_splitting   = split_exp_barcode.out.report_split_experimental_barcode
 
         // data for downstream processes
-        fastq_preprocessed_reads        = merge_preprocessed_reads.out
+        fastq_preprocessed_reads        = merge_preprocessed_reads.out.fastq_merged
 }
 
 workflow alignment {
@@ -225,7 +225,7 @@ workflow deduplication {
         bam_input
     main:
         sort_bam(bam_input.flatten())
-        deduplicate(sort_bam.out)
+        deduplicate(sort_bam.out.index_and_alignment)
         deduplicate.out.bam_deduplicated
             .map{file -> tuple(file.name - ~/\.[\w.]+.bam$/,file)}
             .groupTuple()
@@ -237,7 +237,7 @@ workflow deduplication {
         report_deduplication    = deduplicate.out.report_deduplicated
 
         // data for downstream processes
-        deduplicated_alignments = merge_deduplicated_bam.out
+        deduplicated_alignments = merge_deduplicated_bam.out.bam_merged
 }
 
 workflow transcript_analysis {
@@ -288,14 +288,14 @@ workflow peak_generation {
         get_chromosome_sizes(reference)
         //calculate raw cross-link sites
         calculate_crosslink_sites(bam_collected
-            .combine(get_chromosome_sizes.out))
+            .combine(get_chromosome_sizes.out.chrom_sizes))
         collect_cl_sites_to_transform = calculate_crosslink_sites.out.wig_cross_link_sites_split_forward
                                             .concat(calculate_crosslink_sites.out.wig_cross_link_sites_split_reverse)
         
         //Handle peak calling when it is not omitted. If pureCLIP is executed all further analyses are performed on the peaks determined by pureCLIP
         if(params.omit_peak_calling == false){
             index_for_peak_calling(bam_collected)
-            pureCLIP(index_for_peak_calling.out
+            pureCLIP(index_for_peak_calling.out.index
                 .combine(reference))
             pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
 
@@ -331,7 +331,7 @@ workflow peak_generation {
                         .map{file -> tuple(file.name - ~/_rep_\d*(_filtered_top)?\d*_(forward|reverse)?.wig$/,file)}
                         .groupTuple()
                         .combine(value_both_strands)
-                        .combine(get_chromosome_sizes.out)
+                        .combine(get_chromosome_sizes.out.chrom_sizes)
                         .set{prepared_input_correlation}
                 } else {
                     value_forward = Channel.from("forward")
@@ -350,7 +350,7 @@ workflow peak_generation {
 
                     group_forward
                         .concat(group_reverse)
-                        .combine(get_chromosome_sizes.out)
+                        .combine(get_chromosome_sizes.out.chrom_sizes)
                         .set{prepared_input_correlation}
                 }
                 // actual calculation of correlation
@@ -368,7 +368,7 @@ workflow peak_generation {
         }
         //Transformation of peaks into different formats (bigWig and bedgraph)
         wig_to_bigWig(collect_cl_sites_to_transform
-            .combine(get_chromosome_sizes.out))
+            .combine(get_chromosome_sizes.out.chrom_sizes))
         bigWig_to_bedgraph(wig_to_bigWig.out.bigWig)
 
         // Get correct bigWigs to display via IGV
@@ -444,7 +444,7 @@ workflow peak_distance_analysis {
     main:
         calculate_peak_distance(wig_peaks
             .combine(percentile))
-        plot_peak_distance(calculate_peak_distance.out)
+        plot_peak_distance(calculate_peak_distance.out.tsv_distances)
 }
 workflow igv_session {
     take:
@@ -476,7 +476,7 @@ if(params.version){
         barcode_handling(preprocessing.out.fastq_reads_quality_filtered,barcode_file)
         alignment(reference,barcode_handling.out.fastq_preprocessed_reads,annotation)
         if(params.map_to_transcripts == false && params.speed){
-            bam_split_alignments = split_bam_by_chromosome(alignment.out.bam_filtered_empty_alignments)
+            bam_split_alignments = split_bam_by_chromosome(alignment.out.bam_filtered_empty_alignments).out.bam_split //TODO: Needs to be checked if working
         } else { bam_split_alignments = alignment.out.bam_filtered_empty_alignments }
         deduplication(bam_split_alignments)
         if(params.map_to_transcripts == true){

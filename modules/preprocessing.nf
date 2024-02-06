@@ -5,7 +5,7 @@ process quality_control {
 	path(query)
 
 	output:
-	path("${query.baseName}*")
+	path("${query.baseName}*"), emit: summary
 
 	"""
 	fastqc ${query} -o .
@@ -19,7 +19,7 @@ process quality_control_2 {
 	path(query)
 
 	output:
-	path("quality-control-2*")
+	path("quality-control-2*"), emit: summary
 
 	"""
 	cat ${query} > quality-control-2.fastq
@@ -57,7 +57,7 @@ process quality_filter {
 
 	output:
 	path("${query.baseName}.qual-filter.fastq"), emit: fastq_quality_filtered 
-	path()'summary-quality-filter.txt'), emit: report_quality_filter 
+	path('summary-quality-filter.txt'), emit: report_quality_filter 
 
 
 	"""

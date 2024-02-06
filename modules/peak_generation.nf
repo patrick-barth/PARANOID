@@ -1,18 +1,20 @@
 /*
  * Retrieves sizes of all chromosomes in reference file 
- * Input: [FASTA] Reference file 
- * Output: [TXT] Name and size of all chromosomes 
  */
 process get_chromosome_sizes{
 	input:
 	path(ref)
 
 	output:
-	path("${ref.simpleName}.chromosome_sizes.txt")
+	path("${ref.simpleName}.chromosome_sizes.txt"), emit: chrom_sizes
 
 	"""
 	samtools faidx ${ref}
-	cut -f1,2 ${ref}.fai > ${ref.simpleName}.chromosome_sizes.txt
+
+	cut \
+        -f1,2 \
+        ${ref}.fai \
+        > ${ref.simpleName}.chromosome_sizes.txt
 	"""
 }
 
@@ -21,11 +23,6 @@ process get_chromosome_sizes{
  * Forward cross-link sites are determined by StartPosition -1
  * Reverse reads are dertermined by StartPosition + CIGAR string
  *  Additionally, alignments are filtered by the mapq score stated via params.mapq
- * Input: Tuple of [BAM] aligned reads and [TXT] file stating chromosome names and sizes 
- * Params: params.mapq -> MAPQ-score to filter out low quality alignments
- * Output:  wig2_cross_link_sites       -> [WIG2] Cross-link sites 
- *          wig_cross_link_sites_split  -> Tuple of [STR] saying "cross-link-sites", [WIG] forward peaks and [WIG] reverse peaks
- *          wig_cross_link_sites        -> [WIG] Cross-link sites with strands being divided
  */
 process calculate_crosslink_sites{
 	tag {query.simpleName}
@@ -33,6 +30,7 @@ process calculate_crosslink_sites{
 
 	input:
 	tuple path(query), path(chrom_sizes)
+
 	output:
 	path("${query.simpleName}.wig2"), emit: wig2_cross_link_sites, optional: true
 	tuple val("cross-link-sites-raw"), path("${query.simpleName}_forward.wig"), emit: wig_cross_link_sites_split_forward, optional: true
@@ -40,21 +38,22 @@ process calculate_crosslink_sites{
 	path("${query.simpleName}_{forward,reverse}.wig"), emit: wig_cross_link_sites, optional: true
 
 	"""
-	create-wig-from-bam.py --input ${query} --mapq ${params.mapq} --chrom_sizes ${chrom_sizes} --output ${query.simpleName}.wig2
+	create-wig-from-bam.py \
+        --input ${query} \
+        --mapq ${params.mapq} \
+        --chrom_sizes ${chrom_sizes} \
+        --output ${query.simpleName}.wig2
+
 	if [[ -f "${query.simpleName}.wig2" ]]; then
-		wig2-to-wig.py --input ${query.simpleName}.wig2 --output ${query.simpleName}
+		wig2-to-wig.py \
+            --input ${query.simpleName}.wig2 \
+            --output ${query.simpleName}
 	fi
 	"""
 }
 
 /*
  * Performs peak calling via PureCLIP. Can do single peaks or peak regions.
- * Input: Tuple of [BAM] alignment file, [BAI] index file and [FASTA] reference file
- * Params:  params.peak_calling_for_high_coverage   -> Enables special settings I found useful when analysing data with huge amount of peaks all across the reference (-mtc 5000 -mtc2 5000 -ld)
- *          params.peak_calling_regions             -> Can place determined cross-link sites in close proximity into a single cross-link region
- *          params.peak_calling_regions_width       -> Determines the maximum allowed width of cross-link regions
- * Output:  bed_crosslink_sites -> [BED] Cross-link sites determined by PureCLIP
- *          report_pureCLIP     -> [PARAMS] Report of PureCLIP
  */
 process pureCLIP {
     tag{bam.simpleName}
@@ -68,28 +67,26 @@ process pureCLIP {
     tuple path(bam), path(bai), path(ref)
 
     output:
-    path("${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed")
+    path("${bam.simpleName}.pureCLIP_crosslink_regions.bed"), optional: true, emit: bed_crosslink_regions
     path("${bam.simpleName}.pureCLIP_crosslink_sites.bed"), emit: bed_crosslink_sites
     path("${bam.simpleName}.pureCLIP_crosslink_sites.params"), emit: report_pureCLIP
 
     script:
-    if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == true)
-        """
-        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width} -mtc 5000 -mtc2 5000 -ld
-        """
-    else if(params.peak_calling_for_high_coverage == true && params.peak_calling_regions == false)
-        """
-        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -mtc 5000 -mtc2 5000 -ld
-        """
-    else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == true)
-        """
-        pureclip -i ${bam} -bai ${bai} -g ${ref} -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed -or ${bam.simpleName}.pureCLIP_crosslink_regions.bed -dm ${params.peak_calling_regions_width}
-        """
-    else if(params.peak_calling_for_high_coverage == false && params.peak_calling_regions == false)
-        """
-        ln -s ${ref} ${ref.baseName}_symlink.fasta
-        pureclip -i ${bam} -bai ${bai} -g ${ref.baseName}_symlink.fasta -nt ${task.cpus} -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed
-        """
+    def local_regions       = params.peak_calling_regions ? '-or ' + ${bam.simpleName} + '.pureCLIP_crosslink_regions.bed' : ''
+    def local_region_width  = params.peak_calling_regions ? '-dm ' + ${params.peak_calling_regions_width}
+    def local_high_coverage = params.peak_calling_for_high_coverage ? '-mtc 5000 -mtc2 5000 -ld' : ''
+
+    """
+    pureclip \
+        -i ${bam} \
+        -bai ${bai} \
+        -g ${ref} \
+        -nt ${task.cpus} \
+        -o ${bam.simpleName}.pureCLIP_crosslink_sites.bed \
+        ${local_regions} \
+        ${local_region_width} \
+        ${local_high_coverage}
+    """
 }
 
 /*
@@ -133,9 +130,6 @@ process pureCLIP_to_wig{
 
 /*
  * Merges several WIG2 files into a single representative form 
- * Input: Tuple of [STR] Experiment name, [WIG2] several cross-link site files 
- * Output:  wig2_merged                 -> [WIG2] Merged cross-link sites
- *          wig_merged_cross_link_sites -> Tuple of [STR] saying "cross-link-sites-merged", [WIG] merged forward peaks, [WIG] merged reverse peaks
  */
 process merge_wigs{
     tag {name}
@@ -150,24 +144,22 @@ process merge_wigs{
     path("${name}_{forward,reverse}.wig")
 
     script:
-    if(name !=~ "unmatched*")
-        """
-        merge-wig.py --wig ${query} --output ${name}.wig2
-        wig2-to-wig.py --input ${name}.wig2 --output ${name}
-        """
-    else
-        """
-        merge-wig.py --wig ${query} --output unmatched.wig2
-        wig2-to-wig.py --input unmatched.wig2 --output unmatched
-        """
+    def local_input     = name !=~ "unmatched*" ? ${name} + '.wig2' : 'unmatched.wig2'
+    def local_output    = name !=~ "unmatched*" ? ${name} : 'unmatched'
+
+    """
+    merge-wig.py \
+        --wig ${query} \
+        --output ${local_input}
+
+    wig2-to-wig.py \
+        --input ${local_input} \
+        --output ${local_output}
+    """
 }
 
 /*
  * Splits WIG2 files into 2 WIG files - one for each strand
- * Input: [WIG2] Cross-link sites 
- * Output:  wig_split_forward       -> [WIG] forward cross-link sites
- *          wig_split_reverse       -> [WIG] reverse cross-link sites
- *          wig_split_both_strands  -> [WIG] cross-link sites for both strands
  */
 process split_wig2_for_correlation{
     tag {query.simpleName}
@@ -181,15 +173,14 @@ process split_wig2_for_correlation{
     path("${query.simpleName}_{forward,reverse}.wig"), emit: wig_split_both_strands, optional: true
 
     """
-    wig2-to-wig.py --input ${query} --output ${query.simpleName}
+    wig2-to-wig.py \
+        --input ${query} \
+        --output ${query.simpleName}
     """
 }
 
 /*
  * Calculates correlation for merging of WIG files. Both strands can get their correlation analysed separately or combined
- * Input: Tuple of [STR] name of experiment, [WIG] cross-link sites to be merged, [STR] current strand, [TXT] names of all chromosomes and their sizes
- * Output:  correlation_heatmap -> [PNG] Heatmap showing the correlation of merged WIG files
- *          correlation_matrix  -> [CSV] Matrix showing the correlation of merged WIG files
  */
 process calc_wig_correlation{
 
@@ -205,24 +196,24 @@ process calc_wig_correlation{
 
     script:
     String[] test_size = query
-    if(params.combine_strands_correlation)
-        """
-        if [[ ${test_size.size()} > 2 ]]; then
-            wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png --both_strands
-        fi
-        """
-    else
-        """
-        if [[ ${test_size.size()} > 1 ]]; then
-            wig_file_statistics.R --input_path . --chrom_length ${chrom_sizes} --output ${name}_${strand} --type png
-        fi
-        """
+
+    def local_min_size          = params.combine_strands_correlation ? 2 : 1
+    def local_combine_strands   = params.combine_strands_correlation ? '--both_strands' : ''
+
+    """
+    if [[ ${test_size.size()} > ${local_min_size} ]]; then
+        wig_file_statistics.R \
+            --input_path . \
+            --chrom_length ${chrom_sizes} \
+            --output ${name}_${strand} \
+            --type png \
+            ${local_combine_strands}
+    fi
+    """
 }
 
 /*
  * Transforms WIG files to bigWig
- * Input: Tuple of [STR] directory to save results to (merged or not-merged), [WIG] cross-link sites, [TXT] chroms names and sizes
- * Output:  bigWig -> Tuple of [STR] output directory, [BW] cross-link-sites
  */
 process wig_to_bigWig{
 	tag {query.simpleName}
@@ -237,15 +228,16 @@ process wig_to_bigWig{
 
 	"""
 	if [[ \$(cat ${query} | wc -l) > 1 ]]; then
-		wigToBigWig ${query} ${chrom_sizes} ${query.baseName}.bw
+		wigToBigWig \
+            ${query} \
+            ${chrom_sizes} \
+            ${query.baseName}.bw
 	fi
 	"""
 }
 
 /*
- * Transforms bigWig files into the bedGraph format
- * Input: Tuple of [STR] output directory and [BW] cross-link sites
- * Output: [BEDGRAPH] Cross-link sites  
+ * Transforms bigWig files into the bedGraph format 
  */
 process bigWig_to_bedgraph{
 	tag {bigWig.simpleName}
@@ -255,17 +247,17 @@ process bigWig_to_bedgraph{
 	tuple val(out_dir), path(bigWig)
 
 	output:
-	path("*.bedgraph")
+	path("*.bedgraph"), emit: bedgraph
 
 	"""
-	bigWigToBedGraph ${bigWig} ${bigWig.baseName}.bedgraph
+	bigWigToBedGraph \
+        ${bigWig} \
+        ${bigWig.baseName}.bedgraph
 	"""
 }
 
 /*
  * Sorts and indexes BAM files before peak calling
- * Input: [BAM] Alignment file
- * Output: Tuple of [BAM] Sorted alignment file and [BAI] index file
  */
 process index_for_peak_calling {
     tag{query.simpleName}
@@ -274,7 +266,7 @@ process index_for_peak_calling {
     path(query)
 
     output:
-    tuple path("${query.simpleName}.sorted.bam"), path("${query.simpleName}.sorted.bam.bai")
+    tuple path("${query.simpleName}.sorted.bam"), path("${query.simpleName}.sorted.bam.bai"), emit: index
 
     """
     samtools sort ${query} > ${query.simpleName}.sorted.bam
@@ -284,8 +276,6 @@ process index_for_peak_calling {
 
 /*
  * Splits WIG2 into 2 WIG files - one for each strand
- * Input: [WIG2] Cross-link sites
- * Output: Tuple of [STR] experiment name, [WIG] forward cross-link sites and [WIG] reverse cross-link sites
  */
 process split_wig_2_for_peak_height_hist {
 	tag {query.simpleName}
@@ -298,7 +288,10 @@ process split_wig_2_for_peak_height_hist {
     tuple val("${query.simpleName}"), path("${query.simpleName}_reverse.wig"), emit: wig_split_reverse, optional: true
 
 	"""
-	wig2-to-wig.py --input ${query} --output ${query.simpleName}
+	wig2-to-wig.py \
+        --input ${query} \
+        --output ${query.simpleName}
+
     if [ ! -f ${query.simpleName}_forward.wig ]; then
         touch ${query.simpleName}_forward.wig
     fi
@@ -309,11 +302,7 @@ process split_wig_2_for_peak_height_hist {
 }
 
 /*
- * Generates a peak height histogram with a bar showing the percentile cutoff being used by several other analyses
- * Input: Tuple of [STR] experiment name, [WIG] array of cross-link sites and [FLOAT] percentile being used
- * Params:  params.color_barplot    -> [STR] Hexcode for color of histogram
- *          percentile              -> [FLOAT] Percentile used to show the peak height cutoff employed by other analyses
- * Output: [PNG] Histogram of peak heights  
+ * Generates a peak height histogram with a bar showing the percentile cutoff being used by several other analyses 
  */
 process generate_peak_height_histogram {
 	tag {query}
@@ -323,9 +312,14 @@ process generate_peak_height_histogram {
 	tuple val(query), path(forward), val(percentile)
 
 	output:
-	path("${query}.png")
+	path("${query}.png"), emit: png_to_output_dir
 
 	"""
-	generate-peak-height-histogram.R --input . --output ${query} --type png --color "${params.color_barplot}" --percentile ${percentile}
+	generate-peak-height-histogram.R \
+        --input . \
+        --output ${query} \
+        --type png \
+        --color "${params.color_barplot}" \
+        --percentile ${percentile}
 	"""
 }

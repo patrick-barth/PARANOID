@@ -1,7 +1,5 @@
 /*
  * Splits a BAM files into several smaller ones to reduce the overall computation time
- * Input: [BAM] Alignments 
- * Output: [BAM] Several smaller alignment files 
  */
 process split_bam_by_chromosome{
 	tag {query.simpleName}
@@ -10,18 +8,17 @@ process split_bam_by_chromosome{
 	path(query)
 
 	output:
-	path("*.bam")
+	path("*.bam"), emit: bam_split
 
 	"""
-	bamtools split -in ${query} -reference
+	bamtools split \
+		-in ${query} \
+		-reference
 	"""
 }
 
 /*
  * Sorts alignments according to the coordinates and generates index files
- * Input: [BAM] Alignments 
- * Output: bam_sorted_alignments -> [BAM] Alignments sorted by coordinates
- * 	bai_index_files -> [BAI] Index file 
  */
 process sort_and_index_alignment{
 	tag {query.simpleName}
@@ -52,7 +49,7 @@ process output_reference {
 	path(query)
 
 	output:
-	path(query)
+	path(query), emit: ref_to_output_dir
 
 	"""
 	"""
@@ -82,7 +79,7 @@ process multiqc{
 	path(deduplication)
 
 	output:
-	path("multiqc_*")
+	path("multiqc_*"), emit: collected_stats_to_output_dir
 
 	"""
 	multiqc .
@@ -91,9 +88,6 @@ process multiqc{
 
 /*
  * Collects a variety of different metrics such as the command line used to execute the workflow and the parameters used
- * Params: params
- * Input: [VAL] Peak files
- * Output: [TSV] Tab separated files showing the amounts of found distances
  */
 process collect_workflow_metrics{
 	publishDir "${params.output}/metadata", mode: "move"
@@ -126,6 +120,9 @@ process collect_workflow_metrics{
 	"""
 }
 
+/*
+ * Calculates the md5sum of all files given via input
+ */
 process get_md5sum {
     publishDir "${params.output_dir}/metadata", mode: 'copy', pattern: "md5sums.txt"
 
@@ -133,7 +130,7 @@ process get_md5sum {
     path(query)
 
     output:
-    path("md5sums.txt"), emit: output
+    path("md5sums.txt"), emit: txt_to_output_dir
 
     script:
     """
@@ -144,10 +141,13 @@ process get_md5sum {
 		fi
 	done
 
-    echo -e "${task.process}\tmd5sum\t\$(md5sum --version | head -1 | rev | cut -f 1 -d' ' | rev)" > ${task.process}.version.txt
+    #echo -e "${task.process}\tmd5sum\t\$(md5sum --version | head -1 | rev | cut -f 1 -d' ' | rev)" > ${task.process}.version.txt
     """
 }
 
+/*
+ * Collects all version outputs and merges them into a single file
+ */
 process collect_versions {
     publishDir "${params.output_dir}/metadata", mode: 'copy', pattern: "tool_versions.txt"
 
@@ -155,7 +155,7 @@ process collect_versions {
     path(query)
 
     output:
-    path('tool_versions.txt')
+    path('tool_versions.txt'), txt_to_output_dir
 
     script:
     """
