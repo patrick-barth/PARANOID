@@ -7,6 +7,7 @@ process get_chromosome_sizes{
 
 	output:
 	path("${ref.simpleName}.chromosome_sizes.txt"), emit: chrom_sizes
+    path("${task.process}.version.txt"), 	        emit: version
 
 	"""
 	samtools faidx ${ref}
@@ -15,6 +16,8 @@ process get_chromosome_sizes{
         -f1,2 \
         ${ref}.fai \
         > ${ref.simpleName}.chromosome_sizes.txt
+
+    echo -e "${task.process}\tsamtools\t\$(samtools --version | head -1 | rev | cut -f1 -d' ' | rev)" > ${task.process}.version.txt
 	"""
 }
 
@@ -36,6 +39,7 @@ process calculate_crosslink_sites{
 	tuple val("cross-link-sites-raw"), path("${query.simpleName}_forward.wig"), emit: wig_cross_link_sites_split_forward, optional: true
     tuple val("cross-link-sites-raw"), path("${query.simpleName}_reverse.wig"), emit: wig_cross_link_sites_split_reverse, optional: true
 	path("${query.simpleName}_{forward,reverse}.wig"), emit: wig_cross_link_sites, optional: true
+    path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	create-wig-from-bam.py \
@@ -49,6 +53,9 @@ process calculate_crosslink_sites{
             --input ${query.simpleName}.wig2 \
             --output ${query.simpleName}
 	fi
+
+    echo -e "${task.process}\tcreate-wig-from-bam.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -67,9 +74,10 @@ process pureCLIP {
     tuple path(bam), path(bai), path(ref)
 
     output:
-    path("${bam.simpleName}.pureCLIP_crosslink_regions.bed"), optional: true, emit: bed_crosslink_regions
-    path("${bam.simpleName}.pureCLIP_crosslink_sites.bed"), emit: bed_crosslink_sites
-    path("${bam.simpleName}.pureCLIP_crosslink_sites.params"), emit: report_pureCLIP
+    path("${bam.simpleName}.pureCLIP_crosslink_regions.bed"), optional: true,   emit: bed_crosslink_regions
+    path("${bam.simpleName}.pureCLIP_crosslink_sites.bed"),                     emit: bed_crosslink_sites
+    path("${bam.simpleName}.pureCLIP_crosslink_sites.params"),                  emit: report_pureCLIP
+    path("${task.process}.version.txt"), 	                                    emit: version
 
     script:
     def local_regions       = params.peak_calling_regions ? '-or ' + ${bam.simpleName} + '.pureCLIP_crosslink_regions.bed' : ''
@@ -86,6 +94,9 @@ process pureCLIP {
         ${local_regions} \
         ${local_region_width} \
         ${local_high_coverage}
+
+    echo -e "${task.process}\tpureCLIP\t\$(pureclip --version | head -1 | cut -d' ' -f 3)" > ${task.process}.version.txt
+    echo -e "${task.process}\tSeqAn\t\$(pureclip --version | tail -1 | cut -d' ' -f 3)" >> ${task.process}.version.txt
     """
 }
 
@@ -139,9 +150,10 @@ process merge_wigs{
     tuple val(name), path(query)
 
     output:
-    path("${name}.wig2"), emit: wig2_merged
+    path("${name}.wig2"),                   emit: wig2_merged
     tuple val("cross-link-sites-merged"), path("${name}_forward.wig"), path("${name}_reverse.wig"), emit: wig_merged_cross_link_sites
     path("${name}_{forward,reverse}.wig")
+    path("${task.process}.version.txt"), 	emit: version
 
     script:
     def local_input     = name !=~ "unmatched*" ? ${name} + '.wig2' : 'unmatched.wig2'
@@ -155,6 +167,9 @@ process merge_wigs{
     wig2-to-wig.py \
         --input ${local_input} \
         --output ${local_output}
+
+    echo -e "${task.process}\tmerge-wig.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
     """
 }
 
@@ -168,14 +183,18 @@ process split_wig2_for_correlation{
     path(query)
 
     output:
-    path("${query.simpleName}_forward.wig"), emit: wig_split_forward, optional: true
-    path("${query.simpleName}_reverse.wig"), emit: wig_split_reverse, optional: true
-    path("${query.simpleName}_{forward,reverse}.wig"), emit: wig_split_both_strands, optional: true
+    path("${query.simpleName}_forward.wig"),            emit: wig_split_forward, optional: true
+    path("${query.simpleName}_reverse.wig"),            emit: wig_split_reverse, optional: true
+    path("${query.simpleName}_{forward,reverse}.wig"),  emit: wig_split_both_strands, optional: true
+    path("${task.process}.version.txt"), 	            emit: version
 
     """
     wig2-to-wig.py \
         --input ${query} \
         --output ${query.simpleName}
+
+    echo -e "${task.process}\tmerge-wig.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
     """
 }
 
@@ -191,8 +210,9 @@ process calc_wig_correlation{
     tuple val(name),path(query),val(strand),path(chrom_sizes)
 
     output:
-    path("${name}_${strand}_correlation.png"), emit: correlation_heatmap, optional: true
-    path("${name}_${strand}_correlation.csv"), emit: correlation_matrix, optional: true
+    path("${name}_${strand}_correlation.png"),  emit: correlation_heatmap, optional: true
+    path("${name}_${strand}_correlation.csv"),  emit: correlation_matrix, optional: true
+    path("${task.process}.version.txt"), 	    emit: version
 
     script:
     String[] test_size = query
@@ -209,6 +229,9 @@ process calc_wig_correlation{
             --type png \
             ${local_combine_strands}
     fi
+
+    echo -e "${task.process}\twig_file_statistics.R\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tR\t\$(R --version | head -1 | cut -d' ' -f3)" >> ${task.process}.version.txt
     """
 }
 
@@ -224,7 +247,8 @@ process wig_to_bigWig{
 
 	output:
 	path("*.bw"), optional: true
-	tuple val(out_dir), path("${query.baseName}.bw"), emit: bigWig, optional: true
+	tuple val(out_dir), path("${query.baseName}.bw"),   emit: bigWig, optional: true
+    path("${task.process}.version.txt"), 	            emit: version
 
 	"""
 	if [[ \$(cat ${query} | wc -l) > 1 ]]; then
@@ -233,6 +257,8 @@ process wig_to_bigWig{
             ${chrom_sizes} \
             ${query.baseName}.bw
 	fi
+
+    echo -e "${task.process}\twigToBigWig\t\$(wigToBigWig 2>&1 | head -1 | cut -d' ' -f3)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -247,12 +273,15 @@ process bigWig_to_bedgraph{
 	tuple val(out_dir), path(bigWig)
 
 	output:
-	path("*.bedgraph"), emit: bedgraph
+	path("*.bedgraph"),                     emit: bedgraph
+    path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	bigWigToBedGraph \
         ${bigWig} \
         ${bigWig.baseName}.bedgraph
+
+    echo -e "${task.process}\twigToBedGraph\tno_version_available" >> ${task.process}.version.txt
 	"""
 }
 
@@ -267,10 +296,13 @@ process index_for_peak_calling {
 
     output:
     tuple path("${query.simpleName}.sorted.bam"), path("${query.simpleName}.sorted.bam.bai"), emit: index
+    path("${task.process}.version.txt"), 	emit: version
 
     """
     samtools sort ${query} > ${query.simpleName}.sorted.bam
     samtools index ${query.simpleName}.sorted.bam
+
+    echo -e "${task.process}\tsamtools\t\$(samtools --version | head -1 | rev | cut -f1 -d' ' | rev)" > ${task.process}.version.txt
     """
 }
 
@@ -286,6 +318,7 @@ process split_wig_2_for_peak_height_hist {
 	output:
 	tuple val("${query.simpleName}"), path("${query.simpleName}_forward.wig"), emit: wig_split_forward, optional: true
     tuple val("${query.simpleName}"), path("${query.simpleName}_reverse.wig"), emit: wig_split_reverse, optional: true
+    path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	wig2-to-wig.py \
@@ -298,6 +331,9 @@ process split_wig_2_for_peak_height_hist {
     if [[ ! -f ${query.simpleName}_reverse.wig ]]; then
         touch ${query.simpleName}_reverse.wig
     fi
+
+    echo -e "${task.process}\twig2-to-wig.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -312,7 +348,8 @@ process generate_peak_height_histogram {
 	tuple val(query), path(forward), val(percentile)
 
 	output:
-	path("${query}.png"), emit: png_to_output_dir
+	path("${query}.png"),                   emit: png_to_output_dir
+    path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	generate-peak-height-histogram.R \
@@ -321,5 +358,8 @@ process generate_peak_height_histogram {
         --type png \
         --color "${params.color_barplot}" \
         --percentile ${percentile}
+
+    echo -e "${task.process}\tgenerate-peak-height-histogram.R\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tR\t\$(R --version | head -1 | cut -d' ' -f3)" >> ${task.process}.version.txt
 	"""
 }

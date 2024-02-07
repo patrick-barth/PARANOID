@@ -9,7 +9,8 @@ process extract_rnd_barcode {
 
 	output:
 	path("${query.baseName}.rndBarcode.fastq"), emit: fastq_rnd_barcode_extracted
-	path("${query.simpleName}.log"), emit: report_rnd_barcode_extraction
+	path("${query.simpleName}.log"), 			emit: report_rnd_barcode_extraction
+	path("${task.process}.version.txt"), 		emit: version
 
 	"""
 	umi_tools extract \
@@ -17,6 +18,8 @@ process extract_rnd_barcode {
 		--bc-pattern ${params.barcode_pattern} \
 		--log ${query.simpleName}.log \
 		--stdout ${query.baseName}.rndBarcode.fastq
+
+	echo -e "${task.process}\tumi-tools\t\$(umi_tools --version | cut -f3 -d' ')" > ${task.process}.version.txt
 	"""
 }
 
@@ -29,10 +32,13 @@ process check_barcode_file {
 	path("barcodes")
 
 	output:
-	path("checkedBarcodes")
+	path("checkedBarcodes"), 				emit: barcodes
+	path("${task.process}.version.txt"),	emit: version
 
 	"""
 	check_barcode_file.py barcodes > checkedBarcodes
+
+	echo -e "${task.process}\tcustom-script\t1.0.0" > ${task.process}.version.txt
 	"""
 }
 
@@ -47,8 +53,9 @@ process split_exp_barcode {
 	tuple path(query), path(barcodes)
 
 	output:
-    path "output/*.fastq", emit: fastq_split_experimental_barcode
-	path "barcode_split.log", emit: report_split_experimental_barcode 
+    path "output/*.fastq", 					emit: fastq_split_experimental_barcode
+	path "barcode_split.log", 				emit: report_split_experimental_barcode 
+	path("${task.process}.version.txt"),	emit: version
 
 	script:
 	def local_mismatches = params.barcode_mismatches == 0 ? '--exact' : '--mismatches ' + params.barcode_mismatches
@@ -64,13 +71,13 @@ process split_exp_barcode {
 		--prefix ./output/ \
 		--suffix .fastq \
 		> barcode_split.log
+
+	echo -e "${task.process}\tcustom-script\tno_version_available" > ${task.process}.version.txt
 	"""
 }
 
 /*
  * Extracts length of experimental barcode
- * Input: [STRING] Barcode pattern
- * Output: [INTEGER] Length of experimental barcode + 1
  */
 process get_length_exp_barcode {
 
@@ -95,20 +102,21 @@ process remove_exp_barcode {
 	tuple path(query), val(length_exp_barcode)
 
 	output:
-	path("*.preprocessed.fastq"), emit: fastq_trimmed
+	path("*.preprocessed.fastq"), 			emit: fastq_trimmed
+	path("${task.process}.version.txt"),	emit: version
 
 	"""
 	fastx_trimmer \
 		-f ${length_exp_barcode} \
 		-i ${query} \
 		-o ${query.baseName}.preprocessed.fastq
+
+	echo -e "${task.process}\tfastx_trimmer\t\$(fastx_trimmer -h | head -2 | tail -1 | rev | cut -d ' ' -f 5- | rev)" > ${task.process}.version.txt
 	"""
 }
 
 /*
  * Merges several FASTQ files belonging to the same experiment into a single file
- * Input: Tuple of [STRING] experiment name and [FASTQ] several read files
- * Output: [FASTQ] 1 read file
  */
 process merge_preprocessed_reads {
 	tag {name}
@@ -134,7 +142,8 @@ process generate_barcode_barplot {
 	path(query)
 
 	output:
-	path("${query.baseName}.png"), emit: png_to_output_dir
+	path("${query.baseName}.png"), 			emit: png_to_output_dir
+	path("${task.process}.version.txt"),	emit: version
 
 	"""
 	plot_experimental_barcode_distribution.R \
@@ -142,5 +151,7 @@ process generate_barcode_barplot {
 		--output ${query.baseName} \
 		--type png \
 		--color "${params.color_barplot}"
+
+	echo -e "${task.process}\tplot_experimental_barcode_distribution.R\tcustom_script" > ${task.process}.version.txt
 	"""
 }

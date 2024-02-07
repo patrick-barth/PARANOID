@@ -7,7 +7,8 @@ process count_hits {
     path(bam)
 
     output:
-    path("${bam.baseName}.hits.tsv"), emit: hit_counts
+    path("${bam.baseName}.hits.tsv"),       emit: hit_counts
+    path("${task.process}.version.txt"), 	emit: version
 
     """
     samtools view ${bam} \
@@ -16,6 +17,8 @@ process count_hits {
         | uniq -c \
         | sort -nr \
         > ${bam.baseName}.hits.tsv
+
+    echo -e "${task.process}\tsamtools\t\$(samtools --version | head -1 | rev | cut -f1 -d' ' | rev)" >> ${task.process}.version.txt
     """
 }
 
@@ -48,10 +51,13 @@ process index_alignments {
 
     output:
     tuple path("${bam.baseName}.sorted.bam"), path("${bam.baseName}.sorted.bam.bai"), emit: alignment_with_index
+    path("${task.process}.version.txt"), 	emit: version
 
     """
     samtools sort ${bam} -o ${bam.baseName}.sorted.bam
     samtools index ${bam.baseName}.sorted.bam
+
+    echo -e "${task.process}\tsamtools\t\$(samtools --version | head -1 | rev | cut -f1 -d' ' | rev)" >> ${task.process}.version.txt
     """
 }
 
@@ -63,9 +69,12 @@ process extract_top_alignments {
 
     output:
     path("${bam.simpleName}_filtered_top${params.number_top_transcripts}.bam"), emit: top_alignments
+    path("${task.process}.version.txt"), 	emit: version
 
     """
     samtools view -hb ${bam} `cat ${txt_alignments}` > ${bam.simpleName}_filtered_top${params.number_top_transcripts}.bam
+
+    echo -e "${task.process}\tsamtools\t\$(samtools --version | head -1 | rev | cut -f1 -d' ' | rev)" >> ${task.process}.version.txt
     """
 }
 
@@ -75,7 +84,7 @@ process remove_newlines {
     path(ref)
 
     output:
-    path("${ref.baseName}.removed_newlines.fna"), emit: fasta_no_newlines
+    path("${ref.baseName}.removed_newlines.fna"),   emit: fasta_no_newlines
 
     """
     awk '!/^>/ {printf "%s", \$0; n = "\\n" } /^>/ { print n \$0; n = "" } END { printf "%s", n }' ${ref} > ${ref.baseName}.removed_newlines.fna

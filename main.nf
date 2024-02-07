@@ -110,6 +110,7 @@ include{
     multiqc
     collect_workflow_metrics
     get_md5sum
+    pre_collect_versions
     collect_versions
 } from './modules/general_processes.nf'
 
@@ -147,6 +148,12 @@ workflow preprocessing {
         quality_filter(adapter_removal.out.fastq_trimmed)
         quality_control_2(quality_filter.out.fastq_quality_filtered)
 
+        // Collect versions
+        versions = quality_control.out.version.first()
+                    .concat(quality_control_2.out.version.first())
+                    .concat(adapter_removal.out.version.first())
+                    .concat(quality_filter.out.version.first())
+
     emit:
         //data for multiqc
         multiqc_quality_control                     = quality_control.out.summary
@@ -156,6 +163,8 @@ workflow preprocessing {
 
         // data for downstream processes
         fastq_reads_quality_filtered                = quality_filter.out.fastq_quality_filtered
+
+        versions    = versions
 }
 
 workflow barcode_handling {
@@ -166,7 +175,7 @@ workflow barcode_handling {
         extract_rnd_barcode(fastq_reads_quality_filtered)
         check_barcode_file(barcode_file)
         split_exp_barcode(extract_rnd_barcode.out.fastq_rnd_barcode_extracted
-                            .combine(check_barcode_file.out))
+                            .combine(check_barcode_file.out.barcodes))
         get_length_exp_barcode(params.barcode_pattern)
         remove_exp_barcode(split_exp_barcode.out.fastq_split_experimental_barcode
                             .flatten()
@@ -179,13 +188,23 @@ workflow barcode_handling {
         merge_preprocessed_reads(fastq_collect_preprocessed_to_merge)
         generate_barcode_barplot(split_exp_barcode.out.report_split_experimental_barcode.first()) //TODO: Instead of getting the first emitted file get the input from a specific dir and use all inputs
 
+        // Collect versions
+        extract_rnd_barcode.out.version.first()
+            .concat(check_barcode_file.out.version.first())
+            .concat(split_exp_barcode.out.version.first())
+            .concat(remove_exp_barcode.out.version.first())
+            .concat(generate_barcode_barplot.out.version.first())
+
     emit:
         // reports
         multiqc_rnd_barcode_extraction  = extract_rnd_barcode.out.report_rnd_barcode_extraction
         multiqc_exp_barcode_splitting   = split_exp_barcode.out.report_split_experimental_barcode
+        versions = versions
 
         // data for downstream processes
         fastq_preprocessed_reads        = merge_preprocessed_reads.out.fastq_merged
+
+
 }
 
 workflow alignment {
@@ -198,15 +217,21 @@ workflow alignment {
             build_index_bowtie(reference)
             mapping_bowtie(build_index_bowtie.out.index.first(),
                 fastq_preprocessed_reads)
-            alignments = mapping_bowtie.out.alignments
-            report_alignments = mapping_bowtie.out.report
+
+            alignments          = mapping_bowtie.out.alignments
+            report_alignments   = mapping_bowtie.out.report
+            version_index       = build_index_bowtie.out.version
+            version_alignment   = mapping_bowtie.out.version
         } else if ( params.domain == 'eu' ) {
             build_index_STAR(reference,
                 annotation)
             mapping_STAR(fastq_preprocessed_reads
                             .combine(build_index_STAR.out.index))
-            alignments = mapping_STAR.out.alignments
-            report_alignments = mapping_STAR.out.report
+
+            alignments          = mapping_STAR.out.alignments
+            report_alignments   = mapping_STAR.out.report
+            version_index       = build_index_STAR.out.version
+            version_alignment   = mapping_STAR.out.version
         }
         filter_empty_bams(alignments)
         collect_experiments_without_alignments(filter_empty_bams.out.report_empty.flatten().toList())
@@ -215,6 +240,8 @@ workflow alignment {
         // reports
         report_empty_alignments         = collect_experiments_without_alignments.out.output
         report_alignments               = report_alignments
+        versions                        = version_index.first()
+                                            .concat(version_alignment.first())
 
         // data for downstream processes
         bam_filtered_empty_alignments   = filter_empty_bams.out.bam_filtered
@@ -232,9 +259,15 @@ workflow deduplication {
             .set{ bam_dedup_sort_to_merge }
         merge_deduplicated_bam(bam_dedup_sort_to_merge)
 
+        // Collect versions
+        versions = sort_bam.out.version.first()
+                    .concat(deduplicate.out.version.first())
+                    .concat(merge_deduplicated_bam.first())
+
     emit:
         // reports
         report_deduplication    = deduplicate.out.report_deduplicated
+        versions                = versions
 
         // data for downstream processes
         deduplicated_alignments = merge_deduplicated_bam.out.bam_merged
@@ -253,9 +286,15 @@ workflow transcript_analysis {
         remove_newlines(reference)
         extract_top_transcript_sequences(get_top_hits.out.top_hits
             .combine(remove_newlines.out.fasta_no_newlines))
+
+        // Collect versions
+        versions = count_hits.out.version.first()
+                    .concat(index_alignments.out.version.first())
+                    .concat(extract_top_alignments.out.version.first())
     emit:
         bam_extracted_transcript_alignments = extract_top_alignments.out.top_alignments
         fasta_top_transcripts               = extract_top_transcript_sequences.out.fasta_top_sequences
+        versions                            = versions
 }
 
 workflow strand_preference {
@@ -278,6 +317,11 @@ workflow strand_preference {
         determine_strand_preference(grouped_bam_to_strand_preference
             .combine(reference))
         visualize_strand_preference(determine_strand_preference.out.txt_strand_proportions)
+
+        // Collect versions
+        versions = sort_bam_before_strand_pref.out.version.first()
+                    .concat(determine_strand_preference.out.version.first())
+                    .concat(visualize_strand_preference.out.version.first())
 }
 
 workflow peak_generation {
@@ -396,9 +440,22 @@ workflow peak_generation {
         generate_peak_height_histogram(combined_wig_for_peak_height_histogram
             .combine(percentile))
 
+        // Collect versions
+        versions = get_chromosome_sizes.out.version.first()
+                    .concat(calculate_crosslink_sites.out.version.first())
+                    .concat(wig_to_bigWig.out.version.first())
+                    .concat(bigWig_to_bedgraph.out.version.first())
+                    .concat(split_wig_2_for_peak_height_hist.out.version.first())
+                    .concat(generate_peak_height_histogram.out.version.first())
+
+        versions = !params.omit_peak_calling ? versions.concat(index_for_peak_calling.out.version.first()).concat(pureCLIP.out.version.first()) : versions
+        versions = param.merge_replicates ? versions.concat(merge_wigs.out.version.first()) : versions
+        versions = param.merge_replicates & params.correlation_analysis ? versions.concat(split_wig2_for_correlation.out.version.first()).concat(calc_wig_correlation.out.version.first()) : versions
+
     emit:
         // reports
         report_pureCLIP     = report_pureCLIP
+        versions            = versions
 
         // data for downstream analysis
         wig2_collected      = wig2_cross_link_sites_collected
@@ -528,7 +585,17 @@ if(params.version){
         output_reference(reference)
         collect_workflow_metrics()
         get_md5sum()//TODO: Collect all input files
-        collect_versions()//TODO: Collect all version outputs
+
+        versions = preprocessing.out.versions
+            .concat(barcode_handling.out.versions)
+            .concat(alignment.out.versions)
+            .concat(deduplication.out.versions)
+            .concat(strand_preference.out.versions)
+            .concat(peak_generation.out.versions)
+
+        versions = params.transcript_analysis ? versions.concat(transcript_analysis.out.versions) : versions
+
+        collect_versions(versions)
     }
 }
 

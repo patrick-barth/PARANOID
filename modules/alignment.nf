@@ -5,9 +5,12 @@ process build_index_bowtie {
 
 	output:
 	tuple path("${ref}"), path("${ref}.*"), emit: index
+	path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	bowtie2-build ${ref} ${ref}
+
+	echo -e "${task.process}\tbowtie2\t\$(bowtie2-build --version | head -1 | rev | cut -f1 -d' ' | rev)" > ${task.process}.version.txt
 	"""
 }
 
@@ -21,6 +24,7 @@ process mapping_bowtie{
 	output:
 	path("${query.baseName}.bam"), 				emit: alignments
 	path("${query.simpleName}.statistics.txt"), emit: report
+	path("${task.process}.version.txt"), 		emit: version
 
 	script:
 	def local_all_alignments 	= params.report_all_alignments ? '-a' : ''
@@ -48,7 +52,8 @@ process build_index_STAR {
 	path(gtf)
 
 	output:
-	path(index), emit: index
+	path(index), 							emit: index
+	path("${task.process}.version.txt"), 	emit: version
 
 	script:
 	def local_annotation = !params.annotation == 'NO_FILE' ? '--sjdbGTFfile ' + gtf : ''
@@ -73,6 +78,7 @@ process mapping_STAR{
 	output:
 	path("${query.baseName}.Aligned.sortedByCoord.out.bam"), 	emit: alignments
 	path("${query.baseName}.Log.*"), 							emit: report
+	path("${task.process}.version.txt"), 						emit: version
 
 	script:
 	def local_all_alignments = params.report_all_alignments ? '--outSAMmultNmax -1' : ''
