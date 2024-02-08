@@ -110,7 +110,6 @@ include{
     multiqc
     collect_workflow_metrics
     get_md5sum
-    pre_collect_versions
     collect_versions
 } from './modules/general_processes.nf'
 
