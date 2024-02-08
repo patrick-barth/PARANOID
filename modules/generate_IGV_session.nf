@@ -8,13 +8,18 @@ process prepare_annotation_for_igv {
 	path(annotation)
 
 	output:
-	val("${annotation.baseName}.sorted.gff.gz"), emit: name_annotation
-	path("${annotation.baseName}.sorted.gff.gz*"), emit: files_annotation_for_igv
+	val("${annotation.baseName}.sorted.gff.gz"), 	emit: name_annotation
+	path("${annotation.baseName}.sorted.gff.gz*"), 	emit: files_annotation_for_igv
+	path("${task.process}.version.txt"), 			emit: version
 
 	"""
 	gff3sort.pl ${annotation} > ${annotation.baseName}.sorted.gff
 	bgzip ${annotation.baseName}.sorted.gff
 	tabix ${annotation.baseName}.sorted.gff.gz
+
+	echo -e "${task.process}\tgff3sort.pl\tno_version_available" > ${task.process}.version.txt
+    echo -e "${task.process}\tbgzip\t\$(bgzip --help 2>&1 | head -2 | tail -1 | cut -d' ' -f2)" >> ${task.process}.version.txt
+	echo -e "${task.process}\ttabix\t\$(tabix --help 2>&1 | head -2 | tail -1 | cut -d' ' -f2)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -32,7 +37,8 @@ process generate_igv_session {
 	val(annotation)
 
 	output:
-	path('igv-session.xml'), emit: xml_to_output_dir
+	path('igv-session.xml'), 				emit: xml_to_output_dir
+	path("${task.process}.version.txt"), 	emit: version
 
 	script:
 	def local_annotation = !params.annotation == 'NO_FILE' ? '--annotation ' + gtf : ''
@@ -45,5 +51,8 @@ process generate_igv_session {
 		--tracks ${tracks} \
 		${bam} \
 		--output igv-session.xml
+
+	echo -e "${task.process}\tgenerate-igv-session.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }

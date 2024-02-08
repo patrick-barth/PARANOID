@@ -481,6 +481,15 @@ workflow rna_subtype_analysis {
                                     tsv_sort_to_calculate_distribution)
         generate_RNA_subtypes_barplot(get_RNA_subtypes_distribution.out.tsv_subtype_distribution)
         collect_subtype_analysis_errors(get_RNA_subtypes_distribution.out.report_errors)
+
+        // Collect versions
+        versions = wig_to_bam.out.version.first()
+                    .concat(feature_counts.out.version.first())
+                    .concat(get_RNA_subtypes_distribution.out.version.first())
+                    .concat(generate_RNA_subtypes_barplot.out.version.first())
+
+    emit:
+        versions = versions
 }
 
 workflow motif_analysis {
@@ -494,6 +503,14 @@ workflow motif_analysis {
         if((2*params.seq_len)+1 >= params.min_motif_width){
             motif_search(sequence_extraction.out.extracted_sequences)
         }
+
+        // Collect versions
+        versions = sequence_extraction.out.version.first()
+        versions = (2*params.seq_len)+1 >= params.min_motif_width ? versions.conat(motif_search.out.version.first()) : versions
+                    
+
+    emit:
+        versions = versions
 }
 
 workflow peak_distance_analysis {
@@ -503,6 +520,13 @@ workflow peak_distance_analysis {
         calculate_peak_distance(wig_peaks
             .combine(percentile))
         plot_peak_distance(calculate_peak_distance.out.tsv_distances)
+
+        // Collect versions
+        versions = calculate_peak_distance.out.version.first()
+                    .concat(plot_peak_distance.out.version.first())
+
+    emit:
+        versions = versions
 }
 workflow igv_session {
     take:
@@ -523,6 +547,14 @@ workflow igv_session {
             path_track_directory,
             reference,
             collect_annotation)
+
+        // Collect versions
+        versions = Channel.empty()
+        versions = params.annotation != 'NO_FILE' ? versions.concat(prepare_annotation_for_igv.out.version.first()) : versions
+        versions = versions.concat(generate_igv_session.out.version.first())
+
+    emit:
+        verions = versions
 }
 
 params.version = false
@@ -592,8 +624,12 @@ if(params.version){
             .concat(deduplication.out.versions)
             .concat(strand_preference.out.versions)
             .concat(peak_generation.out.versions)
+            .concat(igv_session.out.versions)
 
         versions = params.transcript_analysis ? versions.concat(transcript_analysis.out.versions) : versions
+        versions = params.annotation != 'NO_FILE' ? versions.concat(rna_subtype_analysis.out.versions) : versions
+        versions = !omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
+        versions = !omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
 
         collect_versions(versions)
     }

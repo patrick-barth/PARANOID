@@ -8,12 +8,16 @@ process wig_to_bam {
 	path(query)
 
 	output:
-	path("${query.baseName}.bam"), emit: bam
+	path("${query.baseName}.bam"), 			emit: bam
+	path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	wig-to-bam.py \
 		--input ${query} \
 		--output ${query.baseName}.bam
+
+	echo -e "${task.process}\twig-to-bam.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -27,8 +31,8 @@ process feature_counts {
 	tuple path(query), val(rna_subtypes), path(annotation)
 
 	output:
-	path("${query.simpleName}.${rna_subtypes}.tsv"), emit: features
-
+	path("${query.simpleName}.${rna_subtypes}.tsv"), 	emit: features
+	path("${task.process}.version.txt"), 				emit: version
 
 	"""
 	featureCounts \
@@ -42,6 +46,8 @@ process feature_counts {
 		${query}
 
 	mv ${query}.featureCounts ${query.simpleName}.${rna_subtypes}.tsv
+
+	echo -e "${task.process}\tfeatureCounts\t\$(featureCounts -v 2>&1 | head -2 | tail -1 |cut -d' ' -f2)" > ${task.process}.version.txt
 	"""
 }
 
@@ -61,6 +67,7 @@ process get_RNA_subtypes_distribution {
 	path("${name}.subtype_distribution.tsv"), 	emit: tsv_subtype_distribution
 	path("${name}.subtype.log"), 				emit: report_errors, optional: true
 	path("${name}.ambiguous.tsv"), 				emit: tsv_ambiguous_peaks, optional: true
+	path("${task.process}.version.txt"), 		emit: version
 
 	script:
 	subtypes_as_string = subtypes.join(' ')
@@ -71,6 +78,9 @@ process get_RNA_subtypes_distribution {
 		--output ${name} \
 		--report_ambiguous \
 		> ${name}.subtype.log
+
+	echo -e "${task.process}\tcalc-RNA-subtypes-distribution.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -84,7 +94,8 @@ process generate_RNA_subtypes_barplot {
 	path(query)
 
 	output:
-	path("${query.baseName}.png"), png_to_output_dir
+	path("${query.baseName}.png"), 			emit: png_to_output_dir
+	path("${task.process}.version.txt"), 	emit: version
 
 	"""
 	RNA_subtypes_barcharts.R \
@@ -92,6 +103,9 @@ process generate_RNA_subtypes_barplot {
 		--output ${query.baseName} \
 		--type png \
 		--color "${params.color_barplot}"
+
+	echo -e "${task.process}\tRNA_subtypes_barcharts.R\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tR\t\$(R --version | head -1 | cut -d' ' -f3)" >> ${task.process}.version.txt
 	"""
 }
 

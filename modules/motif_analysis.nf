@@ -10,8 +10,9 @@ process sequence_extraction {
 	tuple path(query),path(reference), val(percentile)
 
 	output:
-	path("*.extracted-sequences.fasta"), emit: extracted_sequences, optional: true
-	path("*.extracted-sequences.*"), emit: complete_output, optional: true
+	path("*.extracted-sequences.fasta"), 	emit: extracted_sequences, optional: true
+	path("*.extracted-sequences.*"), 		emit: complete_output, optional: true
+	path("${task.process}.version.txt"), 	emit: version
 	
 	script:
 	def local_remove_overlaps 	= params.remove_overlaps ? '--remove_overlaps' : ''
@@ -32,6 +33,9 @@ process sequence_extraction {
 		${local_omit_cl} \
 		${local_omit_width} \
 		${local_remove_overlaps}
+
+	echo -e "${task.process}\tsequence-extraction.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -46,7 +50,8 @@ process motif_search {
 	path(fasta)
 
 	output:
-	path("${fasta.baseName}_motif"), optional: true, emit: motifs
+	path("${fasta.baseName}_motif"), optional: true, 	emit: motifs
+	path("${task.process}.version.txt"), 				emit: version
 
 	script:
 	"""
@@ -60,5 +65,7 @@ process motif_search {
 			--minw ${params.min_motif_width} \
 			--maxw ${params.max_motif_width}
 	fi
+
+	echo -e "${task.process}\tstreme\t\$(streme --version)" >> ${task.process}.version.txt
 	"""
 }
