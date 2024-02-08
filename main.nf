@@ -557,7 +557,7 @@ workflow igv_session {
         versions = versions.concat(generate_igv_session.out.version.first())
 
     emit:
-        verions = versions
+        versions = versions
 }
 
 params.version = false
