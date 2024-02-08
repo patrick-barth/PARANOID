@@ -42,6 +42,9 @@ process mapping_bowtie{
 		-x ${ref} \
 		2> ${query.simpleName}.statistics.txt | samtools view -bS - \
 		> ${query.baseName}.bam
+
+	echo -e "${task.process}\tbowtie2\t\$(bowtie2 --version | head -1 | rev | cut -f1 -d' ' | rev)" > ${task.process}.version.txt
+	echo -e "${task.process}\tsamtools\t\$(samtools --version | head -1 | rev | cut -f1 -d' ' | rev)" >> ${task.process}.version.txt
 		"""
 }
 

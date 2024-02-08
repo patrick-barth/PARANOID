@@ -634,7 +634,9 @@ if(params.version){
         versions = !params.omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
         versions = !params.omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
 
-        collect_versions(versions)
+        collect_versions(versions
+                            .flatten()
+                            .toList())
     }
 }
 
