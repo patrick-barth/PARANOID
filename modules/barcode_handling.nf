@@ -38,7 +38,7 @@ process check_barcode_file {
 	"""
 	check_barcode_file.py barcodes > checkedBarcodes
 
-	echo -e "${task.process}\tcustom-script\t1.0.0" > ${task.process}.version.txt
+	echo -e "${task.process}\tcheck_barcode_file.py\tcustom_script" > ${task.process}.version.txt
 	"""
 }
 

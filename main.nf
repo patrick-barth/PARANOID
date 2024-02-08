@@ -219,8 +219,8 @@ workflow alignment {
 
             alignments          = mapping_bowtie.out.alignments
             report_alignments   = mapping_bowtie.out.report
-            version_index       = build_index_bowtie.out.version
-            version_alignment   = mapping_bowtie.out.version
+            version_index       = build_index_bowtie.out.version.first()
+            version_alignment   = mapping_bowtie.out.version.first()
         } else if ( params.domain == 'eu' ) {
             build_index_STAR(reference,
                 annotation)
@@ -229,18 +229,20 @@ workflow alignment {
 
             alignments          = mapping_STAR.out.alignments
             report_alignments   = mapping_STAR.out.report
-            version_index       = build_index_STAR.out.version
-            version_alignment   = mapping_STAR.out.version
+            version_index       = build_index_STAR.out.version.first()
+            version_alignment   = mapping_STAR.out.version.first()
         }
         filter_empty_bams(alignments)
         collect_experiments_without_alignments(filter_empty_bams.out.report_empty.flatten().toList())
+
+        // Collect versions
+        versions = version_index.concat(version_alignment)
 
     emit:
         // reports
         report_empty_alignments         = collect_experiments_without_alignments.out.output
         report_alignments               = report_alignments
-        versions                        = version_index.first()
-                                            .concat(version_alignment.first())
+        versions                        = versions
 
         // data for downstream processes
         bam_filtered_empty_alignments   = filter_empty_bams.out.bam_filtered
@@ -452,7 +454,7 @@ workflow peak_generation {
 
         versions = !params.omit_peak_calling ? versions.concat(index_for_peak_calling.out.version.first()).concat(pureCLIP.out.version.first()) : versions
         versions = params.merge_replicates ? versions.concat(merge_wigs.out.version.first()) : versions
-        versions = params.merge_replicates & params.correlation_analysis ? versions.concat(split_wig2_for_correlation.out.version.first()).concat(calc_wig_correlation.out.version.first()) : versions
+        versions = params.merge_replicates && params.correlation_analysis ? versions.concat(split_wig2_for_correlation.out.version.first()).concat(calc_wig_correlation.out.version.first()) : versions
 
     emit:
         // reports
