@@ -505,7 +505,7 @@ workflow motif_analysis {
 
         // Collect versions
         versions = sequence_extraction.out.version.first()
-        versions = (2*params.seq_len)+1 >= params.min_motif_width ? versions.conat(motif_search.out.version.first()) : versions
+        versions = (2*params.seq_len)+1 >= params.min_motif_width ? versions.concat(motif_search.out.version.first()) : versions
                     
 
     emit:

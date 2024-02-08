@@ -10,7 +10,8 @@ process calculate_peak_distance {
 	tuple path(query), val(percentile)
 
 	output:
-	path("${query.baseName}.peak-distance.tsv"), emit: tsv_distances
+	path("${query.baseName}.peak-distance.tsv"), 	emit: tsv_distances
+	path("${task.process}.version.txt"), 			emit: version
 
 	"""
 	wig2-to-wig.py \
@@ -22,6 +23,9 @@ process calculate_peak_distance {
 		--output ${query.baseName}.peak-distance.tsv \
 		--percentile ${percentile} \
 		--distance ${params.distance}
+
+	echo -e "${task.process}\tpeak-distance.py\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tpython\t\$(python --version | rev | cut -d' ' -f1 | rev)" >> ${task.process}.version.txt
 	"""
 }
 
@@ -36,12 +40,16 @@ process plot_peak_distance {
 	path(query)
 
 	output:
-	path("${query.simpleName}.peak-distance{_full,}.png"), emit: png_to_output_dir
+	path("${query.simpleName}.peak-distance{_full,}.png"), 	emit: png_to_output_dir
+	path("${task.process}.version.txt"), 					emit: version
 
 	"""
 	plot-distances.R \
 		--input ${query} \
 		--output ${query.simpleName}.peak-distance \
 		--type png
+
+	echo -e "${task.process}\tplot-distances.R\tcustom_script" > ${task.process}.version.txt
+    echo -e "${task.process}\tR\t\$(R --version | head -1 | cut -d' ' -f3)" >> ${task.process}.version.txt
 	"""
 }
