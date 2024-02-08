@@ -188,11 +188,11 @@ workflow barcode_handling {
         generate_barcode_barplot(split_exp_barcode.out.report_split_experimental_barcode.first()) //TODO: Instead of getting the first emitted file get the input from a specific dir and use all inputs
 
         // Collect versions
-        extract_rnd_barcode.out.version.first()
-            .concat(check_barcode_file.out.version.first())
-            .concat(split_exp_barcode.out.version.first())
-            .concat(remove_exp_barcode.out.version.first())
-            .concat(generate_barcode_barplot.out.version.first())
+        versions = extract_rnd_barcode.out.version.first()
+                    .concat(check_barcode_file.out.version.first())
+                    .concat(split_exp_barcode.out.version.first())
+                    .concat(remove_exp_barcode.out.version.first())
+                    .concat(generate_barcode_barplot.out.version.first())
 
     emit:
         // reports
