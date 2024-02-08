@@ -321,6 +321,9 @@ workflow strand_preference {
         versions = sort_bam_before_strand_pref.out.version.first()
                     .concat(determine_strand_preference.out.version.first())
                     .concat(visualize_strand_preference.out.version.first())
+
+    emit:
+        versions = versions
 }
 
 workflow peak_generation {
@@ -615,7 +618,7 @@ if(params.version){
 
         output_reference(reference)
         collect_workflow_metrics()
-        get_md5sum()//TODO: Collect all input files
+        //get_md5sum()//TODO: Collect all input files
 
         versions = preprocessing.out.versions
             .concat(barcode_handling.out.versions)
