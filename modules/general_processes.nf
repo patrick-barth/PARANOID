@@ -155,7 +155,7 @@ process collect_versions {
     path(query)
 
     output:
-    path('tool_versions.txt'), txt_to_output_dir
+    path('tool_versions.txt'), emit: txt_to_output_dir
 
     script:
     """
