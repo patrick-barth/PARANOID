@@ -261,7 +261,7 @@ workflow deduplication {
         // Collect versions
         versions = sort_bam.out.version.first()
                     .concat(deduplicate.out.version.first())
-                    .concat(merge_deduplicated_bam.first())
+                    .concat(merge_deduplicated_bam.out.version.first())
 
     emit:
         // reports
