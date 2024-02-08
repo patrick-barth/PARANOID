@@ -448,8 +448,8 @@ workflow peak_generation {
                     .concat(generate_peak_height_histogram.out.version.first())
 
         versions = !params.omit_peak_calling ? versions.concat(index_for_peak_calling.out.version.first()).concat(pureCLIP.out.version.first()) : versions
-        versions = param.merge_replicates ? versions.concat(merge_wigs.out.version.first()) : versions
-        versions = param.merge_replicates & params.correlation_analysis ? versions.concat(split_wig2_for_correlation.out.version.first()).concat(calc_wig_correlation.out.version.first()) : versions
+        versions = params.merge_replicates ? versions.concat(merge_wigs.out.version.first()) : versions
+        versions = params.merge_replicates & params.correlation_analysis ? versions.concat(split_wig2_for_correlation.out.version.first()).concat(calc_wig_correlation.out.version.first()) : versions
 
     emit:
         // reports
