@@ -124,7 +124,7 @@ process collect_workflow_metrics{
  * Calculates the md5sum of all files given via input
  */
 process get_md5sum {
-    publishDir "${params.output_dir}/metadata", mode: 'copy', pattern: "md5sums.txt"
+    publishDir "${params.output}/metadata", mode: 'copy', pattern: "md5sums.txt"
 
     input:
     path(query)
@@ -149,7 +149,7 @@ process get_md5sum {
  * Collects all version outputs and merges them into a single file
  */
 process collect_versions {
-    publishDir "${params.output_dir}/metadata", mode: 'copy', pattern: "tool_versions.txt"
+    publishDir "${params.output}/metadata", mode: 'copy', pattern: "tool_versions.txt"
 
     input:
     path(query)
