@@ -631,8 +631,8 @@ if(params.version){
 
         versions = params.map_to_transcripts ? versions.concat(transcript_analysis.out.versions) : versions
         versions = params.annotation != 'NO_FILE' ? versions.concat(rna_subtype_analysis.out.versions) : versions
-        versions = !omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
-        versions = !omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
+        versions = !params.omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
+        versions = !params.omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
 
         collect_versions(versions)
     }
