@@ -511,7 +511,6 @@ workflow motif_analysis {
         // Collect versions
         versions = sequence_extraction.out.version.first()
         versions = (2*params.seq_len)+1 >= params.min_motif_width ? versions.concat(motif_search.out.version.first()) : versions
-                    
 
     emit:
         versions = versions
@@ -630,7 +629,7 @@ if(params.version){
             .concat(peak_generation.out.versions)
             .concat(igv_session.out.versions)
 
-        versions = params.transcript_analysis ? versions.concat(transcript_analysis.out.versions) : versions
+        versions = params.map_to_transcripts ? versions.concat(transcript_analysis.out.versions) : versions
         versions = params.annotation != 'NO_FILE' ? versions.concat(rna_subtype_analysis.out.versions) : versions
         versions = !omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
         versions = !omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
