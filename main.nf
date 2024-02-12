@@ -113,6 +113,60 @@ include{
     collect_versions
 } from './modules/general_processes.nf'
 
+/*
+ * Welcome log to be displayed before workflow
+ */
+log.info """\
+        ${params.manifest.name} v${params.manifest.version}
+        ==========================
+        input reads         : ${params.reads}
+        input reference     : ${params.reference}
+        input barcodes      : ${params.barcodes}
+        input annotation    : ${params.annotation}
+        output to           : ${params.output}
+        --
+        Barcode pattern     : ${params.barcode_pattern}
+        Barcode Mismatches  : ${params.barcode_mismatches}
+        --
+        Aligner                 : ${params.domain}
+        MapQ-Score              : ${params.mapq}
+        Max alignments          : ${params.max_alignments}
+        Report all alignments   : ${params.report_all_alignments}
+        --
+        Merge replicates        : ${params.merge_replicates}
+        Correlation analysis    : ${params.correlation_analysis}
+        --
+        RNA subtypes            : ${params.rna_subtypes}
+        Gene identifier         : ${params.gene_id}
+        --
+        Omit peak calling       : ${params.omit_peak_calling}
+        Peak calling high cov   : ${params.peak_calling_for_high_coverage}
+        Peak calling regions    : ${params.peak_calling_regions}
+        Region width            : ${params.peak_calling_regions_width}
+        --
+        Transcript analysis     : ${params.map_to_transcripts}
+        Max top transcripts     : ${params.number_top_transcripts}
+        --
+        Omit sequence analysis          : ${params.omit_sequence_extraction}
+        Extracted sequence length       : ${params.seq_len}
+        Omit cl nucleotide              : ${params.omit_cl_nucleotide}
+        Width around cl to be omitted   : ${params.omit_cl_width}
+        Remove overlaps                 : ${params.remove_overlaps}
+        Maximum number of motifs        : ${params.max_motif_num}
+        Minimum motif length            : ${params.min_motif_width}
+        Maximum motif length            : ${params.min_motif_width}
+        --
+        Omit peak distance analysis : ${params.omit_peak_distance}
+        Distance                    : ${params.distance}
+        --
+        Color of barplots       : ${params.color_barplot}
+        Percentiles             : ${params.percentile}
+        --
+        run as              : ${workflow.commandLine}
+        started at          : ${workflow.start}
+        config files        : ${workflow.configFiles}
+        """
+        .stripIndent()
 
 
 //essential input files
