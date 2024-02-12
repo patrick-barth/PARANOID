@@ -114,13 +114,19 @@ include{
 } from './modules/general_processes.nf'
 
 
+
 //essential input files
 input_reads     = Channel.fromPath( params.reads )			//FASTQ file(s) containing reads
 reference       = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
 barcode_file    = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
+collect_input_files = input_reads
+                    .concat(reference)
+                    .concat(barcode_file)
+
 //non essential input files
 if(params.annotation != 'NO_FILE'){
     annotation_file = Channel.fromPath( params.annotation )
+    collect_input_files = collect_input_files.concat(annotation_file)
 }
 annotation = file(params.annotation)
 
@@ -619,7 +625,7 @@ if(params.version){
 
         output_reference(reference)
         collect_workflow_metrics()
-        //get_md5sum()//TODO: Collect all input files
+        get_md5sum(collect_input_files.flatten().toList())
 
         versions = preprocessing.out.versions
             .concat(barcode_handling.out.versions)
