@@ -157,7 +157,7 @@ if ( params.help ) {
                 |                                   [default: ${params.correlation_analysis}]
                 |   --combine_strands_correlation   If true correlation for forward and reverse strand is combined. 
                 |                                   If false then both are calculated independently
-                |                                   [default: ${params.combine_strand_correlation}]
+                |                                   [default: ${params.combine_strands_correlation}]
 
                 |   --rna_subtypes      RNA subtypes used for the RNA subtype analysis. Provided in a comma separated list.
                 |                       All provided RNA subtypes need to be present in the annotation file. 
@@ -194,9 +194,9 @@ if ( params.help ) {
                 |   --omit_cl_nucleotide        Replaces the nucleotide at the cross linking site with an N.
                 |                               Only applies when --omit_sequence_extraction is false.
                 |                               [default: ${params.omit_cl_nucleotide}]
-                |   --omit_cl_length            Amount of nucleotides around the cross linking iste that are also replaces with an N.
+                |   --omit_cl_width             Amount of nucleotides around the cross linking iste that are also replaces with an N.
                 |                               Only applies when --omit_sequence_extraction is false and --omit_cl_nucleotide is true.
-                |                               [default: ${params.omit_cl_length}]
+                |                               [default: ${params.omit_cl_width}]
                 |   --remove_overlaps           Removes overlapping sequences and only retains the one with the highest peak value
                 |                               Only applies when --omit_sequence_extraction is false.
                 |                               [default: ${params.remove_overlaps}]
@@ -218,7 +218,7 @@ if ( params.help ) {
                 |                           [default: ${params.distance}]
 
                 |   --color_barplot     Color to be used for all barplots (as hexadecimal value)
-                |                       [default: ${params.color_barplots}]
+                |                       [default: ${params.color_barplot}]
                 |   --percentile        Percentile to be used as cut off in order to filter out background noise.
                 |                       Only applies when peak calling is not performed.
                 |                       [default: ${params.percentile}]
