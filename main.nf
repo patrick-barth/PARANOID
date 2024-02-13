@@ -113,6 +113,124 @@ include{
     collect_versions
 } from './modules/general_processes.nf'
 
+
+/*
+ * Prints help and exits workflow afterwards when parameter --help is set to true
+ */
+
+if ( params.help ) {
+    help = """main.nf: Executes ${params.manifest.name} v${params.manifest.version} (Pipeline for Automated Read Analysis Of iCLIP Data).
+
+                |Required arguments:
+                |   --reads         Location of the input file(s) (FASTQ).
+                |   --barcodes      Location of file containing experiment names and the according barcodes
+                |   --reference     Location of the reference file used to align the reads to (FASTA).
+                |
+                |Optional arguments:
+                |   --annotation    Location of the annotation file (GFF3/GTF).
+                |   --domain        States which alignment tool is used. 'pro' uses Bowtie2 and 'eu STAR'
+                |                   [default: ${params.domain}]
+                |   --report_all_alignments If stated all possible alignments are calculated
+                |                           [default: ${params.report_all_alignments}]
+                |   --max_alignments    States the maximum number of alignments per read.
+                |                       Is overwritten by --report_all_alignments.
+                |                       [default: Default number used by the aligner]
+                |   --mapq          Minimum mapq score needed to keep an alignment [default: ${params.mapq}]
+
+                |   --min_length    Minimum length for reads after adapter trimming.
+                |                   [default: ${params.min_length}]
+                |   --min_qual      Minimum base quality.
+                |                   [default: ${params.min_qual}]
+                |   --min_percent_qual_filter   Minimum percentage of bases within a read that need to
+                |                               be above the quality threshold
+                |                               [default: ${params.min_percent_qual_filter}]
+
+                |   --barcode_pattern       Pattern used to identify experimental (X) and random (N) barcodes.
+                |                           [default: ${params.barcode_pattern}] 
+                |   --barcode_mismatches    Maximum number of allowed mismatches in experimental barcode
+                |                           [defaul: ${params.barcode_mismatches}]
+
+                |   --merge_replicates              If true replicates are merged into one representative form
+                |                                   [default: ${params.merge_replicates}]
+                |   --correlation_analysis          Calculates the correlation between samples belonging to the same experiment
+                |                                   Only applies when --merge_replicates is true.
+                |                                   [default: ${params.correlation_analysis}]
+                |   --combine_strands_correlation   If true correlation for forward and reverse strand is combined. 
+                |                                   If false then both are calculated independently
+                |                                   [default: ${params.combine_strand_correlation}]
+
+                |   --rna_subtypes      RNA subtypes used for the RNA subtype analysis. Provided in a comma separated list.
+                |                       All provided RNA subtypes need to be present in the annotation file. 
+                |                       Only applies when an annotation file is provided.
+                |   --gene_id           Keyword with which the identifier is specified within the annotation file.
+                |                       Only applies when an annotation file is provided.
+
+                |   --omit_peak_calling                 If true no peak calling is performed and analyses are performed on the top percentile of peaks.
+                |                                       If false peak calling is performed via PureCLIP and analyses are performed it's results.
+                |                                       [default: ${params.omit_peak_calling}]
+                |   --peak_calling_for_high_coverage    Should be stated if the reference shows an extremely high coverage. Else PureCLIP will likely run into an error.
+                |                                       Only applies when --omit_peak_calling is false.
+                |                                       [default: ${params.peak_calling_for_high_coverage}]
+                |   --peak_calling_regions              If true PureCLIP merges cross linking sites within close proximity into cross linking regions.
+                |                                       Only applies when --omit_peak_calling is false.
+                |                                       [default: ${params.peak_calling_regions}]
+                |   --peak_calling_regions_width        States the maximum length of cross linking regions
+                |                                       Only applies when --omit_peak_calling is false and --peak_calling_regions is true.
+                |                                       [defaut: ${params.peak_calling_regions_width}]
+
+                |   --map_to_transcripts        Should be stated if transcripts are provided as reference instead of a genome. 
+                |                               Applies the transcript analysis which shows if certain transcripts have a higher abundance of cross linking sites
+                |                               [default: ${params.map_to_transcripts}]
+                |   --number_top_transcripts    Maximum number of transcripts being extracted in the transcript analysis.
+                |                               Only applies when --map_to_transcripts is true.
+                |                               [default: ${params.number_top_transcripts}]
+
+                |   --omit_sequence_extraction  If true no sequence extraction and motif detection is performed. 
+                |                               Else sequences around cross linking sites are extracted and motifs are determined via meme
+                |                               [default: ${params.omit_sequence_extraction}]
+                |   --seq_len                   Length to each site of cross linking sites that is being extracted
+                |                               Only applies when --omit_sequence_extraction is false.
+                |                               [default: ${params.seq_len}]
+                |   --omit_cl_nucleotide        Replaces the nucleotide at the cross linking site with an N.
+                |                               Only applies when --omit_sequence_extraction is false.
+                |                               [default: ${params.omit_cl_nucleotide}]
+                |   --omit_cl_length            Amount of nucleotides around the cross linking iste that are also replaces with an N.
+                |                               Only applies when --omit_sequence_extraction is false and --omit_cl_nucleotide is true.
+                |                               [default: ${params.omit_cl_length}]
+                |   --remove_overlaps           Removes overlapping sequences and only retains the one with the highest peak value
+                |                               Only applies when --omit_sequence_extraction is false.
+                |                               [default: ${params.remove_overlaps}]
+                |   --max_motif_num             Maximum amount of different motifs to be extracted by meme.
+                |                               Only applies when --omit_sequence_extraction is false.
+                |                               [default: ${params.max_motif_num}]
+                |   --min_motif_len             Minimum length of motifs to be extracted by meme.
+                |                               Only applies when --omit_sequence_extraction is false.
+                |                               [default: ${params.seq_len}]
+                |   --max_motif_len             Maximum length of motifs to be extracted by meme.
+                |                               Only applies when --omit_sequence_extraction is false.
+                |                               [default: ${params.seq_len}]
+
+                |   --omit_peak_distance    If true no peak distance analysis is performed. 
+                |                           Else peaks between cross linking sites are being measured and provided to the user.
+                |                           [default: ${params.omit_peak_distance}]
+                |   --distance              Maximum distance to be measured by the peak distance analysis.
+                |                           Only applies when --omit_peak_distance is false.
+                |                           [default: ${params.distance}]
+
+                |   --color_barplot     Color to be used for all barplots (as hexadecimal value)
+                |                       [default: ${params.color_barplots}]
+                |   --percentile        Percentile to be used as cut off in order to filter out background noise.
+                |                       Only applies when peak calling is not performed.
+                |                       [default: ${params.percentile}]
+
+                |   -w              The NextFlow work directory. Delete the directory once the process
+                |                   is finished [default: ${workDir}]""".stripMargin()
+    // Print the help with the stripped margin and exit
+    println(help)
+    exit(0)
+}
+
+
 /*
  * Welcome log to be displayed before workflow
  */
@@ -154,7 +272,7 @@ log.info """\
         Remove overlaps                 : ${params.remove_overlaps}
         Maximum number of motifs        : ${params.max_motif_num}
         Minimum motif length            : ${params.min_motif_width}
-        Maximum motif length            : ${params.min_motif_width}
+        Maximum motif length            : ${params.max_motif_width}
         --
         Omit peak distance analysis : ${params.omit_peak_distance}
         Distance                    : ${params.distance}
