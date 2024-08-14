@@ -5,11 +5,11 @@ LABEL tool="STAR"
 LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
 RUN apk update && apk add bash wget && \
-	wget -q https://github.com/alexdobin/STAR/releases/download/2.7.10b_alpha_220111/STAR_2.7.10b_alpha_230111_Linux_x86_64_static.zip && \
-	unzip STAR_2.7.10b_alpha_230111_Linux_x86_64_static.zip && \
-        mv STAR /usr/local/bin/ && \
-	rm STAR_2.7.10b_alpha_230111_Linux_x86_64_static.zip && \
-        apk del wget
+	wget -q https://github.com/alexdobin/STAR/releases/download/2.7.11a/STAR_2.7.11a.zip && \
+	unzip STAR_2.7.11a.zip && \
+    mv STAR_2.7.11a/Linux_x86_64_static/STAR /usr/local/bin/ && \
+	rm STAR_2.7.11a.zip && \
+    apk del wget
 
 CMD ["STAR"]
 

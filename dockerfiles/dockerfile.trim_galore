@@ -1,7 +1,7 @@
 FROM alpine:3.17
 
 LABEL tool="trim_galore"
-LABEL tool.version="0.6.7"
+LABEL tool.version="0.6.10"
 
 LABEL maintainer="patrick.barth@computational.bio.uni-giessen.de"
 
@@ -14,18 +14,18 @@ RUN apk update && apk add --no-cache python3 \
 	unzip \
 	perl \
 	bash && \
-	pip --no-cache-dir install cutadapt==4.2 && \
+	pip --no-cache-dir install cutadapt==4.6 && \
     apk del python3-dev py3-pip g++ make unzip
 
 #install trim_galore	
-ARG FILE=0.6.7.zip
+ARG FILE=0.6.10.zip
 ARG TMPDIR=/opt
 
 RUN wget https://github.com/FelixKrueger/TrimGalore/archive/$FILE -O $TMPDIR/$FILE && \
 	unzip $TMPDIR/$FILE -d $TMPDIR && \
 	rm $TMPDIR/$FILE && \
-	chmod 755 $TMPDIR/TrimGalore-0.6.7/trim_galore
+	chmod 755 $TMPDIR/TrimGalore-0.6.10/trim_galore
 	
-ENV PATH $TMPDIR/TrimGalore-0.6.7:$PATH
+ENV PATH $TMPDIR/TrimGalore-0.6.10:$PATH
 
 CMD ["trim_galore"]
