@@ -69,6 +69,8 @@ process build_index_STAR {
 		--genomeDir ./index \
 		--genomeFastaFiles ${referenceGenome} \
 		${local_annotation}
+	
+	echo -e "${task.process}\tSTAR\t\$(STAR --version)" > ${task.process}.version.txt
 	"""
 }
 
@@ -96,6 +98,8 @@ process mapping_STAR{
 		--alignEndsType Extend5pOfRead1 \
 		${local_all_alignments} \
 		--outSAMtype BAM SortedByCoordinate
+
+	echo -e "${task.process}\tSTAR\t\$(STAR --version)" > ${task.process}.version.txt
 	"""
 }
 
