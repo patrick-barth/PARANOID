@@ -156,8 +156,8 @@ process merge_wigs{
     path("${task.process}.version.txt"), 	emit: version
 
     script:
-    def local_input     = name !=~ "unmatched*" ? ${name} + '.wig2' : 'unmatched.wig2'
-    def local_output    = name !=~ "unmatched*" ? ${name} : 'unmatched'
+    def local_input     = name !=~ "unmatched*" ? name + '.wig2' : 'unmatched.wig2'
+    def local_output    = name !=~ "unmatched*" ? name : 'unmatched'
 
     """
     merge-wig.py \
