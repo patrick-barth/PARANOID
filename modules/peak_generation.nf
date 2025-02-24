@@ -152,6 +152,8 @@ process merge_wigs{
     output:
     path("${name}.wig2"),                   emit: wig2_merged
     tuple val("cross-link-sites-merged"), path("${name}_forward.wig"), path("${name}_reverse.wig"), emit: wig_merged_cross_link_sites
+    tuple val("cross-link-sites-merged"), path("${name}_forward.wig"), emit: wig_merged_cross_link_sites_forward
+    tuple val("cross-link-sites-merged"), path("${name}_reverse.wig"), emit: wig_merged_cross_link_sites_reverse
     path("${name}_{forward,reverse}.wig")
     path("${task.process}.version.txt"), 	emit: version
 
