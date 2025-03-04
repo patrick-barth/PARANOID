@@ -6,7 +6,7 @@ import re
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input', 				'-i', 	nargs='+', 								help='Input file')
+parser.add_argument('--input', 				'-i', 	         								help='Input file')
 parser.add_argument('--output', 			'-o', 											help='Output file')
 args = parser.parse_args()
 
@@ -27,11 +27,6 @@ def main():
     
     if file_input is None or file_output is None:
         errx("Usage: check_barcode_file.py barcodes.tsv")
-
-    if len(file_input) == 1:
-        file_input = file_input[0]
-    else:
-        errx("More than one input file was offered")
 
     nucl_pattern = re.compile(r"^[ATGCatgc]+$")
     repl_pattern = re.compile(r"^(.*)(_rep_\d+)$")
