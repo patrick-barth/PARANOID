@@ -3,6 +3,12 @@
 import sys
 import os
 import re
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--input', 				'-i', 	nargs='+', 								help='Input file')
+parser.add_argument('--output', 			'-o', 											help='Output file')
+args = parser.parse_args()
 
 def ensure_can_read(fname):
     if not (os.path.exists(fname) and os.path.isfile(fname) and os.access(fname, os.R_OK)):
@@ -14,14 +20,23 @@ def errx(message):
     exit(1)
 
 def main():
-    if len(sys.argv) != 2:
+    file_input = args.input
+    file_output = args.output
+
+    print(file_input)
+    
+    if file_input is None or file_output is None:
         errx("Usage: check_barcode_file.py barcodes.tsv")
+
+    if len(file_input) == 1:
+        file_input = file_input[0]
+    else:
+        errx("More than one input file was offered")
 
     nucl_pattern = re.compile(r"^[ATGCatgc]+$")
     repl_pattern = re.compile(r"^(.*)(_rep_\d+)$")
 
-    tsvFile = sys.argv[1]
-    ensure_can_read(tsvFile)
+    ensure_can_read(file_input)
 
     exp_names = list()
     barcodes = list()
@@ -29,7 +44,7 @@ def main():
 
     validated = dict()
     
-    with open(tsvFile) as tsv:
+    with open(file_input) as tsv:
         for line in tsv:
 
             # skip empty lines
@@ -77,15 +92,16 @@ def main():
             # assume ok
             validated[expname] = barcode
 
-    # if any experiment occurs with only one replicate, assume typo and bail out
+    # if any experiment occurs with only one replicate print warning to stdout and continue
     for exp in replicates.keys():
         if replicates[exp] == 1:
-            errx("Experiment " + exp + " has only one replicate.")
+            print("Warning: Experiment " + exp + " has only one replicate.")
 
 
     # output
-    for exp, bc in validated.items():
-        print("\t".join([exp, bc]))
+    with open(file_output, 'w') as outfile:
+        for exp, bc in validated.items():
+            outfile.write(f"{exp}\t{bc}\n")
 
 
 if __name__== "__main__":

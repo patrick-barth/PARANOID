@@ -32,11 +32,11 @@ process check_barcode_file {
 	path("barcodes")
 
 	output:
-	path("checkedBarcodes"), 				emit: barcodes
+	path("checked_barcodes.tsv"), 				emit: barcodes
 	path("${task.process}.version.txt"),	emit: version
 
 	"""
-	check_barcode_file.py barcodes > checkedBarcodes
+	check_barcode_file.py barcodes > checked_barcodes.tsv
 
 	echo -e "${task.process}\tcheck_barcode_file.py\tcustom_script" > ${task.process}.version.txt
 	"""
