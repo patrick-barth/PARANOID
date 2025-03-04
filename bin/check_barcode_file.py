@@ -6,8 +6,8 @@ import re
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--input', 				'-i', 	         								help='Input file')
-parser.add_argument('--output', 			'-o', 											help='Output file')
+parser.add_argument('--input', 	'-i', default=None,	         								help='Input file')
+parser.add_argument('--output', '-o', default=None,											help='Output file')
 args = parser.parse_args()
 
 def ensure_can_read(fname):
@@ -26,7 +26,7 @@ def main():
     print(file_input)
     
     if file_input is None or file_output is None:
-        errx("Usage: check_barcode_file.py barcodes.tsv")
+        errx("Usage: check_barcode_file.py --input barcodes.tsv --output checked_barcodes.tsv")
 
     nucl_pattern = re.compile(r"^[ATGCatgc]+$")
     repl_pattern = re.compile(r"^(.*)(_rep_\d+)$")
