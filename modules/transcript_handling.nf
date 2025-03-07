@@ -1,7 +1,7 @@
 process count_hits {
     tag {bam.simpleName}
 
-    publishDir "${params.output}/transcripts/overview-hits", mode: 'copy'
+    publishDir "${params.output}/transcripts/overview_hits", mode: 'copy', pattern: "${bam.baseName}.hits.tsv"
 
     input:
     path(bam)
@@ -24,7 +24,7 @@ process count_hits {
 
 process get_top_hits {
 
-    publishDir "${params.output}/transcripts/overview-hits", mode: 'copy'
+    publishDir "${params.output}/transcripts/overview_hits", mode: 'copy', pattern: "transcript-targets-top${params.number_top_transcripts}.txt"
 
     input:
     path(tsv)
@@ -93,7 +93,7 @@ process remove_newlines {
 
 process extract_top_transcript_sequences {
     tag {txt_sequences.simpleName}
-    publishDir "${params.output}/transcripts", mode: 'copy'
+    publishDir "${params.output}/transcripts", mode: 'copy', pattern: "${ref.simpleName}.top${params.number_top_transcripts}_transcripts.fna"
 
     input:
     tuple path(txt_sequences), path(ref)

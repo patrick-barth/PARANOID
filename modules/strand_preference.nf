@@ -23,7 +23,7 @@ process sort_bam_before_strand_pref {
  */
 process determine_strand_preference {
 	tag {name}
-	publishDir "${params.output}/strand-distribution", mode: 'copy', pattern: "${name}.strand_proportion.txt"
+	publishDir "${params.output}/strand_distribution", mode: 'copy', pattern: "${name}.strand_proportion.txt"
 
 	input:
 	tuple val(name), path(query), path(reference)
@@ -52,7 +52,7 @@ process determine_strand_preference {
  * Visualizes determined strand proportions into bar charts
  */
 process visualize_strand_preference {
-	publishDir "${params.output}/strand-distribution/visualization", mode: 'copy', pattern: "${strand.simpleName}.png"
+	publishDir "${params.output}/strand_distribution/visualization", mode: 'copy', pattern: "${strand.simpleName}.png"
 
 	input:
 	path(strand)

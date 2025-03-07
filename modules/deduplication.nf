@@ -24,7 +24,7 @@ process sort_bam{
  *  alignment position. If both are identical for 2 or more reads all but one are removed.
  */
 process deduplicate{
-	publishDir "${params.output}/statistics/PCR-deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
+	publishDir "${params.output}/statistics/PCR_deduplication", mode: 'copy', pattern: "${query.baseName}.deduplicated.log*"
 	tag {query.simpleName}
 	memory { 40.GB + 5.B * query.size() }
 

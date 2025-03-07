@@ -47,7 +47,7 @@ process check_barcode_file {
  */
 process split_exp_barcode {
 	tag {query.simpleName}
-	publishDir "${params.output}/statistics/barcode-distribution", mode: 'copy', pattern: 'barcode_split.txt'
+	publishDir "${params.output}/statistics/barcode_distribution", mode: 'copy', pattern: 'barcode_split.log'
 
 	input:
 	tuple path(query), path(barcodes)
@@ -136,7 +136,7 @@ process merge_preprocessed_reads {
  * Generates a plot showing the ampunt of reads being assigned to their experiments
  */
 process generate_barcode_barplot {
-	publishDir "${params.output}/statistics/barcode-distribution", mode: 'copy'
+	publishDir "${params.output}/statistics/barcode_distribution", mode: 'copy', pattern: "${query.baseName}.png"
 
 	input:
 	path(query)

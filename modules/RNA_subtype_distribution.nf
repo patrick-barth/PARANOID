@@ -57,7 +57,9 @@ process feature_counts {
 process get_RNA_subtypes_distribution {
 	tag {name}
 
-	publishDir "${params.output}/RNA_subtypes", mode: 'copy'
+	publishDir "${params.output}/RNA_subtypes", mode: 'copy', pattern: "${name}.subtype_distribution.tsv"
+	publishDir "${params.output}/RNA_subtypes", mode: 'copy', pattern: "${name}.subtype.log"
+	publishDir "${params.output}/RNA_subtypes", mode: 'copy', pattern: "${name}.ambiguous.tsv"
 
 	input:
 	val(subtypes)
@@ -88,7 +90,7 @@ process get_RNA_subtypes_distribution {
  * Generates a bar chart depicting the RNA subtype distribution calculated in get_RNA_subtypes_distribution  
  */
 process generate_RNA_subtypes_barplot {
-	publishDir "${params.output}/RNA_subtypes", mode: 'copy'
+	publishDir "${params.output}/RNA_subtypes", mode: 'copy', pattern: "${query.baseName}.png"
 
 	input:
 	path(query)
