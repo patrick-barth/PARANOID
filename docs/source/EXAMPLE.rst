@@ -41,10 +41,10 @@ To automatically download and then execute PARANOiD the following commands can b
 .. code-block:: shell
     
     # RVFV sample:
-    nextflow run patrick-barth/PARANOiD -r main --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+    nextflow run patrick-barth/PARANOiD -r main --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile apptainer
 
     # BHK sample:
-    nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+    nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile apptainer
 
 In case the resource 
 To manually download and execute PARANOiD following commands can be used:
@@ -54,13 +54,13 @@ To manually download and execute PARANOiD following commands can be used:
     git clone git@github.com:patrick-barth/PARANOID.git
 
     # RVFV sample:
-    nextflow PARANOID/main.nf --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+    nextflow PARANOID/main.nf --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile apptainer
 
     # BHK sample:
-    nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+    nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile apptainer
 
 
-If another container execution system is to be used then `podman` can be displaced with `singularity` or `docker` as described :ref:`here <section-container>`.
+If another container execution system is to be used then `apptainer` can be displaced with `singularity` or `docker` as described :ref:`here <section-container>`.
 If the jobs are supposed to be distributed to a cluster the distribution system can be added to the profile argument as described :ref:`here <section-cluster>`. 
 Please note that without distributing jobs to a cluster all processes will be calculated locally. 
 This currently uses a minimum of 8 cores and 100 GB memory which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.
