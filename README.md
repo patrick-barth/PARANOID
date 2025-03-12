@@ -136,4 +136,4 @@ Currently supported are Docker, Podman and Singularity. They can be used by addi
 ```
 
 
-For more detailed descriptions of input files, parameters and implemented analyses please visit the [Read the Docs manual](https://paranoid.readthedocs.io/en/readthedocs/)
+For more detailed descriptions of input files, parameters and implemented analyses please visit the [Read the Docs manual](https://paranoid.readthedocs.io/en/latest/)
