@@ -18,16 +18,16 @@ Alternatively they can be downloaded using the CLI with following commands:
 .. code-block:: shell
 
     # RVFV sample:
-    curl "https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv" -o barcodes-RVFV.tsv
-    curl "https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz" -o virion-reads-M-fragment-only.fastq.gz
-    curl "https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz" -o reference_RVFV.fasta.gz
+    wget "https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv" -O barcodes-RVFV.tsv
+    wget "https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz" -O virion-reads-M-fragment-only.fastq.gz
+    wget "https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz" -O reference_RVFV.fasta.gz
     gzip -d reference_RVFV.fasta.gz
     gzip -d virion-reads-M-fragment-only.fastq.gz
 
     # BHK sample:
-    curl "https://zenodo.org/record/7733740/files/barcodes-BHK.tsv" -o barcodes-BHK.tsv
-    curl "https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz" -o BHK-reads-M-fragment-only.fastq.gz
-    curl "https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz" -o reference_RVFV.fasta.gz
+    wget "https://zenodo.org/record/7733740/files/barcodes-BHK.tsv" -O barcodes-BHK.tsv
+    wget "https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz" -O BHK-reads-M-fragment-only.fastq.gz
+    wget "https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz" -O reference_RVFV.fasta.gz
     gzip -d reference_RVFV.fasta.gz
     gzip -d BHK-reads-M-fragment-only.fastq.gz
 
