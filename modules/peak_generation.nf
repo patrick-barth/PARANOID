@@ -83,6 +83,7 @@ process pureCLIP {
     def local_regions       = params.peak_calling_regions ? '-or ' + ${bam.simpleName} + '.pureCLIP_crosslink_regions.bed' : ''
     def local_region_width  = params.peak_calling_regions ? '-dm ' + ${params.peak_calling_regions_width} : ''
     def local_high_coverage = params.peak_calling_for_high_coverage ? '-mtc 5000 -mtc2 5000 -ld' : ''
+    def reference           = ${ref}.endsWith('.fa') || ${ref}.endsWith('.fasta') ? ${ref} : ${ref.baseName} + '.fa'
 
     """
     pureclip \
