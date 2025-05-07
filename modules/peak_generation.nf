@@ -67,7 +67,7 @@ process prepare_ref_peak_calling {
     path(ref)
 
     output:
-    path("${ref} > ${ref.baseName}.change_nuc.fa"), emit: fasta_reference_adapted_for_pureCLIP
+    path("${ref.baseName}.change_nuc.fa"), emit: fasta_reference_adapted_for_pureCLIP
 
     """
     awk '!/^>/ {
