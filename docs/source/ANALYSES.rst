@@ -91,8 +91,8 @@ the actual protein-RNA interaction). This can be due to the reverse transcriptio
 aminoacid or by a covalent binding of the protein of interest with an RNA just because their were in close proximity. Peak calling
 is supposed to filter out this background noise and thus reduce the amount of false positive signal. 
 PARANOiD employs `PureCLIP <https://github.com/skrakau/PureCLIP>`_ for its peak calling process. PureCLIP uses a hidden Markov model
-to divide the reference into 4 different states based on the peak distribution. Additionally, identified peaks in close proximity 
-can be merged into binding regions. 
+to divide the reference into 4 different states based on the peak distribution (0-based). Additionally, identified peaks in close proximity 
+can be merged into binding regions. Please note that in order to run PureCLIP all non ACGTN nucleotide letters need to be changed to Ns.
 
 .. parsed-literal::
     Associated parameters:

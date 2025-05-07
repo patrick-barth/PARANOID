@@ -60,6 +60,25 @@ process calculate_crosslink_sites{
 }
 
 /*
+ * Prepares reference file for peak calling by changing all non ACGTN nucleotides to Ns
+ */
+process prepare_ref_peak_calling {
+    input:
+    path(ref)
+
+    output:
+    path("${ref} > ${ref.baseName}.change_nuc.fa"), emit: fasta_reference_adapted_for_pureCLIP
+
+    """
+    awk '!/^>/ {
+        gsub(/[^ACGTNacgtn]/, \"N\");
+        print;
+        next;
+    } 1' ${ref} > ${ref.baseName}.change_nuc.fa
+    """
+}
+
+/*
  * Performs peak calling via PureCLIP. Can do single peaks or peak regions.
  */
 process pureCLIP {

@@ -61,6 +61,7 @@ include{
     wig_to_bigWig
     bigWig_to_bedgraph
     index_for_peak_calling
+    prepare_ref_peak_calling
     pureCLIP
     split_wig_2_for_peak_height_hist
     generate_peak_height_histogram
@@ -522,8 +523,9 @@ workflow peak_generation {
         //Handle peak calling when it is not omitted. If pureCLIP is executed all further analyses are performed on the peaks determined by pureCLIP
         if(params.omit_peak_calling == false){
             index_for_peak_calling(bam_collected)
+            prepare_ref_peak_calling(reference)
             pureCLIP(index_for_peak_calling.out.index
-                .combine(reference))
+                .combine(prepare_ref_peak_calling.out.fasta_reference_adapted_for_pureCLIP))
             pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
 
             report_pureCLIP                 = pureCLIP.out.report_pureCLIP
