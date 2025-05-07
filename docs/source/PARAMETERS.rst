@@ -439,13 +439,26 @@ Usage (default):
 
     --color_barplot #69b3a2
 
+.. _omit-rna-subtypes:
+
+-\-omit_rna_subtype
+-------------------
+
+Omits the :ref:`RNA subtype analysis <RNA-subtype-analysis>`
+
+Usage:
+
+.. code-block:: shell
+
+    --omit_rna_subtype
+
 
 .. _rna-subtypes:
 
 -\-rna_subtypes
 ---------------
 
-Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
+Only has an effect if an :ref:`annotation file <annotation>` is provided and :ref:`-\-omit_rna_subtype <omit-rna-subtype>` is not chosen, performing :ref:`RNA subtype analysis <RNA-subtype-analysis>`.
 RNA subtypes/regions that shall be included in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes need to be separated by a `,` and should appear in the :ref:`annotation file <annotation>` within the **feature type** column (3rd column).
 If both requirements are not met the analysis will either not be performed correctly or be aborted.
 If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`.
