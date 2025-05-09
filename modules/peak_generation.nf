@@ -142,8 +142,8 @@ process pureCLIP_to_wig{
     if [[ "${query.size()}" > 0 ]]; then
         # split into strands
         awk '{if (\$6 == "+") {print \$0 > "${query.simpleName}_forward.bed";} else {print \$0 > "${query.simpleName}_reverse.bed";}}' ${query}
-        # Add 1 into the 4th column (since it#s from peak calling the actual size of the peak does not matter anymore)
-        #  Then extracts important columns and converts the data into a valif WIG file
+        # Add 1 into the 4th column (since it\'s from peak calling the actual size of the peak does not matter anymore)
+        #  Then extracts important columns and converts the data into a valid WIG file
         if [[ -e "${query.simpleName}_forward.bed" ]]; then
             awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t1";print \$0;}' ${query.simpleName}_forward.bed > ${query.simpleName}_forward.1.bed
             awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
@@ -274,6 +274,7 @@ process wig_to_bigWig{
 	"""
 	if [[ \$(cat ${query} | wc -l) > 1 ]]; then
 		wigToBigWig \
+            -clip \
             ${query} \
             ${chrom_sizes} \
             ${query.baseName}.bw
