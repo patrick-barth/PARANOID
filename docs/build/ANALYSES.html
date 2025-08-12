@@ -1,21 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Included Analyses &mdash; PARANOiD  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=fab60487" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=bbec6902"></script>
+      <script src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=4184ea2e"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PARANOiD
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PARANOiD
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -55,6 +59,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FILES.html">Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
@@ -75,7 +80,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Included Analyses</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/ANALYSES.rst.txt" rel="nofollow"> View page source</a>
@@ -86,13 +91,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="included-analyses">
-<h1>Included Analyses<a class="headerlink" href="#included-analyses" title="Permalink to this heading"></a></h1>
+  <section id="included-analyses">
+<h1>Included Analyses<a class="headerlink" href="#included-analyses" title="Link to this heading"></a></h1>
 <p>Short overview of all analyses implemented in PARANOiD</p>
-<div class="section" id="basic-analysis">
-<span id="id1"></span><h2>Basic analysis<a class="headerlink" href="#basic-analysis" title="Permalink to this heading"></a></h2>
+<section id="basic-analysis">
+<span id="id1"></span><h2>Basic analysis<a class="headerlink" href="#basic-analysis" title="Link to this heading"></a></h2>
 <p>The basic analysis of PARANOiD includes the preprocessing of <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">FASTQ files</span></a>, demultiplexing, aligning reads to a reference and calculating the cross-linking position based on the alignment. These positions are then translated into <a class="reference internal" href="OUTPUT.html#output-cross-link-sites-raw"><span class="std std-ref">WIG, BIGWIG and BEDGRAPH files</span></a> and given as output to the user. Additionally, a distribution of the <a class="reference internal" href="OUTPUT.html#output-peak-height-distribution"><span class="std std-ref">peak height</span></a> and the <a class="reference internal" href="OUTPUT.html#output-strand-distribution"><span class="std std-ref">stradnedness</span></a> are given as output together with a <a class="reference internal" href="OUTPUT.html#output-statistics"><span class="std std-ref">statistics overview</span></a> of important proceses. Lastly, an <a class="reference internal" href="OUTPUT.html#output-igv-session"><span class="std std-ref">XML file</span></a> is generated that can be importet by the <cite>IGV &lt;https://software.broadinstitute.org/software/igv/&gt;</cite> to automatically visualize results generated by PARANOiD.
-The preprocessing involves adapter removal, quality filtering, splitting reads according to their experimental barcode and removing the whole barcode. The alignmentcan be done via <a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">2 different alignment tools (Bowtie2 or STAR)</span></a> and is followed by a deduplication step in which PCR duplicates are removed. Finally, alignments are filtered via the <a class="reference internal" href="PARAMETERS.html#mapq"><span class="std std-ref">MAPQ score</span></a> and cross-linking positions are calculated for each alignment. <a class="reference internal" href="OUTPUT.html#output-cross-link-sites-raw"><span class="std std-ref">2 WIG, BIGWIG and BEDGRAPH files</span></a> are generated for each sample - one for forward and one for reverse alignments.</p>
+The preprocessing involves adapter removal, quality filtering, splitting reads according to their experimental barcode and removing the whole barcode. The alignmentcan be done via <a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">2 different alignment tools (Bowtie2 or STAR)</span></a> and is followed by a deduplication step in which PCR duplicates are removed. Finally, alignments are filtered via the <a class="reference internal" href="PARAMETERS.html#mapq"><span class="std std-ref">MAPQ score</span></a> and cross-linking positions are calculated for each alignment. <a class="reference internal" href="OUTPUT.html#output-cross-link-sites-raw"><span class="std std-ref">2 WIG, BIGWIG and BEDGRAPH files</span></a> are generated for each sample - one for forward and one for reverse alignments. When analyzing peaks you should consider that iCLIP tends to have a bias towards cross-linking with Uridines (<cite>Sugimoto et al. 2012 &lt;10.1186/gb-2012-13-8-r67&gt;</cite>).</p>
 <pre class="literal-block">Associated parameters (preprocessing)
 <a class="reference internal" href="PARAMETERS.html#barcode-pattern"><span class="std std-ref">--barcode_pattern</span></a>           States composition of random and experimental barcodes
 <a class="reference internal" href="PARAMETERS.html#barcode-mismatches"><span class="std std-ref">--barcode_mismatches</span></a>        Number of mismatches allowed mismatches within experimental barcode to still align it to it's sample
@@ -105,9 +110,9 @@ Associated parameters (alignment &amp; cross link site determination)
 <a class="reference internal" href="PARAMETERS.html#mapq"><span class="std std-ref">--mapq</span></a>                     Minimum MAPQ score for alignments necessary to retain
 <a class="reference internal" href="PARAMETERS.html#max-alignments"><span class="std std-ref">--max_alignments</span></a>           Maximum number of alignments provided by the mapping tool
 <a class="reference internal" href="PARAMETERS.html#report-all-alignments"><span class="std std-ref">--report_all_alignments</span></a>    Reports all possible alignments (might be filtered out later on)</pre>
-</div>
-<div class="section" id="merge-replicates">
-<span id="merge-replicates-analysis"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Permalink to this heading"></a></h2>
+</section>
+<section id="merge-replicates">
+<span id="merge-replicates-analysis"></span><h2>Merge replicates<a class="headerlink" href="#merge-replicates" title="Link to this heading"></a></h2>
 <p>Merges several replicates into a single representative version which can be used for publications, posters or presentations.
 This version shows the mean hit count for every position. Additionally, a correlation analysis is performed to give the user
 an evaluation of the sample similarity and therefore a rationale for this analysis. The correlation is performed on raw cross-link sites
@@ -116,9 +121,9 @@ Is deactivated by default.</p>
 <pre class="literal-block">Associated parameters:
 <a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">--merge_replicates</span></a>           Merges replicates according to the name in the <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcode file</span></a>
 <a class="reference internal" href="PARAMETERS.html#correlation-analysis"><span class="std std-ref">--correlation_analysis</span></a>       Does a correlation analysis for merged replicates</pre>
-</div>
-<div class="section" id="rna-subtypes">
-<span id="rna-subtype-analysis"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Permalink to this heading"></a></h2>
+</section>
+<section id="rna-subtypes">
+<span id="rna-subtype-analysis"></span><h2>RNA subtypes<a class="headerlink" href="#rna-subtypes" title="Link to this heading"></a></h2>
 <p>Analysis to determine if the protein of interest is prone to bind to specific RNA subtypes or regions. As this is determined
 via the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> only subtypes included there can be determined (shown in column 3).
 To see which RNA subtypes are included in the annotation file a <a class="reference internal" href="ADDITIONAL_SCRIPTS.html#determine-feature-types"><span class="std std-ref">script</span></a> was added.
@@ -128,12 +133,13 @@ The <a class="reference external" href="https://github.com/The-Sequence-Ontology
 be used to get an overview of the official hierarchical structures of annotation files.
 Is activated when an <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a> is provided.</p>
 <pre class="literal-block">Associated parameters
+<a class="reference internal" href="PARAMETERS.html#omit-rna-subtypes"><span class="std std-ref">--omit_rna_subtype</span></a>          Omits RNA subtype analysis
 <a class="reference internal" href="PARAMETERS.html#gene-id"><span class="std std-ref">--gene_id</span></a>               Tag for the gene ID used within the <a class="reference internal" href="INPUT.html#annotation"><span class="std std-ref">annotation file</span></a>
 <a class="reference internal" href="PARAMETERS.html#color-barplot"><span class="std std-ref">--color_barplot</span></a>         Color bars within the barplot generated by this analysis
 <a class="reference internal" href="PARAMETERS.html#rna-subtypes"><span class="std std-ref">--rna_subtypes</span></a>          RNA subtypes/regions used for this analysis</pre>
-</div>
-<div class="section" id="transcript-analysis">
-<span id="id2"></span><h2>Transcript analysis<a class="headerlink" href="#transcript-analysis" title="Permalink to this heading"></a></h2>
+</section>
+<section id="transcript-analysis">
+<span id="id2"></span><h2>Transcript analysis<a class="headerlink" href="#transcript-analysis" title="Link to this heading"></a></h2>
 <p>Analysis to show if specific RNAs are more prone to interact with the the protein of interest.
 If choosing this analysis a file containing all RNAs of interest should be used as input reference instead of the genome.
 Here all RNAs of interest (or artificial RNAs present in the sample) can be combined to a single fasta file. If the general
@@ -145,33 +151,28 @@ gffread -w output_transcripts.fa -g input_reference_genome.fa input_annotation.g
 <pre class="literal-block">Associated parameters
 <a class="reference internal" href="PARAMETERS.html#map-to-transcripts"><span class="std std-ref">--map_to_transcripts</span></a>             Activates transcript analysis
 <a class="reference internal" href="PARAMETERS.html#number-top-transcripts"><span class="std std-ref">--number_top_transcripts</span></a>         Amount of transcripts with most hits per sample that are offered as output</pre>
-</div>
-<div class="section" id="peak-calling">
-<span id="id3"></span><h2>Peak calling<a class="headerlink" href="#peak-calling" title="Permalink to this heading"></a></h2>
+</section>
+<section id="peak-calling">
+<span id="id3"></span><h2>Peak calling<a class="headerlink" href="#peak-calling" title="Link to this heading"></a></h2>
 <p>Results obtained from analyzed iCLIP experiments typically contain a fair amount of background noise (signal not caused by
 the actual protein-RNA interaction). This can be due to the reverse transcription not terminating when encountering an
 aminoacid or by a covalent binding of the protein of interest with an RNA just because their were in close proximity. Peak calling
 is supposed to filter out this background noise and thus reduce the amount of false positive signal.
 PARANOiD employs <a class="reference external" href="https://github.com/skrakau/PureCLIP">PureCLIP</a> for its peak calling process. PureCLIP uses a hidden Markov model
-to divide the reference into 4 different states based on the peak distribution. Additionally, identified peaks in close proximity
-can be merged into binding regions.</p>
+to divide the reference into 4 different states based on the peak distribution (0-based). Additionally, identified peaks in close proximity
+can be merged into binding regions. Please note that in order to run PureCLIP all non ACGTN nucleotide letters need to be changed to Ns.</p>
 <pre class="literal-block">Associated parameters:
 <a class="reference internal" href="PARAMETERS.html#omit-peak-calling"><span class="std std-ref">--omit_peak_calling</span></a>                           Omits peak calling analysis
 <a class="reference internal" href="PARAMETERS.html#peak-calling-for-high-coverage"><span class="std std-ref">--peak_calling_for_high_coverage</span></a>              Adds parameters to PureCLIP which can allow it's succesful execution for high coverage samples
 <a class="reference internal" href="PARAMETERS.html#peak-calling-regions"><span class="std std-ref">--peak_calling_regions</span></a>                        Allows merging several cross link sites in close proximity to a cross link region
 <a class="reference internal" href="PARAMETERS.html#peak-calling-region-width"><span class="std std-ref">--peak_calling_regions_width</span></a>                  Sets the width until which cross link sites in close proximity are allowed to be merged</pre>
-</div>
-<div class="section" id="motif-detection">
-<span id="id4"></span><h2>Motif detection<a class="headerlink" href="#motif-detection" title="Permalink to this heading"></a></h2>
-<p>Protein binding sites are often determined by protein-specific RNA motifs. These motifs are typically found at or in close proximity to
-cross-linking sites. To identify these motifs the motif detection was implemented.
-Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used) in the same
-manner as in the <a class="reference internal" href="#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a>. Sequences around all peaks above the threshold are extracted and
-provided as output. All extracted sequences are then used for motif detection via <a class="reference external" href="https://meme-suite.org/meme/doc/streme.html">streme</a>,
-which offers several enriched sequences.</p>
+</section>
+<section id="motif-detection">
+<span id="id4"></span><h2>Motif detection<a class="headerlink" href="#motif-detection" title="Link to this heading"></a></h2>
+<p>Protein binding sites are often determined by protein-specific RNA motifs. These motifs are typically found at or in close proximity to cross-linking sites. To identify these motifs the motif detection was implemented. When omitting peak calling (<a class="reference internal" href="PARAMETERS.html#omit-peak-calling"><span class="std std-ref">--omit_peak_calling</span></a>) background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used: <a class="reference internal" href="PARAMETERS.html#percentile"><span class="std std-ref">--percentile 90</span></a>) in the same manner as in the <a class="reference internal" href="#peak-distance-analysis"><span class="std std-ref">peak distance analysis</span></a>. Sequences around all peaks above the threshold are extracted and provided as output. All extracted sequences are then used for motif detection via <a class="reference external" href="https://meme-suite.org/meme/doc/streme.html">streme</a>, which offers several enriched sequences. When analyzing motifs you should consider that iCLIP tends to have a bias towards cross-linking with Uridines (<cite>Sugimoto et al. 2012 &lt;10.1186/gb-2012-13-8-r67&gt;</cite>) which could influence the resulting motifs. This can be bypassed with the option <a class="reference internal" href="PARAMETERS.html#omit-cl-nucleotide"><span class="std std-ref">--omit_cl_nucleotide</span></a> which exchanges the cross-linked nucleotide with an N.</p>
 <pre class="literal-block">Associated parameters:
 <a class="reference internal" href="PARAMETERS.html#omit-sequence-extraction"><span class="std std-ref">--omit_sequence_extraction</span></a>          Omits the sequence extraction and motif detection
-<a class="reference internal" href="PARAMETERS.html#distance-percentile"><span class="std std-ref">--percentile</span></a>                        Sets threshold for peak values used for this analysis using percentiles
+<a class="reference internal" href="PARAMETERS.html#percentile"><span class="std std-ref">--percentile</span></a>                        Sets threshold for peak values used for this analysis using percentiles
 <a class="reference internal" href="PARAMETERS.html#sequence-extraction-length"><span class="std std-ref">--seq_len</span></a>                           Nucleotides extracted from each side of a cross link site
 <a class="reference internal" href="PARAMETERS.html#omit-cl-nucleotide"><span class="std std-ref">--omit_cl_nucleotide</span></a>                Omits the nucleotide at the cross link position
 <a class="reference internal" href="PARAMETERS.html#omit-cl-width"><span class="std std-ref">--omit_cl_width</span></a>                     Omits the nucleotides surrounding the cross link position
@@ -179,22 +180,15 @@ which offers several enriched sequences.</p>
 <a class="reference internal" href="PARAMETERS.html#max-number-of-motifs"><span class="std std-ref">--max_motif_num</span></a>                     Maximum number of motifs generated
 <a class="reference internal" href="PARAMETERS.html#min-motif-width"><span class="std std-ref">--min_motif_width</span></a>                   Minimum width allowed for motifs
 <a class="reference internal" href="PARAMETERS.html#max-motif-width"><span class="std std-ref">--max_motif_width</span></a>                   Maximum width allowed for motifs</pre>
-</div>
-<div class="section" id="peak-distance-analysis">
-<span id="id5"></span><h2>Peak distance analysis<a class="headerlink" href="#peak-distance-analysis" title="Permalink to this heading"></a></h2>
-<p>Some proteins bind to long stretches of RNA instead of certain motif-dependent RNA subregions. This is, for example, the case with
-the Nucleocapsid (N) protein of several virus species which bind to a distinct number of nucleotides per N protein while packaging
-the viral RNA. The peak distance analysis was implemented to detect such periodical RNA-protein interactions by determining the
-occurences of distances between peaks.
-Background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used) in the same
-manner as in the <a class="reference internal" href="#motif-detection"><span class="std std-ref">motif detection</span></a>. Then, going through every peak above the threshold, the
-distances to all other peaks above this threshold, which are within a certain distance (by default 30 nt) are measured, summarized
-and provided as a TSV file and visualized as a plot.</p>
+</section>
+<section id="peak-distance-analysis">
+<span id="id5"></span><h2>Peak distance analysis<a class="headerlink" href="#peak-distance-analysis" title="Link to this heading"></a></h2>
+<p>Some proteins bind to long stretches of RNA instead of certain motif-dependent RNA subregions. This is, for example, the case with the Nucleocapsid (N) protein of several virus species which bind to a distinct number of nucleotides per N protein while packaging the viral RNA. The peak distance analysis was implemented to detect such periodical RNA-protein interactions by determining the occurences of distances between peaks. When omitting peak calling (<a class="reference internal" href="PARAMETERS.html#omit-peak-calling"><span class="std std-ref">--omit_peak_calling</span></a>), background noise is being filtered out by using only the top percentiles of peaks (by default only the top 10% are used: <a class="reference internal" href="PARAMETERS.html#percentile"><span class="std std-ref">--percentile 90</span></a>) in the same manner as in the <a class="reference internal" href="#motif-detection"><span class="std std-ref">motif detection</span></a>. Then, going through every peak, the distances to all other peaks which are within a certain distance (by default 30 nt: <a class="reference internal" href="PARAMETERS.html#distance"><span class="std std-ref">--distance 30</span></a>) are measured, summarized and provided as a TSV file and visualized as a plot.</p>
 <pre class="literal-block">Associated parameters:
 <a class="reference internal" href="PARAMETERS.html#omit-peak-distance"><span class="std std-ref">--omit_peak_distance</span></a>     Omits the peak distance analysis
-<a class="reference internal" href="PARAMETERS.html#distance-percentile"><span class="std std-ref">--percentile</span></a>             Sets threshold for peak values used for this analysis using percentiles</pre>
-</div>
-</div>
+<a class="reference internal" href="PARAMETERS.html#percentile"><span class="std std-ref">--percentile</span></a>             Sets threshold for peak values used for this analysis using percentiles</pre>
+</section>
+</section>
 
 
            </div>

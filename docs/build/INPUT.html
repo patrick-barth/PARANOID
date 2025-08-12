@@ -1,21 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PARANOiD Inputs &mdash; PARANOiD  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=fab60487" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=bbec6902"></script>
+      <script src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=4184ea2e"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PARANOiD
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PARANOiD
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -52,6 +56,7 @@
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FILES.html">Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
@@ -72,7 +77,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">PARANOiD Inputs</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/INPUT.rst.txt" rel="nofollow"> View page source</a>
@@ -83,11 +88,11 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="paranoid-inputs">
-<h1>PARANOiD Inputs<a class="headerlink" href="#paranoid-inputs" title="Permalink to this heading"></a></h1>
+  <section id="paranoid-inputs">
+<h1>PARANOiD Inputs<a class="headerlink" href="#paranoid-inputs" title="Link to this heading"></a></h1>
 <p>Detailed description of all input files</p>
-<div class="section" id="reads">
-<span id="read-file"></span><h2>Reads<a class="headerlink" href="#reads" title="Permalink to this heading"></a></h2>
+<section id="reads">
+<span id="read-file"></span><h2>Reads<a class="headerlink" href="#reads" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file containing all reads. Each read is represented by 4 lines:</p>
 <ol class="arabic simple">
 <li><p><strong>Sequence identifier</strong> and optional description. Starts with a <code class="docutils literal notranslate"><span class="pre">&#64;</span></code></p></li>
@@ -100,9 +105,9 @@
 2. GATTTGGGGTTCAAAGCAGTATCGATCAAATAGTAAATCCATTTGTTCAACTCACAGTTT
 3. +
 4. !''<em>((((***+))%%%++)(%%%%).1**</em>-+*''))**55CCF&gt;&gt;&gt;&gt;&gt;&gt;CCCCCCC65</pre>
-</div>
-<div class="section" id="barcodes">
-<span id="id1"></span><h2>Barcodes<a class="headerlink" href="#barcodes" title="Permalink to this heading"></a></h2>
+</section>
+<section id="barcodes">
+<span id="id1"></span><h2>Barcodes<a class="headerlink" href="#barcodes" title="Link to this heading"></a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">TSV</span></code> file containing experiment names and the corresponding barcode sequences. Reads from the input <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file are split according to the detected barcode sequence and assigned to the appropriate experiment. This results in one <code class="docutils literal notranslate"><span class="pre">FASTQ</span></code> file per experiment.</div>
 <div class="line">When choosing the option to merge replicates <a class="reference internal" href="PARAMETERS.html#merge-replicates"><span class="std std-ref">--merge_replicates</span></a> the experiment names have to be chosen appropriately indicating which experiments belong together. In order to do that the appendix <code class="docutils literal notranslate"><span class="pre">_rep_&lt;number&gt;</span></code> has to be added to the experiment names, exchanging <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> with the replicate number.</div>
@@ -124,9 +129,9 @@
 <span class="n">mock_N_rep_3</span>    <span class="n">CCTAGG</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="reference">
-<span id="id2"></span><h2>Reference<a class="headerlink" href="#reference" title="Permalink to this heading"></a></h2>
+</section>
+<section id="reference">
+<span id="id2"></span><h2>Reference<a class="headerlink" href="#reference" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">FASTA</span></code> file containing nucleotide data of interest. Is used to align reads to and thus find the location of cross-link sites. Can contain genomic or transcriptomic sequences of an organism or completely artificial sequences.
 Every sequence consists of at least 2 lines:
 1. Header
@@ -140,9 +145,9 @@ AGATGATTATGATATACATAGACTTTAACACCTCAAGAATAttcaggtttctctccagtatgacaATTTGGTCTAATTAT
 AAAGAAGAATCAGATATTAAGGTTTTATCACTGTTTACACTCATGCTGTTCCCCTTCATTAAGGTTGGTTTGGATCTTTG
 AATATACCTGGGTTCCTATAGTCTCCACCATCACATCTTTATGGAGATTCTTCTGGGAGGGATCCAGCAAATCCCACTCT
 ...</pre>
-</div>
-<div class="section" id="annotation">
-<span id="id3"></span><h2>Annotation<a class="headerlink" href="#annotation" title="Permalink to this heading"></a></h2>
+</section>
+<section id="annotation">
+<span id="id3"></span><h2>Annotation<a class="headerlink" href="#annotation" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">GFF</span></code> or <code class="docutils literal notranslate"><span class="pre">GTF</span></code> file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for it's analysis, however it is highly recommended to provid it when working with splicing capable organisms (<a class="reference internal" href="PARAMETERS.html#domain"><span class="std std-ref">--domain eu</span></a>) as annotation files typically contain information about intron-exon structures which highly improve the mapping capability.
 Furthermore, providing an annotation file enables the <a class="reference internal" href="ANALYSES.html#rna-subtype-analysis"><span class="std std-ref">RNA subtype analysis</span></a>.
 Consists of several header lines followed by one line feature.
@@ -170,8 +175,8 @@ Header lines start with a <code class="docutils literal notranslate"><span class
 ##species https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=10036
 NW_024429180.1      RefSeq  region  1       52462669        .       +       .       ID=NW_024429180.1:1..52462669;Dbxref=taxon:10036;Name=Unknown;chromosome=Unknown;dev-stage=adult;gbkey=Src;genome=genomic;isolate=SY011;mol_type=genomic DNA;sex=female;tissue-type=liver
 NW_024429180.1      Gnomon  pseudogene      37366   38359   .       +       .       ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true</pre>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

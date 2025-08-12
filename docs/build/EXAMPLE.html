@@ -1,21 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Example run &mdash; PARANOiD  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=fab60487" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=bbec6902"></script>
+      <script src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=4184ea2e"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PARANOiD
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PARANOiD
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -72,7 +76,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Example run</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/EXAMPLE.rst.txt" rel="nofollow"> View page source</a>
@@ -83,58 +87,58 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="example-run">
-<span id="section-example-run"></span><h1>Example run<a class="headerlink" href="#example-run" title="Permalink to this heading"></a></h1>
+  <section id="example-run">
+<span id="section-example-run"></span><h1>Example run<a class="headerlink" href="#example-run" title="Link to this heading"></a></h1>
 <p>This page shows the minimal execution of PARANOiD on example data.</p>
-<div class="section" id="download-test-data">
-<span id="subsection-example-download-data"></span><h2>Download test data<a class="headerlink" href="#download-test-data" title="Permalink to this heading"></a></h2>
+<section id="download-test-data">
+<span id="subsection-example-download-data"></span><h2>Download test data<a class="headerlink" href="#download-test-data" title="Link to this heading"></a></h2>
 <p>The example files consist of 2 different experiments and can be downloaded from Zenodo via following link:
 <a class="reference external" href="https://zenodo.org/record/7733740">https://zenodo.org/record/7733740</a></p>
 <p>Alternatively they can be downloaded using the CLI with following commands:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># RVFV sample:</span>
-curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv&quot;</span> -o barcodes-RVFV.tsv
-curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz&quot;</span> -o virion-reads-M-fragment-only.fastq.gz
-curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span> -o reference_RVFV.fasta.gz
-gzip -d reference_RVFV.fasta.gz
-gzip -d virion-reads-M-fragment-only.fastq.gz
+wget<span class="w"> </span><span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-RVFV.tsv&quot;</span><span class="w"> </span>-O<span class="w"> </span>barcodes-RVFV.tsv
+wget<span class="w"> </span><span class="s2">&quot;https://zenodo.org/record/7733740/files/virion-reads-M-fragment-only.fastq.gz&quot;</span><span class="w"> </span>-O<span class="w"> </span>virion-reads-M-fragment-only.fastq.gz
+wget<span class="w"> </span><span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span><span class="w"> </span>-O<span class="w"> </span>reference_RVFV.fasta.gz
+gzip<span class="w"> </span>-d<span class="w"> </span>reference_RVFV.fasta.gz
+gzip<span class="w"> </span>-d<span class="w"> </span>virion-reads-M-fragment-only.fastq.gz
 
 <span class="c1"># BHK sample:</span>
-curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-BHK.tsv&quot;</span> -o barcodes-BHK.tsv
-curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz&quot;</span> -o BHK-reads-M-fragment-only.fastq.gz
-curl <span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span> -o reference_RVFV.fasta.gz
-gzip -d reference_RVFV.fasta.gz
-gzip -d BHK-reads-M-fragment-only.fastq.gz
+wget<span class="w"> </span><span class="s2">&quot;https://zenodo.org/record/7733740/files/barcodes-BHK.tsv&quot;</span><span class="w"> </span>-O<span class="w"> </span>barcodes-BHK.tsv
+wget<span class="w"> </span><span class="s2">&quot;https://zenodo.org/record/7733740/files/BHK-reads-M-fragment-only.fastq.gz&quot;</span><span class="w"> </span>-O<span class="w"> </span>BHK-reads-M-fragment-only.fastq.gz
+wget<span class="w"> </span><span class="s2">&quot;https://zenodo.org/record/7733740/files/reference_RVFV.fasta.gz&quot;</span><span class="w"> </span>-O<span class="w"> </span>reference_RVFV.fasta.gz
+gzip<span class="w"> </span>-d<span class="w"> </span>reference_RVFV.fasta.gz
+gzip<span class="w"> </span>-d<span class="w"> </span>BHK-reads-M-fragment-only.fastq.gz
 </pre></div>
 </div>
-</div>
-<div class="section" id="run-paranoid-on-test-data">
-<span id="subsection-example-execute"></span><h2>Run PARANOiD on test data<a class="headerlink" href="#run-paranoid-on-test-data" title="Permalink to this heading"></a></h2>
+</section>
+<section id="run-paranoid-on-test-data">
+<span id="subsection-example-execute"></span><h2>Run PARANOiD on test data<a class="headerlink" href="#run-paranoid-on-test-data" title="Link to this heading"></a></h2>
 <p>To automatically download and then execute PARANOiD the following commands can be used:</p>
 <div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="c1"># RVFV sample:</span>
-nextflow run patrick-barth/PARANOiD -r main --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+nextflow<span class="w"> </span>run<span class="w"> </span>patrick-barth/PARANOiD<span class="w"> </span>-r<span class="w"> </span>main<span class="w"> </span>--reads<span class="w"> </span>virion-reads-M-fragment-only.fastq<span class="w"> </span>--reference<span class="w"> </span>reference_RVFV.fasta<span class="w"> </span>--barcodes<span class="w"> </span>barcodes-RVFV.tsv<span class="w"> </span>--output<span class="w"> </span>output-RVFV<span class="w"> </span>--omit_peak_calling<span class="w"> </span>--omit_peak_distance<span class="w"> </span>--omit_sequence_extraction<span class="w">  </span>-profile<span class="w"> </span>apptainer
 
 <span class="c1"># BHK sample:</span>
-nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+nextflow<span class="w"> </span>run<span class="w"> </span>patrick-barth/PARANOiD<span class="w"> </span>-r<span class="w"> </span>main<span class="w"> </span>--reads<span class="w"> </span>BHK-reads-M-fragment-only.fastq<span class="w"> </span>--reference<span class="w"> </span>reference_RVFV.fasta<span class="w"> </span>--barcodes<span class="w"> </span>barcodes-BHK.tsv<span class="w"> </span>--output<span class="w"> </span>output-BHK<span class="w"> </span>--omit_peak_calling<span class="w"> </span>--omit_peak_distance<span class="w"> </span>--omit_sequence_extraction<span class="w">  </span>-profile<span class="w"> </span>apptainer
 </pre></div>
 </div>
 <p>In case the resource
 To manually download and execute PARANOiD following commands can be used:</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git clone git@github.com:patrick-barth/PARANOID.git
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>git@github.com:patrick-barth/PARANOID.git
 
 <span class="c1"># RVFV sample:</span>
-nextflow PARANOID/main.nf --reads virion-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-RVFV.tsv --output output-RVFV --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+nextflow<span class="w"> </span>PARANOID/main.nf<span class="w"> </span>--reads<span class="w"> </span>virion-reads-M-fragment-only.fastq<span class="w"> </span>--reference<span class="w"> </span>reference_RVFV.fasta<span class="w"> </span>--barcodes<span class="w"> </span>barcodes-RVFV.tsv<span class="w"> </span>--output<span class="w"> </span>output-RVFV<span class="w"> </span>--omit_peak_calling<span class="w"> </span>--omit_peak_distance<span class="w"> </span>--omit_sequence_extraction<span class="w">  </span>-profile<span class="w"> </span>apptainer
 
 <span class="c1"># BHK sample:</span>
-nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile podman
+nextflow<span class="w"> </span>PARANOID/main.nf<span class="w"> </span>--reads<span class="w"> </span>BHK-reads-M-fragment-only.fastq<span class="w"> </span>--reference<span class="w"> </span>reference_RVFV.fasta<span class="w"> </span>--barcodes<span class="w"> </span>barcodes-BHK.tsv<span class="w"> </span>--output<span class="w"> </span>output-BHK<span class="w"> </span>--omit_peak_calling<span class="w"> </span>--omit_peak_distance<span class="w"> </span>--omit_sequence_extraction<span class="w">  </span>-profile<span class="w"> </span>apptainer
 </pre></div>
 </div>
-<p>If another container execution system is to be used then <cite>podman</cite> can be displaced with <cite>singularity</cite> or <cite>docker</cite> as described <a class="reference internal" href="CONTAINER.html#section-container"><span class="std std-ref">here</span></a>.
+<p>If another container execution system is to be used then <cite>apptainer</cite> can be displaced with <cite>singularity</cite> or <cite>docker</cite> as described <a class="reference internal" href="CONTAINER.html#section-container"><span class="std std-ref">here</span></a>.
 If the jobs are supposed to be distributed to a cluster the distribution system can be added to the profile argument as described <a class="reference internal" href="CLUSTER.html#section-cluster"><span class="std std-ref">here</span></a>.
 Please note that without distributing jobs to a cluster all processes will be calculated locally.
 This currently uses a minimum of 8 cores and 100 GB memory which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.</p>
-</div>
-<div class="section" id="output">
-<span id="subsection-example-output"></span><h2>Output<a class="headerlink" href="#output" title="Permalink to this heading"></a></h2>
+</section>
+<section id="output">
+<span id="subsection-example-output"></span><h2>Output<a class="headerlink" href="#output" title="Link to this heading"></a></h2>
 <p>The minimal execution of PARANOiD only includes the <a class="reference internal" href="ANALYSES.html#basic-analysis"><span class="std std-ref">basic analysis</span></a> and should provide the following outputs if executed correctly:</p>
 <ol class="arabic simple">
 <li><p><a class="reference internal" href="OUTPUT.html#output-alignments"><span class="std std-ref">Directory containing alignments</span></a></p></li>
@@ -146,8 +150,8 @@ This currently uses a minimum of 8 cores and 100 GB memory which can exceed the 
 <li><p><a class="reference internal" href="OUTPUT.html#output-statistics"><span class="std std-ref">Statistics and reports of the run and several processes</span></a></p></li>
 <li><p><a class="reference internal" href="OUTPUT.html#output-strand-distribution"><span class="std std-ref">Strand distributions</span></a></p></li>
 </ol>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

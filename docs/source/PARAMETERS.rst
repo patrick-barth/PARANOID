@@ -458,12 +458,7 @@ Usage:
 -\-rna_subtypes
 ---------------
 
-Only has an effect if an :ref:`annotation file <annotation>` is provided and :ref:`-\-omit_rna_subtype <omit-rna-subtype>` is not chosen, performing :ref:`RNA subtype analysis <RNA-subtype-analysis>`.
-RNA subtypes/regions that shall be included in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes need to be separated by a `,` and should appear in the :ref:`annotation file <annotation>` within the **feature type** column (3rd column).
-If both requirements are not met the analysis will either not be performed correctly or be aborted.
-If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`.
-Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as **ambiguous**.
-Inormation about the hierarchical structure of RNA subtypes/regions can be obtained `here <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/>`_.
+Only has an effect if an :ref:`annotation file <annotation>` is provided and :ref:`-\-omit_rna_subtype <omit-rna-subtypes>` is not chosen, performing :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes/regions that shall be included in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes need to be separated by a `,` and should appear in the :ref:`annotation file <annotation>` within the **feature type** column (3rd column). If both requirements are not met the analysis will either not be performed correctly or be aborted. If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`. Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as **ambiguous**. Inormation about the hierarchical structure of RNA subtypes/regions can be obtained `here <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/>`_.
 
 Usage (default):
 
@@ -486,7 +481,7 @@ Usage:
     --omit_peak_distance
 
 
-.. _max-peak-distance:
+.. _distance:
 
 -\-distance
 -----------------------------------
@@ -500,14 +495,14 @@ Usage (default):
     --distance 30
 
 
-.. _distance-percentile:
+.. _percentile:
 
 -\-percentile
 -------------
 
-Peak percentiles for :ref:`peak distance analysis <peak-distance-analysis>` and :ref:`sequence extraction/motif analysis <motif-detection>`.  
-Only peaks with a value above this threshold are considered while all peaks below are omitted as background noise.  
-A percentile of 90 means that only top 10% of peaks are used.
+Peak percentiles for :ref:`peak distance analysis <peak-distance-analysis>` and :ref:`sequence extraction/motif analysis <motif-detection>`. Only peaks with a value above this threshold are considered while all peaks below are omitted as background noise. 
+A percentile of 90 means that only top 10% of peaks are used.  
+Is only used when :ref:`peak calling is omitted <omit-peak-calling>`.
 
 Usage (default):
 

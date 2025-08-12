@@ -1,21 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Basic usage of PARANOiD &mdash; PARANOiD  documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=92fd9be5" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=fab60487" />
+
   
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=bbec6902"></script>
+      <script src="_static/documentation_options.js?v=b3ba4146"></script>
+      <script src="_static/doctools.js?v=4184ea2e"></script>
+      <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -28,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> PARANOiD
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            PARANOiD
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -46,6 +50,7 @@
 <li class="toctree-l1"><a class="reference internal" href="PARAMETERS.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ANALYSES.html">Analyses</a></li>
 <li class="toctree-l1"><a class="reference internal" href="OUTPUT.html">Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FILES.html">Files</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CONTAINER.html">Container Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="CLUSTER.html">Cluster Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ADDITIONAL_SCRIPTS.html">Additional scripts</a></li>
@@ -66,7 +71,7 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
       <li class="breadcrumb-item active">Basic usage of PARANOiD</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/BASICUSAGE.rst.txt" rel="nofollow"> View page source</a>
@@ -77,8 +82,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="basic-usage-of-paranoid">
-<h1>Basic usage of PARANOiD<a class="headerlink" href="#basic-usage-of-paranoid" title="Permalink to this heading"></a></h1>
+  <section id="basic-usage-of-paranoid">
+<h1>Basic usage of PARANOiD<a class="headerlink" href="#basic-usage-of-paranoid" title="Link to this heading"></a></h1>
 <p>Description on how to the minimal set of PARANOiD.
 This means running it with only a <a class="reference internal" href="INPUT.html#read-file"><span class="std std-ref">FASTQ file</span></a> containing reads, a <a class="reference internal" href="INPUT.html#reference"><span class="std std-ref">reference genome</span></a> and
 a <a class="reference internal" href="INPUT.html#barcodes"><span class="std std-ref">barcode file</span></a>.
@@ -88,10 +93,10 @@ an overview of the <a class="reference internal" href="OUTPUT.html#output-peak-h
 thr IGV to visualize first results. A directory with the name output (<a class="reference internal" href="PARAMETERS.html#output-dir"><span class="std std-ref">unless stated otherwise</span></a>) containing all results
 will be generated.
 All parts marked with &lt;&gt; are files that need to be specified by the user</p>
-<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>nextflow /path/to/directory/PARANOiD.nf --reads &lt;read-file&gt; --reference &lt;reference-file&gt; --barcodes &lt;barcode-file&gt; --omit_peak_calling --omit_peak_distance --omit_sequence_extraction
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>nextflow<span class="w"> </span>/path/to/directory/PARANOiD.nf<span class="w"> </span>--reads<span class="w"> </span>&lt;read-file&gt;<span class="w"> </span>--reference<span class="w"> </span>&lt;reference-file&gt;<span class="w"> </span>--barcodes<span class="w"> </span>&lt;barcode-file&gt;<span class="w"> </span>--omit_peak_calling<span class="w"> </span>--omit_peak_distance<span class="w"> </span>--omit_sequence_extraction
 </pre></div>
 </div>
-</div>
+</section>
 
 
            </div>
