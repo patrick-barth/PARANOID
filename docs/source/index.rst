@@ -6,6 +6,7 @@ Welcome to PARANOiD's documentation!
    :caption: Contents:
 
    Inputs <INPUT>
+   Installation <INSTALLATION>
    Basic Usage <BASICUSAGE>
    Example run <EXAMPLE>
    Parameters <PARAMETERS>

@@ -3,6 +3,19 @@ Pipeline for Automated Read ANalysis Of iCLIP Data
 
 PARANOiD is a versatile software for the fully automated analysis of iCLIP and iCLIP2 data. It contains all steps necessary for preprocessing, the determination of cross-link locations and several additional steps which can be used to detect specific characteristics, e.g. definite distances between cross-link events or binding motifs. The cross-link sites are presented as WIG files that can be easily visualized e.g. using IGV, for which a config file is offered. Additionally, results are offered as statistical plots for a quick overview and as standardized bioinformatics file formats or TSV files which can be used for further analysis steps. 
 
+## Installation
+
+To run PARANOiD users need to have [Nextflow](https://www.nextflow.io/docs/latest/install.html) and one of the container runtimes [Docker](https://docs.docker.com/engine/install/), [Apptainer](https://apptainer.org/docs/admin/main/installation.html) or [Singularity](https://docs.sylabs.io/guides/3.0/user-guide/installation.html) installed. PARANOiD can then manually be downloaded or via the command line:
+
+```
+git clone https://github.com/patrick-barth/PARANOID
+```
+
+Alternatively PARANOiD can be directly started via the following command, which automatically downloads the workflow to `<HOME>/.nextflow/assets/patrick-barth/PARANOiD`:
+
+.. code-block:: shell
+
+    nextflow run patrick-barth/PARANOiD -r main --reads reads.fastq --reference reference.fasta --barcodes barcodes.tsv --output output --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile apptainer
 
 ## Basic-usage
 ```
@@ -70,8 +83,7 @@ Formats: GFF GTF
 ## Tools used in this workflow 
 
 This section shows all tools and their versions required by PARANOiD.
-However, Docker containers are provided for every step and it is highly recommended to use them instead. This way only a Nextflow installation and the [according container software](#container-usage) 
-are required. Currently supported are Docker, Podman and Singularity. 
+However, Docker containers are provided for every step and it is highly recommended to use them instead. This way only a Nextflow installation and the [according container software](#container-usage) are required. Currently supported are Docker, Podman and Singularity. 
 
 ### Essential
 
