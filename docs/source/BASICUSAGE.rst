@@ -9,4 +9,4 @@ All parts marked with <> are files that need to be specified by the user
 
 .. code-block:: shell
 
-   nextflow /path/to/directory/PARANOiD.nf --reads <read-file> --reference <reference-file> --barcodes <barcode-file> --omit_peak_calling --omit_peak_distance
+   nextflow /path/to/directory/PARANOiD.nf --reads <read-file> --reference <reference-file> --barcodes <barcode-file> --omit_peak_calling

@@ -467,18 +467,18 @@ Usage (default):
     --rna_subtypes 3_prime_UTR,transcript,5_prime_UTR
 
 
-.. _omit-peak-distance:
+.. _peak-distance:
 
--\-omit_peak_distance
+-\-peak_distance
 ---------------------
 
-Omits the :ref:`peak distance analysis <peak-distance-analysis>`
+Performs the :ref:`peak distance analysis <peak-distance-analysis>`
 
 Usage:
 
 .. code-block:: shell
 
-    --omit_peak_distance
+    --peak_distance
 
 
 .. _distance:

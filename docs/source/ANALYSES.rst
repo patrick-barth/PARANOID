@@ -130,5 +130,5 @@ Some proteins bind to long stretches of RNA instead of certain motif-dependent R
 
 .. parsed-literal::
     Associated parameters:
-    :ref:`-\-omit_peak_distance <omit-peak-distance>`     Omits the peak distance analysis
+    :ref:`-\-peak_distance <peak-distance>`     Omits the peak distance analysis
     :ref:`-\-percentile <percentile>`             Sets threshold for peak values used for this analysis using percentiles 

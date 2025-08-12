@@ -212,11 +212,11 @@ if ( params.help ) {
                 |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.seq_len}]
 
-                |   --omit_peak_distance    If true no peak distance analysis is performed. 
+                |   --peak_distance         If true peak distance analysis is performed. 
                 |                           Else peaks between cross linking sites are being measured and provided to the user.
-                |                           [default: ${params.omit_peak_distance}]
+                |                           [default: ${params.peak_distance}]
                 |   --distance              Maximum distance to be measured by the peak distance analysis.
-                |                           Only applies when --omit_peak_distance is false.
+                |                           Only applies when --peak_distance is true.
                 |                           [default: ${params.distance}]
 
                 |   --color_barplot     Color to be used for all barplots (as hexadecimal value)
@@ -277,8 +277,8 @@ log.info """\
         Minimum motif length            : ${params.min_motif_width}
         Maximum motif length            : ${params.max_motif_width}
         --
-        Omit peak distance analysis : ${params.omit_peak_distance}
-        Distance                    : ${params.distance}
+        Perform peak distance analysis : ${params.peak_distance}
+        Distance                       : ${params.distance}
         --
         Color of barplots       : ${params.color_barplot}
         Percentiles             : ${params.percentile}
@@ -771,7 +771,7 @@ if(params.version){
         if(params.sequence_extraction){
             motif_analysis(peak_generation.out.wig2_collected,reference)
         }
-        if(params.omit_peak_distance == false){
+        if(params.peak_distance){
             peak_distance_analysis(peak_generation.out.wig2_collected)
         }
         sort_and_index_alignment(deduplication.out.deduplicated_alignments)
@@ -814,7 +814,7 @@ if(params.version){
         versions = params.map_to_transcripts ? versions.concat(transcript_analysis.out.versions) : versions
         versions = params.annotation != 'NO_FILE' && params.run_rna_subtype ? versions.concat(rna_subtype_analysis.out.versions) : versions
         versions = params.sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
-        versions = !params.omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
+        versions = params.peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
 
         collect_versions(versions
                             .flatten()
