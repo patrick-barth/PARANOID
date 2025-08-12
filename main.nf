@@ -75,7 +75,7 @@ include{
 } from './modules/strand_preference.nf'
 
 //import processes used for RNA subtype analysis
-if(params.annotation != 'NO_FILE'){
+if(params.annotation != 'NO_FILE' && params.run_rna_subtype){
     include{
         wig_to_bam
         feature_counts
@@ -160,7 +160,7 @@ if ( params.help ) {
                 |                                   If false then both are calculated independently
                 |                                   [default: ${params.combine_strands_correlation}]
 
-                |   --omit_RNA_subtype  If true no RNA subtype analysis will be performed
+                |   --run_RNA_subtype  If true no RNA subtype analysis will be performed
                 |   --rna_subtypes      RNA subtypes used for the RNA subtype analysis. Provided in a comma separated list.
                 |                       All provided RNA subtypes need to be present in the annotation file. 
                 |                       Only applies when an annotation file is provided.
@@ -256,9 +256,9 @@ log.info """\
         Merge replicates        : ${params.merge_replicates}
         Correlation analysis    : ${params.correlation_analysis}
         --
-        Omit RNA subtype analysis   : ${params.omit_rna_subtype}
-        RNA subtypes                : ${params.rna_subtypes}
-        Gene identifier             : ${params.gene_id}
+        perform RNA subtype analysis    : ${params.run_rna_subtype}
+        RNA subtypes                    : ${params.rna_subtypes}
+        Gene identifier                 : ${params.gene_id}
         --
         Omit peak calling       : ${params.omit_peak_calling}
         Peak calling high cov   : ${params.peak_calling_for_high_coverage}
@@ -765,7 +765,7 @@ if(params.version){
         }
         strand_preference(bam_collected,reference_for_downstream)
         peak_generation(bam_collected,reference)
-        if(params.annotation != 'NO_FILE' && !params.omit_rna_subtype){
+        if(params.annotation != 'NO_FILE' && params.run_rna_subtype){
             rna_subtype_analysis(peak_generation.out.wig2_collected, rna_subtypes, annotation_file)
         }
         if(params.omit_sequence_extraction == false){
@@ -812,7 +812,7 @@ if(params.version){
             .concat(igv_session.out.versions)
 
         versions = params.map_to_transcripts ? versions.concat(transcript_analysis.out.versions) : versions
-        versions = params.annotation != 'NO_FILE' && !params.omit_rna_subtype ? versions.concat(rna_subtype_analysis.out.versions) : versions
+        versions = params.annotation != 'NO_FILE' && params.run_rna_subtype ? versions.concat(rna_subtype_analysis.out.versions) : versions
         versions = !params.omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
         versions = !params.omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
 

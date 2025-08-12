@@ -439,18 +439,18 @@ Usage (default):
 
     --color_barplot #69b3a2
 
-.. _omit-rna-subtypes:
+.. _run-rna-subtypes:
 
--\-omit_rna_subtype
+-\-run_rna_subtype
 -------------------
 
-Omits the :ref:`RNA subtype analysis <RNA-subtype-analysis>`
+Performs the :ref:`RNA subtype analysis <RNA-subtype-analysis>`
 
 Usage:
 
 .. code-block:: shell
 
-    --omit_rna_subtype
+    --run_rna_subtype
 
 
 .. _rna-subtypes:
@@ -458,7 +458,7 @@ Usage:
 -\-rna_subtypes
 ---------------
 
-Only has an effect if an :ref:`annotation file <annotation>` is provided and :ref:`-\-omit_rna_subtype <omit-rna-subtypes>` is not chosen, performing :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes/regions that shall be included in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes need to be separated by a `,` and should appear in the :ref:`annotation file <annotation>` within the **feature type** column (3rd column). If both requirements are not met the analysis will either not be performed correctly or be aborted. If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`. Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as **ambiguous**. Inormation about the hierarchical structure of RNA subtypes/regions can be obtained `here <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/>`_.
+Only has an effect if an :ref:`annotation file <annotation>` is provided and :ref:`-\-run_rna_subtype <run-rna-subtypes>` is  chosen, performing :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes/regions that shall be included in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. RNA subtypes need to be separated by a `,` and should appear in the :ref:`annotation file <annotation>` within the **feature type** column (3rd column). If both requirements are not met the analysis will either not be performed correctly or be aborted. If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`. Additionally, users should beware not to choose subtypes/regions that are in a hierarchical relationship to each other as they can cover the same regions and thus make affected peaks appear as **ambiguous**. Inormation about the hierarchical structure of RNA subtypes/regions can be obtained `here <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo/>`_.
 
 Usage (default):
 
