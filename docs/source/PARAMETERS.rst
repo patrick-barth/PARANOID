@@ -511,9 +511,9 @@ Usage (default):
     --percentile 90
 
 
-.. _omit-sequence-extraction:
+.. _sequence-extraction:
 
--\-omit_sequence_extraction
+-\-sequence_extraction
 ---------------------------
 
 Omits the :ref:`motif detection <motif-detection>`
@@ -522,7 +522,7 @@ Usage:
 
 .. code-block:: shell
 
-    --omit_sequence_extraction
+    --sequence_extraction
 
 
 .. _sequence-extraction-length:

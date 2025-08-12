@@ -187,29 +187,29 @@ if ( params.help ) {
                 |                               Only applies when --map_to_transcripts is true.
                 |                               [default: ${params.number_top_transcripts}]
 
-                |   --omit_sequence_extraction  If true no sequence extraction and motif detection is performed. 
+                |   --sequence_extraction       If true sequence extraction and motif detection is performed. 
                 |                               Else sequences around cross linking sites are extracted and motifs are determined via meme
-                |                               [default: ${params.omit_sequence_extraction}]
+                |                               [default: ${params.sequence_extraction}]
                 |   --seq_len                   Length to each site of cross linking sites that is being extracted
-                |                               Only applies when --omit_sequence_extraction is false.
+                |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.seq_len}]
                 |   --omit_cl_nucleotide        Replaces the nucleotide at the cross linking site with an N.
-                |                               Only applies when --omit_sequence_extraction is false.
+                |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.omit_cl_nucleotide}]
                 |   --omit_cl_width             Amount of nucleotides around the cross linking iste that are also replaces with an N.
-                |                               Only applies when --omit_sequence_extraction is false and --omit_cl_nucleotide is true.
+                |                               Only applies when --sequence_extraction and --omit_cl_nucleotide are true.
                 |                               [default: ${params.omit_cl_width}]
                 |   --remove_overlaps           Removes overlapping sequences and only retains the one with the highest peak value
-                |                               Only applies when --omit_sequence_extraction is false.
+                |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.remove_overlaps}]
                 |   --max_motif_num             Maximum amount of different motifs to be extracted by meme.
-                |                               Only applies when --omit_sequence_extraction is false.
+                |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.max_motif_num}]
                 |   --min_motif_len             Minimum length of motifs to be extracted by meme.
-                |                               Only applies when --omit_sequence_extraction is false.
+                |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.seq_len}]
                 |   --max_motif_len             Maximum length of motifs to be extracted by meme.
-                |                               Only applies when --omit_sequence_extraction is false.
+                |                               Only applies when --sequence_extraction is true.
                 |                               [default: ${params.seq_len}]
 
                 |   --omit_peak_distance    If true no peak distance analysis is performed. 
@@ -268,7 +268,7 @@ log.info """\
         Transcript analysis     : ${params.map_to_transcripts}
         Max top transcripts     : ${params.number_top_transcripts}
         --
-        Omit sequence analysis          : ${params.omit_sequence_extraction}
+        Perform sequence analysis       : ${params.sequence_extraction}
         Extracted sequence length       : ${params.seq_len}
         Omit cl nucleotide              : ${params.omit_cl_nucleotide}
         Width around cl to be omitted   : ${params.omit_cl_width}
@@ -768,7 +768,7 @@ if(params.version){
         if(params.annotation != 'NO_FILE' && params.run_rna_subtype){
             rna_subtype_analysis(peak_generation.out.wig2_collected, rna_subtypes, annotation_file)
         }
-        if(params.omit_sequence_extraction == false){
+        if(params.sequence_extraction){
             motif_analysis(peak_generation.out.wig2_collected,reference)
         }
         if(params.omit_peak_distance == false){
@@ -813,7 +813,7 @@ if(params.version){
 
         versions = params.map_to_transcripts ? versions.concat(transcript_analysis.out.versions) : versions
         versions = params.annotation != 'NO_FILE' && params.run_rna_subtype ? versions.concat(rna_subtype_analysis.out.versions) : versions
-        versions = !params.omit_sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
+        versions = params.sequence_extraction ? versions.concat(motif_analysis.out.versions) : versions
         versions = !params.omit_peak_distance ? versions.concat(peak_distance_analysis.out.versions) : versions
 
         collect_versions(versions

@@ -111,7 +111,7 @@ Protein binding sites are often determined by protein-specific RNA motifs. These
 
 .. parsed-literal::
     Associated parameters:
-    :ref:`-\-omit_sequence_extraction <omit-sequence-extraction>`          Omits the sequence extraction and motif detection
+    :ref:`-\-sequence_extraction <sequence-extraction>`          Omits the sequence extraction and motif detection
     :ref:`-\-percentile <percentile>`                        Sets threshold for peak values used for this analysis using percentiles 
     :ref:`-\-seq_len <sequence-extraction-length>`                           Nucleotides extracted from each side of a cross link site
     :ref:`-\-omit_cl_nucleotide <omit-cl-nucleotide>`                Omits the nucleotide at the cross link position

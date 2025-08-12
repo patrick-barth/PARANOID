@@ -15,7 +15,7 @@ Alternatively PARANOiD can be directly started via the following command, which 
 
 .. code-block:: shell
 
-    nextflow run patrick-barth/PARANOiD -r main --reads reads.fastq --reference reference.fasta --barcodes barcodes.tsv --output output --omit_peak_calling --omit_peak_distance --omit_sequence_extraction  -profile apptainer
+    nextflow run patrick-barth/PARANOiD -r main --reads reads.fastq --reference reference.fasta --barcodes barcodes.tsv --output output --omit_peak_calling --omit_peak_distance -profile apptainer
 
 ## Basic-usage
 ```
