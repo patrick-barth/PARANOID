@@ -99,7 +99,7 @@ def main(min_rep):
 			peaksForward = sum(1 for x in collectCountsForward if x != 0)
 			peaksReverse = sum(1 for x in collectCountsReverse if x != 0)
 			if peaksForward >= min_sample_with_peak or peaksReverse >= min_sample_with_peak:
-				mergedChromosomes[chromosome][position] = {}
+				mergedChromosomes[chromosome][position] = {"forward": 0,"reverse":0}
 				if peaksForward >= min_sample_with_peak:
 					mergedChromosomes[chromosome][position]["forward"] = sum(collectCountsForward) / numberReplicates
 				if peaksReverse >= min_sample_with_peak:
