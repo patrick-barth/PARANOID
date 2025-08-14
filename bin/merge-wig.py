@@ -67,7 +67,6 @@ def main(min_rep):
 	chromosomeNames = list(set(chromosomeNames))
 	mergedChromosomes = {}
 	numberReplicates = len(parsedReplicates)
-	#TODO: Check min amount of samples with 
 	# Check minimum amount of replicates with signal are necessary in order to add peak to merged output
 	min_sample_with_peak = 0
 	## Default mode: at least 51% of samples need signal
