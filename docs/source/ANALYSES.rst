@@ -32,14 +32,14 @@ Merge replicates
 
 Merges several replicates into a single representative version which can be used for publications, posters or presentations. 
 This version shows the mean hit count for every position. Additionally, a correlation analysis is performed to give the user 
-an evaluation of the sample similarity and therefore a rationale for this analysis. The correlation is performed on raw cross-link sites
-(or on significant ones in case :ref:`peak calling <peak-calling>` is used) via the Pearson correlation.
+an evaluation of the sample similarity and therefore a rationale for this analysis. The correlation is performed on raw cross-link sites (or on significant ones in case :ref:`peak calling <peak-calling>` is used) via the Pearson correlation.
 Is deactivated by default.
 
 .. parsed-literal::
     Associated parameters:
     :ref:`-\-merge_replicates <merge-replicates>`           Merges replicates according to the name in the :ref:`barcode file <barcodes>`
     :ref:`-\-correlation_analysis <correlation-analysis>`       Does a correlation analysis for merged replicates
+    :ref:`-\-minimum_peaks_to_merge <minimum-peaks-to-merge>`   Minimum number of replicates with signal (peak height > 0) necessary to merge the position
 
 .. _RNA-subtype-analysis:
 

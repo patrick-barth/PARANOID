@@ -159,6 +159,10 @@ if ( params.help ) {
                 |   --combine_strands_correlation   If true correlation for forward and reverse strand is combined. 
                 |                                   If false then both are calculated independently
                 |                                   [default: ${params.combine_strands_correlation}]
+                |   --minimum_peaks_to_merge        Minimum amount of replicates with signal (>0) at position in order to merge 
+                |                                   position. If no value is provided over half of samples need a signal. A value 
+                |                                   of 0 merges all positions.
+                |                                   [default: ${params.minimum_peaks_to_merge}]
 
                 |   --run_RNA_subtype  If true no RNA subtype analysis will be performed
                 |   --rna_subtypes      RNA subtypes used for the RNA subtype analysis. Provided in a comma separated list.
@@ -253,8 +257,9 @@ log.info """\
         Max alignments          : ${params.max_alignments}
         Report all alignments   : ${params.report_all_alignments}
         --
-        Merge replicates        : ${params.merge_replicates}
-        Correlation analysis    : ${params.correlation_analysis}
+        Merge replicates                            : ${params.merge_replicates}
+        Correlation analysis                        : ${params.correlation_analysis}
+        Replicates with signal necessary to merge   : ${params.minimum_peaks_to_merge}
         --
         perform RNA subtype analysis    : ${params.run_rna_subtype}
         RNA subtypes                    : ${params.rna_subtypes}
