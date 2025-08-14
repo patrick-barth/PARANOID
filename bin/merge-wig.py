@@ -56,9 +56,35 @@ def main():
 	for replicate in replicates:
 		parsedReplicates.append(parse_wig2(replicate))
 
-	mergedWig = merge_wig(parsedReplicates)
+	# get the names of all chromosomes
+	chromosomeNames = []
+	for k in parsedReplicates:
+		chromosomeNames += k.keys()
+	chromosomeNames = list(set(chromosomeNames))
+	mergedChromosomes = {}
+	numberReplicates = len(parsedReplicates)
+	#go through every chromosome and get a unique list off all positions of all involved data sets. 
+	for chromosome in chromosomeNames:
+		mergedChromosomes[chromosome] = {}
+		allPositions = []
+		for wig in parsedReplicates:
+			if chromosome in wig.keys():
+				allPositions += wig[chromosome].keys()
+		allPositions = list(set(allPositions))
+		# create the mean hitCount for every position
+		for position in allPositions:
+			addedCountsForward = 0
+			addedCountsReverse = 0
+			for wig in parsedReplicates:
+				if chromosome in wig.keys():
+					if position in wig[chromosome].keys():
+						addedCountsForward += wig[chromosome][position]["forward"]
+						addedCountsReverse += wig[chromosome][position]["reverse"]
+			mergedChromosomes[chromosome][position] = {}
+			mergedChromosomes[chromosome][position]["forward"] = addedCountsForward / numberReplicates
+			mergedChromosomes[chromosome][position]["reverse"] = addedCountsReverse / numberReplicates
 
-	write_wig2(mergedWig, args.output)
+	write_wig2(mergedChromosomes, args.output)
 	
 	print("\nmerging complete\n")
 
@@ -75,34 +101,7 @@ def main():
 #####################################
 
 def merge_wig(wigFiles):
-	# get the names of all chromosomes
-	chromosomeNames = []
-	for k in wigFiles:
-		chromosomeNames += k.keys()
-		#chromosomeNames = wigFiles[0].keys()
-	chromosomeNames = list(set(chromosomeNames))
-	mergedChromosomes = {}
-	numberReplicates = len(wigFiles)
-	#go through every chromosome and get a unique list off all positions of all involved data sets. 
-	for chromosome in chromosomeNames:
-		mergedChromosomes[chromosome] = {}
-		allPositions = []
-		for wig in wigFiles:
-			if chromosome in wig.keys():
-				allPositions += wig[chromosome].keys()
-		allPositions = list(set(allPositions))
-		# create the mean hitCount for every position
-		for position in allPositions:
-			addedCountsForward = 0
-			addedCountsReverse = 0
-			for wig in wigFiles:
-				if chromosome in wig.keys():
-					if position in wig[chromosome].keys():
-						addedCountsForward += wig[chromosome][position]["forward"]
-						addedCountsReverse += wig[chromosome][position]["reverse"]
-			mergedChromosomes[chromosome][position] = {}
-			mergedChromosomes[chromosome][position]["forward"] = addedCountsForward / numberReplicates
-			mergedChromosomes[chromosome][position]["reverse"] = addedCountsReverse / numberReplicates
+	
 	return mergedChromosomes
 
 
