@@ -1,19 +1,19 @@
 .. _section-example-run:
 
-Example run
+Example Run
 ===========
 
-This page shows the minimal execution of PARANOiD on example data.
+This page shows the minimal execution of PARANOiD using example data.
 
 .. _subsection-example-download-data:
 
-Download test data
+Download Test Data
 ------------------
 
-The example files consist of 2 different experiments and can be downloaded from Zenodo via following link:
+The example files consist of 2 different experiments and can be downloaded from Zenodo via the following link:
 https://zenodo.org/record/7733740
 
-Alternatively they can be downloaded using the CLI with following commands:
+Alternatively, they can be downloaded via the command line using the following commands:
 
 .. code-block:: shell
 
@@ -33,10 +33,10 @@ Alternatively they can be downloaded using the CLI with following commands:
 
 .. _subsection-example-execute:
 
-Run PARANOiD on test data
+Run PARANOiD on Test Data
 -------------------------
 
-To automatically download and then execute PARANOiD the following commands can be used:
+To automatically download and run PARANOiD the following commands can be used:
 
 .. code-block:: shell
     
@@ -46,7 +46,6 @@ To automatically download and then execute PARANOiD the following commands can b
     # BHK sample:
     nextflow run patrick-barth/PARANOiD -r main --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling -profile apptainer
 
-In case the resource 
 To manually download and execute PARANOiD following commands can be used:
 
 .. code-block:: shell
@@ -60,17 +59,19 @@ To manually download and execute PARANOiD following commands can be used:
     nextflow PARANOID/main.nf --reads BHK-reads-M-fragment-only.fastq --reference reference_RVFV.fasta --barcodes barcodes-BHK.tsv --output output-BHK --omit_peak_calling -profile apptainer
 
 
-If another container execution system is to be used then `apptainer` can be displaced with `singularity` or `docker` as described :ref:`here <section-container>`.
-If the jobs are supposed to be distributed to a cluster the distribution system can be added to the profile argument as described :ref:`here <section-cluster>`. 
+If you want to use a different container engine, replace ``apptainer`` with ``singularity`` or ``docker`` as described :ref:`here <section-container>`.
+To distribute jobs across a cluster the distribution system can be added to the profile argument as described :ref:`here <section-cluster>`. 
+
+.. note:: 
 Please note that without distributing jobs to a cluster all processes will be calculated locally. 
-This currently uses a minimum of 8 cores and 100 GB memory which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.
+PARANOiD currently requires at least 8 cores and 100 GB of RAM which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.
 
 .. _subsection-example-output:
 
 Output
 ------
 
-The minimal execution of PARANOiD only includes the :ref:`basic analysis <basic-analysis>` and should provide the following outputs if executed correctly:
+The minimal execution of PARANOiD only includes the :ref:`basic analysis <basic-analysis>` and will produce the following output files if run successfully:
 
 1. :ref:`Directory containing alignments <output-alignments>`
 2. :ref:`Raw cross-link sites <output-cross-link-sites-raw>`
