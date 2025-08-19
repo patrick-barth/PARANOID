@@ -51,7 +51,7 @@ Raw cross-link sites
 --------------------
 
 Directory containing unmodified cross-link sites with all background noise retained. Cross-link sites are provided in three different formats, which are separated in one directory each; ``WIG``, ``BIGWIG`` and ``BEDGRAPH``. Each format contains identical data.
-This step is included in the :ref:`basic analysis <basic-analysis>`.
+These files are included in the :ref:`basic analysis <basic-analysis>`.
 
 WIG (Wiggle)
 ^^^^^^^^^^^^
@@ -99,7 +99,7 @@ A format similar to WIG or BIGWIG. BEDGRAPH files consist of four columns:
 Visualization with IGV
 ^^^^^^^^^^^^^^^^^^^^^^
 All provided file types can be easily visualized using the `Integrative Genomics Viewer (IGV) <https://software.broadinstitute.org/software/igv/>`_.
-To do so, first the reference sequences must first be loaded into IGV. Click on the *Genomes* tab in the top-left corner and select the source of the reference genome.
+To do so, the reference sequences must first be loaded into IGV. Click on the *Genomes* tab in the top-left corner and select the source of the reference genome.
 
 |IGV overview wig|
 
@@ -139,7 +139,7 @@ Execution metrics are included in the :ref:`basic analysis <basic-analysis>`.
 IGV-session
 -----------
 
-An ``XML`` file that can bevdirectly loaded into IGV.
+An ``XML`` file that can be directly loaded into IGV.
 This can be done by clicking on the *Data* tab in the top-left corner and then on *Open Session*. A file browser will open, allowing you to navigate to the PARANOiD output directory and select the *igv-session.xml*. 
 This will open a predefined IGV session that includes the reference genome, cross-link sites for all samples (forward and reverse) and the alignment files of all samples.
 If the option :ref:`-\-merge_replicates <merge-replicates>` was chosen then only the merged cross-link sites will be shown.
@@ -158,8 +158,7 @@ Reference
 ---------
 
 The :ref:`reference sequence <reference>` provided as input. 
-
-Reference included in the :ref:`basic analysis <basic-analysis>`.
+The reference file is included in the :ref:`basic analysis <basic-analysis>`.
 
 .. _output-statistics:
 
@@ -173,4 +172,4 @@ Statistics are included in the :ref:`basic analysis <basic-analysis>`.
 Strand distribution
 -------------------
 
-Strand distribution included in the :ref:`basic analysis <basic-analysis>`.
+Strand distribution is included in the :ref:`basic analysis <basic-analysis>`.

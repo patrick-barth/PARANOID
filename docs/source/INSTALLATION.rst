@@ -1,7 +1,7 @@
 Installation
 ============
 
-To run PARANOiD users need to have `Nextflow <https://www.nextflow.io/docs/latest/install.html>`_  installed along with one of the supported container runtimes mentioned in the :ref:`container section <section-container>` installed. PARANOiD can be donwloaded manually from the GitHub repository `PARANOID <https://github.com/patrick-barth/PARANOID>`_ or via the command line:
+To run PARANOiD users need to have `Nextflow <https://www.nextflow.io/docs/latest/install.html>`_  installed along with one of the supported container runtimes mentioned in the :ref:`container section <section-container>`. PARANOiD can be donwloaded manually from the GitHub repository `PARANOID <https://github.com/patrick-barth/PARANOID>`_ or via the command line:
 
 .. code-block:: shell
 

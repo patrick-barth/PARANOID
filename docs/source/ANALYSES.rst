@@ -52,7 +52,7 @@ When choosing RNA subtypes one has to be careful not to use subtypes that are hi
 they will at least partially cover the same reference regions, which makes hits in these regions ambiguous. 
 The `SO terms <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo>`_ can 
 be used to get an overview of the official hierarchical structures of annotation files. 
-This analysis is ctivated when an :ref:`annotation file <annotation>` is provided.
+This analysis can only be performed when an :ref:`annotation file <annotation>` is provided.
 
 .. parsed-literal::
     Associated parameters
@@ -109,7 +109,7 @@ Protein binding sites are often determined by protein-specific RNA motifs. These
 
 .. parsed-literal::
     Associated parameters:
-    :ref:`-\-sequence_extraction <sequence-extraction>`          Omits the sequence extraction and motif detection
+    :ref:`-\-sequence_extraction <sequence-extraction>`          Performs sequence extraction and motif detection
     :ref:`-\-percentile <percentile>`                        Sets the threshold for peak values used in this analysis (in percentiles)
     :ref:`-\-seq_len <sequence-extraction-length>`                          Number of nucleotides extracted from each side of a cross-link site
     :ref:`-\-omit_cl_nucleotide <omit-cl-nucleotide>`                Omits the nucleotide at the cross link position

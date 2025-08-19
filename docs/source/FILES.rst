@@ -67,7 +67,7 @@ featuretypes-from-gtfgff.awk
 ----------------------------
 
 AWK script to extract all feature types described in a GTF or GFF file.
-This can  be useful for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`, which requires exact subtype names.
+This can be useful for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`, which requires exact subtype names.
 Usage instructions can be found :ref:`here <determine-feature-types>`.
 
 .. _subsection-files-license:
@@ -121,7 +121,7 @@ However, they can (and in some cases should) be adapted if the system in use doe
 When running PARANOiD on a system with limited resources, you may need to adjust the resource settings defined in this file.
 Lowering the required resources can also increase overall processing speed as more processes are allowed to be run in parallel.
 In this case the file *nextflow.config* can be opened in a text editor and the relevant resource requirements can be adjusted.
-The most resource-intensive processes are. 'build_index_STAR|mapping_STAR' as they require the highest amount of resources. When opening the config file the relevant entry looks like this:
+The most resource-intensive processes are 'build_index_STAR|mapping_STAR' as they require the highest amount of resources. When opening the config file the relevant entry looks like this:
 
     withName: 'build_index_STAR|mapping_STAR' {
 		cpus = 8
@@ -138,13 +138,6 @@ PARANOiD-deprecated-DSL1.nf
 ---------------------------
 
 An older version of PARANOiD that uses DSL1 instead of the newer DSL2. It should not be used as it is already deprecated and will not receive any updates in the future.
-.. _subsection-files-paranoid-galaxy:
-
-PARANOiD_galaxy.xml
--------------------
-
-XML file used to integrate PARANOiD into `Galaxy <https://galaxyproject.org/>`_.
-It describes all usable parameters, input and output files to enable Galaxy to correctly display and translate them into a valid CLI command.
 
 .. _subsection-files-pull-images:
 
