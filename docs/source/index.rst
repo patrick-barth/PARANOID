@@ -5,6 +5,7 @@ Welcome to PARANOiD's documentation!
    :maxdepth: 1
    :caption: Contents:
 
+   About <ABOUT>
    Installation <INSTALLATION>
    Inputs <INPUT>
    Basic Usage <BASICUSAGE>
