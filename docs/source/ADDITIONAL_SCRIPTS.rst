@@ -1,21 +1,19 @@
 Supplementary scripts for PARANOiD
 ==================================
 
-Supplementary scripts for PARANOiD
-
 .. _determine-feature-types:
 
 Determine valid RNA subtypes
 ----------------------------
 
-| Script added to determine valid RNA subtypes for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`.
+| Script to determine valid RNA subtypes for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`.
 | Script name: featuretypes-from-gtfgff.awk
 
 Usage:
 
 .. code-block:: shell
 
-   featuretypes-from-gtfgff.awk /path/to/anntotation_file.gff
+   featuretypes-from-gtfgff.awk /path/to/annotation_file.gff
 
 
 .. _pull-images:
@@ -23,8 +21,8 @@ Usage:
 Pull images
 -----------
 
-| Pulls images via singularity. Images are used to build the containers used by processes.
-| Should be used to pull all images before starting PARANOiD.
+| Pulls images via Singularity. These images are used to build the containers executed by individual processes.
+| This script should be used to pull all images before starting PARANOiD.
 
 Usage:
 

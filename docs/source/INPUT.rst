@@ -53,12 +53,12 @@ Example:
 Reference
 ---------
 
-``FASTA`` file containing nucleotide data of interest. Is used to align reads to and thus find the location of cross-link sites. Can contain genomic or transcriptomic sequences of an organism or completely artificial sequences.
-Every sequence consists of at least 2 lines:
+``FASTA`` file containing nucleotide data of interest. It is used to align reads and thus find the location of cross-link sites. The file may contain genomic or transcriptomic sequences of an organism or completely artificial sequences.
+Each sequence consists of at least 2 lines:
 1. Header
-2-n. Nucleotide sequence
+2–n. Nucleotide sequence
 The header starts with a ``>`` and is followed by a description of the sequence
-The sequence consists of nucleotides ``{ACGTN}`` and can span an arbitrary amount of lines
+The sequence consists of nucleotides ``{ACGTN}`` and can span an arbitrary number of lines
 
 Example:
 
@@ -76,9 +76,9 @@ Annotation
 ----------
 
 
-``GFF`` or ``GTF`` file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for it's analysis, however it is highly recommended to provid it when working with splicing capable organisms (:ref:`-\-domain eu <domain>`) as annotation files typically contain information about intron-exon structures which highly improve the mapping capability.
+``GFF`` or ``GTF`` file. Contains annotation information belonging to the reference used in the input. Describes features and their positions. PARANOiD does not rely on the annotation for its analysis, however it is highly recommended to provide it when working with splicing capable organisms (:ref:`-\-domain eu <domain>`) as annotation files typically contain information about intron-exon structures which significantly improve the mapping capability.
 Furthermore, providing an annotation file enables the :ref:`RNA subtype analysis<RNA-subtype-analysis>`.
-Consists of several header lines followed by one line feature.
+Consists of several header lines followed by feature lines.
 Header lines start with a ``#`` and contain general information about the annotation.
 
 | Feature lines consist of 9 columns which are separated by tabs:
@@ -88,8 +88,8 @@ Header lines start with a ``#`` and contain general information about the annota
 | 4. **start**: Start position of the feature (1-based)
 | 5. **end**: End position of the feature (1-based)
 | 6. **score**: Float point value (can also simply be a ``.``)
-| 7. **strand**: Stradn on which the feature is present. ``+`` for forward; ``-`` for reverse
-| 8. **frame**: Indicates which base of the feature is actually the first base of a codon. 0 -> the first base of the feature is the first abse of a codon; 1 -> the second base of the feature is the first base of a codon .... (can slo simply be a ``.``)
+| 7. **strand**: Strand on which the feature is present. ``+`` for forward; ``-`` for reverse
+| 8. **frame**: Indicates which base of the feature is actually the first base of a codon. 0 -> the first base of the feature is the first base of a codon; 1 -> the second base of the feature is the first base of a codon .... (can also simply be a ``.``)
 | 9. **attributes**: Semicolon separated list of tag-value pairs providing additional information
 
 Example:

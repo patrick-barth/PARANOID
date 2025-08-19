@@ -3,9 +3,9 @@
 Requirements
 ============
 
-Requirements to run PARANOiD. Note that most are fulfilled by containers and it's thus recommended 
+Requirements to run PARANOiD. Note that most are fulfilled by containers and it is thus recommended 
 to use one of the options stated in the :ref:`container section <section-container>`.
-All versions shown here ae fixed with PARANOiD version 1.0 and will only change with future updates.
+All versions shown here are fixed with PARANOiD version 1.0 and will only change with future updates to the software.
 
 .. _requirements-essential:
 
@@ -20,7 +20,7 @@ Essential
 
 .. _requirements-container:
 
-Requirements when run without container
+Requirements when running without containers
 ---------------------------------------
 
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
@@ -68,9 +68,9 @@ Requirements when run without container
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
 | ggplot2          |         | R package                                                                                                        |
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
-| numpy            |         | python package                                                                                                   |
+| numpy            |         | Python package                                                                                                   |
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
-| biopython        |         | python package                                                                                                   |
+| biopython        |         | Python package                                                                                                   |
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
 | gff3sort.pl      | 1.0.0   | Only when providing an :ref:`annotation file <annotation>`                                                       |
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
@@ -78,5 +78,5 @@ Requirements when run without container
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
 | tabix            | 1.16    | Only when providing an :ref:`annotation file <annotation>`                                                       |
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
-| meme             | 5.4.1   | Only when using :ref:`motif detection <motif-detection>`                                                         |
+| MEME             | 5.4.1   | Only when using :ref:`motif detection <motif-detection>`                                                         |
 +------------------+---------+------------------------------------------------------------------------------------------------------------------+
