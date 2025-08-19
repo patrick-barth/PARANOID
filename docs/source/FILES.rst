@@ -1,9 +1,9 @@
 .. _section-files:
 
-Files present in PARANOiD
+Files included in PARANOiD
 =========================
 
-This is an overview of the files and directories that come with PARANOiD.
+This section provides an overview of the files and directories included in PARANOiD.
 
 1. :ref:`bin <subsection-files-bin>`
 2. :ref:`dockerfiles <subsection-files-dockerfiles>`
@@ -22,53 +22,53 @@ This is an overview of the files and directories that come with PARANOiD.
 
 bin
 ---
-
-Directory that mainly consists of custom scripts that are needed for several PARANOiD steps. 
-This directory is only necessary if no containers are used to execute PARANOiD.
-Typically there is no need for users to interact with files in this directory.
+This directory mainly contains custom scripts required for several PARANOiD steps.
+This directory is only required if PARANOiD is run without containerization.
+Users typically do not need to interact with the files in this directory.
 
 .. _subsection-files-dockerfiles:
 
 dockerfiles
 -----------
 
-Directory that contains dockerfiles from which container images can be built if necessary. Images built from these dockerfiles can be used to generate containers for every step executed by 
-PARANOiD (except PureCLIP).
-Typically there is no need for users to interact with files in this directory.
+This directory contains Dockerfiles used to build container images if necessary.
+These images can be used to create containers for every PARANOiD step except PureCLIP.
+Users typically do not need to interact with the files in this directory
 
 .. _subsection-files-docs:
 
 docs
 ----
 
-Directory that contains files necessary to build and display this documentation.
-Typically there is no need for users to interact with files in this directory.
+This directory contains files required to build and display this documentation
+Users typically do not need to interact with the files in this directory.
 
 .. _subsection-files-modules:
 
 modules
 -------
 
-Directory that contains all nextflow modules included by PARANOiD. These modules are a collection of processes that can be included in nextflow. 
-Each process describes the implementation of a specific step together with the necessary and optional inputs and the generated outputs.
-Typically there is no need for users to interact with files in this directory.
+This directory contains all Nextflow modules used by PARANOiD. 
+These modules are collections of processes that can be included in the Nextflow workflow.
+Each process defines a specific step, including its required and optional inputs, as well as its generated outputs.
+Users typically do not need to interact with the files in this directory.
 
 .. _subsection-files-build-docker:
 
 build_docker.sh
 ---------------
 
-Shell script that can be used to automatically build images from all docker files included in the :ref:`correspondent directory <subsection-files-dockerfiles>` 
-and upload them to docker hub.
-Typically there is no need for users to interact with files in this directory.
+Shell script to automatically build images from all Dockerfiles in the :ref:corresponding directory <subsection-files-dockerfiles> and upload them to Docker Hub.
+Users typically do not need to interact with the files in this directory.
 
 .. _subsection-files-featuretypes-from-gffgtf:
 
 featuretypes-from-gtfgff.awk
 ----------------------------
 
-Short awk script that can be used to get all feature-types described within a gtf or gff file. Can be useful for the :ref:`RNA subtype analysis <RNA-subtype-analysis>` as it needs the exact
-subtype names. Usage can be found :ref:`here <determine-feature-types>`.
+AWK script to extract all feature types described in a GTF or GFF file.
+This can  be useful for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`, which requires exact subtype names.
+Usage instructions can be found :ref:`here <determine-feature-types>`.
 
 .. _subsection-files-license:
 
