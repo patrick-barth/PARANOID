@@ -86,19 +86,21 @@ eCLIP (enhanced CLIP) is an enhanced version of iCLIP that was published in `201
 PAR-CLIP
 ^^^^^^^^
 
-About other iCLIP pipeline
---------------------------
+About iCLIP pipelines
+---------------------
 
-Besides PARANOiD several other iCLIP pipelines have been developed and published each having different strengths and weaknesses. Here we want to give a short overview of the most relevant ones.
+Besides PARANOiD several other iCLIP pipelines have been developed and published each having different strengths and weaknesses. Here we want to give a short overview of the most relevant ones and show the gap that PARANOiD fills out.
 
 .. _CLIP-explorer:
 
 CLIP-Explorer
--------------
-`CLIP-explorer <https://doi.org/10.1093/gigascience/giaa108>`_ is a `Galaxy pipeline <https://clipseq.usegalaxy.eu/>`_ for iCLIP and eCLIP data which offers an easy usability even to users without any informatics background due to its implemenatation in Galaxy. It offers the implementation of several different peak callers and a motif detection.  
-Due to it's implementation in GALAXY datasets needs to be uploaded which can make it unsuited for potentially sensistive data. Furthermore, it's either necessary to create an account and login to run the workflow or host in on an own GALAXY server. CLIP-explorer is restricted to very few reference genomes with hg38 being the main focus, whereas PARANOiD offers the analysis with all reference genomes provided by users. 
+^^^^^^^^^^^^^
+`CLIP-explorer <https://doi.org/10.1093/gigascience/giaa108>`_ is a `Galaxy pipeline <https://clipseq.usegalaxy.eu/>`_ for iCLIP and eCLIP data which offers an easy usability even to users without any informatics background due to its implemenatation in Galaxy. It offers the implementation of several different peak callers, each implemented in an own workflow and a motif detection.  
+Due to it's implementation in GALAXY datasets needs to be uploaded which can make it unsuited for potentially sensistive data. Furthermore, it's either necessary to create an account and login to run the workflow or host in on an own GALAXY server. The main workflow of CLIP-explorer is restricted to very few reference genomes with hg38 being the main focus, whereas PARANOiD offers the analysis with all reference genomes provided by users. While CLIP-explorer offers very detailed processing steps, the minimum requirements to perform appear higher than necessary without providing direct information for each required file. For example, input reads are required to be paired-end and an annotation file is required to run any of the available workflows. Lastly, demultiplexing of reads is provided as a separated workflow, making multiple execution steps necessary. 
 
 .. _FAST-iCLIP:
 
 FAST-iCLIP
-----------
+^^^^^^^^^^
+`FAST iCLIP <https://github.com/ChangLab/FAST-iCLIP>`_ is an iCLIP pipeline that is restricted to the analysis of human (GRCh38) and mouse (GRCm38). It relies on outdated dependencies, such as Python2, which are no longer maintained and may expose the system to potential security risks. Therefore, we would advise the usage of other pipelines in order to avoid the execution of deprecated software thus and the security risks.
+
