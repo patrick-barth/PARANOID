@@ -1,3 +1,5 @@
+.. _section-analyses:
+
 Included Analyses
 =================
 
