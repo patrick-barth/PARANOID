@@ -528,7 +528,8 @@ workflow peak_generation {
             prepare_ref_peak_calling(reference)
             pureCLIP(index_for_peak_calling.out.index
                 .combine(prepare_ref_peak_calling.out.fasta_reference_adapted_for_pureCLIP))
-            pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites)
+            pureCLIP_to_wig(pureCLIP.out.bed_crosslink_sites
+                .combine(get_chromosome_sizes.out.chrom_sizes))
 
             report_pureCLIP                 = pureCLIP.out.report_pureCLIP
             bed_pureCLIP_peaks              = pureCLIP.out.bed_crosslink_sites

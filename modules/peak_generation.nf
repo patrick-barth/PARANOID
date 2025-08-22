@@ -124,13 +124,12 @@ process pureCLIP {
  * Transforms output from pureCLIP to WIG format
  */
 
-
 process pureCLIP_to_wig{
     tag {query.simpleName}
     publishDir "${params.output}/cross_link_sites_peak_called/wig", mode: 'copy', pattern: "${query.simpleName}_{forward,reverse}.wig"
 
     input:
-    path(query)
+    tuple path(query), path(chrom_sizes)
 
     output:
     path("${query.simpleName}.wig2"), emit: wig2_peak_called_cl_sites, optional: true
@@ -140,8 +139,26 @@ process pureCLIP_to_wig{
 
     """
     if [[ "${query.size()}" > 0 ]]; then
-        # split into strands
-        awk '{if (\$6 == "+") {print \$0 > "${query.simpleName}_forward.bed";} else {print \$0 > "${query.simpleName}_reverse.bed";}}' ${query}
+        # Filter out of bounds coordinates, then split into strands
+        awk -v sizes_file="${chrom_sizes}" '
+        BEGIN {
+            FS= "\\t";
+            while((getline < sizes_file) > 0){
+                chrom_sizes[\$1] = \$2;
+            }
+            close(sizes_file);
+        }
+        {
+            chrom = \$1;
+            pos = \$3;
+            if(pos > 0 && <= chrom_sizes[chrom]){
+                if (\$6 == "+") {
+                    print \$0 > "${query.simpleName}_forward.bed";
+                } else {
+                    print \$0 > "${query.simpleName}_reverse.bed";
+                }
+            }
+        }' ${query}
         # Add 1 into the 4th column (since it\'s from peak calling the actual size of the peak does not matter anymore)
         #  Then extracts important columns and converts the data into a valid WIG file
         if [[ -e "${query.simpleName}_forward.bed" ]]; then
