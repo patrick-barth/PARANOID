@@ -151,7 +151,7 @@ process pureCLIP_to_wig{
         {
             chrom = \$1;
             pos = \$3;
-            if(pos > 0 && <= chrom_sizes[chrom]){
+            if(pos > 0 && pos <= chrom_sizes[chrom]){
                 if (\$6 == "+") {
                     print \$0 > "${query.simpleName}_forward.bed";
                 } else {
