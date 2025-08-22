@@ -162,12 +162,44 @@ process pureCLIP_to_wig{
         # Add 1 into the 4th column (since it\'s from peak calling the actual size of the peak does not matter anymore)
         #  Then extracts important columns and converts the data into a valid WIG file
         if [[ -e "${query.simpleName}_forward.bed" ]]; then
-            awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t1";print \$0;}' ${query.simpleName}_forward.bed > ${query.simpleName}_forward.1.bed
-            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
+            awk ' BEGIN {
+                FS = "\\t";
+                OFS = "\\t";
+            }
+            {
+                \$NF = \$NF "\\t1";
+                print \$0;
+            }' ${query.simpleName}_forward.bed > ${query.simpleName}_forward.1.bed
+            awk ' BEGIN {
+                FS = "\\t";
+            }
+            {
+                if (prev_header != \$1) {
+                    prev_header = \$1;
+                    printf("variableStep chrom=%s span=1\\n", \$1);
+                }
+                printf("%s %s\\n", \$3, \$8);
+            }' ${query.simpleName}_forward.1.bed > ${query.simpleName}_forward.wig
         fi
         if [[ -e "${query.simpleName}_reverse.bed" ]]; then
-            awk 'BEGIN {FS = "\\t";OFS = "\\t";}{\$NF = \$NF "\\t-1";print \$0;}' ${query.simpleName}_reverse.bed > ${query.simpleName}_reverse.1.bed
-            awk 'BEGIN {FS = "\\t";}{if (prev_header != \$1) {prev_header = \$1; printf("variableStep chrom=%s span=1\\n", \$1);}printf("%s %s\\n", \$3, \$8);}' ${query.simpleName}_reverse.1.bed > ${query.simpleName}_reverse.wig
+            awk ' BEGIN {
+                FS = "\\t";
+                OFS = "\\t";
+            }
+            {
+                \$NF = \$NF "\\t-1";
+                print \$0;
+            }' ${query.simpleName}_reverse.bed > ${query.simpleName}_reverse.1.bed
+            awk 'BEGIN {
+                FS = "\\t";
+            }
+            {
+                if (prev_header != \$1) {
+                    prev_header = \$1; 
+                    printf("variableStep chrom=%s span=1\\n", \$1);
+                }
+                printf("%s %s\\n", \$3, \$8);
+            }' ${query.simpleName}_reverse.1.bed > ${query.simpleName}_reverse.wig
         fi
         wig-to-wig2.py --wig ${query.simpleName}_forward.wig ${query.simpleName}_reverse.wig --output ${query.simpleName}.wig2
     else
