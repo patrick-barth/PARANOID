@@ -11,25 +11,26 @@ PARANOiD is executed via the `command-line interface <section-example-run>` and 
 
 About CLIP
 ----------
-CLIP (UV-cross-linking immunoprocipitation) is a method that allows the analysis of RNA protein interaction. It takes advantage of proteins being covalently linked to RNAs in clos proximity when irradiated by UV-light at ~ 254 nm. Via immunoprocipitation a target protein together with all cross-linked RNAs are extracted and after several purification and adapter ligation steps a reverse transcription is performed. The resulting cDNA is amplified via PCR and then sequenced. Most CLIP-methods offer the advantage that they can be performed in vivo as well as in vitro, giving them a broad spectrum of possible applications.  
-Since the advent of CLIP a variety of different CLIP variants emerged each with different advantages. 
+CLIP (UV-cross-linking and immunoprocipitation) is a method used to study RNA-protein interaction. It takes advantage of the fact that proteins in close proximity to RNA molecules can be covalently cross-linked when irradiated by UV-light at ~ 254 nm. Through immunoprocipitation, a target protein along with its cross-linked RNAs is extracted. After several purification steps and adapter ligation, reverse transcription is performed to generate cDNA, which is then amplified via PCR and sequenced. One of the key advantages of CLIP-based methods is their applicability to both in vivo and in vitro, making them suitable for a wide range of experimental contexts.  
+Since the development of CLIP, numerus variants have emerged, each offering specific improvements or optimizations tailored to different research needs. 
+Typical use cases for CLIP experiments include the identification of RNA-binding sites, the characterization of RNA-protein interactions, or the investigation of regulatory networks and post-transcriptional gene regulation.
 
 About iCLIP
 -----------
-One of these methods is iCLIP (individual-nucleotide resultion CLIP) which takes advantage of the fact that ~80% of all reverse transcrioptions stall at the polypeptide still cross-linked to the RNA (https://doi.org/10.1186/gb-2012-13-8-r67). This is utilized in order to provide better resultion of the actual cross-linking site which allows the determination of the exact nucleotide. In 2020 iCLIP2 was developed by Buchbender et al. (https://doi.org/10.1016/j.ymeth.2019.10.003) which provided several improvements:
+One of these CLIP variants is iCLIP (individual-nucleotide resultion CLIP), which takes advantage of the fact that ~80% of all reverse transcriptions stall at the polypeptide still cross-linked to the RNA (https://doi.org/10.1186/gb-2012-13-8-r67). This is utilized to achiece single-nucleotide resultion of the cross-linking site, allowing precise identifictaion of the interaction position upon the RNA. In 2020, iCLIP2 was developed by Buchbender et al. (https://doi.org/10.1016/j.ymeth.2019.10.003) offering  several improvements over the original protocol:
 
-- Bead based cDNA size selection instead of gel based 
-    - Quicker, easier and cheaper
+- **Bead based cDNA size selection instead of gel based**
+    - Faster, easier and more cost-effective
     
-- Second adapter is ligated to 3' end directly instead of by circularization and relinearisation 
-    - Quicker and reduces possibility of sample loss
+- **Direct ligated of the second adapter to the 3' end instead of by circularization and re-linearisation**
+    - Faster and reduces of sample loss
 
-- Longer barcode and UMI sequences. 6-nt barcodes and 9-nt UMIs instead of 4-nt barcodes and 5-nt UMIs 
-    - higher barcode specificity
-    - Lower chance of duplicate UMIs
+- **Longer barcode and UMI sequences (6-nt barcodes and 9-nt UMIs instead of 4-nt barcodes and 5-nt UMIs)**
+    - Increases barcode specificity
+    - Reduces likelihood of duplicate UMIs
 
-- First PCR before size selection which is then followed by second PCR instead of single PCR after size selection 
-    - cDNAs lost in isze selection are already pre-amplified and are thus present in the final library
+- **Two-step PCR: initial amplification before size selection followed by a second PCR**
+    - cDNAs lost in size selection are already pre-amplified and thus retained in the final library
 
 .. figure:: images/iCLIP2-overview.png
     :width: 600
@@ -39,8 +40,8 @@ One of these methods is iCLIP (individual-nucleotide resultion CLIP) which takes
 
 About barcodes and UMIs
 -----------------------
-Barcodes and UMIs (also called random barcodes) are nucleotide sequences that can be added to every read. Barcodes are experiment or sample specific and are used to differentiate reads from different experiments after they were multiplexed for sequencing. A certain nucleotide sequence is assigned to every experiment which will then be present at a distinct position within every read from that experiment. By :ref:`providing these nucleotide information <barcodes>` tools can assign all reads to their appropriate experiment.  
-UMIs are nucleotide sequences consisting of random nucleotides. They are used in order to differentiate reads that were actually present multiple times and PCR duplictates. Since they are random, the possibility of 2 reads that are not PCR duplicates is extremely low given that a UMI of 9-nt provides 262144 different possible sequences. When 2 reads allign to the exact same position and also possess the same UMI they are considered PCR duplicates and therefore all but one are discarded.
+Barcodes and UMIs (unique molecular identifiers, also known as random barcodes) are short nucleotide sequences added to each read during library preparation. **Barcodes** are experiment- or sample-specific used to distinguish reads from different experiments that were multiplexed for sequencing. Each experiment is assigned a unique barcode sequence, which appears at a defined position within every read from that experiment. By :ref:`providing these sequences <barcodes>`, tools can assign reads to their respective experiments.  
+**UMIs** are random nucleotide sequences used to differentiate between true biological duplicates and PCR duplictates. Since UMIs are randomly generated, the probability of two distinct molecules sharingthe same UMI is extremely low. For example, a 9-nt UMI can provide 262144 possible combinations. When 2 reads allign to the exact same genomic position and share the same UMI, they are considered PCR duplicates and all but one are discarded.
 Example of barcode sequences:
 
 .. raw:: html
@@ -83,40 +84,47 @@ About other CLIP methods
 
 eCLIP
 ^^^^^
-eCLIP (enhanced CLIP) is an enhanced version of iCLIP that was published in `2016 by Van Nostrad et al. <https://doi.org/10.1038/nmeth.3810>`_. It offers several improvements in the library preparation such as performing adapter ligation in 2 distinct steps instead of cirularising and relinearising RNAs which was also improved in the iCLIP2 protocol. eCLIP offers single nucleotide resultion of cross-linking events while decreading the required PCR amplification, decreasing the amount of discarded reads during PCR deduplication. As the standard eCLIP protocol results in paired-end reads with read 1 containing the experimental barcode and read 2 the UMI together with the cross-link site information, resulting reads cannot be processed with PARANOiD. Here we propose `CLIP-explorer <https://doi.org/10.1093/gigascience/giaa108>`_ or `racoon-clip <https://doi.org/10.1093/bioadv/vbae084>`_ which are both able to handle reads generated by iCLIP as well as eCLIP experiments.
+**eCLIP (enhanced CLIP)** is an enhanced version of iCLIP that was published in `2016 by Van Nostrad et al. <https://doi.org/10.1038/nmeth.3810>`_. It introduces several improvements in the library preparation protocol, such as performing adapter ligation in two distinct steps instead of cirularizing and re-linearizing RNAs which was also adopted in the iCLIP2 protocol. eCLIP enables single-nucleotide resultion of cross-linking events while reducing need for extensive PCR amplification. This leads to fewer discarded reads during PCR deduplication. 
+The standard eCLIP protocol produces paired-end reads, where read 1 contains the experimental barcode and read 2 the UMI together with the cross-link site information. Due to this structure, eCLIP reads are not compatible with PARANOiD. To process eCLIP reads, we recommend using tools such as `CLIP-explorer <https://doi.org/10.1093/gigascience/giaa108>`_ or `racoon-clip <https://doi.org/10.1093/bioadv/vbae084>`_, which both support reads generated by iCLIP and eCLIP experiments.
 
 PAR-CLIP
 ^^^^^^^^
+**PAR-CLIP (Photoactivatable-Ribonucleoside-Enhanced Crosslinking and Immunoprecipitation)** is a CLIP variant that improves cross-linking efficiency and resolution by incorporating photoactivatable ribonucleoside analogs into newly synthesized RNAs (https://pmc.ncbi.nlm.nih.gov/articles/PMC4180672/). These analogs form covalent bonds with nearby proteins when irradiated with UV-light at ~365 nm. Metabolic incorporating of these analogs introduces characteristic nucleotide transition (e.g. T to C or G to A) which eneable the precise location of protein-RNA interaction sites. 
+However, since these ribonucleosids can be toxic when incorporated into RNA, PAR-CLIP is not suitable for all organisms or cell-types. Due to its mutation-based cross-linking signal, PAR-CLIP reads are not compatible with PARANOiD. To process PAR-CLIP reads, we recommend the `pipeline developed by Marvin Jens <https://doi.org/10.1007/978-1-4939-3067-8_12>`.
 
 About iCLIP pipelines
 ---------------------
 
-Besides PARANOiD several other iCLIP pipelines have been developed and published each having different strengths and weaknesses. Here we want to give a short overview of the most relevant ones and show the gap that PARANOiD fills out.
+Besides PARANOiD, several other iCLIP pipelines have been developed and published, each with its own strengths and limitations. Below, we provide a brief overview of the most relevant ones and highlight the gap that PARANOiD aims to fill.
 
 .. _CLIP-explorer:
 
 CLIP-Explorer
 ^^^^^^^^^^^^^
-`CLIP-Explorer <https://doi.org/10.1093/gigascience/giaa108>`_ is a `Galaxy pipeline <https://clipseq.usegalaxy.eu/>`_ for iCLIP and eCLIP data which offers an easy usability even to users without any informatics background due to its implemenatation in Galaxy. It offers the implementation of several different peak callers, each implemented in an own workflow and a motif detection.  
-Due to it's implementation in GALAXY datasets needs to be uploaded which can make it unsuited for potentially sensistive data. Furthermore, it's either necessary to create an account and login to run the workflow or host in on an own GALAXY server. The main workflow of CLIP-Explorer is restricted to very few reference genomes with hg38 being the main focus, whereas PARANOiD offers the analysis with all reference genomes provided by users. While CLIP-Explorer offers very detailed processing steps, the minimum requirements to perform appear higher than necessary without providing direct information for each required file. For example, input reads are required to be paired-end and an annotation file is required to run any of the available workflows. Lastly, demultiplexing of reads is provided as a separated workflow, making multiple execution steps necessary. 
+`CLIP-Explorer <https://doi.org/10.1093/gigascience/giaa108>`_ is a `Galaxy pipeline <https://clipseq.usegalaxy.eu/>`_ for iCLIP and eCLIP data. It's implementation into the Galaxy platform makes it highly accessible, even to users without any informatics background. CLIP-Explorer includes multiple peak callers, each implemented in a separate workflow, and also provides motif detection and RNA subtype analysis.  
+However, due to its web-based implementation, datasets must to be uploaded to the Galaxy server, which may be unsuitable for  sensistive data. Additionally, users must either create an account and login to run workflows or host their own GALAXY instance.
+The main workflow of CLIP-Explorer is limited to a small set of reference genomes, with hg38 being the primary focus. While CLIP-Explorer offers detailed processing steps, its minimum input requirements are relatively high and not always clearly documented. For example, input reads must be paired-end, and an annotation file together with background reads are mandatory to run any workflows. Furthermore, demultiplexing of reads is handled in a separated workflow, requiring multiple execution steps to complete a full analysis. 
 
 .. _racoon-clip:
 
 racoon_clip
 ^^^^^^^^^^^
-`racoon_clip <https://github.com/ZarnackGroup/racoon_clip>`_ is a workflow for iCLIP and eCLIP data that is based on `snakemake <https://snakemake.readthedocs.io/en/stable/>`_. It provides all steps necessary from raw iCLIP reads to cross-link site pile ups and peak calling while offering options to merge replicates. Apart from peak calling no further analysis steps are implemented.
+`racoon_clip <https://github.com/ZarnackGroup/racoon_clip>`_ is a workflow for iCLIP and eCLIP data, built using `Snakemake <https://snakemake.readthedocs.io/en/stable/>`_. It covers all essential steps from raw iCLIP reads to cross-link site pileups and peak calling, and includes options to merge replicates. Apart from peak calling, no additional downstream analysis steps are implemented.
 
 .. _fast-iclip:
 
 FAST-iCLIP
 ^^^^^^^^^^
-`FAST iCLIP <https://github.com/ChangLab/FAST-iCLIP>`_ is an iCLIP pipeline that is restricted to the analysis of human (GRCh38) and mouse (GRCm38). It relies on outdated dependencies, such as Python2, which are no longer maintained and may expose the system to potential security risks. Therefore, we would advise the usage of other pipelines in order to avoid the execution of deprecated software thus and the security risks.
+`FAST iCLIP <https://github.com/ChangLab/FAST-iCLIP>`_ is an iCLIP pipeline designed specifically for the analysis of human (GRCh38) and mouse (GRCm38) genomes. Other genomes are not suported. It relies on outdated dependencies, includiong as Python2, which are no longer maintained and may expose the system to security risks. For this reason, we recommend using alternative pipelines to avoid deprecated software and the associated vulnerabilities.
 
 .. _why-paranoid:
 
 With already existing workflow, why would I use PARANOiD?
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-While previously mentioned workflows already present ways to analyse iCLIP data we still think that PARANOiD fills a gap. Many workflow only work with few specific reference genomes (see `CLIP-Explorer <CLIP-explorer>` and `FAST iCLIP <fast-iclip>`). While this offers the opportunity for elaborate analyses, especially when they rely on annotations which sadly are far from being standardized, it also greatly restricts the area of application. Since PARANOiD is completely species independant and and can easily be adapted to splicing incapable or capable organisms it does not have this restriction.  
-CLIP-Explorer has a variety of required inputs such as reads in paired-end format together with background signal in paired-end format, as well as genome chromosome sizes and an annotation reference file. While `racoon_clip <racoon-clip>` has less input requirements it still requires an annotation file. PARANOiD was developed with the idea to only require minimal inputs in order to perform a basic analysis. Therefore, only `iCLIP reads <read-file>`, a `barcode file <barcodes>` and a `reference <reference>` are necessary, with an `annotation file <annotation>` being optional. This allows users the analysis of organisms with poor or even without annotation. However, we still recommend to provide an `annotation file <annotation>`, especially when analysing splicing capable organisms. Similarly, PARANOiD wqas developed with the idea of being able to perform a variety of analyses with a single workflow run in order to save time and ease the execution process. CLIP-Explorer divides the processing into 2 workflows: The read demultiplexing and the actual processing. While this offers versatility it also increases the execution time of the while process and requires users to get acustomed with several workflows instead of just one.
-While CLIP-Explorer offers several further analyses such as a motif and an RNA subtype analysis, racoon_clip only provides cross-linking sites. PARANOiD offers a magnitude of subsequent analyses which can be found `here <section-analyses>`. All mentioned tools rely on peak calling being performed. While this is a standard procedure when analysing iCLIP data there are cases in which peak calling is not performed correctly. From our experience peak callers have problems with references that are completely covered in by the target protein as it is the case when analysing the coverage of the RVFV genome by the N-protein as it was the case in `shalamova et al. <https://doi.org/10.1038/s41467-024-52058-2>`_. To circumvent this, PARANOiD offers the option to `omit peak calling <omit-peak-calling>` and just provide the raw pile up of all cross-linking events.
-Lastly, PARANOiD is written in Nextflow which allows people with some informatics knowledge to expand to their own desires, be it with further analysis options or other alignment or peak calling tools. 
+While previously mentioned workflows already provide ways to analyse iCLIP data, we believe that PARANOiD fills an important gap. Many workflow only support a limited set of reference genomes (see `CLIP-Explorer <CLIP-explorer>` and `FAST iCLIP <fast-iclip>`). Although this allows for very detailed and tailored analyses, especially when relying on annotations, which unfortunately still lack standardization, it also significantly limits their applicability. 
+PARANOiD, on the other hand, is completely species independent and and can easily be adapted to both splicing capable and splicing incapable organisms. This flexibility removes the restrictions imposed by genome-specific workflows.  
+CLIP-Explorer requires a variety of inputs, such as paired-end reads, background signal in paired-end format, genome chromosome sizes, and an annotation reference file. While `racoon_clip <racoon-clip>` has fewer input requirements, it still depends on an annotation file. 
+PARANOiD was designed with the idea to require only minimal inputs for its basic analysis. Therefore, only `iCLIP reads <read-file>`, a `barcode file <barcodes>` and a `reference <reference>` are necessary. An `annotation file <annotation>` is optional making it suitable for organisms with poor or missing annotations. Nevertheless, we recommend providing an `annotation file <annotation>`, especially when analyzing splicing-capable organisms. Additionally, PARANOiD was developed perform a variety of analyses within a single workflow run, saving time and simplifying execution process. In contrast, CLIP-Explorer divides  processing into 2 workflows: demultiplexing and actual analysis. This increases execution time and requires users to get acustomed with multiple workflows.
+While CLIP-Explorer offers additional analyses such as motif and an RNA subtype analysis, racoon_clip only provides cross-linking sites. PARANOiD supports a wide range of downstream analyses which are listed `here <section-analyses>`. 
+All mentioned tools rely on peak calling being performed. While this is a standard procedure when analysing iCLIP data peak calling can fail in certain cases. For example, peak callers struggle when the reference is fully covered by the target protein, as observed in the analysis of RVFV genome coverage by the N-protein in `shalamova et al. <https://doi.org/10.1038/s41467-024-52058-2>`_. To address this, PARANOiD offers the option to `omit peak calling <omit-peak-calling>` and instead provide a raw pile-up of all cross-linking events. all analyses can then be performed on the pile-ups. To avoid the influence of background noise on these analyses users can determine a `percentile cutoff <percentile>` that removes peaks with low counts.
+Finally, PARANOiD is written in Nextflow, allowing users with informatics knowledge to expand the workflow, whether by adding new analysis modules or integrating alternative alignment or peak calling tools. 
