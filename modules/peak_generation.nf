@@ -83,7 +83,6 @@ process prepare_ref_peak_calling {
  */
 process pureCLIP {
     tag{bam.simpleName}
-    cache false
     errorStrategy 'ignore' //TODO: is supposed to be only temporal. Need to find a solution for: ERROR: Emission probability became 0.0! This might be due to artifacts or outliers.
 
     publishDir "${params.output}/peak_calling", mode: 'copy', pattern: "${bam.simpleName}.pureCLIP_crosslink_{sites,regions}.bed"
