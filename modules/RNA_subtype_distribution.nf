@@ -73,12 +73,14 @@ process get_RNA_subtypes_distribution {
 
 	script:
 	subtypes_as_string = subtypes.join(' ')
+	def report_not_assigned = params.report_not_assigned ? '--report_not_assigned' : ''
 	"""
 	calc-RNA-subtypes-distribution.py \
 		--input ${query} \
 		--rna_subtypes ${subtypes_as_string} \
 		--output ${name} \
 		--report_ambiguous \
+		${report_not_assigned} \
 		> ${name}.subtype.log
 
 	echo -e "${task.process}\tcalc-RNA-subtypes-distribution.py\tcustom_script" > ${task.process}.version.txt

@@ -11,7 +11,8 @@ from typing import Dict,Any,List
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', 				'-i', 	nargs='+', 								help='Input file')
 parser.add_argument('--rna_subtypes',		'-r',	nargs='+',								help='All RNA subtypes to be included')
-parser.add_argument('--report_ambiguous',	'-a',	action='store_true',	default=False,	help='Reports distribution of ambiguous reads')
+parser.add_argument('--report_ambiguous',	'-a',	action='store_true',	default=False,	help='Reports distribution of ambiguous peaks')
+parser.add_argument('--report_not_assigned',	'-n',	action='store_true',	default=False,	help='Reports not assigned peaks')
 parser.add_argument('--output', 			'-o', 											help='Output file')
 args = parser.parse_args()
 
@@ -36,7 +37,7 @@ args = parser.parse_args()
 ###################
 ###################
 
-def main(input,rna_subtypes,report_ambiguous,output):
+def main(input,rna_subtypes,report_ambiguous,report_not_assigned,output):
 	samples_collected = {}
 
 	# iterate through every file given as input (one file per RNA subtype)
@@ -81,16 +82,19 @@ def main(input,rna_subtypes,report_ambiguous,output):
 
 	# going through every read mentioned in at least one of the input files
 	for read_name, assignments in samples_collected.items():
-		read_count += 1
+		
 		number_of_assignments = get_amount_of_assigned_rna_subtypes(assignments)
-		if 		number_of_assignments == 0:
+		if 		number_of_assignments == 0 and report_not_assigned:
 			not_assigned += 1
+			read_count += 1
 		elif 	number_of_assignments == 1:
 			assigned_subtypes = [k for k,v in assignments.items() if v][0]
 			rna_subtypes_counts[assigned_subtypes] += 1
+			read_count += 1
 		elif 	number_of_assignments >= 2:
 			# IF it will be necessary to adapt the script to split the amounts of multimapped reads: here would probably the best part to implement it
 			ambiguous += 1
+			read_count += 1
 			# Generates a dictionary that contains information of overlapping RNA subtype assignments
 			if report_ambiguous:
 				for subtype_a,value_a in assignments.items():
@@ -99,9 +103,9 @@ def main(input,rna_subtypes,report_ambiguous,output):
 							if value_b:
 								ambiguous_explanation[subtype_a][subtype_b] += 1
 
-
-	rna_subtypes_counts["not_assigned"]: 	int = not_assigned
 	rna_subtypes_counts["ambiguous"]: 		int = ambiguous
+	if report_not_assigned:
+		rna_subtypes_counts["not_assigned"]: 	int = not_assigned
 
 	if not test_read_amounts(rna_subtypes_counts, read_count):
 		print("Warning: assignments and total read counts do not match:")
@@ -167,5 +171,6 @@ def get_percentage_amount(div,total):
 main(input=args.input,
 	rna_subtypes=args.rna_subtypes,
 	report_ambiguous=args.report_ambiguous,
+	report_not_assigned=args.report_not_assigned,
 	output=args.output)
 

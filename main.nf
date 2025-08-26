@@ -166,6 +166,7 @@ if ( params.help ) {
                 |                       Only applies when an annotation file is provided.
                 |   --gene_id           Keyword with which the identifier is specified within the annotation file.
                 |                       Only applies when an annotation file is provided.
+                |   --report_not_assigned If true then not assigned peaks will also be shown in RNA subtype results.
 
                 |   --omit_peak_calling                 If true no peak calling is performed and analyses are performed on the top percentile of peaks.
                 |                                       If false peak calling is performed via PureCLIP and analyses are performed it's results.
@@ -259,6 +260,7 @@ log.info """\
         perform RNA subtype analysis    : ${params.run_rna_subtype}
         RNA subtypes                    : ${params.rna_subtypes}
         Gene identifier                 : ${params.gene_id}
+        Report not assigned peaks       : ${params.report_not_assigned}
         --
         Omit peak calling       : ${params.omit_peak_calling}
         Peak calling high cov   : ${params.peak_calling_for_high_coverage}
