@@ -17,6 +17,7 @@ The preprocessing involves adapter removal, quality filtering, splitting reads a
     Associated parameters (preprocessing)
     :ref:`-\-barcode_pattern <barcode-pattern>`           States composition of random and experimental barcodes
     :ref:`-\-barcode_mismatches <barcode-mismatches>`        Number of allowed mismatches within the experimental barcode to still align it to its sample
+    :ref:`-\-omit_demultiplexing <parameters-omit-demultiplexing>`  Omits demultiplexing step
     :ref:`-\-min_length <min-read-length>`                Minimum length of reads required to be retained after adapter removal
     :ref:`-\-min_qual <min-base-qual>`                  Minimum quality a base needs to be retained
     :ref:`-\-min_percent_qual_filter <percent-qual-filter>`  Percentage of bases that must exceed the quality threshold to retain the read 
