@@ -24,12 +24,13 @@ parsed_input <- read.csv(input_file,
 plot <- ggplot(parsed_input,
        aes(x=distance, y=value)) +
   geom_line(stat="identity") +
-    xlab("Peak distance (nt)") +
+  xlab("Peak distance (nt)") +
+  scale_y_log10() +
   theme(axis.title.y = element_blank(),
         axis.text.x = element_text(angle=0,hjust=0.5))
 
 ggsave(
-  paste(opt$output, ".", opt$type, sep = ""),
+  paste(opt$output, "_log.", opt$type, sep = ""),
   plot = plot,
   device = opt$type
 ) 
