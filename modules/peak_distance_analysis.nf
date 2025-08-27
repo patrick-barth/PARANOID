@@ -34,7 +34,7 @@ process calculate_peak_distance {
  */
 process plot_peak_distance {
 
-	publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.simpleName}.peak-distance{_full,}.png"
+	publishDir "${params.output}/peak_distance", mode: 'copy', pattern: "${query.simpleName}.peak-distance{_full,_log}.png"
 
 	input:
 	path(query)
