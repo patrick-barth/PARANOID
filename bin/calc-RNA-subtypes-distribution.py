@@ -113,6 +113,14 @@ def main(input,rna_subtypes,report_ambiguous,report_not_assigned,output):
 		print("RNA-subtypes assignments: ")
 		print(rna_subtypes_counts)
 
+	# Check whether any peaks could be assigned. If not write output with one entry saying no assignemtns found and exit
+	if read_count == 0:
+		TSV_string = 'RNA_subtypes\tnumber_assignments\tpercentage'
+		TSV_string += '\n%s\t%s\t%s' % ("no_assignments_found",str(1),str(100))
+		out_file = open(os.path.realpath(output + '.subtype_distribution.tsv'), 'w')
+		out_file.write(TSV_string)
+		out_file.close()
+		exit(0)
 
 	# Write output
 	total_read_count = str(read_count)
