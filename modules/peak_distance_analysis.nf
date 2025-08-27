@@ -40,7 +40,8 @@ process plot_peak_distance {
 	path(query)
 
 	output:
-	path("${query.simpleName}.peak-distance{_full,_log}.png"), 	emit: png_to_output_dir
+	path("${query.simpleName}.peak-distance_full.png"), 	emit: png_full_to_output_dir
+	path("${query.simpleName}.peak-distance_log.png"), 		emit: png_log_to_output_dir
 	path("${task.process}.version.txt"), 					emit: version
 
 	"""
