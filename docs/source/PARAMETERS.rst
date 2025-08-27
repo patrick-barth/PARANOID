@@ -287,7 +287,7 @@ Apart from the description in the table a higher MAPQ score means less allowed m
 +---------------------+--------------------------------------------------------------------------------------------------------------+
 | 40                  | Reads mappable to only one position                                                                          |
 +---------------------+--------------------------------------------------------------------------------------------------------------+
-| 42                  | Reads mappable to only one position with an almost perfect alignment (best possible MAPQ score in Bowtie2). |
+| 42                  | Reads mappable to only one position with an almost perfect alignment (best possible MAPQ score in Bowtie2).  |
 +---------------------+--------------------------------------------------------------------------------------------------------------+
 
 More information can be found `here <http://biofinysics.blogspot.com/2014/05/how-does-bowtie2-assign-mapq-scores.html>`_
@@ -412,7 +412,7 @@ Usage (default):
 ----------
 
 | Only has an effect if an :ref:`annotation file <annotation>` is provided and thus the :ref:`RNA subtype analysis <RNA-subtype-analysis>` performed.
-|Name of the tag used to identify gene IDs. Is found in the last column of annotation files, typically as the first tag-value pair.
+| Name of the tag used to identify gene IDs. Is found in the last column of annotation files, typically as the first tag-value pair.
 | This column typically looks like the following: 
 | ``ID=gene-LOC101842720;Dbxref=GeneID:101842720;Name=LOC101842720;gbkey=Gene;gene=LOC101842720;gene_biotype=pseudogene;pseudo=true``
 |
@@ -472,6 +472,30 @@ Usage (default):
 
     --rna_subtypes 3_prime_UTR,transcript,5_prime_UTR
 
+
+.. _parameters-report-not-assigned:
+
+-\-report_not_assigned
+----------------------
+Reports not assigned peaks in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. These are peaks that could not be assigned to one of the :ref:`named features <rna-subtypes>`
+
+**Usage:**
+
+.. code-block:: shell
+
+    --report_not_assigned
+
+.. _parameters-annotation-extension:
+
+-\-annotation_extension
+-----------------------
+Extension of the annotation file used for the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. Accepts the values ``GFF`` for GFF3 files and ``GTF`` for GTF files.
+
+Usage (default):
+
+.. code-block:: shell
+
+    --annotation_extension GFF
 
 .. _peak-distance:
 
