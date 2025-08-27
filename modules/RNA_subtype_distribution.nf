@@ -40,6 +40,7 @@ process feature_counts {
 		-t ${rna_subtypes} \
 		-g ${params.gene_id} \
 		-a ${annotation} \
+		-F ${params.annotation_extension} \
 		-R CORE \
 		-M \
 		-o ${query.simpleName} \
