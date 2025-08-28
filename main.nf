@@ -385,12 +385,12 @@ workflow barcode_handling {
         }
         merge_preprocessed_reads(fastq_collect_preprocessed_to_merge)
         if(!params.omit_demultiplexing){
-            generate_barcode_barplot(split_exp_barcode.out.report_split_experimental_barcode.first()) //TODO: Instead of getting the first emitted file get the input from a specific dir and use all inputs
+            generate_barcode_barplot(split_exp_barcode.out.report_split_experimental_barcode.first())
         }
 
         // Collect versions
         versions = extract_rnd_barcode.out.version.first()
-        if(!params.fastq_collect_preprocessed_to_merge){
+        if(!params.omit_demultiplexing){
             versions = versions.concat(check_barcode_file.out.version.first())
                 .concat(split_exp_barcode.out.version.first())
                 .concat(remove_exp_barcode.out.version.first())
