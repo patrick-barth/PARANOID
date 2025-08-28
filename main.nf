@@ -395,12 +395,15 @@ workflow barcode_handling {
                 .concat(split_exp_barcode.out.version.first())
                 .concat(remove_exp_barcode.out.version.first())
                 .concat(generate_barcode_barplot.out.version.first())
+            report_exp_barcode_splitting = split_exp_barcode.out.report_split_experimental_barcode
+        } else {
+            report_exp_barcode_splitting = 'NO_FILE'
         }
 
     emit:
         // reports
         multiqc_rnd_barcode_extraction  = extract_rnd_barcode.out.report_rnd_barcode_extraction
-        multiqc_exp_barcode_splitting   = split_exp_barcode.out.report_split_experimental_barcode
+        multiqc_exp_barcode_splitting   = report_exp_barcode_splitting
         versions = versions
 
         // data for downstream processes
