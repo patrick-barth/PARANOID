@@ -817,14 +817,13 @@ if(params.version){
                     reference,
                     annotation)
 
-        collect_reports_for_multiqc = preprocessing.out.multiqc_adapter_removal.flatten().toList()
-            .concat(preprocessing.out.multiqc_quality_filter.flatten().toList())
-            .concat(preprocessing.out.multiqc_quality_control)
-            .concat(preprocessing.out.multiqc_quality_control_post_preprocessing)
-            .concat(alignment.out.report_alignments.flatten().toList())
-            .concat(deduplication.out.report_deduplication.flatten().toList())
-
-        collect_reports_for_multiqc = params.omit_demultiplexing ? collect_reports_for_multiqc.concat(barcode_handling.out.multiqc_exp_barcode_splitting.flatten().toList()) : collect_reports_for_multiqc
+         multiqc(preprocessing.out.multiqc_adapter_removal.flatten().toList(),
+                preprocessing.out.multiqc_quality_filter.flatten().toList(),
+                preprocessing.out.multiqc_quality_control,
+                preprocessing.out.multiqc_quality_control_post_preprocessing,
+                barcode_handling.out.multiqc_exp_barcode_splitting.flatten().toList(),
+                alignment.out.report_alignments.flatten().toList(),
+                deduplication.out.report_deduplication.flatten().toList())
 
         multiqc(collect_reports_for_multiqc)
 
