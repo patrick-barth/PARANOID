@@ -381,6 +381,8 @@ workflow barcode_handling {
                 .set{fastq_collect_preprocessed_to_merge}
         } else {
             extract_rnd_barcode.out.fastq_rnd_barcode_extracted
+                .map{file -> tuple(file.name - ~/\.[\w.]+.fastq$/,file)}
+                .groupTuple()
                 .set{fastq_collect_preprocessed_to_merge}
         }
         merge_preprocessed_reads(fastq_collect_preprocessed_to_merge)
