@@ -173,3 +173,75 @@ Strand distribution
 -------------------
 
 Strand distribution is included in the :ref:`basic analysis <basic-analysis>`.
+
+.. _output-optional:
+
+Optional analyses
+-----------------
+
+.. _output-peak-distance:
+
+Peak distance analysis
+^^^^^^^^^^^^^^^^^^^^^^
+
+The :ref:`peak distance analysis <peak-distance-analysis>` produces three output files:
+1. Distances table (TSV)  
+Contains two columns: 
+* Distance  
+* Number of peaks with that distance
+2. Distance plot (linear scale)
+A plot showing distribution of distances with normal y-axis
+3. Distance plot (logarithmic scale)
+A plot shoing the same data with logarithmic y-axis
+
+The example image below was generated using iCLIP data from `König et al. <https://doi.org/10.1038/nsmb.1838>`_, which is available `here <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM630861>`_. iCLIP was performed on HeLa cells with hnRNP C antibodies using a precursor version of the iCLIP protocol. 
+The study showed that hnRNP C binds RNAs at characteristic distances of approximately 165 and 300 nucleotides. These distances appear as peaks in the distance analysis (`see fig 3e <https://pmc.ncbi.nlm.nih.gov/articles/PMC3000544/#F3>`_). By performing PARANOiDs peak distance anlysis on this dataset, we were able to recreate these peaks.
+
+.. figure:: images/hnRNPC.peak-distance_log.png
+    :width: 600
+    :alt: Example for peak distance analysis performed by PARANOiD
+    
+    Example of peak distance analysis performed by PARANOiD. Shows the distances between hnRNP C binding sites in HeLa cells.
+
+To generate this figure, the following files were used:
+1. iCLIP reads:
+Downloaded using ``fasterq-dump`` and merged into a single FASTQ file
+
+.. code-block:: shell
+
+    fasterq-dump ERR018282 ERR018283 ERR018284
+    cat ERR018282.fastq ERR018283.fastq ERR018284.fastq > hnRNPC.fastq
+
+2. barcodes:
+.. parsed-literal::
+    
+    hnRNPC_rep_1    TG
+    hnRNPC_rep_2    TC
+    hnRNPC_rep_3    CA
+
+3. Reference genome 
+hg18 from https://hgdownload.cse.ucsc.edu/goldenpath/hg18/bigZips/
+4. Annotation file 
+hg18 annotation from https://www.gencodegenes.org/human/release_18.html
+
+The following command was used to run PARANOiD:
+
+.. code-block:: shell
+
+    nextflow ~/git-projects/PARANOID/main.nf \ 
+        --reads data/hnRNPC.fastq \ 
+        --barcodes data/hnRNPC_barcodes.tsv \ 
+        --reference data/hg18.fa \ 
+        --annotation data/gencode.v18.annotation.gtf \ 
+        --domain eu \ 
+        --barcode_pattern NNXXX \ 
+        --mapq 3 \ 
+        --omit_peak_calling \ 
+        --peak_distance \ 
+        --distance 350 \ 
+        --merge_replicates \ 
+        --output PARANOiD_peak_distance \ 
+        -profile slurm,apptainer 
+
+Since the dataset was generated using a precursor iCLIP version, simple barcodes were used: 2 experimental nucleotides followed by 3 random nucleotides. To adapt to these barcodes, the parameter ``--barcode_pattern NNXXX`` was specified. 
+
