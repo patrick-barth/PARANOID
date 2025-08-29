@@ -831,8 +831,6 @@ if(params.version){
                 alignment.out.report_alignments.flatten().toList(),
                 deduplication.out.report_deduplication.flatten().toList())
 
-        multiqc(collect_reports_for_multiqc)
-
         output_reference(reference)
         collect_workflow_metrics()
         get_md5sum(collect_input_files.flatten().toList())
