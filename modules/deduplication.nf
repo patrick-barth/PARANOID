@@ -41,6 +41,7 @@ process deduplicate{
 		--random-seed=42 \
 		-I ${query} \
 		--output-stats ${query.baseName}.deduplicated.log \
+		-L ${query.baseName}.deduplicated.log \
 		-S ${query.baseName}.deduplicated.bam
 
 	echo -e "${task.process}\tumi-tools\t\$(umi_tools --version | cut -f3 -d' ')" > ${task.process}.version.txt

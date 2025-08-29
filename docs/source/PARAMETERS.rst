@@ -26,7 +26,7 @@ Explanation of all PARANOiD parameters
 -\-barcodes
 -----------
 
-| Essential parameter!
+| Essential parameter! (as long as :ref:`demultiplexing is not omitted <parameters-omit-demultiplexing>`)
 | Specifies the  :ref:`file <barcodes>` containing barcode sequences and experiment names. Required to split reads and assign them to their corresponding experiment.
 | Expects a ``TSV`` file.
 
@@ -123,6 +123,18 @@ Example for iCLIP1
 
     --barcode_pattern NNNXXXXNN
 
+.. _parameters-omit-demultiplexing:
+
+-\-omit_demultiplexing
+----------------------
+
+Skips demultiplexing step. Only parameter that allows PARANOiD to run without :ref:`barcode file <parameters-barcodes>`. Requires that all sample are provided within their own ``FASTQ`` file. Naming of replicates should be as stated in the explanation of the :ref:`barcode file <barcodes>` with the ``FASTQ`` extension added afterwards.
+
+**Usage:**  
+
+.. code-block:: shell
+
+    --omit_demultiplexing
 
 .. _domain:
 

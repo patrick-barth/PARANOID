@@ -149,7 +149,9 @@ if ( params.help ) {
                 |   --barcode_pattern       Pattern used to identify experimental (X) and random (N) barcodes.
                 |                           [default: ${params.barcode_pattern}] 
                 |   --barcode_mismatches    Maximum number of allowed mismatches in experimental barcode
-                |                           [defaul: ${params.barcode_mismatches}]
+                |                           [default: ${params.barcode_mismatches}]
+                |   --omit_demultiplexing   If true no demultiplexing will be performed.
+                                            [default: false]
 
                 |   --merge_replicates              If true replicates are merged into one representative form
                 |                                   [default: ${params.merge_replicates}]
@@ -297,12 +299,23 @@ log.info """\
 //essential input files
 input_reads     = Channel.fromPath( params.reads )			//FASTQ file(s) containing reads
 reference       = Channel.fromPath( params.reference )		//FASTA file containing reference sequence(s)
-barcode_file    = Channel.fromPath( params.barcodes )		//TSV file containing experiment names and the corresponding experiemental barcode sequence
+
 collect_input_files = input_reads
                     .concat(reference)
-                    .concat(barcode_file)
 
 //non essential input files
+//Check if barcode file is given or if demultiplexing is omitted
+if(!params.omit_demultiplexing && params.barcodes == 'NO_FILE') {
+    error "Please provide a barcode file [--barcodes] or state that you want to omit demultiplexing [--omit_demultiplexing]"
+}
+
+if(params.barcodes != 'NO_FILE'){
+    barcode_file = Channel.fromPath( params.barcodes )              //TSV file containing experiment names and the corresponding experiemental barcode sequence
+    collect_input_files = collect_input_files.concat(barcode_file)
+} else {
+    barcode_file = file(params.barcodes)
+}
+
 if(params.annotation != 'NO_FILE'){
     annotation_file = Channel.fromPath( params.annotation )
     collect_input_files = collect_input_files.concat(annotation_file)
@@ -357,32 +370,46 @@ workflow barcode_handling {
         barcode_file
     main:
         extract_rnd_barcode(fastq_reads_quality_filtered)
-        check_barcode_file(barcode_file)
-        split_exp_barcode(extract_rnd_barcode.out.fastq_rnd_barcode_extracted
-                            .combine(check_barcode_file.out.barcodes))
-        get_length_exp_barcode(params.barcode_pattern)
-        remove_exp_barcode(split_exp_barcode.out.fastq_split_experimental_barcode
-                            .flatten()
-                            .filter{ it.size() > 0 }
-                            .combine(get_length_exp_barcode.out.var_length))
-        remove_exp_barcode.out.fastq_trimmed
-            .map{file -> tuple(file.name - ~/\.[\w.]+.fastq$/,file)}
-            .groupTuple()
-            .set{fastq_collect_preprocessed_to_merge}
+        if(!params.omit_demultiplexing){
+            check_barcode_file(barcode_file)
+            split_exp_barcode(extract_rnd_barcode.out.fastq_rnd_barcode_extracted
+                                .combine(check_barcode_file.out.barcodes))
+            get_length_exp_barcode(params.barcode_pattern)
+            remove_exp_barcode(split_exp_barcode.out.fastq_split_experimental_barcode
+                                .flatten()
+                                .filter{ it.size() > 0 }
+                                .combine(get_length_exp_barcode.out.var_length))
+            remove_exp_barcode.out.fastq_trimmed
+                .map{file -> tuple(file.name - ~/\.[\w.]+.fastq$/,file)}
+                .groupTuple()
+                .set{fastq_collect_preprocessed_to_merge}
+        } else {
+            extract_rnd_barcode.out.fastq_rnd_barcode_extracted
+                .map{file -> tuple(file.name - ~/\.[\w.]+.fastq$/,file)}
+                .groupTuple()
+                .set{fastq_collect_preprocessed_to_merge}
+        }
         merge_preprocessed_reads(fastq_collect_preprocessed_to_merge)
-        generate_barcode_barplot(split_exp_barcode.out.report_split_experimental_barcode.first()) //TODO: Instead of getting the first emitted file get the input from a specific dir and use all inputs
+        if(!params.omit_demultiplexing){
+            generate_barcode_barplot(split_exp_barcode.out.report_split_experimental_barcode.first())
+        }
 
         // Collect versions
         versions = extract_rnd_barcode.out.version.first()
-                    .concat(check_barcode_file.out.version.first())
-                    .concat(split_exp_barcode.out.version.first())
-                    .concat(remove_exp_barcode.out.version.first())
-                    .concat(generate_barcode_barplot.out.version.first())
+        if(!params.omit_demultiplexing){
+            versions = versions.concat(check_barcode_file.out.version.first())
+                .concat(split_exp_barcode.out.version.first())
+                .concat(remove_exp_barcode.out.version.first())
+                .concat(generate_barcode_barplot.out.version.first())
+            report_exp_barcode_splitting = split_exp_barcode.out.report_split_experimental_barcode
+        } else {
+            report_exp_barcode_splitting = 'NO_FILE'
+        }
 
     emit:
         // reports
         multiqc_rnd_barcode_extraction  = extract_rnd_barcode.out.report_rnd_barcode_extraction
-        multiqc_exp_barcode_splitting   = split_exp_barcode.out.report_split_experimental_barcode
+        multiqc_exp_barcode_splitting   = report_exp_barcode_splitting
         versions = versions
 
         // data for downstream processes
@@ -796,13 +823,15 @@ if(params.version){
                     reference,
                     annotation)
 
-        multiqc(preprocessing.out.multiqc_adapter_removal.flatten().toList(),
+         multiqc(preprocessing.out.multiqc_adapter_removal.flatten().toList(),
                 preprocessing.out.multiqc_quality_filter.flatten().toList(),
                 preprocessing.out.multiqc_quality_control,
                 preprocessing.out.multiqc_quality_control_post_preprocessing,
                 barcode_handling.out.multiqc_exp_barcode_splitting.flatten().toList(),
                 alignment.out.report_alignments.flatten().toList(),
                 deduplication.out.report_deduplication.flatten().toList())
+
+        multiqc(collect_reports_for_multiqc)
 
         output_reference(reference)
         collect_workflow_metrics()
