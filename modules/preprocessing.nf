@@ -60,14 +60,14 @@ process adapter_removal {
 
 process quality_filter {
 	tag {query.simpleName}
-	publishDir "${params.output}/statistics", mode: 'copy', pattern: "${query.baseName}.summary-quality-filter.txt"
+	publishDir "${params.output}/statistics", mode: 'copy', pattern: "${query.simpleName}.summary-quality-filter.txt"
 
 	input:
 	path(query)
 
 	output:
-	path("${query.baseName}.qual-filter.fastq"), 	emit: fastq_quality_filtered 
-	path("${query.baseName}.summary-quality-filter.txt"), 			emit: report_quality_filter
+	path("${query.simpleName}.qual-filter.fastq"), 	emit: fastq_quality_filtered 
+	path("${query.simpleName}.summary-quality-filter.txt"), 			emit: report_quality_filter
 	path("${task.process}.version.txt"), 			emit: version
 
 
@@ -77,8 +77,8 @@ process quality_filter {
 		-q ${params.min_qual} \
 		-p ${params.min_percent_qual_filter} \
 		-i ${query} \
-		-o ${query.baseName}.qual-filter.fastq \
-		> ${query.baseName}.summary-quality-filter.txt
+		-o ${query.simpleName}.qual-filter.fastq \
+		> ${query.simpleName}.summary-quality-filter.txt
 
 		echo -e "${task.process}\tfastq_quality_filter\t\$(fastq_quality_filter -h | head -2 | tail -1 | rev | cut -d ' ' -f 5- | rev)" > ${task.process}.version.txt
 	"""
