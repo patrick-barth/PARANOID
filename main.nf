@@ -827,7 +827,6 @@ if(params.version){
                 preprocessing.out.multiqc_quality_filter.flatten().toList(),
                 preprocessing.out.multiqc_quality_control,
                 preprocessing.out.multiqc_quality_control_post_preprocessing,
-                barcode_handling.out.multiqc_exp_barcode_splitting.flatten().toList(),
                 alignment.out.report_alignments.flatten().toList(),
                 deduplication.out.report_deduplication.flatten().toList())
 

@@ -74,7 +74,6 @@ process multiqc{
 	path(qual)
 	path(qc1)
 	path(qc2)
-	path(split)
 	path(mapping)
 	path(deduplication)
 
