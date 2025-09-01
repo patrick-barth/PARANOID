@@ -75,7 +75,7 @@ process get_RNA_subtypes_distribution {
 	script:
 	subtypes_as_string = subtypes.join(' ')
 	def report_not_assigned = params.report_not_assigned ? '--report_not_assigned' : ''
-	def report_not_assigned = params.show_ambiguous ? '--show_ambiguous' : ''
+	def show_ambiguous = params.show_ambiguous ? '--show_ambiguous' : ''
 	"""
 	calc-RNA-subtypes-distribution.py \
 		--input ${query} \
