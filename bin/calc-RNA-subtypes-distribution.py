@@ -13,6 +13,7 @@ parser.add_argument('--input', 				'-i', 	nargs='+', 								help='Input file')
 parser.add_argument('--rna_subtypes',		'-r',	nargs='+',								help='All RNA subtypes to be included')
 parser.add_argument('--report_ambiguous',	'-a',	action='store_true',	default=False,	help='Reports distribution of ambiguous peaks')
 parser.add_argument('--report_not_assigned',	'-n',	action='store_true',	default=False,	help='Reports not assigned peaks')
+parser.add_argument('--show_ambiguous',	'-b',	action='store_true',	default=False,	help='Shows assignments of ambiguous peaks in results table')
 parser.add_argument('--output', 			'-o', 											help='Output file')
 args = parser.parse_args()
 
@@ -37,7 +38,7 @@ args = parser.parse_args()
 ###################
 ###################
 
-def main(input,rna_subtypes,report_ambiguous,report_not_assigned,output):
+def main(input,rna_subtypes,report_ambiguous,show_ambiguous,report_not_assigned,output):
 	samples_collected = {}
 
 	# iterate through every file given as input (one file per RNA subtype)
@@ -99,11 +100,14 @@ def main(input,rna_subtypes,report_ambiguous,report_not_assigned,output):
 			if report_ambiguous:
 				for subtype_a,value_a in assignments.items():
 					if value_a:
+						if show_ambiguous:
+							rna_subtypes_counts[subtype_a] += 1
 						for subtype_b,value_b in assignments.items():
 							if value_b:
 								ambiguous_explanation[subtype_a][subtype_b] += 1
 
-	rna_subtypes_counts["ambiguous"]: 		int = ambiguous
+	if show_ambiguous:
+		rna_subtypes_counts["ambiguous"]: 		int = ambiguous
 	if report_not_assigned:
 		rna_subtypes_counts["not_assigned"]: 	int = not_assigned
 
@@ -179,6 +183,7 @@ def get_percentage_amount(div,total):
 main(input=args.input,
 	rna_subtypes=args.rna_subtypes,
 	report_ambiguous=args.report_ambiguous,
+	show_ambiguous=args.show_ambiguous,
 	report_not_assigned=args.report_not_assigned,
 	output=args.output)
 
