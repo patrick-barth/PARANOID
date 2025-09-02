@@ -106,7 +106,7 @@ def main(input,rna_subtypes,report_ambiguous,show_ambiguous,report_not_assigned,
 							if value_b:
 								ambiguous_explanation[subtype_a][subtype_b] += 1
 
-	if show_ambiguous:
+	if not show_ambiguous:
 		rna_subtypes_counts["ambiguous"]: 		int = ambiguous
 	if report_not_assigned:
 		rna_subtypes_counts["not_assigned"]: 	int = not_assigned
