@@ -184,15 +184,16 @@ Optional analyses
 Peak distance analysis
 ^^^^^^^^^^^^^^^^^^^^^^
 
-The :ref:`peak distance analysis <peak-distance-analysis>` produces three output files:
+The :ref:`peak distance analysis <peak-distance-analysis>` produces three output files:  
+
 1. Distances table (TSV)  
-Contains two columns: 
-* Distance  
-* Number of peaks with that distance
-2. Distance plot (linear scale)
-A plot showing distribution of distances with normal y-axis
-3. Distance plot (logarithmic scale)
-A plot shoing the same data with logarithmic y-axis
+    Contains two columns: 
+        * Distance  
+        * Number of peaks with that distance 
+2. Distance plot (linear scale) 
+    A plot showing distribution of distances with normal y-axis 
+3. Distance plot (logarithmic scale) 
+    A plot showing the same data with logarithmic y-axis
 
 The example image below was generated using iCLIP data from `König et al. <https://doi.org/10.1038/nsmb.1838>`_, which is available `here <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM630861>`_. iCLIP was performed on HeLa cells with hnRNP C antibodies using a precursor version of the iCLIP protocol. 
 The study showed that hnRNP C binds RNAs at characteristic distances of approximately 165 and 300 nucleotides. These distances appear as peaks in the distance analysis (`see fig 3e <https://pmc.ncbi.nlm.nih.gov/articles/PMC3000544/#F3>`_). By performing PARANOiDs peak distance anlysis on this dataset, we were able to recreate these peaks.
@@ -201,11 +202,12 @@ The study showed that hnRNP C binds RNAs at characteristic distances of approxim
     :width: 600
     :alt: Example for peak distance analysis performed by PARANOiD
     
-    Example of peak distance analysis performed by PARANOiD. Shows the distances between hnRNP C binding sites in HeLa cells.
+    Example for peak distance analysis performed by PARANOiD. Shows the distances between hnRNP C binding sites in HeLa cells.
 
-To generate this figure, the following files were used:
+To generate this figure, the following files were used: 
+
 1. iCLIP reads:
-Downloaded using ``fasterq-dump`` and merged into a single FASTQ file
+    Downloaded using ``fasterq-dump`` and merged into a single FASTQ file
 
 .. code-block:: shell
 
@@ -213,6 +215,7 @@ Downloaded using ``fasterq-dump`` and merged into a single FASTQ file
     cat ERR018282.fastq ERR018283.fastq ERR018284.fastq > hnRNPC.fastq
 
 2. barcodes:
+
 .. parsed-literal::
     
     hnRNPC_rep_1    TG
@@ -220,9 +223,9 @@ Downloaded using ``fasterq-dump`` and merged into a single FASTQ file
     hnRNPC_rep_3    CA
 
 3. Reference genome 
-hg18 from https://hgdownload.cse.ucsc.edu/goldenpath/hg18/bigZips/
+    hg18 from https://hgdownload.cse.ucsc.edu/goldenpath/hg18/bigZips/
 4. Annotation file 
-hg18 annotation from https://www.gencodegenes.org/human/release_18.html
+    hg18 annotation from https://www.gencodegenes.org/human/release_18.html
 
 The following command was used to run PARANOiD:
 
@@ -245,3 +248,103 @@ The following command was used to run PARANOiD:
 
 Since the dataset was generated using a precursor iCLIP version, simple barcodes were used: 2 experimental nucleotides followed by 3 random nucleotides. To adapt to these barcodes, the parameter ``--barcode_pattern NNXXX`` was specified. 
 
+.. _output-runa-subtype:
+
+RNA subtype analysis
+^^^^^^^^^^^^^^^^^^^^
+
+The :ref:`RNA subtype analysis <RNA-subtype-analysis>` produces four output files per sample:
+
+1. Overview of ambiguous assignments (TSV)  
+    Contains one column and line per :ref:`RNA subtype <rna-subtypes>`. Shows how many subtypes have how many multiple assignments 
+
+    +-----------------+--------+-----+-----------------+----------------+
+    |                 | intron | CDS | three_prime_UTR | five_prime_UTR |
+    +-----------------+--------+-----+-----------------+----------------+
+    |     intron      |  3773  | 222 |       3359      |      237       |
+    +-----------------+--------+-----+-----------------+----------------+
+    |      CDS        |   222  | 371 |        151      |       36       |
+    +-----------------+--------+-----+-----------------+----------------+
+    | three_prime_UTR |  3359  | 151 |       3533      |       42       |
+    +-----------------+--------+-----+-----------------+----------------+
+    | five_prime_UTR  |   237  |  36 |         42      |      282       |
+    +-----------------+--------+-----+-----------------+----------------+
+
+
+2. Barplot showing the percentage RNA subtype distribution
+
+
+.. figure:: images/HuR_rep_3.subtype_distribution.png
+    :width: 600
+    :alt: Example for RNA subtype analysis performed by PARANOiD
+    
+    Example for RNA subtype analysis performed by PARANOiD. Shows the binding preference of the protein HuR upon mouse genes.
+
+3. Distribution table of RNA subtypes
+    Contains 3 columns:
+        1. RNA subtype being described
+        2. Total number of assignments per RNA subtype
+        3. Percentage distribution of assigned subtypes
+
+    +-----------------+-------------------+------------+
+    |   RNA_subtypes  | number_assignment | percentage |
+    +-----------------+-------------------+------------+
+    |     intron      |       86681       |    68.65   |
+    +-----------------+-------------------+------------+
+    |      CDS        |        1847       |     1.46   |
+    +-----------------+-------------------+------------+
+    | three_prime_UTR |       32723       |    25.92   |
+    +-----------------+-------------------+------------+
+    | five_prime_UTR  |        1062       |     0.84   |
+    +-----------------+-------------------+------------+
+    |    ambiguous    |        3957       |     3.13   |
+    +-----------------+-------------------+------------+
+    |      total      |      126270       |      100   |
+    +-----------------+-------------------+------------+
+
+4. Logs
+    Contains information whether the assigned RNA subtypes sum up to a different amount than the number of peaks.  
+    Currently the case when :ref:`ambiguous assignments are split <parameters-split-ambiguous>` as some reads get assigned to multiple RNA subtypes.
+
+
+To generate these results, the following files were used. The data is from the publication of `Diaz-Muñoz et al. <https://doi.org/10.1038/ni.3115>`_. In `Fig 5a <https://doi.org/10.1038/ni.3115>`_ the RNA subtype distribution of the publication is illustrated delivering comparable results:
+
+1. iCLIP reads  
+    Downloaded using ``fasterq-dump``. Since replicates are already demultiplexed with the experimental barcode removed, they should not be merged into a single file. It should be noted that only replicate 3 achieves results as the quality for almost all nucleotides is extremely low in replicate 1 and 2 (Phred score of 2 - 63.1% of base being incorrectly called).
+
+.. code-block:: shell
+
+    fasterq-dump SRR1694878 SRR1694879 SRR1694880
+    mv SRR1694878 HuR_iCLIP_rep_1.fastq
+    mv SRR1694879 HuR_iCLIP_rep_2.fastq
+    mv SRR1694880 HuR_iCLIP_rep_3.fastq
+
+2. Reference genome 
+    mm10 from https://hgdownload.soe.ucsc.edu/goldenPath/mm10/bigZips/
+3. Annotation file 
+    mm10 annotation from https://www.gencodegenes.org/mouse/release_M10.html
+
+    Additionally, the annotaiton needs to be prepared in order to gain entries for **introns**. This is done via `AGAT <https://agat.readthedocs.io/en/latest/index.html>`_:
+
+.. code-block:: shell
+
+    agat_sp_add_introns.pl --gff gencode.vM10.annotation.gff3 --out gencode.vM10.annotation.introns.gff3
+
+The following command was used to run PARANOiD:
+
+.. code-block:: shell
+
+    nextflow ~/git-projects/PARANOID/main.nf \ 
+        --reads 'data/HuR_iCLIP_rep_*.fastq' \  
+        --reference data/mm10.fa \ 
+        --annotation gencode.vM10.annotation.introns.gff3 \ 
+        --domain eu \ 
+        --omit_demultiplexing \ 
+        --omit_peak_calling \ 
+        --barcode_pattern NNNN \ 
+        --omit_peak_calling \ 
+        --run_rna_subtype \ 
+        --rna_subtypes intron,CDS,three_prime_UTR,five_prime_UTR \ 
+        --min_length 25 \ 
+        --output PARANOiD_RNA_subtype \ 
+        -profile slurm,apptainer 

@@ -63,8 +63,8 @@ If you want to use a different container engine, replace ``apptainer`` with ``si
 To distribute jobs across a cluster the distribution system can be added to the profile argument as described :ref:`here <section-cluster>`. 
 
 .. note:: 
-Please note that without distributing jobs to a cluster all processes will be calculated locally. 
-PARANOiD currently requires at least 8 cores and 100 GB of RAM which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.
+    Please note that without distributing jobs to a cluster all processes will be calculated locally. 
+    PARANOiD currently requires at least 8 cores and 100 GB of RAM which can exceed the available resources of typical computers. In this case resource usage can be adapted in the config file.
 
 .. _subsection-example-output:
 

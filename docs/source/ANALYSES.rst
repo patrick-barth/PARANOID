@@ -55,6 +55,7 @@ When choosing RNA subtypes one has to be careful not to use subtypes that are hi
 they will at least partially cover the same reference regions, which makes hits in these regions ambiguous. 
 The `SO terms <https://github.com/The-Sequence-Ontology/SO-Ontologies/blob/master/Ontology_Files/subsets/SOFA.obo>`_ can 
 be used to get an overview of the official hierarchical structures of annotation files. 
+When performed :ref:`without peak calling <omit-peak-calling>` the amount of cross-link events (amount of cDNAs) is used instead of the amount of peaks.  
 This analysis can only be performed when an :ref:`annotation file <annotation>` is provided.
 
 .. parsed-literal::
