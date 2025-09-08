@@ -65,7 +65,7 @@ This analysis can only be performed when an :ref:`annotation file <annotation>` 
     :ref:`-\-rna_subtypes <rna-subtypes>`          Specifies RNA subtypes/regions used for this analysis
     :ref:`-\-report_not_assigned <parameters-report-not-assigned>`  Reports not assigned peaks among RNA subtypes
     :ref:`-\-annotation_extension <parameters-annotation-extension>`    Extension of annotation file. Accepts GFF (for GFF3) or GTF
-    :ref:`-\-show_ambiguous <parameters-show-ambiguous>`        Shows ambiguous peaks in normal subtype distribution
+    :ref:`-\-split_ambiguous <parameters-split-ambiguous>`        Splits ambiguous peaks into all appropriate subtypes
 
 .. _transcript-analysis:
 

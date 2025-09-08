@@ -497,9 +497,9 @@ Reports not assigned peaks in the :ref:`RNA subtype analysis <RNA-subtype-analys
 
     --report_not_assigned
 
-.. _parameters-show-ambiguous:
+.. _parameters-split-ambiguous:
 
--\-show_ambiguous
+-\-split_ambiguous
 ----------------------
 Reports ambiguous peaks in the normal distribution instead of as **ambiguous** during the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. Ambiguous peaks are those that were assigned to more than one of the :ref:`named features <rna-subtypes>`. 
 
@@ -507,7 +507,7 @@ Reports ambiguous peaks in the normal distribution instead of as **ambiguous** d
 
 .. code-block:: shell
 
-    --show_ambiguous
+    --split_ambiguous
 
 
 .. _parameters-annotation-extension:
