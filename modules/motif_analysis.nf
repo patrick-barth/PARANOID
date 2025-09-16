@@ -59,7 +59,7 @@ process motif_search {
 		streme \
 			--oc ${fasta.baseName}_motif \
 			--p ${fasta} \
-			--dna \
+			--rna \
 			--seed 0 \
 			--nmotifs ${params.max_motif_num} \
 			--minw ${params.min_motif_width} \
