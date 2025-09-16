@@ -42,6 +42,7 @@ This option is deactivated by default.
     Associated parameters:
     :ref:`-\-merge_replicates <merge-replicates>`            Merges replicates based on the name specified in the :ref:`barcode file <barcodes>`
     :ref:`-\-correlation_analysis <correlation-analysis>`       Performs a correlation analysis on merged replicates
+    :ref:`-\-minimum_peaks_to_merge <minimum-peaks-to-merge>`   Minimum number of replicates with signal (peak height > 0) necessary to merge the position
 
 .. _RNA-subtype-analysis:
 

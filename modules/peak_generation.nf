@@ -225,12 +225,14 @@ process merge_wigs{
     path("${task.process}.version.txt"), 	emit: version
 
     script:
-    def local_input     = name !=~ "unmatched*" ? name + '.wig2' : 'unmatched.wig2'
-    def local_output    = name !=~ "unmatched*" ? name : 'unmatched'
+    def local_input                 = name !=~ "unmatched*" ? name + '.wig2' : 'unmatched.wig2'
+    def local_output                = name !=~ "unmatched*" ? name : 'unmatched'
+    def min_number_of_replicates    = params.minimum_peaks_to_merge ? '--min_number_signal ' + params.minimum_peaks_to_merge : ''
 
     """
     merge-wig.py \
         --wig ${query} \
+        ${min_number_of_replicates} \
         --output ${local_input}
 
     wig2-to-wig.py \

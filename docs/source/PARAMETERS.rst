@@ -102,6 +102,21 @@ May cause excessive memory usage for large reference genomes
 
     --correlation_analysis
 
+.. _minimum-peaks-to-merge:
+
+-\-minimum_peaks_to_merge
+-------------------------
+
+Only applies when :ref:`replicate merging <merge-replicates>` is chosen.
+Adapts the minimum number of replicates with signal (peak height > 0) necessary at a position to merge it into the merged version. If all peaks are supposed to be merged into the final version a value of 0 can be chosen (``--minimum_peaks_to_merge 0``). If no value is provided only positions with a signal in over half of the replcates will be merged.
+
+``Default: false``
+
+Usage:  
+
+.. code-block:: shell
+
+    --minimum_peaks_to_merge 2
 
 .. _barcode-pattern:
 
