@@ -36,8 +36,12 @@ if (length(files) > 2) {
 file_forward <- import_wig(files[1])
 file_reverse <- import_wig(files[2])
 
+if(nrow(file_forward) == 0 && nrow(file_reverse) == 0){
+  quit(save = "no")
+}
+
 # get a list of all values and transform them into a data.frame counting the occurences of values
-all_peak_values <- abs(c(file_forward$val,file_reverse$val))
+all_peak_values <- abs(na.omit(c(file_forward$val,file_reverse$val)))
 value_counts_total <- as.data.frame(table(all_peak_values))
 colnames(value_counts_total) <- c("value","Freq")
 value_counts_total$value <- as.numeric(as.character(value_counts_total$value))

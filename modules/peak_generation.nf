@@ -420,7 +420,7 @@ process generate_peak_height_histogram {
 	tuple val(query), path(forward), val(percentile)
 
 	output:
-	path("${query}.png"),                   emit: png_to_output_dir
+	path("${query}.png"),                   emit: png_to_output_dir, optional: true
     path("${task.process}.version.txt"), 	emit: version
 
 	"""
