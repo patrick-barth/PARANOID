@@ -221,7 +221,7 @@ process merge_wigs{
     tuple val("cross_link_sites_merged"), path("${name}_forward.wig"), path("${name}_reverse.wig"), emit: wig_merged_cross_link_sites
     tuple val("cross_link_sites_merged"), path("${name}_forward.wig"), emit: wig_merged_cross_link_sites_forward, optional: true
     tuple val("cross_link_sites_merged"), path("${name}_reverse.wig"), emit: wig_merged_cross_link_sites_reverse, optional: true
-    path("${name}_{forward,reverse}.wig")
+    path("${name}_{forward,reverse}.wig"), optional: true
     path("${task.process}.version.txt"), 	emit: version
 
     script:
