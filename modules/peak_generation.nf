@@ -134,7 +134,7 @@ process pureCLIP_to_wig{
     path("${query.simpleName}.wig2"), emit: wig2_peak_called_cl_sites, optional: true
     tuple val("cross_link_sites_peak_called"), path("${query.simpleName}_forward.wig"), emit: wig_peak_called_cl_sites_forward, optional: true
     tuple val("cross_link_sites_peak_called"), path("${query.simpleName}_reverse.wig"), emit: wig_peak_called_cl_sites_reverse, optional: true
-    path('empty_sample,txt'), emit: txt_empty_sample, optional: true
+    path('empty_sample.txt'), emit: txt_empty_sample, optional: true
 
     """
     if [[ "${query.size()}" > 0 ]]; then
