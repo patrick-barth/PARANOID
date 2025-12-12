@@ -196,7 +196,7 @@ The :ref:`peak distance analysis <peak-distance-analysis>` produces three output
     A plot showing the same data with logarithmic y-axis
 
 The example image below was generated using iCLIP data from `König et al. <https://doi.org/10.1038/nsmb.1838>`_, which is available `here <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSM630861>`_. iCLIP was performed on HeLa cells with hnRNP C antibodies using a precursor version of the iCLIP protocol. 
-The study showed that hnRNP C binds RNAs at characteristic distances of approximately 165 and 300 nucleotides. These distances appear as peaks in the distance analysis (`see fig 3e <https://pmc.ncbi.nlm.nih.gov/articles/PMC3000544/#F3>`_). By performing PARANOiDs peak distance anlysis on this dataset, we were able to recreate these peaks.
+The study showed that hnRNP C binds RNAs at characteristic distances of approximately 165 and 300 nucleotides. These distances appear as peaks in the distance analysis (`see fig 3e <https://pmc.ncbi.nlm.nih.gov/articles/PMC3000544/#F3>`_). By performing PARANOiDs peak distance analysis on this dataset, we were able to recreate these peaks.
 
 .. figure:: images/hnRNPC.peak-distance_log.png
     :width: 600
@@ -324,7 +324,7 @@ To generate these results, the following files were used. The data is from the p
 3. Annotation file 
     mm10 annotation from https://www.gencodegenes.org/mouse/release_M10.html
 
-    Additionally, the annotaiton needs to be prepared in order to gain entries for **introns**. This is done via `AGAT <https://agat.readthedocs.io/en/latest/index.html>`_:
+    Additionally, the annotation needs to be prepared in order to gain entries for **introns**. This is done via `AGAT <https://agat.readthedocs.io/en/latest/index.html>`_:
 
 .. code-block:: shell
 

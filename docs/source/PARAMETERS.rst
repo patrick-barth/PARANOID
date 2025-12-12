@@ -73,7 +73,7 @@ Explanation of all PARANOiD parameters
 -\-merge_replicates
 -------------------
 
-Merges replicates into a single representative form. In order to do so experiment names must follow a specific naming convention which is further explained in the  :ref:`barcodes section <barcodes>`.
+Merges replicates into a single representative form. In order to do so, experiment names must follow a specific naming convention which is further explained in the  :ref:`barcodes section <barcodes>`.
 
 
 ``Default: false``
@@ -108,7 +108,7 @@ May cause excessive memory usage for large reference genomes
 -------------------------
 
 Only applies when :ref:`replicate merging <merge-replicates>` is chosen.
-Adapts the minimum number of replicates with signal (peak height > 0) necessary at a position to merge it into the merged version. If all peaks are supposed to be merged into the final version a value of 0 can be chosen (``--minimum_peaks_to_merge 0``). If no value is provided only positions with a signal in over half of the replcates will be merged.
+Adapts the minimum number of replicates with signal (peak height > 0) necessary at a position to merge it into the merged version. If all peaks are supposed to be merged into the final version a value of 0 can be chosen (``--minimum_peaks_to_merge 0``). If no value is provided only positions with a signal in over half of the replicates will be merged.
 
 ``Default: false``
 
@@ -143,7 +143,7 @@ Example for iCLIP1
 -\-omit_demultiplexing
 ----------------------
 
-Skips demultiplexing step. Only parameter that allows PARANOiD to run without :ref:`barcode file <parameters-barcodes>`. Requires that all sample are provided within their own ``FASTQ`` file. Naming of replicates should be as stated in the explanation of the :ref:`barcode file <barcodes>` with the ``FASTQ`` extension added afterwards.
+Skips demultiplexing step. Only parameter that allows PARANOiD to run without :ref:`barcode file <parameters-barcodes>`. Requires that all samples are provided within their own ``FASTQ`` file. Naming of replicates should be as stated in the explanation of the :ref:`barcode file <barcodes>` with the ``FASTQ`` extension added afterwards.
 
 **Usage:**  
 
@@ -156,7 +156,7 @@ Skips demultiplexing step. Only parameter that allows PARANOiD to run without :r
 -\-domain
 ---------
 
-Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokarytic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an :ref:`annotation file <annotation>` file besides the reference.
+Choose between bowtie2 and STAR to be used to align reads to the reference sequence. Bowtie2 should be used for prokaryotic organisms or transcript sequences while STAR should be used for eukaryotic organisms (or rather all splicing capable organisms) as STAR is splicing aware. If using STAR for splicing capable organisms it is highly recommended to provide an :ref:`annotation file <annotation>` file besides the reference.
 
 | Options:
 | pro -> Bowtie2 (default)
@@ -272,7 +272,7 @@ Usage (default):
 ---------------------
 
 Number of mismatches allowed within the experimental barcode to still assign a read to an experiment.
-Typically, experimental barcodes should be designed with a v of at least 3 to each other in order to allow one mismatch. 
+Typically, experimental barcodes should be designed with a difference of at least 3 nucleotides to each other in order to allow one mismatch. 
 
 Usage (default):
 
@@ -289,7 +289,7 @@ Usage (default):
 Minimum alignment quality (mapq score) an alignment needs to retain. The interpretation of score values depends on the aligner specified via :ref:`--domain <domain>`.
 All alignments with a mapq score below will be removed after the alignment step. 
 Please note that these are just a short overview of the meaning of MAPQ scores and that they can be more complex than shown here when going into details.
-the MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.
+The MAPQ score can be found in alignment files (SAM/BAM/CRAM) in column 5.
 
 Usage (default):
 
@@ -301,7 +301,7 @@ Usage (default):
 Score meanings for Bowtie2 (--domain pro)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Apart from the description in the table a higher MAPQ score means less allowed mismatches (with difference of the base quality a mismatched nucleotide has)
+Apart from the description in the table a higher MAPQ score means less allowed mismatches (with the difference in base quality that a mismatched nucleotide has)
 
 +---------------------+--------------------------------------------------------------------------------------------------------------+
 | MAPQ score          | Description                                                                                                  |
@@ -393,7 +393,7 @@ By default, peak calling is performed
 
 Only has an effect if :ref:`peak calling <peak-calling>` is performed. 
 Proteins covering the whole reference genome can cause problems for PureCLIP causing it to throw an error. 
-Based on our experience, the parameters added by this option can improve PureCLIP with performing its analysis.
+Based on our experience, the parameters added by this option can improve PureCLIP in performing its analysis.
 Adds the following parameters to the PureCLIP command: ``-mtc 5000 -mtc2 5000 -ld``
 
 **Usage:**
@@ -487,7 +487,7 @@ Enables the :ref:`RNA subtype analysis <RNA-subtype-analysis>`
 -\-rna_subtypes
 ---------------
 
-Takes effect only if an :ref:`annotation file <annotation>` is provided and :ref:`-\-run_rna_subtype <run-rna-subtypes>` is  enabled, triggering :ref:`RNA subtype analysis <RNA-subtype-analysis>`. 
+Takes effect only if an :ref:`annotation file <annotation>` is provided and :ref:`-\-run_rna_subtype <run-rna-subtypes>` is enabled, triggering :ref:`RNA subtype analysis <RNA-subtype-analysis>`. 
 Specifies which RNA subtypes (or regions) to include in the :ref:`RNA subtype analysis <RNA-subtype-analysis>`. 
 Subtypes must be comma-separated and must appear in the feature type column (3rd column) of the :ref:`annotation file <annotation>`. If these conditions are not met, the analysis may fail or is performed incorrectly. 
 If not sure which RNA subtypes are included within your annotation file you can use the script :ref:`featuretypes-from-gtfgff.awk <determine-feature-types>`. 

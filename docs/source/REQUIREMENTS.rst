@@ -3,7 +3,7 @@
 Requirements
 ============
 
-Requirements to run PARANOiD. Note that most are fulfilled by containers and it is thus recommended 
+Requirements for running PARANOiD. Note that most requirements are fulfilled by containers and it is thus recommended 
 to use one of the options stated in the :ref:`container section <section-container>`.
 All versions shown here are fixed with PARANOiD version 1.0 and will only change with future updates to the software.
 

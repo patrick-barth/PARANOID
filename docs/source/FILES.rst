@@ -58,7 +58,7 @@ Users typically do not need to interact with the files in this directory.
 build_docker.sh
 ---------------
 
-Shell script to automatically build images from all Dockerfiles in the :ref:corresponding directory <subsection-files-dockerfiles> and upload them to Docker Hub.
+Shell script to automatically build images from all Dockerfiles in the :ref:`corresponding directory <subsection-files-dockerfiles>` and upload them to Docker Hub.
 Users typically do not need to interact with the files in this directory.
 
 .. _subsection-files-featuretypes-from-gffgtf:

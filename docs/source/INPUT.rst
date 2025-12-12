@@ -36,7 +36,7 @@ Barcodes
 1. experiment name 
 2. barcode sequence present in reads 
 
-| Experiment names should only consist of Letters ``{a-zA-Z}``, numbers ``{1-9}`` and underscores ``_``. Any whitespaces (e.g. space, tab) will result in errors and thus the termination of the pipeline execution. The length of the barcode sequence is dependant on the protocol used an can be adapted via :ref:`-\-barcode_pattern <barcode-pattern>`.
+| Experiment names should only consist of Letters ``{a-zA-Z}``, numbers ``{1-9}`` and underscores ``_``. Any whitespaces (e.g. space, tab) will result in errors and thus the termination of the pipeline execution. The length of the barcode sequence is dependent on the protocol used an can be adapted via :ref:`-\-barcode_pattern <barcode-pattern>`.
 
 Example:
 
